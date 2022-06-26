@@ -3,6 +3,13 @@
 /***************************
  * PIVATE METHODS
  ***************************/
+
+/**
+ * @brief Insert random game component at indices row, col
+ * 
+ * @param row 
+ * @param col 
+ */
 void Board::insertComponent(int row, int col) {
     int component = rand() % 10;
 

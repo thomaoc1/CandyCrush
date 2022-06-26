@@ -1,22 +1,33 @@
 #include "board.hpp"
 
+/***************************
+ * PIVATE METHODS
+ ***************************/
+void Board::insertComponent(int row, int col) {
+    int component = rand() % 10;
+
+    // Wall insertion
+    if (component == 7) board[row][col] = std::make_shared<Wall>();
+
+    // CandyBomb insertion
+    else if (component == 8) board[row][col] = std::make_shared<CandyBomb>();
+
+    // Special Bomb insertion
+    // else if (component == 9) {
+
+    // Candy insertion
+    else board[row][col] = std::make_shared<Candy>();
+}
+
+
+/***************************
+ * PUBLIC METHODS
+ ***************************/
 Board::Board() {
     for (int row = 0; row < 9; ++row) {
-        board.push_back({});
+        board.push_back(std::vector< std::shared_ptr<Cell> >(9));
         for (int col = 0; col < 9; ++col) {
-            int component = rand() % 10;
-
-            // Wall insertion
-            if (component == 7) board[row].push_back(std::make_shared<Wall>());
-
-            // CandyBomb insertion
-            else if (component == 8) board[row].push_back(std::make_shared<CandyBomb>());
- 
-            // Special Bomb insertion
-            // else if (component == 9) {}
-
-            // Candy insertion
-            else board[row].push_back(std::make_shared<Candy>());
+            insertComponent(row, col);
         }
     }
 }

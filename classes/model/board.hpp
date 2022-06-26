@@ -15,6 +15,8 @@ public:
     Board();
     std::vector< std::vector< std::string > > package() const;
     void display() const;
+private:
+    void insertComponent(int row, int col);
 };
 
 #endif

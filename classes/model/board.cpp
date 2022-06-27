@@ -34,13 +34,13 @@ void Board::insertComponent(int row, int col) {
  * @param col 
  * @return std::vector< std::shared_ptr<Cell> > 
  */
-std::vector< std::shared_ptr<Cell> > Board::getNeighbours(int row, int col) const {
+std::vector< std::shared_ptr<GameComponent> > Board::getNeighbours(int row, int col) const {
     std::vector< std::pair<int,int> > DELTA {{ 1, 0}, 
                                              { 0, 1}, 
                                              {-1, 0}, 
                                              { 0,-1}};
     
-    std::vector< std::shared_ptr<Cell> > neighbours;
+    std::vector< std::shared_ptr<GameComponent> > neighbours;
     
     for (auto &d : DELTA) {
         int row_d = row + d.first;
@@ -62,7 +62,7 @@ std::vector< std::shared_ptr<Cell> > Board::getNeighbours(int row, int col) cons
  ***************************/
 Board::Board() {
     for (int row = 0; row < 9; ++row) {
-        board.push_back(std::vector< std::shared_ptr<Cell> >(9));
+        board.push_back(std::vector< std::shared_ptr<GameComponent> >(9));
         for (int col = 0; col < 9; ++col) {
             insertComponent(row, col);
         }
@@ -70,7 +70,7 @@ Board::Board() {
 
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
-            std::vector< std::shared_ptr<Cell> > nbs = getNeighbours(row, col);
+            std::vector< std::shared_ptr<GameComponent> > nbs = getNeighbours(row, col);
             board[row][col]->setNeighbours(nbs);
         }
     }

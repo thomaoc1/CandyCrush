@@ -1,9 +1,9 @@
 #ifndef WALL_HPP
 #define WALL_HPP
 
-#include "cell.hpp"
+#include "gameComponent.hpp"
 
-class Wall : public Cell {
+class Wall : public GameComponent {
 public:
     std::string package() const override {return Constants::getWALL();};
 };

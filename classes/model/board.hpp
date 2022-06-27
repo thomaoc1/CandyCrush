@@ -10,14 +10,14 @@
 #include <iostream>
 
 class Board {
-    std::vector< std::vector< std::shared_ptr<Cell> > > board;
+    std::vector< std::vector< std::shared_ptr<GameComponent> > > board;
 public:
     Board();
     std::vector< std::vector< std::string > > package() const;
     void display() const;
 private:
     void insertComponent(int row, int col);
-    std::vector< std::shared_ptr<Cell> > getNeighbours(int row, int col) const; 
+    std::vector< std::shared_ptr<GameComponent> > getNeighbours(int row, int col) const; 
 };
 
 #endif

@@ -106,4 +106,9 @@ void Board::display() const {
         }
         std::cout << "\n";  
     }
+
+    for (auto &cell : board[4][4]->getNeighbours()) {
+        std::cout << cell->package() + " ";
+    }
+    std::cout << "\n";
 }

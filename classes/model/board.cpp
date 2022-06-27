@@ -14,16 +14,16 @@ void Board::insertComponent(int row, int col) {
     int component = rand() % 10;
 
     // Wall insertion
-    if (component == 7) board[row][col] = std::make_shared<Wall>();
+    if (component == 7) board[row][col].setOccupied(std::make_shared<Wall>());
 
     // CandyBomb insertion
-    else if (component == 8) board[row][col] = std::make_shared<CandyBomb>();
+    else if (component == 8) board[row][col].setOccupied(std::make_shared<CandyBomb>());
 
     // Special Bomb insertion
     // else if (component == 9) {
 
     // Candy insertion
-    else board[row][col] = std::make_shared<Candy>();
+    else board[row][col].setOccupied(std::make_shared<Candy>());
 }
 
 
@@ -50,7 +50,7 @@ std::vector< std::shared_ptr<GameComponent> > Board::getNeighbours(int row, int 
             || col_d >= static_cast<int>(board.size())
             || col_d < 0 ) continue;
         
-        neighbours.push_back(board[row_d][col_d]);
+        neighbours.push_back(board[row_d][col_d].getOccupied());
     }
 
     return neighbours;
@@ -62,7 +62,7 @@ std::vector< std::shared_ptr<GameComponent> > Board::getNeighbours(int row, int 
  ***************************/
 Board::Board() {
     for (int row = 0; row < 9; ++row) {
-        board.push_back(std::vector< std::shared_ptr<GameComponent> >(9));
+        board.push_back(std::vector<Cell>(9));
         for (int col = 0; col < 9; ++col) {
             insertComponent(row, col);
         }
@@ -71,7 +71,7 @@ Board::Board() {
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
             std::vector< std::shared_ptr<GameComponent> > nbs = getNeighbours(row, col);
-            board[row][col]->setNeighbours(nbs);
+            board[row][col].setNeighbours(nbs);
         }
     }
 }
@@ -87,7 +87,7 @@ std::vector< std::vector< std::string > > Board::package() const {
     for (int row = 0; row < 9; ++row) {
         packagedBoard.push_back({});
         for (int col = 0; col < 9; ++col) {
-            packagedBoard[row].push_back(board[row][col]->package());
+            packagedBoard[row].push_back(board[row][col].package());
         }
     }
     return packagedBoard;
@@ -107,7 +107,7 @@ void Board::display() const {
         std::cout << "\n";  
     }
 
-    for (auto &cell : board[4][4]->getNeighbours()) {
+    for (auto &cell : board[4][4].getNeighbours()) {
         std::cout << cell->package() + " ";
     }
     std::cout << "\n";

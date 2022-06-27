@@ -1,6 +1,7 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
+#include "cell.hpp"
 #include "candy.hpp"
 #include "wall.hpp"
 #include "candyBomb.hpp"
@@ -10,7 +11,7 @@
 #include <iostream>
 
 class Board {
-    std::vector< std::vector< std::shared_ptr<GameComponent> > > board;
+    std::vector< std::vector< Cell > > board;
 public:
     Board();
     std::vector< std::vector< std::string > > package() const;

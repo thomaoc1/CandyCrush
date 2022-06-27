@@ -27,6 +27,36 @@ void Board::insertComponent(int row, int col) {
 }
 
 
+/**
+ * @brief Returns neighbours of game component at row, col
+ * 
+ * @param row 
+ * @param col 
+ * @return std::vector< std::shared_ptr<Cell> > 
+ */
+std::vector< std::shared_ptr<Cell> > Board::getNeighbours(int row, int col) const {
+    std::vector< std::pair<int,int> > DELTA {{ 1, 0}, 
+                                             { 0, 1}, 
+                                             {-1, 0}, 
+                                             { 0,-1}};
+    
+    std::vector< std::shared_ptr<Cell> > neighbours;
+    
+    for (auto &d : DELTA) {
+        int row_d = row + d.first;
+        int col_d = col + d.second;
+        if (row_d >= static_cast<int>(board[0].size()) 
+            || row_d < 0
+            || col_d >= static_cast<int>(board.size())
+            || col_d < 0 ) continue;
+        
+        neighbours.push_back(board[row_d][col_d]);
+    }
+
+    return neighbours;
+}
+
+
 /***************************
  * PUBLIC METHODS
  ***************************/
@@ -35,6 +65,13 @@ Board::Board() {
         board.push_back(std::vector< std::shared_ptr<Cell> >(9));
         for (int col = 0; col < 9; ++col) {
             insertComponent(row, col);
+        }
+    }
+
+    for (int row = 0; row < 9; ++row) {
+        for (int col = 0; col < 9; ++col) {
+            std::vector< std::shared_ptr<Cell> > nbs = getNeighbours(row, col);
+            board[row][col]->setNeighbours(nbs);
         }
     }
 }

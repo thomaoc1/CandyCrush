@@ -17,6 +17,7 @@ public:
     void display() const;
 private:
     void insertComponent(int row, int col);
+    std::vector< std::shared_ptr<Cell> > getNeighbours(int row, int col) const; 
 };
 
 #endif

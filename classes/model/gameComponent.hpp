@@ -1,5 +1,5 @@
-#ifndef CELL_HPP
-#define CELL_HPP
+#ifndef GAMECOMPONENT_HPP
+#define GAMECOMPONENT_HPP
 
 #include "../constants/constants.hpp"
 

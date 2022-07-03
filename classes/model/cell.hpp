@@ -19,15 +19,18 @@
 
 class Cell {
     std::shared_ptr<GameComponent> occupied;
-    std::vector< Cell * > neighbours;
+    std::vector< Cell * > vertNbs;
+    std::vector< Cell * > horizNbs;
 public:
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
-    void setNeighbours(const std::vector< Cell * > &nbs) {neighbours = nbs;}
+    void setVertNbs(const std::vector< Cell * > &nbs) {vertNbs = nbs;}
+    void setHorizNbs(const std::vector< Cell * > &nbs) {horizNbs = nbs;}
     
     /* Getters */
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
-    std::vector< Cell * > getNeighbours() const {return neighbours;}
+    std::vector< Cell * > getVertNbs() const {return vertNbs;}
+    std::vector< Cell * > getHorizNbs() const {return horizNbs;}
     
     std::string package() const;
 };

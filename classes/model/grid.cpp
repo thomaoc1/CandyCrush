@@ -28,34 +28,40 @@ void Grid::insertComponent(int row, int col) {
 
 
 /**
- * @brief Returns neighbours of game component at row, col
+ * @brief Returns vertical and horizontal neighbours of game component at row, col as
+ *          a pair of vectors
  * 
  * @param row 
  * @param col 
- * @return std::vector< std::shared_ptr<Cell> > 
+ * @return std::pair<std::vector< Cell * >, std::vector< Cell * > >
  */
-std::vector< Cell * > Grid::getNeighbours(int row, int col) {
+std::pair<std::vector< Cell * >, std::vector< Cell * > > Grid::getNeighbours(int row, int col) {
 
     // Possible shifts
-    const std::vector< std::pair<int,int> > DELTA {{ 1, 0}, 
-                                             { 0, 1}, 
-                                             {-1, 0}, 
-                                             { 0,-1}};
+    const std::vector<int> DELTA = {-1, 1};
     
-    std::vector< Cell * > neighbours;
+    std::vector< Cell * > verticalNbs;
+    std::vector< Cell * > horizontalNbs;    
+    std::pair< std::vector< Cell * >, std::vector< Cell * > > neighbours;
     
     for (auto &d : DELTA) {
-        int row_d = row + d.first;
-        int col_d = col + d.second;
+        int row_d = row + d;
+        int col_d = col + d;
 
-        // Validity of shft
-        if (row_d >= static_cast<int>(grid[0].size()) 
-            || row_d < 0
-            || col_d >= static_cast<int>(grid.size())
-            || col_d < 0 ) continue;
+        // Validity of shift
+        if (! (row_d >= static_cast<int>(grid[0].size()) 
+            || row_d < 0)) {
+                verticalNbs.push_back(&grid[row_d][col]);
+            }
         
-        neighbours.push_back(&grid[row_d][col_d]);
+        if (! (col_d >= static_cast<int>(grid.size())
+            || col_d < 0 )) {
+                horizontalNbs.push_back(&grid[row][col_d]);
+            }
     }
+    
+    neighbours.first = std::move(verticalNbs);
+    neighbours.second = std::move(horizontalNbs);
 
     return neighbours;
 }
@@ -78,8 +84,10 @@ Grid::Grid() {
     // Setting neighbours of each Cell
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
-            std::vector< Cell * > nbs = getNeighbours(row, col);
-            grid[row][col].setNeighbours(nbs);
+            std::pair<std::vector< Cell * >, std::vector< Cell * > > nbs = getNeighbours(row, col);
+
+            grid[row][col].setVertNbs(nbs.first);
+            grid[row][col].setHorizNbs(nbs.second);
         }
     }
 }
@@ -115,7 +123,10 @@ void Grid::display() const {
         std::cout << "\n";  
     }
 
-    for (auto &cell : grid[1][0].getNeighbours()) {
+    for (auto &cell : grid[4][5].getHorizNbs()) {
+        std::cout << cell->package() + " ";
+    }
+    for (auto &cell : grid[4][5].getVertNbs()) {
         std::cout << cell->package() + " ";
     }
     std::cout << "\n";

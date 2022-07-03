@@ -31,7 +31,7 @@ public:
     void display() const;
 private:
     void insertComponent(int row, int col);
-    std::vector< Cell * > getNeighbours(int row, int col); 
+    std::pair< std::vector< Cell * >, std::vector< Cell * > > getNeighbours(int row, int col); 
 };
 
 #endif

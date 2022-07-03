@@ -18,7 +18,7 @@ public:
     void display() const;
 private:
     void insertComponent(int row, int col);
-    std::vector< std::shared_ptr<GameComponent> > getNeighbours(int row, int col) const; 
+    std::vector< Cell * > getNeighbours(int row, int col); 
 };
 
 #endif

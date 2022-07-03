@@ -21,7 +21,7 @@ public:
     Candy() : GameComponent(), colour{Constants::randomCandy()} {}
     Candy(std::string colour) : GameComponent(), colour{colour} {}
     virtual ~Candy() {}
-    std::string getColour() const {return colour;}
+    virtual const std::string getColour() const {return colour;}
     virtual const std::string package() const override {return colour;} 
 };
 

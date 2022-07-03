@@ -19,7 +19,7 @@ class CandyBomb : public Candy {
 public:
     CandyBomb() : Candy() {}
     ~CandyBomb() {}
-    std::string package() const override {return Constants::getBOMB() + Candy::package();}
+    const std::string package() const override {return Constants::getBOMB() + Candy::package();}
 }; 
 
 #endif

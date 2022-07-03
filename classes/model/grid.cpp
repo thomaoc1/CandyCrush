@@ -11,7 +11,7 @@
  * @param col 
  */
 void Grid::insertComponent(int row, int col) {
-    int component = rand() % 10;
+    const int component = rand() % 10;
 
     // Wall insertion
     if (component == 7) grid[row][col].setOccupied(std::make_shared<Wall>());
@@ -37,7 +37,7 @@ void Grid::insertComponent(int row, int col) {
 std::vector< Cell * > Grid::getNeighbours(int row, int col) {
 
     // Possible shifts
-    std::vector< std::pair<int,int> > DELTA {{ 1, 0}, 
+    const std::vector< std::pair<int,int> > DELTA {{ 1, 0}, 
                                              { 0, 1}, 
                                              {-1, 0}, 
                                              { 0,-1}};

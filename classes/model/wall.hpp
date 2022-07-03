@@ -17,7 +17,7 @@
 
 class Wall : public GameComponent {
 public:
-    std::string package() const override {return Constants::getWALL();};
+    const std::string package() const override {return Constants::getWALL();};
 };
 
 #endif

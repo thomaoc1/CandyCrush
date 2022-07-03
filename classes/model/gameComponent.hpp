@@ -22,7 +22,7 @@
 class GameComponent {
 public:
     virtual ~GameComponent() {};
-    virtual std::string package() const=0;
+    virtual const std::string package() const=0;
 };
 
 #endif

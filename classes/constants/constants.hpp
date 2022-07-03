@@ -15,6 +15,8 @@ class Constants {
     static const std::string WALL;
     static const std::string BOMB;
 
+    static const std::string EMPTY;
+
     static const std::array< std::string, 6 > candies;
 public:
 
@@ -29,6 +31,8 @@ public:
 
     static const std::string getWALL() {return WALL;}
     static const std::string getBOMB() {return BOMB;}
+
+    static const std::string getEMPTY() {return EMPTY;}
 };
 
 

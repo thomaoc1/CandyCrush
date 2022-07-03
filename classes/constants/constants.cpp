@@ -11,3 +11,5 @@ const std::array< std::string, 6 > Constants::candies = {RED, BLUE, GREEN, YELLO
 
 const std::string Constants::WALL = "#";
 const std::string Constants::BOMB = "Bo";
+
+const std::string Constants::EMPTY = " ";

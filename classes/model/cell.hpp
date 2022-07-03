@@ -7,12 +7,17 @@
 
 class Cell {
     std::shared_ptr<GameComponent> occupied;
+    std::vector< Cell * > neighbours;
 public:
+    /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
+    void setNeighbours(const std::vector< Cell * > &nbs) {neighbours = nbs;}
+    
+    /* Getters */
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
-    void setNeighbours(const std::vector< std::shared_ptr<GameComponent> > &nb) {occupied->setNeighbours(nb);}
-    std::vector< std::shared_ptr<GameComponent> > getNeighbours() const {return occupied->getNeighbours();}
-    std::string package() const {return occupied->package();}
+    std::vector< Cell * > getNeighbours() const {return neighbours;}
+    
+    std::string package() const;
 };
 
 

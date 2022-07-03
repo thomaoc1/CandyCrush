@@ -1,3 +1,16 @@
+/**
+ * File : 
+ *  board.hpp
+ * 
+ * Decription :
+ *  Class which groups Cells and GameComponents to represent the state of 
+ *  a CandyCrush match
+ * 
+ * Authors : 
+ *  Thomas O'Cuilleanain, 
+ *  Marcus Chretirn
+ */ 
+
 #ifndef BOARD_HPP
 #define BOARD_HPP
 

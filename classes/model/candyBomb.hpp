@@ -1,3 +1,15 @@
+/**
+ * File : 
+ *  candyBomb.hpp
+ *
+ * Decription :
+ *  Class which represents a specific GameComponent ; "CandyBomb"
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ */
+
 #ifndef CANDYBOMB_HPP
 #define CANDYBOMB_HPP
 

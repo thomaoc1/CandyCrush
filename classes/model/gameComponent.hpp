@@ -1,3 +1,15 @@
+/**
+ * File : 
+ *  gameComponent.hpp
+ *
+ * Decription :
+ *  Interface which describes the behavior of GameComponents
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ */
+
 #ifndef GAMECOMPONENT_HPP
 #define GAMECOMPONENT_HPP
 

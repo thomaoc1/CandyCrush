@@ -1,3 +1,15 @@
+/**
+ * File : 
+ *  candy.hpp
+ * 
+ * Description : 
+ *  Class which represents a specific GameComponent ; "Candy".
+ * 
+ * Authors : 
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ */
+
 #ifndef CANDY_HPP
 #define CANDY_HPP
 

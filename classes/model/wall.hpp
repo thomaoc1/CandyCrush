@@ -1,3 +1,15 @@
+/**
+ * File : 
+ *  wall.hpp
+ *
+ * Decription :
+ *  Class which represents a specific GameComponent ; "Wall"
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ */
+
 #ifndef WALL_HPP
 #define WALL_HPP
 

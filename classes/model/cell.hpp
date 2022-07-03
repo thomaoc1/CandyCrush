@@ -1,3 +1,15 @@
+/**
+ * File : 
+ *  cell.hpp
+ *
+ * Decription :
+ *  Class which represents a possible 'slot' in which a GameComponent can be in
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ */
+
 #ifndef CELL_HPP
 #define CELL_HPP
 

@@ -1,6 +1,6 @@
 /**
  * File : 
- *  board.hpp
+ *  grid.hpp
  * 
  * Decription :
  *  Class which groups Cells and GameComponents to represent the state of 
@@ -23,10 +23,10 @@
 #include <memory>
 #include <iostream>
 
-class Board {
-    std::vector< std::vector< Cell > > board;
+class Grid {
+    std::vector< std::vector< Cell > > grid;
 public:
-    Board();
+    Grid();
     std::vector< std::vector< std::string > > package() const;
     void display() const;
 private:

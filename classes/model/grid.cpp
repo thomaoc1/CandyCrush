@@ -1,4 +1,4 @@
-#include "board.hpp"
+#include "grid.hpp"
 
 /***************************
  * PIVATE METHODS
@@ -10,20 +10,20 @@
  * @param row 
  * @param col 
  */
-void Board::insertComponent(int row, int col) {
+void Grid::insertComponent(int row, int col) {
     int component = rand() % 10;
 
     // Wall insertion
-    if (component == 7) board[row][col].setOccupied(std::make_shared<Wall>());
+    if (component == 7) grid[row][col].setOccupied(std::make_shared<Wall>());
 
     // CandyBomb insertion
-    else if (component == 8) board[row][col].setOccupied(std::make_shared<CandyBomb>());
+    else if (component == 8) grid[row][col].setOccupied(std::make_shared<CandyBomb>());
 
     // Special Bomb insertion
     //else if (component == 9) board[row][col].setOccupied(nullptr);
 
     // Candy insertion
-    else board[row][col].setOccupied(std::make_shared<Candy>());
+    else grid[row][col].setOccupied(std::make_shared<Candy>());
 }
 
 
@@ -34,7 +34,7 @@ void Board::insertComponent(int row, int col) {
  * @param col 
  * @return std::vector< std::shared_ptr<Cell> > 
  */
-std::vector< Cell * > Board::getNeighbours(int row, int col) {
+std::vector< Cell * > Grid::getNeighbours(int row, int col) {
 
     // Possible shifts
     std::vector< std::pair<int,int> > DELTA {{ 1, 0}, 
@@ -49,12 +49,12 @@ std::vector< Cell * > Board::getNeighbours(int row, int col) {
         int col_d = col + d.second;
 
         // Validity of shft
-        if (row_d >= static_cast<int>(board[0].size()) 
+        if (row_d >= static_cast<int>(grid[0].size()) 
             || row_d < 0
-            || col_d >= static_cast<int>(board.size())
+            || col_d >= static_cast<int>(grid.size())
             || col_d < 0 ) continue;
         
-        neighbours.push_back(&board[row_d][col_d]);
+        neighbours.push_back(&grid[row_d][col_d]);
     }
 
     return neighbours;
@@ -64,11 +64,11 @@ std::vector< Cell * > Board::getNeighbours(int row, int col) {
 /***************************
  * PUBLIC METHODS
  ***************************/
-Board::Board() {
+Grid::Grid() {
 
     // Initialising board with Cells and GameComponents
     for (int row = 0; row < 9; ++row) {
-        board.push_back(std::vector<Cell>(9));
+        grid.push_back(std::vector<Cell>(9));
         for (int col = 0; col < 9; ++col) {
             if (col == 0 && row == 0) continue;
             insertComponent(row, col);
@@ -79,7 +79,7 @@ Board::Board() {
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
             std::vector< Cell * > nbs = getNeighbours(row, col);
-            board[row][col].setNeighbours(nbs);
+            grid[row][col].setNeighbours(nbs);
         }
     }
 }
@@ -90,12 +90,12 @@ Board::Board() {
  * 
  * @return std::vector< std::vector< std::string > > 
  */
-std::vector< std::vector< std::string > > Board::package() const {
+std::vector< std::vector< std::string > > Grid::package() const {
     std::vector< std::vector< std::string > > packagedBoard;
     for (int row = 0; row < 9; ++row) {
         packagedBoard.push_back({});
         for (int col = 0; col < 9; ++col) {
-            packagedBoard[row].push_back(board[row][col].package());
+            packagedBoard[row].push_back(grid[row][col].package());
         }
     }
     return packagedBoard;
@@ -106,7 +106,7 @@ std::vector< std::vector< std::string > > Board::package() const {
  * @brief Temporary method for displaying board
  * 
  */
-void Board::display() const {
+void Grid::display() const {
     std::vector< std::vector< std::string > > tmp = package();
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
@@ -115,7 +115,7 @@ void Board::display() const {
         std::cout << "\n";  
     }
 
-    for (auto &cell : board[1][0].getNeighbours()) {
+    for (auto &cell : grid[1][0].getNeighbours()) {
         std::cout << cell->package() + " ";
     }
     std::cout << "\n";

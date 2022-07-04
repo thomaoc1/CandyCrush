@@ -6,7 +6,7 @@
 
 
 /**
- * @brief 'Pops' the Candy on occupying the cell by Un-occupying it 
+ * @brief 'Pops' the Candy occupying the cell by Un-occupying it 
  * 
  * @param target
  */
@@ -153,6 +153,17 @@ Grid::Grid() {
 }
 
 
+void Grid::clean() {
+    while(!clear()) {
+        // std::cout << "=== Clear ===" << std::endl;
+        // display();
+        while(!drop());
+        // std::cout << "=== Drop ===" << std::endl;
+        // display();
+    }  
+}
+
+
 /**
  * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
  *  false if not.
@@ -163,6 +174,7 @@ bool Grid::clear() {
     bool clearGrid = true;
     for (auto &row : grid) {
         for (auto &cell : row) {
+            if (!cell.getOccupied()) continue;
             std::pair<std::vector< Cell * >, std::vector< Cell * > > contColour = continuousColour(&cell);
             if (contColour.first.size() >= 3) {
                 clearGrid = false;
@@ -171,6 +183,7 @@ bool Grid::clear() {
             if (contColour.second.size() >= 3) {
                 clearGrid = false;
                 for (auto &cell : contColour.second) pop(cell);
+                
             }
         }
     } 
@@ -189,11 +202,13 @@ bool Grid::drop() {
     for (auto &row : grid) {
         for (auto &cell : row) {
             Cell * cellBeneath = cell.getBelow();
-            if (cell.package() != Constants::getWALL() && cellBeneath && !cellBeneath->getOccupied()) {
-                cellBeneath->setOccupied(cell.getOccupied());
-                cell.unOccupy();
-                allDropped = false;
-            }
+            if (!(cell.getOccupied() && cell.package() != Constants::getWALL() 
+                    && cellBeneath && !cellBeneath->getOccupied())) continue;
+            
+            cellBeneath->setOccupied(cell.getOccupied());
+            cell.unOccupy();
+            allDropped = false;
+            
         }
     }
     return allDropped;

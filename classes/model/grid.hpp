@@ -28,6 +28,7 @@ class Grid {
     std::vector< std::vector< Cell > > grid;
 public:
     Grid();
+    void clean();
     bool clear();
     bool drop();
     std::vector< std::vector< std::string > > package() const;

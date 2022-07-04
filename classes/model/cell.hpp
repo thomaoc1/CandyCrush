@@ -25,7 +25,7 @@ class Cell {
 public:
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
-    void unOccupy() {occupied = nullptr;}
+    void unOccupy() {setOccupied(nullptr);}
     void setVertNbs(const std::vector< Cell * > &nbs) {vertNbs = nbs;}
     void setHorizNbs(const std::vector< Cell * > &nbs) {horizNbs = nbs;}
     void setBelow(Cell * cell) {below = cell;}

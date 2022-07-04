@@ -30,7 +30,7 @@ public:
     Grid();
     void clean();
     std::vector< std::vector< std::string > > package() const;
-    void display();
+    void display() const;
 private:
     bool clear();
     bool drop();

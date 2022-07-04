@@ -93,11 +93,14 @@ std::vector< std::vector< Cell * > > Grid::getNeighbours(int row, int col) {
 std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
     // Colour of source
     const char colour = initial->package().back();
+
     // DFS Tools
     std::vector< Cell * > stack = {initial}; 
     Cell * current = initial;
+
     // Elligible Candies
     std::vector< Cell * > continousColors = {initial}; 
+
     // DFS
     while (!stack.empty()) {
         current = stack.back();
@@ -113,6 +116,7 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
             continousColors.push_back(nb);
         }
     }
+
     return continousColors;
 }
 
@@ -146,7 +150,6 @@ Grid::Grid() {
     for (int row = 0; row < 9; ++row) {
         grid.push_back(std::vector<Cell>(9));
         for (int col = 0; col < 9; ++col) {
-            if (col == 0 && row == 0) continue;
             insertComponent(row, col);
         }
     }
@@ -197,7 +200,6 @@ bool Grid::clear() {
             if (contColour[Constants::HORIZONTAL].size() >= 3) {
                 clearGrid = false;
                 for (auto &cell : contColour[Constants::HORIZONTAL]) pop(cell);
-                
             }
         }
     } 
@@ -249,7 +251,7 @@ std::vector< std::vector< std::string > > Grid::package() const {
  * @brief Temporary method for displaying board
  * 
  */
-void Grid::display()  {
+void Grid::display() const {
     std::vector< std::vector< std::string > > tmp = package();
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {

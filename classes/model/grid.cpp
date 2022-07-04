@@ -144,15 +144,19 @@ Grid::Grid() {
     // Setting neighbours of each Cell
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
-            std::pair<std::vector< Cell * >, std::vector< Cell * > > nbs = getNeighbours(row, col);
+            std::vector< std::vector< Cell * > > nbs = getNeighbours(row, col);
 
-            grid[row][col].setVertNbs(nbs.first);
-            grid[row][col].setHorizNbs(nbs.second);
+            grid[row][col].setVertNbs(nbs[Constants::VERTICAL]);
+            grid[row][col].setHorizNbs(nbs[Constants::HORIZONTAL]);
         }
     }
 }
 
 
+/**
+ * @brief Cleans up grid by popping all elligible candies and dropping. This process is repeated
+ *  until there are no candies to pop. 
+ */
 void Grid::clean() {
     while(!clear()) {
         // std::cout << "=== Clear ===" << std::endl;
@@ -175,14 +179,14 @@ bool Grid::clear() {
     for (auto &row : grid) {
         for (auto &cell : row) {
             if (!cell.getOccupied()) continue;
-            std::pair<std::vector< Cell * >, std::vector< Cell * > > contColour = continuousColour(&cell);
-            if (contColour.first.size() >= 3) {
+            std::vector< std::vector< Cell * > > contColour = continuousColour(&cell);
+            if (contColour[Constants::VERTICAL].size() >= 3) {
                 clearGrid = false;
-                for (auto &cell : contColour.first) pop(cell);
+                for (auto &cell : contColour[Constants::VERTICAL]) pop(cell);
             }
-            if (contColour.second.size() >= 3) {
+            if (contColour[Constants::HORIZONTAL].size() >= 3) {
                 clearGrid = false;
-                for (auto &cell : contColour.second) pop(cell);
+                for (auto &cell : contColour[Constants::HORIZONTAL]) pop(cell);
                 
             }
         }
@@ -202,17 +206,17 @@ bool Grid::drop() {
     for (auto &row : grid) {
         for (auto &cell : row) {
             Cell * cellBeneath = cell.getBelow();
-            if (!(cell.getOccupied() && cell.package() != Constants::getWALL() 
+            if (!(cell.getOccupied() && cell.package() != Constants::WALL
                     && cellBeneath && !cellBeneath->getOccupied())) continue;
             
             cellBeneath->setOccupied(cell.getOccupied());
             cell.unOccupy();
             allDropped = false;
-            
         }
     }
     return allDropped;
 }
+
 
 /**
  * @brief Packages the board in to a vector of strings

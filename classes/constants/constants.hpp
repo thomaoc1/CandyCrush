@@ -5,6 +5,8 @@
 #include <array>
 
 class Constants {
+    static const std::array< std::string, 6 > candies;
+public:
     static const std::string RED;
     static const std::string BLUE;
     static const std::string GREEN;
@@ -17,22 +19,11 @@ class Constants {
 
     static const std::string EMPTY;
 
-    static const std::array< std::string, 6 > candies;
-public:
-
-    static const std::string getRED() {return RED;}
-    static const std::string getBLUE() {return BLUE;}
-    static const std::string getGREEN() {return GREEN;}
-    static const std::string getYELLOW() {return YELLOW;}
-    static const std::string getPURPLE() {return PURPLE;}
-    static const std::string getORANGE() {return ORANGE;}
+    static const int VERTICAL = 0;
+    static const int HORIZONTAL = 1;
 
     static const std::string randomCandy() {return candies[rand() % 6];}
 
-    static const std::string getWALL() {return WALL;}
-    static const std::string getBOMB() {return BOMB;}
-
-    static const std::string getEMPTY() {return EMPTY;}
 };
 
 

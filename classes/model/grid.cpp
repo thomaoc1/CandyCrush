@@ -62,6 +62,7 @@ std::pair<std::vector< Cell * >, std::vector< Cell * > > Grid::getNeighbours(int
         if (! (row_d >= static_cast<int>(grid[0].size()) 
             || row_d < 0)) {
                 verticalNbs.push_back(&grid[row_d][col]);
+                if (d == 1) grid[row][col].setBelow(&grid[row_d][col]);
             }
         
         // Validity of horizontal shift
@@ -152,6 +153,12 @@ Grid::Grid() {
 }
 
 
+/**
+ * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
+ *  false if not.
+ *
+ * @return bool 
+ */
 bool Grid::clear() {
     bool clearGrid = true;
     for (auto &row : grid) {
@@ -170,6 +177,27 @@ bool Grid::clear() {
     return clearGrid;
 }
 
+
+/**
+ * @brief Drops all Candies, which have no GameComponent beneath them, by one level. Return true if a candy has been 
+ *  dropped and false if not.
+ * 
+ * @return bool
+ */
+bool Grid::drop() {
+    bool allDropped = true;
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            Cell * cellBeneath = cell.getBelow();
+            if (cell.package() != Constants::getWALL() && cellBeneath && !cellBeneath->getOccupied()) {
+                cellBeneath->setOccupied(cell.getOccupied());
+                cell.unOccupy();
+                allDropped = false;
+            }
+        }
+    }
+    return allDropped;
+}
 
 /**
  * @brief Packages the board in to a vector of strings
@@ -196,9 +224,12 @@ void Grid::display()  {
     std::vector< std::vector< std::string > > tmp = package();
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
-            std::cout << tmp[row][col] + " ";
+            if (tmp[row][col].length() == 1) std::cout << tmp[row][col] + "   ";
+            else std::cout << tmp[row][col] + " ";
         }
         std::cout << "\n";  
     }
     std::cout << "\n"; 
+
+    // std::cout << grid[8][1].getBelow()->package() << std::endl;
 }

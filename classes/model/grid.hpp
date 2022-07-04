@@ -29,6 +29,7 @@ class Grid {
 public:
     Grid();
     bool clear();
+    bool drop();
     std::vector< std::vector< std::string > > package() const;
     void display();
 private:

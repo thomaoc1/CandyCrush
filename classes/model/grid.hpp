@@ -18,6 +18,7 @@
 #include "candy.hpp"
 #include "wall.hpp"
 #include "candyBomb.hpp"
+#include "point.hpp"
 
 #include <vector>
 #include <memory>
@@ -29,9 +30,11 @@ class Grid {
 public:
     Grid();
     void clean();
+    bool checkSwap(Point cell1, Point cell2);
     std::vector< std::vector< std::string > > package() const;
     void display() const;
 private:
+    void swap(Cell * c1, Cell * c2);
     bool clear();
     bool drop();
     void pop(Cell * target);

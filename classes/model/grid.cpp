@@ -9,6 +9,68 @@
 
 
 /**
+ * @brief Swaps occupations of two cells
+ * 
+ * @param c1
+ * @param c2
+ */
+void Grid::swap(Cell * c1, Cell * c2) {
+    std::shared_ptr<GameComponent> tmp = std::move(c1->getOccupied());
+    c1->setOccupied(std::move(c2->getOccupied()));
+    c2->setOccupied(std::move(tmp));
+}
+
+
+/**
+ * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
+ *  false if not.
+ *
+ * @return bool 
+ */
+bool Grid::clear() {
+    bool clearGrid = true;
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            if (!cell.getOccupied()) continue;
+            std::vector< std::vector< Cell * > > contColour = continuousColour(&cell);
+            if (contColour[Constants::VERTICAL].size() >= 3) {
+                clearGrid = false;
+                for (auto &cell : contColour[Constants::VERTICAL]) pop(cell);
+            }
+            if (contColour[Constants::HORIZONTAL].size() >= 3) {
+                clearGrid = false;
+                for (auto &cell : contColour[Constants::HORIZONTAL]) pop(cell);
+            }
+        }
+    } 
+    return clearGrid;
+}
+
+
+/**
+ * @brief Drops all Candies, which have no GameComponent beneath them, by one level. Return true if a candy has been 
+ *  dropped and false if not.
+ * 
+ * @return bool
+ */
+bool Grid::drop() {
+    bool allDropped = true;
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            Cell * cellBeneath = cell.getBelow();
+            if (!(cell.getOccupied() && cell.package() != Constants::WALL
+                    && cellBeneath && !cellBeneath->getOccupied())) continue;
+            
+            cellBeneath->setOccupied(cell.getOccupied());
+            cell.unOccupy();
+            allDropped = false;
+        }
+    }
+    return allDropped;
+}
+
+
+/**
  * @brief 'Pops' the Candy occupying the cell by Un-occupying it 
  * 
  * @param target
@@ -126,7 +188,7 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
  *  the GameComponent on the initial Cell.
  * 
  * @param initial
- * @return std::pair<std::vector< Cell * >, std::vector< Cell * > >
+ * @return std::vector< std::vector< Cell * > >
  */
 std::vector< std::vector< Cell * > >  Grid::continuousColour(Cell * initial) {
     // Fetching sequential same coloured neighbours
@@ -145,7 +207,6 @@ std::vector< std::vector< Cell * > >  Grid::continuousColour(Cell * initial) {
 
 
 Grid::Grid() {
-
     // Initialising board with Cells and GameComponents
     for (int row = 0; row < 9; ++row) {
         grid.push_back(std::vector<Cell>(9));
@@ -153,7 +214,6 @@ Grid::Grid() {
             insertComponent(row, col);
         }
     }
-
     // Setting neighbours of each Cell
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
@@ -163,6 +223,35 @@ Grid::Grid() {
             grid[row][col].setHorizNbs(nbs[Constants::HORIZONTAL]);
         }
     }
+}
+
+
+/**
+ * @brief Verifies validity of a Candy swap. If valid, executes swap.
+ * 
+ * @param cell1
+ * @param cell2
+ * @return bool
+ */
+bool Grid::checkSwap(Point cell1, Point cell2) {
+    bool validity = false;
+    Cell * c1 = &grid[cell1.x][cell1.y];
+    Cell * c2 = &grid[cell2.x][cell2.y];
+    if (!(c1->getOccupied() || c2->getOccupied()) 
+            || c1->package() == Constants::WALL
+            || c2->package() == Constants::WALL) return validity;
+
+    swap(c1, c2);
+    std::vector< std::vector< Cell * > > c1_nbs = continuousColour(c1);
+    std::vector< std::vector< Cell * > > c2_nbs = continuousColour(c2);
+
+    for (int i = 0; i < 2; ++i) {
+        if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
+    }
+
+    if (!validity) swap(c1, c2);
+
+    return validity;
 }
 
 
@@ -178,55 +267,6 @@ void Grid::clean() {
         // std::cout << "=== Drop ===" << std::endl;
         // display();
     }  
-}
-
-
-/**
- * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
- *  false if not.
- *
- * @return bool 
- */
-bool Grid::clear() {
-    bool clearGrid = true;
-    for (auto &row : grid) {
-        for (auto &cell : row) {
-            if (!cell.getOccupied()) continue;
-            std::vector< std::vector< Cell * > > contColour = continuousColour(&cell);
-            if (contColour[Constants::VERTICAL].size() >= 3) {
-                clearGrid = false;
-                for (auto &cell : contColour[Constants::VERTICAL]) pop(cell);
-            }
-            if (contColour[Constants::HORIZONTAL].size() >= 3) {
-                clearGrid = false;
-                for (auto &cell : contColour[Constants::HORIZONTAL]) pop(cell);
-            }
-        }
-    } 
-    return clearGrid;
-}
-
-
-/**
- * @brief Drops all Candies, which have no GameComponent beneath them, by one level. Return true if a candy has been 
- *  dropped and false if not.
- * 
- * @return bool
- */
-bool Grid::drop() {
-    bool allDropped = true;
-    for (auto &row : grid) {
-        for (auto &cell : row) {
-            Cell * cellBeneath = cell.getBelow();
-            if (!(cell.getOccupied() && cell.package() != Constants::WALL
-                    && cellBeneath && !cellBeneath->getOccupied())) continue;
-            
-            cellBeneath->setOccupied(cell.getOccupied());
-            cell.unOccupy();
-            allDropped = false;
-        }
-    }
-    return allDropped;
 }
 
 

@@ -22,8 +22,11 @@ public:
     static const int VERTICAL = 0;
     static const int HORIZONTAL = 1;
 
-    static const std::string randomCandy() {return candies[rand() % 6];}
+    static const int BELOW_LEFT = 0;
+    static const int BELOW = 1;
+    static const int BELOW_RIGHT = 2;
 
+    static const std::string randomCandy() {return candies[rand() % 6];}
 };
 
 

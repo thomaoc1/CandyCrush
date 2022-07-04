@@ -30,16 +30,21 @@ class Grid {
 public:
     Grid();
     void clean();
-    bool checkSwap(Point cell1, Point cell2);
+    bool checkSwap(const Point &cell1, const Point &cell2);
     std::vector< std::vector< std::string > > package() const;
     void display() const;
 private:
+    void fill();
     void swap(Cell * c1, Cell * c2);
     bool clear();
-    bool drop();
+    void drop();
+    bool dropDown();
+    bool dropLeft();
+    bool dropRight();
     void pop(Cell * target);
     void insertComponent(int row, int col);
-    std::vector< std::vector< Cell * > > getNeighbours(int row, int col); 
+    std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);
+    std::vector< Cell * > getBelowNbs(int row, int col);
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
     std::vector< std::vector< Cell * > > continuousColour(Cell * current);
 };

@@ -22,6 +22,8 @@ class Cell {
     std::vector< Cell * > vertNbs;
     std::vector< Cell * > horizNbs;
     Cell * below = nullptr;
+    Cell * belowLeft = nullptr;
+    Cell * belowRight = nullptr;
 public:
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
@@ -29,12 +31,19 @@ public:
     void setVertNbs(const std::vector< Cell * > &nbs) {vertNbs = nbs;}
     void setHorizNbs(const std::vector< Cell * > &nbs) {horizNbs = nbs;}
     void setBelow(Cell * cell) {below = cell;}
+    void setBelowLeft(Cell * cell) {belowLeft = cell;}
+    void setBelowRight(Cell * cell) {belowRight = cell;}
+
     
     /* Getters */
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}
     Cell * getBelow() const {return below;}
+    Cell * getBelowLeft() const {return belowLeft;}
+    Cell * getBelowRight() const {return belowRight;}
+
+
     
     std::string package() const;
 };

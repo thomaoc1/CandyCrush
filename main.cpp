@@ -1,9 +1,9 @@
-#include "classes/model/board.hpp"
+#include "classes/model/grid.hpp"
 
 int main() {
 
-    Board board;
-    board.display();
+    Grid grid;
+    grid.display();
 
     return 0;
 }

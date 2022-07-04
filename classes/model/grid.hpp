@@ -22,16 +22,19 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <algorithm>
 
 class Grid {
     std::vector< std::vector< Cell > > grid;
 public:
     Grid();
     std::vector< std::vector< std::string > > package() const;
-    void display() const;
+    void display();
 private:
     void insertComponent(int row, int col);
     std::pair< std::vector< Cell * >, std::vector< Cell * > > getNeighbours(int row, int col); 
+    std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
+    std::pair< std::vector< Cell * >, std::vector< Cell * > > continuousColour(Cell * current);
 };
 
 #endif

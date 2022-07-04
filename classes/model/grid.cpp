@@ -4,6 +4,16 @@
  * PIVATE METHODS
  ***************************/
 
+
+/**
+ * @brief 'Pops' the Candy on occupying the cell by Un-occupying it 
+ * 
+ * @param target
+ */
+void Grid::pop(Cell * target) {
+    target->unOccupy();
+}
+
 /**
  * @brief Insert random game component at indices row, col
  * 
@@ -142,6 +152,25 @@ Grid::Grid() {
 }
 
 
+bool Grid::clear() {
+    bool clearGrid = true;
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            std::pair<std::vector< Cell * >, std::vector< Cell * > > contColour = continuousColour(&cell);
+            if (contColour.first.size() >= 3) {
+                clearGrid = false;
+                for (auto &cell : contColour.first) pop(cell);
+            }
+            if (contColour.second.size() >= 3) {
+                clearGrid = false;
+                for (auto &cell : contColour.second) pop(cell);
+            }
+        }
+    } 
+    return clearGrid;
+}
+
+
 /**
  * @brief Packages the board in to a vector of strings
  * 
@@ -171,26 +200,5 @@ void Grid::display()  {
         }
         std::cout << "\n";  
     }
-    std::cout << "\n";
-    std::cout << "NEIGHBOURS OF [6][5]" << std::endl;
-    for (auto &cell : grid[6][5].getHorizNbs()) {
-        std::cout << cell->package() + " ";
-    }
-    for (auto &cell : grid[6][5].getVertNbs()) {
-        std::cout << cell->package() + " ";
-    }
-    std::cout << "\n";
-
-    std::cout << "Continous " << std::endl;
-    std::pair<std::vector< Cell * >, std::vector< Cell * > > pair = continuousColour(&grid[6][5]);
-    for (auto &cell : pair.first) {
-        std::cout << "Vertical: " << cell->package() << " ";
-    }
-    std::cout << "\n";
-    std::cout << "Horizontal : ";
-    for (auto &cell : pair.second) {
-        std::cout << cell->package() << " ";
-    }
-    std::cout << "\n";
-   
+    std::cout << "\n"; 
 }

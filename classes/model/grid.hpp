@@ -28,9 +28,11 @@ class Grid {
     std::vector< std::vector< Cell > > grid;
 public:
     Grid();
+    bool clear();
     std::vector< std::vector< std::string > > package() const;
     void display();
 private:
+    void pop(Cell * target);
     void insertComponent(int row, int col);
     std::pair< std::vector< Cell * >, std::vector< Cell * > > getNeighbours(int row, int col); 
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 

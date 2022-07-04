@@ -36,9 +36,9 @@ public:
 private:
     void pop(Cell * target);
     void insertComponent(int row, int col);
-    std::pair< std::vector< Cell * >, std::vector< Cell * > > getNeighbours(int row, int col); 
+    std::vector< std::vector< Cell * > > getNeighbours(int row, int col); 
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
-    std::pair< std::vector< Cell * >, std::vector< Cell * > > continuousColour(Cell * current);
+    std::vector< std::vector< Cell * > > continuousColour(Cell * current);
 };
 
 #endif

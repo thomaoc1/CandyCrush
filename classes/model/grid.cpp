@@ -1,8 +1,11 @@
 #include "grid.hpp"
 
-/***************************
- * PIVATE METHODS
- ***************************/
+
+/*-----------------------------------------------------------
+ *                                                          *
+ *                    Private Methods                       *
+ *                                                          *
+ -----------------------------------------------------------*/
 
 
 /**
@@ -14,8 +17,9 @@ void Grid::pop(Cell * target) {
     target->unOccupy();
 }
 
+
 /**
- * @brief Insert random game component at indices row, col
+ * @brief Insert random game component at indices row, col into the Grid
  * 
  * @param row 
  * @param col 
@@ -45,14 +49,14 @@ void Grid::insertComponent(int row, int col) {
  * @param col 
  * @return std::pair<std::vector< Cell * >, std::vector< Cell * > >
  */
-std::pair<std::vector< Cell * >, std::vector< Cell * > > Grid::getNeighbours(int row, int col) {
+std::vector< std::vector< Cell * > > Grid::getNeighbours(int row, int col) {
 
     // Possible shifts
     const std::vector<int> DELTA = {-1, 1};
     
     std::vector< Cell * > verticalNbs;
     std::vector< Cell * > horizontalNbs;    
-    std::pair< std::vector< Cell * >, std::vector< Cell * > > neighbours;
+    
     
     for (auto &d : DELTA) {
         int row_d = row + d;
@@ -72,8 +76,7 @@ std::pair<std::vector< Cell * >, std::vector< Cell * > > Grid::getNeighbours(int
             }
     }
     
-    neighbours.first = std::move(verticalNbs);
-    neighbours.second = std::move(horizontalNbs);
+    std::vector< std::vector< Cell * > > neighbours{std::move(verticalNbs), std::move(horizontalNbs)};
 
     return neighbours;
 }
@@ -88,20 +91,24 @@ std::pair<std::vector< Cell * >, std::vector< Cell * > > Grid::getNeighbours(int
  * @return std::vector< Cell * > 
  */
 std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
+    // Colour of source
     const char colour = initial->package().back();
-    enum ori{vertical, horizontal};
+    // DFS Tools
     std::vector< Cell * > stack = {initial}; 
-    std::vector< Cell * > continousColors = {initial}; 
     Cell * current = initial;
+    // Elligible Candies
+    std::vector< Cell * > continousColors = {initial}; 
+    // DFS
     while (!stack.empty()) {
         current = stack.back();
         stack.pop_back();
         std::vector< Cell * > nbs;
-        if (orientation == vertical) nbs = current->getVertNbs();
+        if (orientation == Constants::VERTICAL) nbs = current->getVertNbs();
         else nbs = current->getHorizNbs();
         for (auto &nb : nbs) {
             if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
                 || nb->package().back() != colour) continue;
+            // Elligible Candies
             stack.push_back(nb);
             continousColors.push_back(nb);
         }
@@ -111,25 +118,28 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
 
 
 /**
- * @brief Returns vertical and horizontal continuous neighbours which have the same colour as 
+ * @brief Returns vertical and horizontal sequential neighbours which have the same colour as 
  *  the GameComponent on the initial Cell.
  * 
  * @param initial
  * @return std::pair<std::vector< Cell * >, std::vector< Cell * > >
  */
-std::pair<std::vector< Cell * >, std::vector< Cell * > > Grid::continuousColour(Cell * initial) {
-    enum orientation{vertical, horizontal};
-    std::vector< Cell * > v_cont = colourDFS(initial, vertical);
-    std::vector< Cell * > h_cont = colourDFS(initial, horizontal);
-    std::pair<std::vector< Cell * >, std::vector< Cell * > > ret;
-    ret.first = std::move(v_cont);
-    ret.second = std::move(h_cont);
+std::vector< std::vector< Cell * > >  Grid::continuousColour(Cell * initial) {
+    // Fetching sequential same coloured neighbours
+    std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
+    std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
+    std::vector< std::vector< Cell * > >  ret{std::move(v_cont), std::move(h_cont)};
     return ret;
 }
 
-/***************************
- * PUBLIC METHODS
- ***************************/
+
+/*-----------------------------------------------------------
+ *                                                          *
+ *                    Public Methods                        *
+ *                                                          *
+ -----------------------------------------------------------*/
+
+
 Grid::Grid() {
 
     // Initialising board with Cells and GameComponents
@@ -249,6 +259,4 @@ void Grid::display()  {
         std::cout << "\n";  
     }
     std::cout << "\n"; 
-
-    // std::cout << grid[8][1].getBelow()->package() << std::endl;
 }

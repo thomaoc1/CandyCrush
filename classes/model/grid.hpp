@@ -29,11 +29,11 @@ class Grid {
 public:
     Grid();
     void clean();
-    bool clear();
-    bool drop();
     std::vector< std::vector< std::string > > package() const;
     void display();
 private:
+    bool clear();
+    bool drop();
     void pop(Cell * target);
     void insertComponent(int row, int col);
     std::vector< std::vector< Cell * > > getNeighbours(int row, int col); 

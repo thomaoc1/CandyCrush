@@ -36,6 +36,29 @@ bool Grid::fill() {
  -----------------------------------------------------------*/
 
 
+std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction, std::vector< std::pair< Cell *, std::string > > &wrappedBombs) {
+    if (!cell->getOccupied() || cell->getPop()) return std::vector< Cell * >();
+    std::vector< Cell * > toPop; 
+    std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
+    if (contColour[direction].size() >= 3) {
+        for (auto &cell : contColour[direction]) {
+            std::vector< std::vector< Cell * > > cross = continuousColour(cell);
+            int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
+            if (cross[perpendicular].size() >= 3) {
+                wrappedBombs.push_back({cell, cell->package()});
+                for (auto &pCell : cross[perpendicular]) {
+                    pCell->willPop();
+                    toPop.push_back(pCell);
+                }
+            }
+            cell->willPop();
+            toPop.push_back(cell);
+        }
+    }
+    return toPop;
+}
+
+
 /**
  * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
  *  false if not.
@@ -45,30 +68,21 @@ bool Grid::fill() {
 bool Grid::clear() {
     bool clearGrid = true;
     std::vector< Cell * > toPop; 
-    // striped bombs to place
-    // wrapped bombs to place
+    std::vector< Cell * > stripedBombs;
+    std::vector< std::pair< Cell *, std::string > > wrappedBombs;
     for (auto &row : grid) {
         for (auto &cell : row) {
-            if (!cell.getOccupied() || cell.getPop()) continue;
-            // Fetches sequence of same coloured candies (vertical, horizontal)
-            std::vector< std::vector< Cell * > > contColour = continuousColour(&cell);
-            if (contColour[Constants::HORIZONTAL].size() >= 3) {
+            std::vector< Cell * > horizontal = clearCheck(&cell, Constants::HORIZONTAL, wrappedBombs);
+            std::vector< Cell * > vertical = clearCheck(&cell, Constants::VERTICAL, wrappedBombs);
+            if (horizontal.size() || vertical.size()) {
                 clearGrid = false;
-                for (auto &cell : contColour[Constants::HORIZONTAL]) {
-                    cell->willPop();
-                    toPop.push_back(cell);
-                }
-            }
-            if (contColour[Constants::VERTICAL].size() >= 3) {
-                clearGrid = false;
-                for (auto &cell : contColour[Constants::VERTICAL]) {
-                    cell->willPop();
-                    toPop.push_back(cell);
-                }
+                for (auto &cell : horizontal) toPop.push_back(cell);
+                for (auto &cell : vertical) toPop.push_back(cell);
             }
         }
     } 
     for (auto &cell : toPop) pop(cell);
+    for (auto &cell : wrappedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
     return clearGrid;
 }
 
@@ -229,6 +243,19 @@ void Grid::insertComponent(int row, int col) {
 
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
+}
+
+
+/**
+ * @brief Insert specified component onto cell
+ * 
+ * @param cell
+ * @param type
+ * @param colour
+ */
+void Grid::insertComponent(Cell * cell, const std::string type, const std::string &colour) {
+    if (type == Constants::BOMB) cell->setOccupied(std::make_shared<CandyBomb>(colour));
+    // ...
 }
 
 

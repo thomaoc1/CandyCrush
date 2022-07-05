@@ -37,6 +37,7 @@ public:
 private:
     /* Grid Cleaning */
     bool fill();
+    std::vector< Cell * > clearCheck(Cell * cell, int direction, std::vector< std::pair< Cell *, std::string > > &wrappedBombs);
     bool clear();
     /* Dropping */
     void drop();
@@ -44,6 +45,7 @@ private:
     /* Insertion / Suppression */
     void pop(Cell * target);
     void insertComponent(int row, int col);
+    void insertComponent(Cell * cell, const std::string type, const std::string &colour);
     void swap(Cell * c1, Cell * c2);
     /* Sequential colour fetching */
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 

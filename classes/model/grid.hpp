@@ -31,20 +31,27 @@ public:
     Grid();
     void clean();
     bool checkSwap(const Point &cell1, const Point &cell2);
+    /* Packaging */
     std::vector< std::vector< std::string > > package() const;
     void display() const;
 private:
+    /* Grid Cleaning */
     bool fill();
     bool clear();
+    /* Dropping */
     void drop();
     bool directedDrop(int direction);
+    /* Insertion / Suppression */
     void pop(Cell * target);
     void insertComponent(int row, int col);
     void swap(Cell * c1, Cell * c2);
-    std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);
-    std::vector< Cell * > getBelowNbs(int row, int col);
+    /* Sequential colour fetching */
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
     std::vector< std::vector< Cell * > > continuousColour(Cell * current);
+    /* Neighbour Fetching */
+    std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);
+    std::vector< Cell * > getBelowNbs(int row, int col);
+
 };
 
 #endif

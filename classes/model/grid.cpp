@@ -176,10 +176,7 @@ bool Grid::directedDrop(int direction) {
             Cell &cell = grid[i][j]; 
             if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;   
 
-            Cell * cellBeneath; 
-            if (direction == Constants::BELOW_LEFT) cellBeneath = cell.getBelowLeft();   
-            else if (direction == Constants::BELOW_RIGHT) cellBeneath = cell.getBelowRight();
-            else cellBeneath = cell.getBelow();
+            Cell * cellBeneath = cell.getBelow(direction);
 
             if (cellBeneath && !cellBeneath->getOccupied()) {
                 cellBeneath->setOccupied(cell.getOccupied());

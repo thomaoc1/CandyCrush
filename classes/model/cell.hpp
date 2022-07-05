@@ -34,16 +34,14 @@ public:
     void setBelowRight(Cell * cell) {belowNbs[Constants::BELOW_RIGHT] = cell;}
     void willPop() {toPop = true;}
     void popped() {toPop = false;}
-    // void switchPop() {toPop ? toPop = false : toPop = true;}
-
     
     /* Getters */
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}
-    Cell * getBelow() const {return belowNbs[Constants::BELOW];}
-    Cell * getBelowLeft() const {return belowNbs[Constants::BELOW_LEFT];}
-    Cell * getBelowRight() const {return belowNbs[Constants::BELOW_RIGHT];}
+    Cell * getBelow(int direction) const {return belowNbs[direction];}
+    //Cell * getBelowLeft() const {return belowNbs[Constants::BELOW_LEFT];}
+    //Cell * getBelowRight() const {return belowNbs[Constants::BELOW_RIGHT];}
     bool getPop() const {return toPop;}
     
     std::string package() const;

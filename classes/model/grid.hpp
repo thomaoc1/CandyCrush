@@ -35,12 +35,12 @@ public:
     void display() const;
 private:
     bool fill();
-    void swap(Cell * c1, Cell * c2);
     bool clear();
     void drop();
     bool directedDrop(int direction);
     void pop(Cell * target);
     void insertComponent(int row, int col);
+    void swap(Cell * c1, Cell * c2);
     std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);
     std::vector< Cell * > getBelowNbs(int row, int col);
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 

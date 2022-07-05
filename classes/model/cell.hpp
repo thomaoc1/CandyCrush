@@ -21,29 +21,30 @@ class Cell {
     std::shared_ptr<GameComponent> occupied;
     std::vector< Cell * > vertNbs;
     std::vector< Cell * > horizNbs;
-    Cell * below = nullptr;
-    Cell * belowLeft = nullptr;
-    Cell * belowRight = nullptr;
+    std::vector< Cell * > belowNbs{nullptr, nullptr, nullptr};
+    bool toPop = false;
 public:
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
     void unOccupy() {setOccupied(nullptr);}
     void setVertNbs(const std::vector< Cell * > &nbs) {vertNbs = nbs;}
     void setHorizNbs(const std::vector< Cell * > &nbs) {horizNbs = nbs;}
-    void setBelow(Cell * cell) {below = cell;}
-    void setBelowLeft(Cell * cell) {belowLeft = cell;}
-    void setBelowRight(Cell * cell) {belowRight = cell;}
+    void setBelow(Cell * cell) {belowNbs[Constants::BELOW] = cell;}
+    void setBelowLeft(Cell * cell) {belowNbs[Constants::BELOW_LEFT] = cell;}
+    void setBelowRight(Cell * cell) {belowNbs[Constants::BELOW_RIGHT] = cell;}
+    void willPop() {toPop = true;}
+    void popped() {toPop = false;}
+    // void switchPop() {toPop ? toPop = false : toPop = true;}
 
     
     /* Getters */
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}
-    Cell * getBelow() const {return below;}
-    Cell * getBelowLeft() const {return belowLeft;}
-    Cell * getBelowRight() const {return belowRight;}
-
-
+    Cell * getBelow() const {return belowNbs[Constants::BELOW];}
+    Cell * getBelowLeft() const {return belowNbs[Constants::BELOW_LEFT];}
+    Cell * getBelowRight() const {return belowNbs[Constants::BELOW_RIGHT];}
+    bool getPop() const {return toPop;}
     
     std::string package() const;
 };

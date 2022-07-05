@@ -7,6 +7,14 @@
  *                                                          *
  -----------------------------------------------------------*/
 
+
+/*-----------------------------------------------------------
+ *                                                          *
+ *               Grid Cleaning: Filling                     *
+ *                                                          *
+ -----------------------------------------------------------*/
+
+
 /**
  * @brief Fills grid
  */
@@ -21,17 +29,11 @@ bool Grid::fill() {
 }   
 
 
-/**
- * @brief Swaps occupations of two cells
- * 
- * @param c1
- * @param c2
- */
-void Grid::swap(Cell * c1, Cell * c2) {
-    std::shared_ptr<GameComponent> tmp = std::move(c1->getOccupied());
-    c1->setOccupied(std::move(c2->getOccupied()));
-    c2->setOccupied(std::move(tmp));
-}
+/*-----------------------------------------------------------
+ *                                                          *
+ *           Grid Cleaning: Colour popping                  *
+ *                                                          *
+ -----------------------------------------------------------*/
 
 
 /**
@@ -42,23 +44,95 @@ void Grid::swap(Cell * c1, Cell * c2) {
  */
 bool Grid::clear() {
     bool clearGrid = true;
+    std::vector< Cell * > toPop; 
+    // striped bombs to place
+    // wrapped bombs to place
     for (auto &row : grid) {
         for (auto &cell : row) {
-            if (!cell.getOccupied()) continue;
+            if (!cell.getOccupied() || cell.getPop()) continue;
             // Fetches sequence of same coloured candies (vertical, horizontal)
             std::vector< std::vector< Cell * > > contColour = continuousColour(&cell);
-            if (contColour[Constants::VERTICAL].size() >= 3) {
-                clearGrid = false;
-                for (auto &cell : contColour[Constants::VERTICAL]) pop(cell);
-            }
             if (contColour[Constants::HORIZONTAL].size() >= 3) {
                 clearGrid = false;
-                for (auto &cell : contColour[Constants::HORIZONTAL]) pop(cell);
+                for (auto &cell : contColour[Constants::HORIZONTAL]) {
+                    cell->willPop();
+                    toPop.push_back(cell);
+                }
+            }
+            if (contColour[Constants::VERTICAL].size() >= 3) {
+                clearGrid = false;
+                for (auto &cell : contColour[Constants::VERTICAL]) {
+                    cell->willPop();
+                    toPop.push_back(cell);
+                }
             }
         }
     } 
+    for (auto &cell : toPop) pop(cell);
     return clearGrid;
 }
+
+
+/**
+ * @brief Returns continous Candy neighbours with identical colour as the source Candy on the initial cell
+ *  in the given orientation.
+ * 
+ * @param initial 
+ * @param orientation
+ * @return std::vector< Cell * > 
+ */
+std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
+    // Colour of source
+    const char colour = initial->package().back();
+
+    // DFS Tools
+    std::vector< Cell * > stack = {initial}; 
+    Cell * current = initial;
+
+    // Elligible Candies
+    std::vector< Cell * > continousColors = {initial}; 
+
+    // DFS
+    while (!stack.empty()) {
+        current = stack.back();
+        stack.pop_back();
+        std::vector< Cell * > nbs;
+        if (orientation == Constants::VERTICAL) nbs = current->getVertNbs();
+        else nbs = current->getHorizNbs();
+        for (auto &nb : nbs) {
+            if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
+                || nb->package().back() != colour) continue;
+            // Elligible Candies
+            stack.push_back(nb);
+            continousColors.push_back(nb);
+        }
+    }
+
+    return continousColors;
+}
+
+
+/**
+ * @brief Returns vertical and horizontal sequential neighbours which have the same colour as 
+ *  the GameComponent on the initial Cell.
+ * 
+ * @param initial
+ * @return std::vector< std::vector< Cell * > >
+ */
+std::vector< std::vector< Cell * > >  Grid::continuousColour(Cell * initial) {
+    // Fetching sequential same coloured neighbours
+    std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
+    std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
+    std::vector< std::vector< Cell * > >  ret{std::move(v_cont), std::move(h_cont)};
+    return ret;
+}
+
+
+/*-----------------------------------------------------------
+ *                                                          *
+ *               Grid Cleaning: Dropping                    *
+ *                                                          *
+ -----------------------------------------------------------*/
 
 
 /**
@@ -120,6 +194,13 @@ bool Grid::directedDrop(int direction) {
 }
 
 
+/*-----------------------------------------------------------
+ *                                                          *
+ *               Insertion / Supression                     *
+ *                                                          *
+ -----------------------------------------------------------*/
+
+
 /**
  * @brief 'Pops' the Candy occupying the cell by Un-occupying it 
  * 
@@ -127,6 +208,7 @@ bool Grid::directedDrop(int direction) {
  */
 void Grid::pop(Cell * target) {
     target->unOccupy();
+    target->popped();
 }
 
 
@@ -151,6 +233,26 @@ void Grid::insertComponent(int row, int col) {
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
 }
+
+
+/**
+ * @brief Swaps occupations of two cells
+ * 
+ * @param c1
+ * @param c2
+ */
+void Grid::swap(Cell * c1, Cell * c2) {
+    std::shared_ptr<GameComponent> tmp = std::move(c1->getOccupied());
+    c1->setOccupied(std::move(c2->getOccupied()));
+    c2->setOccupied(std::move(tmp));
+}
+
+
+/*-----------------------------------------------------------
+ *                                                          *
+ *                Neighbour Fetching                        *
+ *                                                          *
+ -----------------------------------------------------------*/
 
 
 /**
@@ -213,61 +315,6 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
         nbs[i] = &grid[row_d][col_d];
     }    
     return nbs;            
-}
-
-
-/**
- * @brief Returns continous Candy neighbours with identical colour as the source Candy on the initial cell
- *  in the given orientation.
- * 
- * @param initial 
- * @param orientation
- * @return std::vector< Cell * > 
- */
-std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
-    // Colour of source
-    const char colour = initial->package().back();
-
-    // DFS Tools
-    std::vector< Cell * > stack = {initial}; 
-    Cell * current = initial;
-
-    // Elligible Candies
-    std::vector< Cell * > continousColors = {initial}; 
-
-    // DFS
-    while (!stack.empty()) {
-        current = stack.back();
-        stack.pop_back();
-        std::vector< Cell * > nbs;
-        if (orientation == Constants::VERTICAL) nbs = current->getVertNbs();
-        else nbs = current->getHorizNbs();
-        for (auto &nb : nbs) {
-            if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
-                || nb->package().back() != colour) continue;
-            // Elligible Candies
-            stack.push_back(nb);
-            continousColors.push_back(nb);
-        }
-    }
-
-    return continousColors;
-}
-
-
-/**
- * @brief Returns vertical and horizontal sequential neighbours which have the same colour as 
- *  the GameComponent on the initial Cell.
- * 
- * @param initial
- * @return std::vector< std::vector< Cell * > >
- */
-std::vector< std::vector< Cell * > >  Grid::continuousColour(Cell * initial) {
-    // Fetching sequential same coloured neighbours
-    std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
-    std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
-    std::vector< std::vector< Cell * > >  ret{std::move(v_cont), std::move(h_cont)};
-    return ret;
 }
 
 

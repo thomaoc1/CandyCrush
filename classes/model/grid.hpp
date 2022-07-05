@@ -34,13 +34,11 @@ public:
     std::vector< std::vector< std::string > > package() const;
     void display() const;
 private:
-    void fill();
+    bool fill();
     void swap(Cell * c1, Cell * c2);
     bool clear();
     void drop();
-    bool dropDown();
-    bool dropLeft();
-    bool dropRight();
+    bool directedDrop(int direction);
     void pop(Cell * target);
     void insertComponent(int row, int col);
     std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);

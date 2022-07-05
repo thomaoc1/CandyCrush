@@ -10,11 +10,14 @@
 /**
  * @brief Fills grid
  */
-void Grid::fill() {
+bool Grid::fill() {
+    bool filled = false;
     for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
         if (grid[0][i].getOccupied()) continue;
         insertComponent(0, i);
+        filled = true;
     }
+    return filled;
 }   
 
 
@@ -42,6 +45,7 @@ bool Grid::clear() {
     for (auto &row : grid) {
         for (auto &cell : row) {
             if (!cell.getOccupied()) continue;
+            // Fetches sequence of same coloured candies (vertical, horizontal)
             std::vector< std::vector< Cell * > > contColour = continuousColour(&cell);
             if (contColour[Constants::VERTICAL].size() >= 3) {
                 clearGrid = false;
@@ -60,7 +64,7 @@ bool Grid::clear() {
 /**
  * @brief Drops all Candies, which have no GameComponent beneath them, by one level. Return true if a candy has been 
  *  dropped and false if not.
- *  DROP ORDER : Middle Left Right
+ *  DROP PRIORITY ORDER : Middle > Left > Right
  * 
  * @return bool
  */
@@ -69,90 +73,51 @@ void Grid::drop() {
     while (!dropComplete)  {
         std::cout << "=== Drop Down===" << std::endl;
         // Drop down until can't
-        while(!dropDown());
+        while(directedDrop(Constants::BELOW));
         display();
-
-
         std::cout << "=== Drop Left===" << std::endl;
-
-        // dropLeft -> false : means at least one candy was dropped. !!! So restart DropDown 
-        // dropLeft -> true : means no candy was dropped to the left, therefore start DropRight 
-        if (dropLeft()) {
+        // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
+        // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
+        if (!directedDrop(Constants::BELOW_LEFT)) {
             std::cout << "=== Drop Right===" << std::endl;
-
-            // dropReft -> false : means at least candy was dropped. !!! So restart DropDown 
-            // dropReft -> true : means no candy was dropped to the Right, therefore Complete Drop 
-
-            if (dropRight()) dropComplete = true;
+            // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
+            // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
+            if (!directedDrop(Constants::BELOW_RIGHT)) dropComplete = true;
         }
         display();
     }
 }
 
 
-
-bool Grid::dropDown() {
-    bool allDropped = true;
-    for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
-        for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
-            Cell &cell = grid[i][j];
-            if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;
-            Cell * cellBeneath = cell.getBelow(); 
-            if (cellBeneath && !cellBeneath->getOccupied()) {
-                cellBeneath->setOccupied(cell.getOccupied());
-                cell.unOccupy();
-                allDropped = false;  
-            }
-        }
-    }
-    return allDropped;
-}
-
-
-bool Grid::dropLeft() {
-    bool allDropped = true;
+/**
+ * @brief Drop GameComponent in given direction if possible. If a candy has been dropped, returns true.
+ * 
+ * @param direction
+ * @return bool
+ */
+bool Grid::directedDrop(int direction) {
+    bool drop = false;
     for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
         for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
             Cell &cell = grid[i][j]; 
             if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;   
-            Cell * cellBeneathLeft = cell.getBelowLeft();   
-            // Cell directly belowLeft
-            if (cellBeneathLeft && !cellBeneathLeft->getOccupied()) {
-                cellBeneathLeft->setOccupied(cell.getOccupied());
+
+            Cell * cellBeneath; 
+            if (direction == Constants::BELOW_LEFT) cellBeneath = cell.getBelowLeft();   
+            else if (direction == Constants::BELOW_RIGHT) cellBeneath = cell.getBelowRight();
+            else cellBeneath = cell.getBelow();
+
+            if (cellBeneath && !cellBeneath->getOccupied()) {
+                cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
-                allDropped = false; 
-                break;   
+                drop = true; 
+                if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
             }
         }
-        if (!allDropped) break;
+        if (drop && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
     }
-    
-    return allDropped;
-
+    return drop;
 }
-
-
-bool Grid::dropRight() {
-    bool allDropped = true;
-    for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
-        for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
-            Cell &cell = grid[i][j];
-            if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;
-            // Cell below right
-            Cell * cellBeneathRight = cell.getBelowRight();
-            if (cellBeneathRight && !cellBeneathRight->getOccupied()) {
-                cellBeneathRight->setOccupied(cell.getOccupied());
-                cell.unOccupy();
-                allDropped = false;   
-                break; 
-            }
-        }
-        if (!allDropped) break;
-    }
-    return allDropped;
-}
-
-
 
 
 /**
@@ -380,13 +345,19 @@ void Grid::clean() {
     while(!clear()) {
         std::cout << "=== Clear ===" << std::endl;
         display();
+
         std::cout << "=== Drop ===" << std::endl;
         drop();
         display();
+
         std::cout << "=== Fill ===" << std::endl;
-        fill();
+        while(fill()) {
+            std::cout << "=== Drop ===" << std::endl;
+            drop();
+            display();
+        }
         display();
-        
+
     }  
 }
 
@@ -422,6 +393,4 @@ void Grid::display() const {
         std::cout << "\n";  
     }
     std::cout << "\n"; 
-
-    // std::cout << grid[0][0].getBelowRight() << std::endl;
 }

@@ -72,13 +72,13 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
  * 
  * @return bool
  */
-bool Grid::stripedBomb(Cell * cell, const std::vector< std::vector< Cell * > > &cColour, int direction) {
+bool Grid::stripedBomb(Cell * cell, const std::vector< Cell * > &cColour) {
     bool isStriped = false;
-    if (cColour[direction].size() == 4) {
+    if (cColour.size() == 4) {
         stripedBombs.push_back({cell, cell->package()});
         isStriped = true;
     }
-    for (auto &cell : cColour[direction]) {
+    for (auto &cell : cColour) {
         cell->willPop();
         toPop.push_back(cell);
     }
@@ -94,13 +94,13 @@ bool Grid::stripedBomb(Cell * cell, const std::vector< std::vector< Cell * > > &
  * 
  * @return bool
  */
-bool Grid::specialBomb(Cell * cell, const std::vector< std::vector< Cell * > > &cColour, int direction) {
+bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
     bool isSpecial = false;
-    if (cColour[direction].size() == 6) {
+    if (cColour.size() == 6) {
         specialBombs.push_back(cell);
         isSpecial = true;
     }
-    for (auto &cell : cColour[direction]) {
+    for (auto &cell : cColour) {
         cell->willPop();
         toPop.push_back(cell);
     } 
@@ -113,11 +113,11 @@ std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
     if (contColour[direction].size() >= 3) {
         /* Special Bomb Condition */
-        specialBomb(cell, contColour, direction);
+        specialBomb(cell, contColour[direction]);
         /* Wrapped Bomb Condition */
         wrappedBomb(contColour[direction], direction);
         /* Striped Bomb Condition */
-        stripedBomb(cell, contColour, direction) ;   
+        stripedBomb(cell, contColour[direction]) ;   
     }
     return toPop;
 }

@@ -28,9 +28,10 @@
 class Grid {
     std::vector< std::vector< Cell > > grid;
 
+    typedef std::pair< Cell *, std::string > CellStringPair;
+    std::vector< CellStringPair > stripedBombs;
+    std::vector< CellStringPair > wrappedBombs;
     std::vector< Cell * > toPop; 
-    std::vector< std::pair< Cell *, std::string > > stripedBombs;
-    std::vector< std::pair< Cell *, std::string > > wrappedBombs;
     std::vector< Cell * > specialBombs;
 public:
     Grid();
@@ -43,8 +44,8 @@ private:
     /* Grid Cleaning */
     bool fill();
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
-    bool stripedBomb(Cell * cell, const std::vector< std::vector< Cell * > > &cColour, int direction);
-    bool specialBomb(Cell * cell, const std::vector< std::vector< Cell * > > &cColour, int direction);
+    bool stripedBomb(Cell * cell, const std::vector< Cell * > &cColour);
+    bool specialBomb(Cell * cell, const std::vector< Cell * > &cColour);
     std::vector< Cell * > clearCheck(Cell * cell, int direction);
     bool clear();
     /* Dropping */

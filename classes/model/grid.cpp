@@ -36,24 +36,88 @@ bool Grid::fill() {
  -----------------------------------------------------------*/
 
 
-std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction, std::vector< std::pair< Cell *, std::string > > &wrappedBombs) {
+/**
+ * @brief Given 
+ * 
+ * @param cColour
+ * @param direction
+ * 
+ * @return bool
+ */
+bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
+    bool isWrapped = false;
+    for (auto &cell : cColour) {
+        std::vector< std::vector< Cell * > > cross = continuousColour(cell);
+        int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
+        if (cross[perpendicular].size() >= 3) {
+            isWrapped = true;
+            wrappedBombs.push_back({cell, cell->package()});
+            for (auto &pCell : cross[perpendicular]) {
+                pCell->willPop();
+                toPop.push_back(pCell);
+            }
+        }
+        cell->willPop();
+        toPop.push_back(cell);
+    }
+    return isWrapped;
+}
+
+
+/**
+ * @brief
+ * 
+ * @param
+ * @param
+ * 
+ * @return bool
+ */
+bool Grid::stripedBomb(Cell * cell, const std::vector< std::vector< Cell * > > &cColour, int direction) {
+    bool isStriped = false;
+    if (cColour[direction].size() == 4) {
+        stripedBombs.push_back({cell, cell->package()});
+        isStriped = true;
+    }
+    for (auto &cell : cColour[direction]) {
+        cell->willPop();
+        toPop.push_back(cell);
+    }
+    return isStriped;
+}
+
+
+/**
+ * @brief
+ * 
+ * @param
+ * @param
+ * 
+ * @return bool
+ */
+bool Grid::specialBomb(Cell * cell, const std::vector< std::vector< Cell * > > &cColour, int direction) {
+    bool isSpecial = false;
+    if (cColour[direction].size() == 6) {
+        specialBombs.push_back(cell);
+        isSpecial = true;
+    }
+    for (auto &cell : cColour[direction]) {
+        cell->willPop();
+        toPop.push_back(cell);
+    } 
+    return isSpecial;
+}
+
+
+std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
     if (!cell->getOccupied() || cell->getPop()) return std::vector< Cell * >();
-    std::vector< Cell * > toPop; 
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
     if (contColour[direction].size() >= 3) {
-        for (auto &cell : contColour[direction]) {
-            std::vector< std::vector< Cell * > > cross = continuousColour(cell);
-            int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
-            if (cross[perpendicular].size() >= 3) {
-                wrappedBombs.push_back({cell, cell->package()});
-                for (auto &pCell : cross[perpendicular]) {
-                    pCell->willPop();
-                    toPop.push_back(pCell);
-                }
-            }
-            cell->willPop();
-            toPop.push_back(cell);
-        }
+        /* Special Bomb Condition */
+        specialBomb(cell, contColour, direction);
+        /* Wrapped Bomb Condition */
+        wrappedBomb(contColour[direction], direction);
+        /* Striped Bomb Condition */
+        stripedBomb(cell, contColour, direction) ;   
     }
     return toPop;
 }
@@ -67,22 +131,16 @@ std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction, std::vector< 
  */
 bool Grid::clear() {
     bool clearGrid = true;
-    std::vector< Cell * > toPop; 
-    std::vector< Cell * > stripedBombs;
-    std::vector< std::pair< Cell *, std::string > > wrappedBombs;
     for (auto &row : grid) {
         for (auto &cell : row) {
-            std::vector< Cell * > horizontal = clearCheck(&cell, Constants::HORIZONTAL, wrappedBombs);
-            std::vector< Cell * > vertical = clearCheck(&cell, Constants::VERTICAL, wrappedBombs);
-            if (horizontal.size() || vertical.size()) {
-                clearGrid = false;
-                for (auto &cell : horizontal) toPop.push_back(cell);
-                for (auto &cell : vertical) toPop.push_back(cell);
-            }
+            clearCheck(&cell, Constants::HORIZONTAL);
+            clearCheck(&cell, Constants::VERTICAL);
         }
     } 
-    for (auto &cell : toPop) pop(cell);
+    if (toPop.size() > 0) clearGrid = false;
+    popAll();
     for (auto &cell : wrappedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    for (auto &cell : stripedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
     return clearGrid;
 }
 
@@ -220,6 +278,15 @@ bool Grid::directedDrop(int direction) {
 void Grid::pop(Cell * target) {
     target->unOccupy();
     target->popped();
+}
+
+
+/**
+ * @brief Pops all cells in toPop vector
+ */
+void Grid::popAll() {
+    for (auto &cell : toPop) pop(cell);
+    toPop = {};
 }
 
 
@@ -421,14 +488,15 @@ void Grid::clean() {
         drop();
         display();
 
-        std::cout << "=== Fill ===" << std::endl;
         while(fill()) {
+            std::cout << "=== Fill ===" << std::endl;
+            display();
             std::cout << "=== Drop ===" << std::endl;
             drop();
             display();
         }
+        std::cout << "=== Done ===" << std::endl;
         display();
-
     }  
 }
 

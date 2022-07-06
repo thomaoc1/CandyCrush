@@ -112,7 +112,7 @@ std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
  */
 std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
     // Colour of source
-    const char colour = initial->package().back();
+    const std::string colour = initial->getColour();
 
     // DFS Tools
     std::vector< Cell * > stack = {initial}; 
@@ -130,13 +130,12 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
         else nbs = current->getHorizNbs();
         for (auto &nb : nbs) {
             if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
-                || nb->package().back() != colour) continue;
+                || nb->getColour() != colour) continue;
             // Elligible Candies
             stack.push_back(nb);
             continousColors.push_back(nb);
         }
     }
-
     return continousColors;
 }
 
@@ -148,7 +147,7 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
  * @param initial
  * @return std::vector< std::vector< Cell * > >
  */
-std::vector< std::vector< Cell * > >  Grid::continuousColour(Cell * initial) {
+std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) {
     // Fetching sequential same coloured neighbours
     std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
     std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);

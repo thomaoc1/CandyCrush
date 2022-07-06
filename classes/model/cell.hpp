@@ -40,11 +40,10 @@ public:
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}
     Cell * getBelow(int direction) const {return belowNbs[direction];}
-    //Cell * getBelowLeft() const {return belowNbs[Constants::BELOW_LEFT];}
-    //Cell * getBelowRight() const {return belowNbs[Constants::BELOW_RIGHT];}
     bool getPop() const {return toPop;}
     
-    std::string package() const;
+    std::string getColour() const {return occupied ? occupied->getColour() : Constants::NONE;}
+    std::string package() const {return occupied ? occupied->package() : Constants::EMPTY;};
 };
 
 

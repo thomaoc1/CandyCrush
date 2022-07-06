@@ -16,13 +16,11 @@
 #include "gameComponent.hpp"
 
 class Candy : public GameComponent {
-    const std::string colour;
 public:
-    Candy() : GameComponent(), colour{Constants::randomCandy()} {}
-    Candy(std::string colour) : GameComponent(), colour{colour} {}
+    Candy() : GameComponent(Constants::randomCandy()) {}
+    Candy(std::string colour) : GameComponent(colour) {}
     virtual ~Candy() {}
-    virtual const std::string getColour() const {return colour;}
-    virtual const std::string package() const override {return colour;} 
+    virtual const std::string package() const override {return GameComponent::getColour();} 
 };
 
 #endif

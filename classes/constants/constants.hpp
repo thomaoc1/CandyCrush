@@ -13,6 +13,8 @@ public:
     static const std::string YELLOW;
     static const std::string PURPLE;
     static const std::string ORANGE;
+    static const std::string NONE;
+    static const std::string ALL;
 
     static const std::string WALL;
     static const std::string BOMB;

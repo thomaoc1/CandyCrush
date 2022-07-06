@@ -27,6 +27,7 @@ void TerminalGui::displayGrid() const {
         std::cout << row << "  |";
         for (int col = 0; col < 9; ++col) {
             if (tmp[row][col].length() == 1) std::cout << tmp[row][col] + "   ";
+            else if (tmp[row][col].length() == 2) std::cout << tmp[row][col] + "  ";
             else std::cout << tmp[row][col] + " ";
         }
         std::cout << "\n";  

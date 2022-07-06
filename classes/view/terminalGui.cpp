@@ -1,6 +1,6 @@
-#include "GUI.hpp"
+#include "terminalGui.hpp"
 
-GUI::PointPair GUI::displayTurn() const {
+TerminalGui::PointPair TerminalGui::displayTurn() const {
     int x, y, x1, y1;
     std::string input;
     std::cout << "Swap two candies format(x y x1 y1)";
@@ -15,7 +15,7 @@ GUI::PointPair GUI::displayTurn() const {
     return {{x, y}, {x1, y1}};
 }
 
-void GUI::displayGrid() const {
+void TerminalGui::displayGrid() const {
     std::vector< std::vector< std::string > > tmp = grid.package();
     std::cout << "    ";
     for (int i = 0; i < 9; ++i) {

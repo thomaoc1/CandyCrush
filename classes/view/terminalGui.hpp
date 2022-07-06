@@ -1,13 +1,13 @@
-#ifndef FLTKGUI_HPP
-#define FLTKGUI_HPP
+#ifndef VIEW_TERMINAL_HPP
+#define VIEW_TERMINAL_HPP
 
 #include "../model/grid.hpp"
 
-class GUI {
+class TerminalGui {
     const Grid &grid;
     typedef std::pair< Point, Point > PointPair;
 public:
-    GUI (const Grid &grid) : grid{grid} {} 
+    TerminalGui (const Grid &grid) : grid{grid} {} 
     PointPair displayTurn() const;
     void displayGrid() const;
 };

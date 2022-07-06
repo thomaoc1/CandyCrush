@@ -35,6 +35,7 @@ class Grid {
     std::vector< Cell * > specialBombs;
 public:
     Grid();
+    Grid(const std::string &level);
     void clean();
     bool checkSwap(const Point &cell1, const Point &cell2);
     /* Packaging */

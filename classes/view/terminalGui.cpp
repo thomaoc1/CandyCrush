@@ -3,7 +3,7 @@
 TerminalGui::PointPair TerminalGui::displayTurn() const {
     int x, y, x1, y1;
     std::string input;
-    std::cout << "Swap two candies format(x y x1 y1)";
+    std::cout << "Swap two candies {format : x y x1 y1} ";
     std::getline(std::cin, input);
     std::cout << std::endl;
     

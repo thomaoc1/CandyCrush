@@ -45,6 +45,6 @@ void GameControl::gameLoop() {
         view.displayGrid();
         clean();
         PointPair input = view.displayTurn();
-        while (!grid.checkSwap(input.first, input.second)) view.displayTurn();
+        while (!grid.checkSwap(input.first, input.second)) input = view.displayTurn();
     }
 }

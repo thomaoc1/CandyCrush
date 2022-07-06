@@ -217,7 +217,7 @@ void Grid::pop(Cell * target) {
  */
 void Grid::popAll() {
     for (auto &cell : toPop) pop(cell);
-    toPop = {};
+    toPop.clear();
 }
 
 
@@ -254,6 +254,18 @@ void Grid::insertComponent(int row, int col) {
 void Grid::insertComponent(Cell * cell, const std::string type, const std::string &colour) {
     if (type == Constants::BOMB) cell->setOccupied(std::make_shared<CandyBomb>(colour));
     // ...
+}
+
+
+void Grid::placeWrappedCandies() {
+    for (auto &cell : wrappedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    wrappedBombs.clear();
+}
+
+
+void Grid::placeStripedCandies() {
+    for (auto &cell : stripedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    stripedBombs.clear();
 }
 
 
@@ -414,8 +426,8 @@ bool Grid::clear() {
     } 
     if (toPop.size() > 0) clearGrid = false;
     popAll();
-    for (auto &cell : wrappedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
-    for (auto &cell : stripedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    placeWrappedCandies();
+    placeStripedCandies();
     return clearGrid;
 }
 

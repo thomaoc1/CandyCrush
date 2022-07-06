@@ -3,9 +3,9 @@
 void GameControl::fill() {
     while (grid.fill()) {
         std::cout << "=== Fill ===" << std::endl;
-        grid.display();
+        view.displayGrid();
         drop();
-        grid.display();
+        view.displayGrid();
     }
 } 
 
@@ -15,7 +15,7 @@ void GameControl::drop() {
         std::cout << "=== Drop Down ===" << std::endl;
         // Drop down until can't
         while(grid.directedDrop(Constants::BELOW));
-        grid.display();
+        view.displayGrid();
         std::cout << "=== Drop Left ===" << std::endl;
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
@@ -25,7 +25,7 @@ void GameControl::drop() {
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
             if (!grid.directedDrop(Constants::BELOW_RIGHT)) dropComplete = true;
         }
-        grid.display();
+        view.displayGrid();
     }
 }
 
@@ -33,7 +33,7 @@ void GameControl::drop() {
 void GameControl::clean() {
     while (!grid.clear()) {
         std::cout << "=== Clear ===" << std::endl;
-        grid.display();
+        view.displayGrid();
         drop();
         fill();
     } 

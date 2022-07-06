@@ -36,14 +36,13 @@ class Grid {
 public:
     Grid();
     Grid(const std::string &level);
+    /* Grid manipulation */
     bool fill();
     bool clear();
-    // void clean();
     bool directedDrop(int direction);
     bool checkSwap(const Point &cell1, const Point &cell2);
     /* Packaging */
     std::vector< std::vector< std::string > > package() const;
-    void display() const;
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);

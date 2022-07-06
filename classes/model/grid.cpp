@@ -158,43 +158,6 @@ std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) {
 
 /*-----------------------------------------------------------
  *                                                          *
- *               Grid Cleaning: Dropping                    *
- *                                                          *
- -----------------------------------------------------------*/
-
-
-/**
- * @brief Drops all Candies, which have no GameComponent beneath them, by one level. Return true if a candy has been 
- *  dropped and false if not.
- *  DROP PRIORITY ORDER : Middle > Left > Right
- * 
- * @return bool
- */
-/*
-void Grid::drop() {
-    bool dropComplete = false;
-    while (!dropComplete)  {
-        std::cout << "=== Drop Down===" << std::endl;
-        // Drop down until can't
-        while(directedDrop(Constants::BELOW));
-        display();
-        std::cout << "=== Drop Left===" << std::endl;
-        // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
-        // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
-        if (!directedDrop(Constants::BELOW_LEFT)) {
-            std::cout << "=== Drop Right===" << std::endl;
-            // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
-            // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
-            if (!directedDrop(Constants::BELOW_RIGHT)) dropComplete = true;
-        }
-        display();
-    }
-}
-*/
-
-
-/*-----------------------------------------------------------
- *                                                          *
  *               Insertion / Supression                     *
  *                                                          *
  -----------------------------------------------------------*/
@@ -359,12 +322,6 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
 
 
 Grid::Grid() {
-    // Initialising board with Cells and GameComponents
-    // 0 1 2 3 4 5 ...
-    // 1 X X X X X
-    // 2 X X X X X 
-    // ...
-
     for (int row = 0; row < 9; ++row) {
         grid.push_back(std::vector<Cell>(9));
         for (int col = 0; col < 9; ++col) {
@@ -489,33 +446,6 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
 
 
 /**
- * @brief Cleans up grid by popping all elligible candies and dropping. This process is repeated
- *  until there are no candies to pop. 
- */
-/*
-void Grid::clean() {
-        while(!clear()) {
-            std::cout << "=== Clear ===" << std::endl;
-            display();
-    
-            std::cout << "=== Drop ===" << std::endl;
-            drop();
-            display();
-    
-            while(fill()) {
-                std::cout << "=== Fill ===" << std::endl;
-                display();
-                std::cout << "=== Drop ===" << std::endl;
-                drop();
-                display();
-            }
-            std::cout << "=== Done ===" << std::endl;
-            display();
-        }  
-}
-*/
-
-/**
  * @brief Packages the board in to a vector of strings
  * 
  * @return std::vector< std::vector< std::string > > 
@@ -529,21 +459,4 @@ std::vector< std::vector< std::string > > Grid::package() const {
         }
     }
     return packagedBoard;
-}
-
-
-/**
- * @brief Temporary method for displaying board
- * 
- */
-void Grid::display() const {
-    std::vector< std::vector< std::string > > tmp = package();
-    for (int row = 0; row < 9; ++row) {
-        for (int col = 0; col < 9; ++col) {
-            if (tmp[row][col].length() == 1) std::cout << tmp[row][col] + "   ";
-            else std::cout << tmp[row][col] + " ";
-        }
-        std::cout << "\n";  
-    }
-    std::cout << "\n"; 
 }

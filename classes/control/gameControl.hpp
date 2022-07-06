@@ -12,6 +12,10 @@ class GameControl {
 public:
     GameControl(const std::string &level) : grid{Grid(level)}, view{grid} {}
     GameControl() : grid{Grid()}, view{grid} {}
+    void fill();
+    void drop();
+    void clean();
+    bool clearGrid();
     void gameLoop();
 };
 

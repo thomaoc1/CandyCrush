@@ -10,27 +10,6 @@
 
 /*-----------------------------------------------------------
  *                                                          *
- *               Grid Cleaning: Filling                     *
- *                                                          *
- -----------------------------------------------------------*/
-
-
-/**
- * @brief Fills grid
- */
-bool Grid::fill() {
-    bool filled = false;
-    for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
-        if (grid[0][i].getOccupied()) continue;
-        insertComponent(0, i);
-        filled = true;
-    }
-    return filled;
-}   
-
-
-/*-----------------------------------------------------------
- *                                                          *
  *           Grid Cleaning: Colour popping                  *
  *                                                          *
  -----------------------------------------------------------*/
@@ -124,28 +103,6 @@ std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
 
 
 /**
- * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
- *  false if not.
- *
- * @return bool 
- */
-bool Grid::clear() {
-    bool clearGrid = true;
-    for (auto &row : grid) {
-        for (auto &cell : row) {
-            clearCheck(&cell, Constants::HORIZONTAL);
-            clearCheck(&cell, Constants::VERTICAL);
-        }
-    } 
-    if (toPop.size() > 0) clearGrid = false;
-    popAll();
-    for (auto &cell : wrappedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
-    for (auto &cell : stripedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
-    return clearGrid;
-}
-
-
-/**
  * @brief Returns continous Candy neighbours with identical colour as the source Candy on the initial cell
  *  in the given orientation.
  * 
@@ -214,6 +171,7 @@ std::vector< std::vector< Cell * > >  Grid::continuousColour(Cell * initial) {
  * 
  * @return bool
  */
+/*
 void Grid::drop() {
     bool dropComplete = false;
     while (!dropComplete)  {
@@ -233,34 +191,7 @@ void Grid::drop() {
         display();
     }
 }
-
-
-/**
- * @brief Drop GameComponent in given direction if possible. If a candy has been dropped, returns true.
- * 
- * @param direction
- * @return bool
- */
-bool Grid::directedDrop(int direction) {
-    bool drop = false;
-    for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
-        for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
-            Cell &cell = grid[i][j]; 
-            if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;   
-
-            Cell * cellBeneath = cell.getBelow(direction);
-
-            if (cellBeneath && !cellBeneath->getOccupied()) {
-                cellBeneath->setOccupied(cell.getOccupied());
-                cell.unOccupy();
-                drop = true; 
-                if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
-            }
-        }
-        if (drop && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
-    }
-    return drop;
-}
+*/
 
 
 /*-----------------------------------------------------------
@@ -446,6 +377,77 @@ Grid::Grid() {
 }
 
 
+/*-----------------------------------------------------------
+ *                                                          *
+ *                      Grid Cleaning                       *
+ *                                                          *
+ -----------------------------------------------------------*/
+
+
+/**
+ * @brief Fills grid
+ */
+bool Grid::fill() {
+    bool filled = false;
+    for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
+        if (grid[0][i].getOccupied()) continue;
+        insertComponent(0, i);
+        filled = true;
+    }
+    return filled;
+}   
+
+
+/**
+ * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
+ *  false if not.
+ *
+ * @return bool 
+ */
+bool Grid::clear() {
+    bool clearGrid = true;
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            clearCheck(&cell, Constants::HORIZONTAL);
+            clearCheck(&cell, Constants::VERTICAL);
+        }
+    } 
+    if (toPop.size() > 0) clearGrid = false;
+    popAll();
+    for (auto &cell : wrappedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    for (auto &cell : stripedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    return clearGrid;
+}
+
+
+/**
+ * @brief Drop GameComponent in given direction if possible. If a candy has been dropped, returns true.
+ * 
+ * @param direction
+ * @return bool
+ */
+bool Grid::directedDrop(int direction) {
+    bool drop = false;
+    for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
+        for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
+            Cell &cell = grid[i][j]; 
+            if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;   
+
+            Cell * cellBeneath = cell.getBelow(direction);
+
+            if (cellBeneath && !cellBeneath->getOccupied()) {
+                cellBeneath->setOccupied(cell.getOccupied());
+                cell.unOccupy();
+                drop = true; 
+                if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
+            }
+        }
+        if (drop && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
+    }
+    return drop;
+}
+
+
 /**
  * @brief Verifies validity of a Candy swap. If valid, executes swap.
  * 
@@ -479,27 +481,28 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
  * @brief Cleans up grid by popping all elligible candies and dropping. This process is repeated
  *  until there are no candies to pop. 
  */
+/*
 void Grid::clean() {
-    while(!clear()) {
-        std::cout << "=== Clear ===" << std::endl;
-        display();
-
-        std::cout << "=== Drop ===" << std::endl;
-        drop();
-        display();
-
-        while(fill()) {
-            std::cout << "=== Fill ===" << std::endl;
+        while(!clear()) {
+            std::cout << "=== Clear ===" << std::endl;
             display();
+    
             std::cout << "=== Drop ===" << std::endl;
             drop();
             display();
-        }
-        std::cout << "=== Done ===" << std::endl;
-        display();
-    }  
+    
+            while(fill()) {
+                std::cout << "=== Fill ===" << std::endl;
+                display();
+                std::cout << "=== Drop ===" << std::endl;
+                drop();
+                display();
+            }
+            std::cout << "=== Done ===" << std::endl;
+            display();
+        }  
 }
-
+*/
 
 /**
  * @brief Packages the board in to a vector of strings

@@ -2,13 +2,13 @@
 #define GAMECONTROL_HPP
 
 #include "../model/grid.hpp"
-#include "../view/GUI.hpp"
+#include "../view/terminalGui.hpp"
 
 #include <string>
 
 class GameControl {
     Grid grid;
-    GUI view;
+    TerminalGui view;
 public:
     GameControl(const std::string &level) : grid{Grid(level)}, view{grid} {}
     GameControl() : grid{Grid()}, view{grid} {}

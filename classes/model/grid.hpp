@@ -17,7 +17,8 @@
 #include "cell.hpp"
 #include "candy.hpp"
 #include "wall.hpp"
-#include "candyBomb.hpp"
+#include "wrappedBomb.hpp"
+#include "stripedBomb.hpp"
 #include "point.hpp"
 
 #include <vector>
@@ -28,9 +29,9 @@
 class Grid {
     std::vector< std::vector< Cell > > grid;
 
-    typedef std::pair< Cell *, std::string > CellStringPair;
-    std::vector< CellStringPair > stripedBombs;
-    std::vector< CellStringPair > wrappedBombs;
+    typedef std::pair< Cell *, int > CellIntPair;
+    std::vector< CellIntPair > stripedBombs;
+    std::vector< CellIntPair > wrappedBombs;
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
 public:
@@ -42,7 +43,7 @@ public:
     bool directedDrop(int direction);
     bool checkSwap(const Point &cell1, const Point &cell2);
     /* Packaging */
-    std::vector< std::vector< std::string > > package() const;
+    std::vector< std::vector< int > > package() const;
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
@@ -53,7 +54,7 @@ private:
     void pop(Cell * target);
     void popAll();
     void insertComponent(int row, int col);
-    void insertComponent(Cell * cell, const std::string type, const std::string &colour);
+    void insertComponent(Cell * cell, int type);
     void placeWrappedCandies();
     void placeStripedCandies();
     void swap(Cell * c1, Cell * c2);

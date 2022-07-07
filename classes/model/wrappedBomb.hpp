@@ -1,15 +1,13 @@
-
-
 #ifndef WRAPPED_BOMB_HPP
 #define WRAPPED_BOMB_HPP
 
-#include "candyBomb.hpp"
+#include "candy.hpp"
 
-class WrappedBomb : public CandyBomb {
+class WrappedBomb : public Candy {
 public:
-    WrappedBomb(const std::string &colour) : CandyBomb(colour) {}
-    WrappedBomb() : CandyBomb(Constants::randomCandy()) {}
-    const std::string package() const override {return Constants::WRAPPED + CandyBomb::package();}
+    WrappedBomb(int colour) : Candy(colour) {}
+    WrappedBomb() : Candy(Constants::randomCandy()) {}
+    int package() const override;
 };
 
 #endif

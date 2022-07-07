@@ -1,19 +1,4 @@
 #include "constants.hpp"
 
-const std::string Constants::RED = "R";
-const std::string Constants::BLUE = "B";
-const std::string Constants::GREEN = "G";
-const std::string Constants::YELLOW = "Y";
-const std::string Constants::PURPLE = "P";
-const std::string Constants::ORANGE = "O";
-const std::string Constants::NONE = "N";
-const std::string Constants::ALL = "A";
-
-const std::array< std::string, 6 > Constants::candies = {RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE};
-
-const std::string Constants::WALL = "#";
-const std::string Constants::BOMB = "~";
-const std::string Constants::STRIPED = "St";
-const std::string Constants::WRAPPED = "Wr";
-
-const std::string Constants::EMPTY = " ";
+const std::array< int, 6 > Constants::candies = {components::RED, components::BLUE, components::GREEN, 
+                                                    components::YELLOW, components::PURPLE, components::ORANGE};

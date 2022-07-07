@@ -20,13 +20,13 @@
 #include <memory>
 
 class GameComponent {
-    std::string colour;
+    const int colour;
 public:
-    GameComponent(const std::string &colour) : colour{colour} {}
-    GameComponent() : colour{Constants::NONE} {}
+    GameComponent(int colour) : colour{colour} {}
+    GameComponent() : colour{Constants::components::NONE} {}
     virtual ~GameComponent() {};
-    virtual const std::string getColour() const {return colour;}
-    virtual const std::string package() const=0;
+    virtual int getColour() const {return colour;}
+    virtual int package() const=0;
 };
 
 #endif

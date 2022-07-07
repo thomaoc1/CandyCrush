@@ -1,14 +1,11 @@
-#include "classes/control/gridControl.hpp"
+#include "classes/view/mainWindow.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Box.H>
 
-int main() {
-
-    
-    std::shared_ptr<Grid> grid = std::make_shared<Grid>();
-    GridControl gc{grid};
-
-    return Fl::run();
+int main(int argc, char *argv[]) {
+  MainWindow window;
+  window.show(argc, argv);
+  return Fl::run();
 }

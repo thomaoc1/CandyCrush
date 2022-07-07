@@ -1,9 +1,7 @@
-#ifndef GAMECONTROL_HPP
-#define GAMECONTROL_HPP
+#ifndef GRIDCONTROL_HPP
+#define GRIDCONTROL_HPP
 
 #include "../model/grid.hpp"
-#include "../view/terminalGui.hpp"
-#include "../view/mainWindow.hpp"
 
 #include <FL/Fl.H>
 
@@ -13,6 +11,7 @@ class GridControl {
     std::shared_ptr<Grid> grid;
 public:
     GridControl(std::shared_ptr<Grid> grid) : grid{grid} {}
+    bool proccessEvent(const int event) {return event;}
     void fill();
     void drop();
     void clean();

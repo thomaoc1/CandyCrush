@@ -39,5 +39,4 @@ void GridControl::clean() {
 }
 
 void GridControl::gameLoop() {
-    typedef std::pair< Point, Point > PointPair;
 }

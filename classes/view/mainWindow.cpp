@@ -1,6 +1,7 @@
 #include "mainWindow.hpp"
 
-MainWindow::MainWindow() : Fl_Window(500, 500, "CandyCrush") {
+MainWindow::MainWindow() : Fl_Window(1000, 1000, "CandySmash"), grid{std::make_shared<Grid>()}, 
+                                        gridControl{grid}, gridDisplay{grid} {
     Fl::add_timeout(1.0/60, Timer_CB, this);
     resizable(this);
 }
@@ -10,7 +11,7 @@ void MainWindow::draw() {
 }
 
 int MainWindow::handle(int event) {
-    return event;
+    return gridControl.proccessEvent(event);
 }
 
 void MainWindow::Timer_CB(void *userdata) {

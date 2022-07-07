@@ -1,4 +1,4 @@
-#include "gameControl.hpp"
+#include "gridControl.hpp"
 
 void GridControl::fill() {
     while (grid->fill()) {

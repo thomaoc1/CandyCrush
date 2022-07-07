@@ -1,5 +1,33 @@
 #include "gridControl.hpp"
 
+bool GridControl::clickEvent(const Point &mouseLoc) {
+    clicked = true;
+    std::cout << "Click: " << mouseLoc.x << " " << mouseLoc.y << std::endl;
+}
+
+
+bool GridControl::proccessEvent(int event) {
+    switch (event) {
+        case FL_PUSH : {
+            if (Fl::event_button() == FL_LEFT_MOUSE) {
+                clickEvent({Fl::event_x(), Fl::event_y()});
+            break;
+            }
+        }
+        case FL_RELEASE : {
+            if (Fl::event_button() == FL_LEFT_MOUSE) {
+                clicked = false;
+                std::cout << "Released" << std::endl;
+            break;
+            }
+        }
+        case FL_DRAG:
+            std::cout << "Moved: " << Fl::event_x() << " " << Fl::event_y() << std::endl;
+            break;
+    } 
+}
+
+
 void GridControl::fill() {
     while (grid->fill()) {
         std::cout << "=== Fill ===" << std::endl;

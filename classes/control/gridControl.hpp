@@ -9,9 +9,12 @@
 
 class GridControl {
     std::shared_ptr<Grid> grid;
+    Point click;
+    bool clicked = false;
 public:
     GridControl(std::shared_ptr<Grid> grid) : grid{grid} {}
-    bool proccessEvent(const int event) {return event;}
+    bool clickEvent(const Point &mouseLoc);
+    bool proccessEvent(const int event);
     void fill();
     void drop();
     void clean();

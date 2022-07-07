@@ -3,15 +3,16 @@
 
 #include "../model/grid.hpp"
 #include "../view/terminalGui.hpp"
+#include "../view/mainWindow.hpp"
+
+#include <FL/Fl.H>
 
 #include <string>
 
-class GameControl {
-    Grid grid;
-    TerminalGui view;
+class GridControl {
+    std::shared_ptr<Grid> grid;
 public:
-    GameControl(const std::string &level) : grid{Grid(level)}, view{grid} {}
-    GameControl() : grid{Grid()}, view{grid} {}
+    GridControl(std::shared_ptr<Grid> grid) : grid{grid} {}
     void fill();
     void drop();
     void clean();

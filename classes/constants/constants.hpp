@@ -18,6 +18,9 @@ public:
 
     static const std::string WALL;
     static const std::string BOMB;
+    static const std::string STRIPED;
+    static const std::string WRAPPED;
+
 
     static const std::string EMPTY;
 

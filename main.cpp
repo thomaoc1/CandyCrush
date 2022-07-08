@@ -1,8 +1,11 @@
-#include "classes/control/gameControl.hpp"
+#include "classes/view/mainWindow.hpp"
 
-int main() {
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Box.H>
 
-    GameControl gc;
-    gc.gameLoop();
-    return 0;
+int main(int argc, char *argv[]) {
+  MainWindow window;
+  window.show(argc, argv);
+  return Fl::run();
 }

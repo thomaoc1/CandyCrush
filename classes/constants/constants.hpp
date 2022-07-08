@@ -5,24 +5,18 @@
 #include <array>
 
 class Constants {
-    static const std::array< std::string, 6 > candies;
+    const static std::array< int, 6 > candies;
 public:
-    static const std::string RED;
-    static const std::string BLUE;
-    static const std::string GREEN;
-    static const std::string YELLOW;
-    static const std::string PURPLE;
-    static const std::string ORANGE;
-    static const std::string NONE;
-    static const std::string ALL;
 
-    static const std::string WALL;
-    static const std::string BOMB;
-    static const std::string STRIPED;
-    static const std::string WRAPPED;
+    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, NONE, ALL, EMPTY, WALL, 
 
+                            RED_STRIPED_BOMB, BLUE_STRIPED_BOMB, GREEN_STRIPED_BOMB, YELLOW_STRIPED_BOMB,
+                            PURPLE_STRIPED_BOMB, ORANGE_STRIPED_BOMB,
 
-    static const std::string EMPTY;
+                            RED_WRAPPED_BOMB, BLUE_WRAPPED_BOMB, GREEN_WRAPPED_BOMB, YELLOW_WRAPPED_BOMB,
+                            PURPLE_WRAPPED_BOMB, ORANGE_WRAPPED_BOMB,
+
+                            SPECIAL_BOMB} components;
 
     static const int VERTICAL = 0;
     static const int HORIZONTAL = 1;
@@ -31,7 +25,7 @@ public:
     static const int BELOW = 1;
     static const int BELOW_RIGHT = 2;
 
-    static const std::string randomCandy() {return candies[rand() % 6];}
+    static int randomCandy() {return candies[rand() % 6];}
 };
 
 

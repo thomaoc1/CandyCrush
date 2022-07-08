@@ -112,7 +112,7 @@ std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
  */
 std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
     // Colour of source
-    const std::string colour = initial->getColour();
+    const int colour = initial->getColour();
 
     // DFS Tools
     std::vector< Cell * > stack = {initial}; 
@@ -190,16 +190,19 @@ void Grid::popAll() {
  * @param col 
  */
 void Grid::insertComponent(int row, int col) {
-    const int component = rand() % 10;
-
-    // Wall insertion
-    if (component == 7 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
-
-    // CandyBomb insertion
-    else if (component == 8) grid[row][col].setOccupied(std::make_shared<CandyBomb>());
+    const int component = rand() % 30;
 
     // Special Bomb insertion
-    //else if (component == 9) board[row][col].setOccupied(nullptr);
+    //if (component == 0) insert special
+
+    // StripedBomb insertion
+    if (component > 0 && component < 3) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
+
+    // Wrapped insertion
+    if (component >= 3 && component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
+
+    // Wall insertion
+    if (component >= 7 && component < 12 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
 
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
@@ -213,20 +216,104 @@ void Grid::insertComponent(int row, int col) {
  * @param type
  * @param colour
  */
-void Grid::insertComponent(Cell * cell, const std::string type, const std::string &colour) {
-    if (type == Constants::BOMB) cell->setOccupied(std::make_shared<CandyBomb>(colour));
-    // ...
+void Grid::insertComponent(Cell * cell, int component) {
+    switch (component) {
+        case Constants::RED_STRIPED_BOMB:
+            cell->setOccupied(std::make_shared<StripedBomb>(Constants::RED));
+            break;
+        case Constants::BLUE_STRIPED_BOMB:
+            cell->setOccupied(std::make_shared<StripedBomb>(Constants::BLUE));
+            break;
+        case Constants::GREEN_STRIPED_BOMB:
+            cell->setOccupied(std::make_shared<StripedBomb>(Constants::GREEN));
+            break;
+        case Constants::YELLOW_STRIPED_BOMB:
+            cell->setOccupied(std::make_shared<StripedBomb>(Constants::YELLOW));
+            break;
+        case Constants::PURPLE_STRIPED_BOMB:
+            cell->setOccupied(std::make_shared<StripedBomb>(Constants::PURPLE));
+            break;
+        case Constants::ORANGE_STRIPED_BOMB:
+            cell->setOccupied(std::make_shared<StripedBomb>(Constants::ORANGE));
+            break;        
+        case Constants::RED_WRAPPED_BOMB:
+            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::RED));
+            break;
+        case Constants::BLUE_WRAPPED_BOMB:
+            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::BLUE));
+            break;
+        case Constants::GREEN_WRAPPED_BOMB:
+            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::GREEN));
+            break;
+        case Constants::YELLOW_WRAPPED_BOMB:
+            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::YELLOW));
+            break;
+        case Constants::PURPLE_WRAPPED_BOMB:
+            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::PURPLE));
+            break;
+        case Constants::ORANGE_WRAPPED_BOMB:
+            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::ORANGE));
+            break;
+        case Constants::WALL:
+            cell->setOccupied(std::make_shared<Wall>());
+            break;
+        default:
+            cell->setOccupied(std::make_shared<Candy>(component));
+    }
 }
 
 
 void Grid::placeWrappedCandies() {
-    for (auto &cell : wrappedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    for (auto &cell : wrappedBombs) {
+        switch (cell.second) {
+            case Constants::RED:
+                insertComponent(cell.first, Constants::RED_WRAPPED_BOMB);
+                break;
+            case Constants::BLUE:
+                insertComponent(cell.first, Constants::BLUE_WRAPPED_BOMB);
+                break;
+            case Constants::GREEN:
+                insertComponent(cell.first, Constants::GREEN_WRAPPED_BOMB);
+                break;
+            case Constants::YELLOW:
+                insertComponent(cell.first, Constants::YELLOW_WRAPPED_BOMB);
+                break;
+            case Constants::PURPLE:
+                insertComponent(cell.first, Constants::PURPLE_WRAPPED_BOMB);
+                break;
+            case Constants::ORANGE:
+                insertComponent(cell.first, Constants::ORANGE_WRAPPED_BOMB);
+                break;
+        }  
+    }
     wrappedBombs.clear();
 }
 
 
+
 void Grid::placeStripedCandies() {
-    for (auto &cell : stripedBombs) insertComponent(cell.first, Constants::BOMB, cell.second);
+    for (auto &cell : stripedBombs) {
+        switch (cell.second) {
+            case Constants::RED:
+                insertComponent(cell.first, Constants::RED_STRIPED_BOMB);
+                break;
+            case Constants::BLUE:
+                insertComponent(cell.first, Constants::BLUE_STRIPED_BOMB);
+                break;
+            case Constants::GREEN:
+                insertComponent(cell.first, Constants::GREEN_STRIPED_BOMB);
+                break;
+            case Constants::YELLOW:
+                insertComponent(cell.first, Constants::YELLOW_STRIPED_BOMB);
+                break;
+            case Constants::PURPLE:
+                insertComponent(cell.first, Constants::PURPLE_STRIPED_BOMB);
+                break;
+            case Constants::ORANGE:
+                insertComponent(cell.first, Constants::ORANGE_STRIPED_BOMB);
+                break;
+        } 
+    }
     stripedBombs.clear();
 }
 
@@ -450,8 +537,8 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
  * 
  * @return std::vector< std::vector< std::string > > 
  */
-std::vector< std::vector< std::string > > Grid::package() const {
-    std::vector< std::vector< std::string > > packagedBoard;
+std::vector< std::vector< int > > Grid::package() const {
+    std::vector< std::vector< int > > packagedBoard;
     for (int row = 0; row < 9; ++row) {
         packagedBoard.push_back({});
         for (int col = 0; col < 9; ++col) {

@@ -512,8 +512,8 @@ bool Grid::directedDrop(int direction) {
  */
 bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     bool validity = false;
-    Cell * c1 = &grid[cell1.x][cell1.y];
-    Cell * c2 = &grid[cell2.x][cell2.y];
+    Cell * c1 = &grid[cell1.y][cell1.x];
+    Cell * c2 = &grid[cell2.y][cell2.x];
     if (!(c1->getOccupied() || c2->getOccupied()) 
             || c1->package() == Constants::WALL
             || c2->package() == Constants::WALL) return validity;
@@ -526,7 +526,10 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
     }
 
-    if (!validity) swap(c1, c2);
-
+    if (!validity) {
+        swap(c1, c2);
+        std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
+    }
+    if (validity) std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl; 
     return validity;
 }

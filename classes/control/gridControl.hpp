@@ -6,10 +6,12 @@
 #include <FL/Fl.H>
 
 #include <string>
+#include <cmath>
 
 class GridControl {
     std::shared_ptr<Grid> grid;
-    Point click;
+    Point click, clickToIndex;
+    Point hold, holdToIndex;
     bool clicked = false;
 public:
     GridControl(std::shared_ptr<Grid> grid) : grid{grid} {}
@@ -20,6 +22,10 @@ public:
     void clean();
     bool clearGrid();
     void gameLoop();
+private:
+    bool clickInGame(const Point &mouseLoc) const;
+    Point coordToCell(const Point &mouseLoc) const;
+    void dragEvent(const Point &mouseLoc);
 };
 
 

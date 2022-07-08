@@ -1,7 +1,6 @@
 #include "gridDisplay.hpp"
 
 void GridDisplay::draw() const {
-    // fl_draw_box(FL_FLAT_BOX, 0, 50, 1000, 1000, );
     for (int i = 0; i < Grid::ROWS; ++i) {
         for (int j = 0; j < Grid::COLS; ++j) {
             switch (grid->getCell(i, j)) {
@@ -64,8 +63,8 @@ void GridDisplay::draw() const {
                     break;
             }
             fl_begin_polygon();
-            fl_circle(Constants::INTER_CELL * j + Constants::GAME_WINDOW_X, 
-                        Constants::INTER_CELL * i + Constants::GAME_WINDOW_Y, 
+            fl_circle(Constants::INTER_CELL * j + Constants::GAME_WINDOW_Xi, 
+                        Constants::INTER_CELL * i + Constants::GAME_WINDOW_Yi, 
                         Constants::CELL_SIZE);
             fl_end_polygon();
         }

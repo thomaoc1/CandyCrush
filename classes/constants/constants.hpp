@@ -16,8 +16,10 @@ public:
     static const double FPS;
     static const double WINDOW_HEIGHT;
     static const double WINDOW_WIDTH;
-    static const double GAME_WINDOW_Y;
-    static const double GAME_WINDOW_X;
+    static const double GAME_WINDOW_Yi;
+    static const double GAME_WINDOW_Xi;
+    static const double GAME_WINDOW_Yf;
+    static const double GAME_WINDOW_Xf;
     static const double INTER_CELL;
     static const double CELL_SIZE;
 

@@ -11,8 +11,8 @@ void GridDisplay::drawCell(int x, int y) const {
 void GridDisplay::drawCandy(int colour, int x, int y) const {
     fl_color(colour);
     fl_begin_polygon();
-    fl_circle(Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi + Constants::CANDY_RADIUS + 3 /*TODO*/, 
-                Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi + Constants::CANDY_RADIUS + 3 /*TODO*/, 
+    fl_circle(Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2 /*TODO*/, 
+                Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2 /*TODO*/, 
                 Constants::CANDY_RADIUS);
     fl_end_polygon();
 }

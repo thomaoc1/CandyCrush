@@ -11,10 +11,18 @@ void GridDisplay::drawCell(int x, int y) const {
 void GridDisplay::drawCandy(int colour, int x, int y) const {
     fl_color(colour);
     fl_begin_polygon();
-    fl_circle(Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi, 
-                Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi, 
+    fl_circle(Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi + Constants::CANDY_RADIUS + 3 /*TODO*/, 
+                Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi + Constants::CANDY_RADIUS + 3 /*TODO*/, 
                 Constants::CANDY_RADIUS);
     fl_end_polygon();
+}
+
+
+void GridDisplay::drawWall(int x, int y) const {
+    fl_color(FL_BLACK);
+    fl_draw_box(FL_FLAT_BOX, Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi,
+                    Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi, Constants::INTER_CELL,
+                    Constants::INTER_CELL, FL_BLACK);
 }
 
 
@@ -24,68 +32,64 @@ void GridDisplay::draw() const {
             drawCell(i, j);
             switch (grid->getCell(i, j)) {
                 case Constants::RED:
-                    fl_color(FL_DARK_RED);
+                    drawCandy(FL_RED,j, i);
                     break;        
                 case Constants::BLUE:
-                    fl_color(FL_BLUE);
+                    drawCandy(FL_BLUE,j, i);
                     break;
                 case Constants::GREEN:
-                    fl_color(FL_GREEN);
+                    drawCandy(FL_GREEN,j, i);
                     break;
                 case Constants::PURPLE:
-                    fl_color(FL_MAGENTA);
+                    drawCandy(FL_MAGENTA,j, i);
                     break;
                 case Constants::YELLOW:
-                    fl_color(FL_YELLOW);
+                    drawCandy(FL_YELLOW,j, i);
                     break;
                 case Constants::ORANGE:
-                    fl_color(FL_RED);
+                    drawCandy(fl_rgb_color(255,165,0) ,j, i);
                     break;
                 case Constants::RED_STRIPED_BOMB:
-                    fl_color(FL_DARK_RED);
+                    drawCandy(FL_RED,j, i);
                     break;
                 case Constants::BLUE_STRIPED_BOMB:
-                    fl_color(FL_BLUE);
+                    drawCandy(FL_BLUE,j, i);
                     break;
                 case Constants::GREEN_STRIPED_BOMB:
-                    fl_color(FL_GREEN);
+                    drawCandy(FL_GREEN,j, i);
                     break;
                 case Constants::YELLOW_STRIPED_BOMB:
-                    fl_color(FL_YELLOW);
+                    drawCandy(FL_YELLOW, j, i);
                     break;
                 case Constants::PURPLE_STRIPED_BOMB:
-                    fl_color(FL_MAGENTA);
+                    drawCandy(FL_MAGENTA,j, i);
                     break;
                 case Constants::ORANGE_STRIPED_BOMB:
-                    fl_color(FL_RED);
+                    drawCandy(fl_rgb_color(255,165,0),j, i);
                     break;        
                 case Constants::RED_WRAPPED_BOMB:
-                    fl_color(FL_DARK_RED);
+                    drawCandy(FL_RED,j, i);
                     break;
                 case Constants::BLUE_WRAPPED_BOMB:
-                    fl_color(FL_BLUE);
+                    drawCandy(FL_BLUE,j, i);
                     break;
                 case Constants::GREEN_WRAPPED_BOMB:
-                    fl_color(FL_GREEN);
+                    drawCandy(FL_GREEN,j, i);
                     break;
                 case Constants::YELLOW_WRAPPED_BOMB:
-                    fl_color(FL_YELLOW);
+                    drawCandy(FL_YELLOW, j, i);
                     break;
                 case Constants::PURPLE_WRAPPED_BOMB:
-                    fl_color(FL_MAGENTA);
+                    drawCandy(FL_MAGENTA,j, i);
                     break;
                 case Constants::ORANGE_WRAPPED_BOMB:
-                    fl_color(FL_RED);
+                    drawCandy(fl_rgb_color(255,165,0),j, i);
                     break;
                 case Constants::WALL:
-                    fl_color(FL_BLACK);
+                    drawWall(j, i);
                     break;
             }
-            fl_begin_polygon();
-            fl_circle(Constants::INTER_CELL * j + Constants::GAME_WINDOW_Xi + Constants::CANDY_RADIUS + 3 /*TODO*/, 
-                        Constants::INTER_CELL * i + Constants::GAME_WINDOW_Yi + Constants::CANDY_RADIUS + 3 /*TODO*/, 
-                        Constants::CANDY_RADIUS);
-            fl_end_polygon();
+            
         }
     }
 }

@@ -10,20 +10,17 @@ Point GridControl::coordToCell(const Point &mouseLoc) const {
 
 bool GridControl::coordInGame(const Point &mouseLoc) const {
     return mouseLoc.x >= Constants::GAME_WINDOW_Xi
-            && mouseLoc.x < Constants::GAME_WINDOW_Xf
-            && mouseLoc.y >= Constants::GAME_WINDOW_Yi
-            && mouseLoc.y <= Constants::GAME_WINDOW_Yf;
+            && mouseLoc.x < Constants::GAME_WINDOW_Xf + Constants::INTER_CELL
+            && mouseLoc.y >= Constants::GAME_WINDOW_Yi 
+            && mouseLoc.y <= Constants::GAME_WINDOW_Yf + Constants::INTER_CELL;
 }
 
 
-bool GridControl::clickEvent(const Point &mouseLoc) {
-    clicked = false;
-    if (coordInGame(mouseLoc)) {
-        clicked = true;
-        click = mouseLoc;
-        clickToIndex = coordToCell(mouseLoc);
-    }
-    return clicked;
+void GridControl::clickEvent(const Point &mouseLoc) {
+    if (!coordInGame(mouseLoc)) return;
+    clicked = true;
+    click = mouseLoc;
+    clickToIndex = coordToCell(mouseLoc);
 }
 
 

@@ -22,7 +22,7 @@ public:
     bool clearGrid();
     void gameLoop();
 private:
-    bool clickEvent(const Point &mouseLoc);
+    void clickEvent(const Point &mouseLoc);
     bool coordInGame(const Point &mouseLoc) const;
     Point coordToCell(const Point &mouseLoc) const;
     void dragEvent(const Point &mouseLoc);

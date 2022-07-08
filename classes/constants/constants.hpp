@@ -21,7 +21,7 @@ public:
     static const double GAME_WINDOW_Yf;
     static const double GAME_WINDOW_Xf;
     static const double INTER_CELL;
-    static const double CELL_SIZE;
+    static const double CANDY_RADIUS;
 
 
     static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, NONE, ALL, EMPTY, WALL, 

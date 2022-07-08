@@ -15,7 +15,6 @@ class GridControl {
     bool clicked = false;
 public:
     GridControl(std::shared_ptr<Grid> grid) : grid{grid} {}
-    bool clickEvent(const Point &mouseLoc);
     bool proccessEvent(const int event);
     void fill();
     void drop();
@@ -23,7 +22,8 @@ public:
     bool clearGrid();
     void gameLoop();
 private:
-    bool clickInGame(const Point &mouseLoc) const;
+    bool clickEvent(const Point &mouseLoc);
+    bool coordInGame(const Point &mouseLoc) const;
     Point coordToCell(const Point &mouseLoc) const;
     void dragEvent(const Point &mouseLoc);
 };

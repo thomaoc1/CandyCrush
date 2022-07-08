@@ -2,37 +2,33 @@
 
 
 Point GridControl::coordToCell(const Point &mouseLoc) const {
-    //int row = ((mouseLoc.y - Constants::GAME_WINDOW_Yi)  / (Constants::GAME_WINDOW_Yi - Constants::CELL_SIZE));
-    int row = (mouseLoc.y - Constants::GAME_WINDOW_Yi + Constants::CELL_SIZE) / Constants::INTER_CELL;
-    int col = (mouseLoc.x - Constants::GAME_WINDOW_Xi + Constants::CELL_SIZE) / Constants::INTER_CELL;
+    int row = (mouseLoc.y - Constants::GAME_WINDOW_Yi) / Constants::INTER_CELL;
+    int col = (mouseLoc.x - Constants::GAME_WINDOW_Xi) / Constants::INTER_CELL;
     return Point{col, row};
 } 
 
 
-bool GridControl::clickInGame(const Point &mouseLoc) const {
-    return mouseLoc.x >= Constants::GAME_WINDOW_Xi - Constants::CELL_SIZE 
-            && mouseLoc.x < Constants::GAME_WINDOW_Xf + Constants::CELL_SIZE
-            && mouseLoc.y >= Constants::GAME_WINDOW_Yi - Constants::CELL_SIZE
-            && mouseLoc.y <= Constants::GAME_WINDOW_Yf + Constants::CELL_SIZE;
+bool GridControl::coordInGame(const Point &mouseLoc) const {
+    return mouseLoc.x >= Constants::GAME_WINDOW_Xi
+            && mouseLoc.x < Constants::GAME_WINDOW_Xf
+            && mouseLoc.y >= Constants::GAME_WINDOW_Yi
+            && mouseLoc.y <= Constants::GAME_WINDOW_Yf;
 }
 
 
 bool GridControl::clickEvent(const Point &mouseLoc) {
     clicked = false;
-    // std::cout << "Click: " << mouseLoc.x << " " << mouseLoc.y << std::endl;
-    if (clickInGame(mouseLoc)) {
+    if (coordInGame(mouseLoc)) {
         clicked = true;
         click = mouseLoc;
         clickToIndex = coordToCell(mouseLoc);
-        //std::cout << "[" << clickToIndex.y << "," << clickToIndex.x << "]" << std::endl;
-        //std::cout << "Colour : " << grid->getCell(clickToIndex.y, clickToIndex.x)<< std::endl;
     }
     return clicked;
 }
 
 
 void GridControl::dragEvent(const Point &mouseLoc) {
-    if (!clicked) return;
+    if (!(clicked && coordInGame(mouseLoc))) return;
     bool swapped = false;
     Point dragToIndex = coordToCell(mouseLoc);
     std::cout << "DRAG Row : " << dragToIndex.y << " Col : " << dragToIndex.x << std::endl;

@@ -15,6 +15,12 @@ class GridDisplay {
 public:
     GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} {}
     void draw() const;
+private:
+    void drawCell(int x, int y) const;
+    void drawCandy(int colour, int x, int y) const;
+    void drawWrappedBomb(int colour, int x, int y) const;
+    void drawStripedBomb(int colour, int x, int y) const;
+    void drawWall(int x, int y) const;
 };
 
 #endif

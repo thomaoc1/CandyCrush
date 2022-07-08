@@ -10,19 +10,21 @@ bool GridControl::clickEvent(const Point &mouseLoc) {
 bool GridControl::proccessEvent(int event) {
     switch (event) {
         case FL_PUSH : {
-            if (Fl::event_button() == FL_LEFT_MOUSE) {
-                clickEvent({Fl::event_x(), Fl::event_y()});
-            }
+            if (Fl::event_button() != FL_LEFT_MOUSE) break;
+            
+            clickEvent({Fl::event_x(), Fl::event_y()});
             break;
         }
         case FL_RELEASE : {
-            if (Fl::event_button() == FL_LEFT_MOUSE) {
-                clicked = false;
-                std::cout << "Released" << std::endl;
-            }
+            if (Fl::event_button() != FL_LEFT_MOUSE) break;
+            
+            clicked = false;
+            std::cout << "Released" << std::endl;
             break;
         }
         case FL_DRAG:
+            if (Fl::event_button() != FL_LEFT_MOUSE) break;
+
             std::cout << "Moved: " << Fl::event_x() << " " << Fl::event_y() << std::endl;
             break;
     } 

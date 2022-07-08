@@ -1,10 +1,6 @@
 #include "gridDisplay.hpp"
 
 void GridDisplay::draw() const {
-    const double upper_offset = (1.0 / 3.0) * dimensions.y; 
-    const double middle_offset = (1.0 / 4.0) * dimensions.x;
-    const double inter_offset = (1.0/ 4.0) * middle_offset;
-    const double candySize = 30;
     // fl_draw_box(FL_FLAT_BOX, 0, 50, 1000, 1000, );
     for (int i = 0; i < Grid::ROWS; ++i) {
         for (int j = 0; j < Grid::COLS; ++j) {
@@ -68,7 +64,9 @@ void GridDisplay::draw() const {
                     break;
             }
             fl_begin_polygon();
-            fl_circle(inter_offset * j + middle_offset, inter_offset * i + upper_offset, candySize);
+            fl_circle(Constants::INTER_CELL * j + Constants::GAME_WINDOW_X, 
+                        Constants::INTER_CELL * i + Constants::GAME_WINDOW_Y, 
+                        Constants::CELL_SIZE);
             fl_end_polygon();
         }
     }

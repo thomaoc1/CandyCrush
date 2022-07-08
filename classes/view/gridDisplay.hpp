@@ -12,9 +12,8 @@
 
 class GridDisplay {
     const std::shared_ptr< const Grid > grid;
-    const Point dimensions;
 public:
-    GridDisplay(const std::shared_ptr< const Grid > grid, const Point &dimensions) : grid{grid}, dimensions{dimensions} {}
+    GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} {}
     void draw() const;
 };
 

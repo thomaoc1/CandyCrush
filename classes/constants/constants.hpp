@@ -8,6 +8,20 @@ class Constants {
     const static std::array< int, 6 > candies;
 public:
 
+    /* Model Constants */
+    static enum directions{VERTICAL, HORIZONTAL, } directions;
+    static enum below{BELOW, BELOW_LEFT, BELOW_RIGHT} below;
+
+    /* View Constants */
+    static const double FPS;
+    static const double WINDOW_HEIGHT;
+    static const double WINDOW_WIDTH;
+    static const double GAME_WINDOW_Y;
+    static const double GAME_WINDOW_X;
+    static const double INTER_CELL;
+    static const double CELL_SIZE;
+
+
     static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, NONE, ALL, EMPTY, WALL, 
 
                             RED_STRIPED_BOMB, BLUE_STRIPED_BOMB, GREEN_STRIPED_BOMB, YELLOW_STRIPED_BOMB,
@@ -18,13 +32,7 @@ public:
 
                             SPECIAL_BOMB} components;
 
-    static const int VERTICAL = 0;
-    static const int HORIZONTAL = 1;
-
-    static const int BELOW_LEFT = 0;
-    static const int BELOW = 1;
-    static const int BELOW_RIGHT = 2;
-
+    
     static int randomCandy() {return candies[rand() % 6];}
 };
 

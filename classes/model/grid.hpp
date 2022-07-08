@@ -35,6 +35,9 @@ class Grid {
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
 public:
+    static const int COLS = 9;
+    static const int ROWS = 9;
+
     Grid();
     Grid(const std::string &level);
     /* Grid manipulation */
@@ -42,8 +45,7 @@ public:
     bool clear();
     bool directedDrop(int direction);
     bool checkSwap(const Point &cell1, const Point &cell2);
-    /* Packaging */
-    std::vector< std::vector< int > > package() const;
+    int getCell(int y, int x) const {return grid[y][x].package();}
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);

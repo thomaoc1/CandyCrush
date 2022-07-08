@@ -530,20 +530,3 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
 
     return validity;
 }
-
-
-/**
- * @brief Packages the board in to a vector of strings
- * 
- * @return std::vector< std::vector< std::string > > 
- */
-std::vector< std::vector< int > > Grid::package() const {
-    std::vector< std::vector< int > > packagedBoard;
-    for (int row = 0; row < 9; ++row) {
-        packagedBoard.push_back({});
-        for (int col = 0; col < 9; ++col) {
-            packagedBoard[row].push_back(grid[row][col].package());
-        }
-    }
-    return packagedBoard;
-}

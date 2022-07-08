@@ -33,24 +33,26 @@ bool GridControl::clickEvent(const Point &mouseLoc) {
 
 void GridControl::dragEvent(const Point &mouseLoc) {
     if (!clicked) return;
+    bool swapped = false;
     Point dragToIndex = coordToCell(mouseLoc);
     std::cout << "DRAG Row : " << dragToIndex.y << " Col : " << dragToIndex.x << std::endl;
     if (dragToIndex.x == clickToIndex.x) {
         if (dragToIndex.y < clickToIndex.y) {
-            grid->checkSwap(clickToIndex, {clickToIndex.x, clickToIndex.y - 1});
+            swapped = grid->checkSwap(clickToIndex, {clickToIndex.x, clickToIndex.y - 1});
         }
         else if (dragToIndex.y > clickToIndex.y) {
-            grid->checkSwap(clickToIndex, {clickToIndex.x, clickToIndex.y + 1});
+            swapped = grid->checkSwap(clickToIndex, {clickToIndex.x, clickToIndex.y + 1});
         }
     }
     else if (dragToIndex.y == clickToIndex.y) {
         if (dragToIndex.x < clickToIndex.x) {
-            grid->checkSwap(clickToIndex, {clickToIndex.x - 1, clickToIndex.y});
+            swapped = grid->checkSwap(clickToIndex, {clickToIndex.x - 1, clickToIndex.y});
         }
         else if (dragToIndex.x > clickToIndex.x) {
-            grid->checkSwap(clickToIndex, {clickToIndex.x + 1, clickToIndex.y});
+            swapped = grid->checkSwap(clickToIndex, {clickToIndex.x + 1, clickToIndex.y});
         }
     }
+    if (swapped) clean();
 }
 
 

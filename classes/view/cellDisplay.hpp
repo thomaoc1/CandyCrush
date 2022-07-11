@@ -16,6 +16,7 @@ class CellDisplay {
 public:
     CellDisplay() {}
     CellDisplay(std::shared_ptr<ComponentDisplay> occupied) : occupied{occupied} {}
+    void setOccupied(std::shared_ptr<ComponentDisplay> component) {occupied = component;}
     void draw(int y, int x) const;
 };
 

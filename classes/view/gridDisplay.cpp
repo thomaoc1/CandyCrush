@@ -36,6 +36,83 @@ void GridDisplay::drawWall(int x, int y) const {
 }
 
 
+void GridDisplay::reconstructGrid() {
+    for (int row = 0; row < Grid::ROWS; ++row) {
+        visualGrid.emplace_back(std::vector<CellDisplay>(Grid::COLS));
+        for (int col = 0; col < Grid::COLS; ++col) {
+            int component = grid->getCell(row, col);
+            switch (component) {
+                case Constants::RED:
+                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    break;        
+                case Constants::BLUE:
+                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    break;
+                case Constants::GREEN:
+                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    break;
+                case Constants::PURPLE:
+                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    break;
+                case Constants::YELLOW:
+                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    break;
+                case Constants::ORANGE:
+                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    break;
+                case Constants::RED_STRIPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(FL_RED));
+                    break;
+                case Constants::BLUE_STRIPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(FL_BLUE));
+                    break;
+                case Constants::GREEN_STRIPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(FL_GREEN));
+                    break;
+                case Constants::YELLOW_STRIPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(FL_YELLOW));
+                    break;
+                case Constants::PURPLE_STRIPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(FL_MAGENTA));
+                    break;
+                case Constants::ORANGE_STRIPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(fl_rgb_color(255,165,0)));
+                    break;        
+                case Constants::RED_WRAPPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(FL_RED));
+                    break;
+                case Constants::BLUE_WRAPPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(FL_BLUE));
+                    break;
+                case Constants::GREEN_WRAPPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(FL_GREEN));
+                    break;
+                case Constants::YELLOW_WRAPPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(FL_YELLOW));
+                    break;
+                case Constants::PURPLE_WRAPPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(FL_MAGENTA));
+                    break;
+                case Constants::ORANGE_WRAPPED_BOMB:
+                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(fl_rgb_color(255,165,0)));
+                    break;
+                case Constants::WALL:
+                    visualGrid[row][col].setOccupied(std::make_shared<WallDisplay>());
+                    break;
+            }
+        }
+    }
+}
+
+
+// public
+
+
+GridDisplay::GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} {
+    reconstructGrid();
+}
+
+
 void GridDisplay::draw()  {
 
     /* In the case that something has happened that hasn't already happened */
@@ -58,7 +135,6 @@ void GridDisplay::draw()  {
 
     // TODO: 1. Reconstruction of visual grid
     // TODO: 2. Displaying grid
-
     for (int i = 0; i < Grid::ROWS; ++i) {
         for (int j = 0; j < Grid::COLS; ++j) {
             drawCell(i, j);

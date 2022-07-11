@@ -2,6 +2,7 @@
 #define COLOURED_COMPONENT_HPP
 
 #include "componentDisplay.hpp"
+#include <iostream>
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
@@ -10,7 +11,7 @@
 
 class ColouredComponent : public ComponentDisplay {
 protected:
-    Fl_Color colour;
+    Fl_Color fl_colour;
 public:
     ColouredComponent(int colour);
 };

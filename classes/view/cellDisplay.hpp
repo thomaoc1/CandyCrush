@@ -15,9 +15,9 @@ class CellDisplay {
     const Fl_Color frameColour = FL_BLACK;
 public:
     CellDisplay() {}
-    CellDisplay(std::shared_ptr<ComponentDisplay> occupied) : occupied{occupied} {}
+    // CellDisplay(std::shared_ptr<ComponentDisplay> occupied) : occupied{occupied} {}
     void setOccupied(std::shared_ptr<ComponentDisplay> component) {occupied = component;}
-    void draw(int y, int x) const;
+    void draw(int row, int col) const;
 };
 
 #endif

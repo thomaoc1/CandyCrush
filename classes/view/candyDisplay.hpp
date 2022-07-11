@@ -12,7 +12,7 @@ class CandyDisplay : public ColouredComponent {
 
 public:
     CandyDisplay(int colour) : ColouredComponent(colour) {}
-    void draw(int y, int x) const override;
+    void draw(int row, int col) const override;
 };
 
 #endif

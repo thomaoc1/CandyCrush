@@ -1,6 +1,6 @@
 #include "constants.hpp"
 
-const double Constants::FPS = 1;
+const double Constants::FPS = 60;
 const double Constants::WINDOW_HEIGHT = 750;
 const double Constants::WINDOW_WIDTH = 750;
 const double Constants::GAME_WINDOW_Yi = (1.0 / 3.0) * Constants::WINDOW_HEIGHT;

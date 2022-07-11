@@ -491,6 +491,7 @@ bool Grid::clear() {
  * @return bool
  */
 bool Grid::directedDrop(int direction) {
+    int delta[3][2] = {{1, -1}, {1, 0}, {1, 1}};
     bool drop = false;
     for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
         for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
@@ -503,6 +504,7 @@ bool Grid::directedDrop(int direction) {
                 cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
                 drop = true; 
+                events.addAction(std::make_shared<Drop>(Point{i, j}, Point{i + delta[direction][0], j + delta[direction][1]}));
                 if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
             }
         }

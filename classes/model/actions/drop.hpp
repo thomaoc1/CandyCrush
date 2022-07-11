@@ -6,6 +6,7 @@
 
 class Drop : public Displacement {
 public:
+    Drop(const Point &c1, const Point &c2) : Displacement{{c1, c2}} {}
     int type() const override {return Constants::DROP;} 
 };
 

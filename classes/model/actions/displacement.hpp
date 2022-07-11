@@ -7,12 +7,11 @@
 
 class Displacement : public Action {
     typedef std::pair< Point, Point > PointPair; 
-    std::vector<PointPair> victims;
+    PointPair couple;
 public:
-    Displacement(const std::vector<PointPair> &victims) : victims{victims} {}
+    Displacement(PointPair couple) : couple{couple} {}
     virtual ~Displacement() {};
-    virtual void setVictims(const std::vector<PointPair> &vict) {victims = vict;}
-    virtual int victimeCount() const {return static_cast<int>(victims.size());}
-    virtual PointPair getVictims(int i) const {return victims[i];}
+    virtual Point getFirst() const {return couple.first;}
+    virtual Point getSecond() const {return couple.second;}
 };
 #endif

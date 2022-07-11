@@ -1,10 +1,10 @@
 #ifndef DROP_HPP
 #define DROP_HPP
 
-#include "action.hpp"
+#include "displacement.hpp"
 #include "../../constants/constants.hpp"
 
-class Drop : public Action {
+class Drop : public Displacement {
 public:
     int type() const override {return Constants::DROP;} 
 };

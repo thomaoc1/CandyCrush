@@ -18,12 +18,12 @@ void GridDisplay::drawCandy(int colour, int x, int y) const {
 }
 
 
-void GridDisplay::drawWrappedBomb(int colour, int x, int y) const {
-    
+void GridDisplay::drawWrappedBomb(int /* colour */, int /* x */, int /* y */) const {
+
 }
 
 
-void GridDisplay::drawStripedBomb(int colour, int x, int y) const {
+void GridDisplay::drawStripedBomb(int /* colour */, int /* x */, int /* y */) const {
 
 }
 

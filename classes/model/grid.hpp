@@ -22,6 +22,7 @@
 #include "actions/events.hpp"
 #include "actions/action.hpp"
 #include "actions/drop.hpp"
+#include "actions/swap.hpp"
 #include "actions/pop.hpp"
 #include "point.hpp"
 
@@ -32,13 +33,14 @@
 
 class Grid {
     std::vector< std::vector< Cell > > grid;
-
+    Events events;
     typedef std::pair< Cell *, int > CellIntPair;
     std::vector< CellIntPair > stripedBombs;
     std::vector< CellIntPair > wrappedBombs;
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
 public:
+    // I dont like this lol
     static const int COLS = 9;
     static const int ROWS = 9;
 
@@ -50,6 +52,7 @@ public:
     bool directedDrop(int direction);
     bool checkSwap(const Point &cell1, const Point &cell2);
     int getCell(int y, int x) const {return grid[y][x].package();}
+    Events getEvents() const {return events;}
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);

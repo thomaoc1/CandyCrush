@@ -11,7 +11,7 @@
 class Events {
     std::vector< std::shared_ptr<Action> > moves;
 public:
-    void addAction(std::shared_ptr<Action> action);
+    void addAction(std::shared_ptr<Action> action) {moves.push_back(action);}
     void reset() {moves.clear();}
     int eventLength() const {return static_cast<int>(moves.size());}
     std::shared_ptr<Action> getAction(int i) const {return moves[i];}

@@ -16,7 +16,7 @@
 
 
 /**
- * @brief Given 
+ * @brief Checks for Wrapped Bomb condition on a clear (L, X Shape clear with >=5 candies)
  * 
  * @param cColour
  * @param direction
@@ -44,10 +44,10 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
 
 
 /**
- * @brief
+ * @brief Checks for striped bomb condition (==4 candy clear)
  * 
- * @param
- * @param
+ * @param cell
+ * @param cColour
  * 
  * @return bool
  */
@@ -66,10 +66,10 @@ bool Grid::stripedBomb(Cell * cell, const std::vector< Cell * > &cColour) {
 
 
 /**
- * @brief
+ * @brief Checks for special bomb condition (==6 candy clear)
  * 
- * @param
- * @param
+ * @param cell
+ * @param cColour
  * 
  * @return bool
  */
@@ -87,6 +87,15 @@ bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
 }
 
 
+/**
+ * @brief Checks a cell for every clear condition given a direction to check. Marks all cells
+ *  which will be cleared with that cell.
+ * 
+ * @param cell
+ * @param direciton
+ * 
+ * @return std::vector< Cell * > 
+ */
 std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
     if (!cell->getOccupied() || cell->getPop()) return std::vector< Cell * >();
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
@@ -529,7 +538,10 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     if (!validity) {
         swap(c1, c2);
         std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
+    } 
+    else {
+        events.addAction(std::make_shared<Swap>(cell1, cell2));
+        std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl; 
     }
-    if (validity) std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl; 
     return validity;
 }

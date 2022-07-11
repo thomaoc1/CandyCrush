@@ -4,8 +4,10 @@
 #include "action.hpp"
 #include "../../constants/constants.hpp"
 
-class Swap : public Action {
+class Swap : public Displacement {
+    typedef std::pair< Point, Point > PointPair; 
 public:
+    Swap(const Point &c1, const Point &c2) : Displacement(std::vector<PointPair>{{c1, c2}}) {}
     int type() const override {return Constants::SWAP;}
 };
 

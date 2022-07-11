@@ -29,7 +29,7 @@ void GridDisplay::drawStripedBomb(int /* colour */, int /* x */, int /* y */) co
 
 
 void GridDisplay::drawWall(int x, int y) const {
-    fl_color(FL_BLACK);
+    // fl_color(FL_BLACK);
     fl_draw_box(FL_FLAT_BOX, Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi,
                     Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi, Constants::INTER_CELL,
                     Constants::INTER_CELL, FL_BLACK);
@@ -55,6 +55,9 @@ void GridDisplay::draw()  {
             }
         }
     }
+
+    // TODO: 1. Reconstruction of visual grid
+    // TODO: 2. Displaying grid
 
     for (int i = 0; i < Grid::ROWS; ++i) {
         for (int j = 0; j < Grid::COLS; ++j) {

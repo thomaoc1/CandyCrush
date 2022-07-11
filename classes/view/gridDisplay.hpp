@@ -10,10 +10,12 @@
 
 #include <memory>
 #include "../model/actions/events.hpp"
+#include "cellDisplay.hpp"
 
 class GridDisplay {
     const std::shared_ptr< const Grid > grid;
     Events events;
+    std::vector< std::vector<CellDisplay> > visualGrid;
 public:
     GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} {}
     void draw();

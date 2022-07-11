@@ -24,11 +24,6 @@ public:
     void draw();
 private:
     void reconstructGrid();
-    void drawCell(int x, int y) const;
-    void drawCandy(int colour, int x, int y) const;
-    void drawWrappedBomb(int colour, int x, int y) const;
-    void drawStripedBomb(int colour, int x, int y) const;
-    void drawWall(int x, int y) const;
 };
 
 #endif

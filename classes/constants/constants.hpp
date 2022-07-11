@@ -11,6 +11,7 @@ public:
     /* Model Constants */
     static enum directions{VERTICAL, HORIZONTAL} directions;
     static enum below{BELOW_LEFT, BELOW, BELOW_RIGHT} below;
+    static enum actions{SWAP, DROP, POP} actions;
 
     /* View Constants */
     static const double FPS;

@@ -10,7 +10,7 @@ public:
 
     /* Model Constants */
     static enum directions{VERTICAL, HORIZONTAL, } directions;
-    static enum below{BELOW, BELOW_LEFT, BELOW_RIGHT} below;
+    static enum below{BELOW_LEFT, BELOW, BELOW_RIGHT} below;
 
     /* View Constants */
     static const double FPS;

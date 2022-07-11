@@ -12,7 +12,7 @@ public:
     Action() {};
     virtual ~Action() {}
     virtual void setVictims(const std::vector<PointPair> &vict) {victims = vict;}
-    virtual int victimeCount() const {return victims.size();}
+    virtual int victimeCount() const {return static_cast<int>(victims.size());}
     virtual PointPair getVictims(int i) const {return victims[i];}
     virtual int type() const=0;
 };

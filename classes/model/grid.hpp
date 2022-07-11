@@ -19,6 +19,10 @@
 #include "wall.hpp"
 #include "wrappedBomb.hpp"
 #include "stripedBomb.hpp"
+#include "actions/events.hpp"
+#include "actions/action.hpp"
+#include "actions/drop.hpp"
+#include "actions/pop.hpp"
 #include "point.hpp"
 
 #include <vector>

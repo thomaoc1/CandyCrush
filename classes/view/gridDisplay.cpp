@@ -1,33 +1,6 @@
 #include "gridDisplay.hpp"
 
 
-void GridDisplay::drawCell(int x, int y) const {
-    fl_draw_box(FL_BORDER_FRAME, Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi,
-                    Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi, Constants::INTER_CELL,
-                    Constants::INTER_CELL, FL_BLACK);
-}
-
-
-void GridDisplay::drawCandy(int colour, int x, int y) const {
-    fl_color(colour);
-    fl_begin_polygon();
-    fl_circle(Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2, 
-                Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2, 
-                Constants::CANDY_RADIUS);
-    fl_end_polygon();
-}
-
-
-void GridDisplay::drawWrappedBomb(int /* colour */, int /* x */, int /* y */) const {
-
-}
-
-
-void GridDisplay::drawStripedBomb(int /* colour */, int /* x */, int /* y */) const {
-
-}
-
-
 void GridDisplay::drawWall(int x, int y) const {
     // fl_color(FL_BLACK);
     fl_draw_box(FL_FLAT_BOX, Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi,

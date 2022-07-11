@@ -17,6 +17,7 @@ public:
     CellDisplay() {}
     // CellDisplay(std::shared_ptr<ComponentDisplay> occupied) : occupied{occupied} {}
     void setOccupied(std::shared_ptr<ComponentDisplay> component) {occupied = component;}
+    void unOccupy() {occupied = nullptr;}
     void draw(int row, int col) const;
 };
 

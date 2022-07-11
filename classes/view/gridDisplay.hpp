@@ -9,12 +9,14 @@
 #include <FL/Fl_Box.H>
 
 #include <memory>
+#include "../model/actions/events.hpp"
 
 class GridDisplay {
     const std::shared_ptr< const Grid > grid;
+    Events events;
 public:
     GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} {}
-    void draw() const;
+    void draw();
 private:
     void drawCell(int x, int y) const;
     void drawCandy(int colour, int x, int y) const;

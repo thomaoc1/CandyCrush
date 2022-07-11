@@ -185,7 +185,12 @@ void Grid::pop(Cell * target) {
  * @brief Pops all cells in toPop vector
  */
 void Grid::popAll() {
-    for (auto &cell : toPop) pop(cell);
+    std::vector< Point > tmp = {};
+    for (auto &cell : toPop) {
+        tmp.emplace_back(cell->getLocation());
+        pop(cell);
+    }
+    events.addAction(std::make_shared<Pop>(std::move(tmp)));
     toPop.clear();
 }
 
@@ -417,11 +422,16 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
 
 Grid::Grid() {
     for (int row = 0; row < 9; ++row) {
-        grid.push_back(std::vector<Cell>(9));
+        std::vector<Cell> tmp = {};
         for (int col = 0; col < 9; ++col) {
-            insertComponent(row, col);
+            tmp.emplace_back(Cell(row, col));
         }
+        grid.emplace_back(std::move(tmp));
     }
+
+    for (int row = 0; row < 9; ++ row) 
+        for (int col = 0; col < 9; ++col) insertComponent(row, col);
+
     // Setting neighbours of each Cell
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
@@ -468,10 +478,10 @@ bool Grid::fill() {
  */
 bool Grid::clear() {
     bool clearGrid = true;
-    for (auto &row : grid) {
-        for (auto &cell : row) {
-            clearCheck(&cell, Constants::HORIZONTAL);
-            clearCheck(&cell, Constants::VERTICAL);
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            clearCheck(&grid[row][col], Constants::HORIZONTAL);
+            clearCheck(&grid[row][col], Constants::VERTICAL);
         }
     } 
     if (toPop.size() > 0) clearGrid = false;
@@ -540,6 +550,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
     } 
     else {
+        // resetEvents();
         events.addAction(std::make_shared<Swap>(cell1, cell2));
         std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl; 
     }

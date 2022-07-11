@@ -52,7 +52,9 @@ public:
     bool directedDrop(int direction);
     bool checkSwap(const Point &cell1, const Point &cell2);
     int getCell(int y, int x) const {return grid[y][x].package();}
+    bool occurence() const {return events.occurrence();}
     Events getEvents() const {return events;}
+    void resetEvents() {events.reset();}
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);

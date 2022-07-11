@@ -36,7 +36,26 @@ void GridDisplay::drawWall(int x, int y) const {
 }
 
 
-void GridDisplay::draw() const {
+void GridDisplay::draw()  {
+
+    /* In the case that something has happened that hasn't already happened */
+    if (events != grid->getEvents() && grid->occurence()) { 
+        events = grid->getEvents();
+        for (int i = 0; i < events.eventLength(); ++i) {
+            switch(events.getAction(i)->type()) {
+                case Constants::DROP:
+                    std::cout << "Dropped" << std::endl;
+                    break;
+                case Constants::SWAP:
+                    std::cout << "Swapped" << std::endl;
+                    break;
+                case Constants::POP:
+                    std::cout << "Popped" << std::endl;
+                    break;
+            }
+        }
+    }
+
     for (int i = 0; i < Grid::ROWS; ++i) {
         for (int j = 0; j < Grid::COLS; ++j) {
             drawCell(i, j);
@@ -99,7 +118,6 @@ void GridDisplay::draw() const {
                     drawWall(j, i);
                     break;
             }
-            
         }
     }
 }

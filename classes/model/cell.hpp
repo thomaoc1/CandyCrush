@@ -14,16 +14,19 @@
 #define CELL_HPP
 
 #include "gameComponent.hpp"
+#include "point.hpp"
 
 #include <memory>
 
 class Cell {
+    const int row, col;
     std::shared_ptr<GameComponent> occupied;
     std::vector< Cell * > vertNbs;
     std::vector< Cell * > horizNbs;
     std::vector< Cell * > belowNbs{nullptr, nullptr, nullptr};
     bool toPop = false;
 public:
+    Cell(int row, int col) : row{row}, col{col} {}
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
     void unOccupy() {setOccupied(nullptr);}
@@ -36,6 +39,7 @@ public:
     void popped() {toPop = false;}
     
     /* Getters */
+    Point getLocation() const {return Point{row, col};}
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}

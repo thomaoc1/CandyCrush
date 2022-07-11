@@ -58,7 +58,7 @@ private:
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
     bool stripedBomb(Cell * cell, const std::vector< Cell * > &cColour);
     bool specialBomb(Cell * cell, const std::vector< Cell * > &cColour);
-    std::vector< Cell * > clearCheck(Cell * cell, int direction);
+    void clearCheck(Cell * cell, int direction);
     /* Insertion / Suppression */
     void pop(Cell * target);
     void popAll();

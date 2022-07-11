@@ -94,10 +94,9 @@ bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
  * @param cell
  * @param direciton
  * 
- * @return std::vector< Cell * > 
  */
-std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
-    if (!cell->getOccupied() || cell->getPop()) return std::vector< Cell * >();
+void Grid::clearCheck(Cell * cell, int direction) {
+    if (!cell->getOccupied() || cell->getPop()) return;
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
     if (contColour[direction].size() >= 3) {
         /* Special Bomb Condition */
@@ -107,7 +106,6 @@ std::vector< Cell * > Grid::clearCheck(Cell * cell, int direction) {
         /* Striped Bomb Condition */
         stripedBomb(cell, contColour[direction]) ;   
     }
-    return toPop;
 }
 
 

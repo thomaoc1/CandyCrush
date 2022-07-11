@@ -1,14 +1,6 @@
 #include "gridDisplay.hpp"
 
 
-void GridDisplay::drawWall(int x, int y) const {
-    // fl_color(FL_BLACK);
-    fl_draw_box(FL_FLAT_BOX, Constants::INTER_CELL * x + Constants::GAME_WINDOW_Xi,
-                    Constants::INTER_CELL * y + Constants::GAME_WINDOW_Yi, Constants::INTER_CELL,
-                    Constants::INTER_CELL, FL_BLACK);
-}
-
-
 void GridDisplay::reconstructGrid() {
     for (int row = 0; row < Grid::ROWS; ++row) {
         visualGrid.push_back(std::vector<CellDisplay>(Grid::COLS));

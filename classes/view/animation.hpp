@@ -4,16 +4,18 @@
 class Animation;
 
 #include "colouredComponent.hpp"
+#include <memory>
 
 class Animation {
     ColouredComponent * component;
-    const int animationTime = 15;
-    int time = 0;
+protected:
+    const double animationTime = 60;
+    double time = 0;
 public:
     Animation(ColouredComponent * component) : component{component} {}
     virtual void draw()=0;
-    virtual bool animationOver() const {return time >= animationTime;}
-    virtual void incrementTime() {++time;}
+    virtual ColouredComponent * getComponent() {return component;}
+    virtual bool over() const {return time >= animationTime;}
 };
 
 #endif

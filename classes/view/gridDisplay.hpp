@@ -24,6 +24,7 @@ public:
     GridDisplay(const std::shared_ptr< const Grid > grid);
     void draw();
 private:
+    void componentMove(std::shared_ptr<Action> move);
     Point calculateCenter(int row, int col) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
     int associatedColour(int component) const;

@@ -11,7 +11,8 @@
 class CandyDisplay : public ColouredComponent {
 public:
     CandyDisplay(Point center, int colour) : ColouredComponent(center, colour) {}
-    void draw() const override;
+    void draw() override;
+    void drawShape() const override;
 };
 
 #endif

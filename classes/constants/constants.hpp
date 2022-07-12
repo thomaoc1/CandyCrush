@@ -24,7 +24,7 @@ public:
     static const double INTER_CELL;
     static const double CANDY_RADIUS;
 
-    static enum animations{NO_ANIMATION, DROP_ANIMATION, SWAP_ANIMATION, POP_ANIMATION} animations;
+    static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;
 
 
     static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, NONE, ALL, EMPTY, WALL, 

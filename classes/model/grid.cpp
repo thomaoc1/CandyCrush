@@ -510,7 +510,7 @@ bool Grid::directedDrop(int direction) {
                 cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
                 drop = true; 
-                events.addAction(std::make_shared<Displacement>(Point{i, j}, Point{i + delta[direction][0], j + delta[direction][1]}));
+                events.addAction(std::make_shared<Displacement>(Point{j, i}, Point{j + delta[direction][1], i + delta[direction][0]}));
                 if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
             }
         }

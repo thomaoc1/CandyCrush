@@ -6,7 +6,8 @@
 class WrappedDisplay : public ColouredComponent {
 public:
     WrappedDisplay(Point center, int colour) : ColouredComponent(center, colour) {}
-    void draw() const override;
+    void draw() override;
+    void drawShape() const override;
 };
 
 #endif

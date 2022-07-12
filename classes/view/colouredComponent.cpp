@@ -22,3 +22,9 @@ ColouredComponent::ColouredComponent(Point center, int colour) : ComponentDispla
             break;
     }
 }
+
+
+void ColouredComponent::moveAnimate(const Point &dest) {
+    if (animation && !animation->over()) return;
+    animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
+}

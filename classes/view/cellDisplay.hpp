@@ -15,7 +15,7 @@ class CellDisplay : public ComponentDisplay {
     const Point center;
 public:
     CellDisplay(const Point &center) : ComponentDisplay(center) {}
-    void draw() const override;
+    void draw() override;
 };
 
 #endif

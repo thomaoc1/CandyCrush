@@ -8,9 +8,10 @@ class ComponentDisplay {
     Point center;
 public:
     ComponentDisplay(Point center) : center{center} {}
-    virtual Point getCenter() const {return center;}
     virtual ~ComponentDisplay() {}
-    virtual void draw() const=0;
+    virtual Point getCenter() const {return center;}
+    virtual void setCenter(const Point &dest) {center = dest;}
+    virtual void draw()=0;
 };
 
 #endif

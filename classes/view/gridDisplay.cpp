@@ -1,6 +1,15 @@
 #include "gridDisplay.hpp"
 
 
+void GridDisplay::componentMove(std::shared_ptr<Action> move) {
+    // Starting indices in the visualComponents matrix
+    Point start = move->getStart();
+    Point dest = move->getDest();
+    std::shared_ptr<ColouredComponent> component = std::dynamic_pointer_cast<ColouredComponent>(visualComponents[start.y][start.x]);
+    component->moveAnimate(calculateCenter(dest.y, dest.x));
+}
+
+
 /**
  * @brief Calculates the center of the shape based on its location in the reconstructed
  *  matrix
@@ -144,6 +153,7 @@ void GridDisplay::draw()  {
             switch(events.getAction(i)->type()) {
                 case Constants::DISPLACEMENT:
                     std::cout << "Dropped" << std::endl;
+                    componentMove(events.getAction(i));
                     break;
                 case Constants::SWAP:
                     std::cout << "Swapped" << std::endl;
@@ -153,8 +163,7 @@ void GridDisplay::draw()  {
                     break;
             }
         }
-        reconstructGrid();
-    }
+    } 
     
     // TODO: 1. Reconstruction of visual grid
     // TODO: 2. Displaying grid

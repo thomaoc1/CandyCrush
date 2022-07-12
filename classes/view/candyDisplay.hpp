@@ -9,10 +9,9 @@
 #include <FL/Fl_Box.H>
 
 class CandyDisplay : public ColouredComponent {
-
 public:
-    CandyDisplay(int colour) : ColouredComponent(colour) {}
-    void draw(int row, int col) const override;
+    CandyDisplay(Point center, int colour) : ColouredComponent(center, colour) {}
+    void draw() const override;
 };
 
 #endif

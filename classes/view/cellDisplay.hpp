@@ -13,18 +13,12 @@ class CellDisplay;
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 
-class CellDisplay {
-    std::shared_ptr<ComponentDisplay> occupied;
+class CellDisplay : public ComponentDisplay {
     const Fl_Color frameColour = FL_BLACK;
-    const int row, col;
-    std::shared_ptr<DropAnimation> currentAnimation;
+    const Point center;
 public:
-    CellDisplay(std::shared_ptr<ComponentDisplay> occupied, int row, int col) : occupied{occupied}, row{row}, col{col} {}
-    void setOccupied(std::shared_ptr<ComponentDisplay> component) {occupied = component;}
-    void unOccupy() {occupied = nullptr;}
-    Point getLoc() const {return {row, col};}
-    void draw(int animation=Constants::NO_ANIMATION);
-    void drawNoAnimation(); 
+    CellDisplay(const Point &center) : ComponentDisplay(center) {}
+    void draw() const override;
 };
 
 #endif

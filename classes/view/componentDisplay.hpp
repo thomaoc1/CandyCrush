@@ -2,12 +2,15 @@
 #define COMPONENT_DISPLAY_HPP
 
 #include "../constants/constants.hpp"
+#include "../model/point.hpp"
 
 class ComponentDisplay {
+    Point center;
 public:
-    ComponentDisplay() {}
+    ComponentDisplay(Point center) : center{center} {}
+    virtual Point getCenter() const {return center;}
     virtual ~ComponentDisplay() {}
-    virtual void draw(int, int) const=0;
+    virtual void draw() const=0;
 };
 
 #endif

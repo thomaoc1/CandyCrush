@@ -13,7 +13,7 @@ class ColouredComponent : public ComponentDisplay {
 protected:
     Fl_Color fl_colour;
 public:
-    ColouredComponent(int colour);
+    ColouredComponent(Point center, int colour);
 };
 
 #endif

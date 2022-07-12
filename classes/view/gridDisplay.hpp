@@ -19,11 +19,16 @@ class GridDisplay {
     const std::shared_ptr< const Grid > grid;
     Events events;
     std::vector< std::vector<CellDisplay> > visualGrid;
+    std::vector< std::vector< std::shared_ptr<ComponentDisplay> > > visualComponents;
 public:
     GridDisplay(const std::shared_ptr< const Grid > grid);
     void draw();
 private:
+    Point calculateCenter(int row, int col) const;
+    std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
+    int associatedColour(int component) const;
     void reconstructGrid();
+    
 };
 
 #endif

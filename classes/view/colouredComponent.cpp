@@ -1,6 +1,6 @@
 #include "colouredComponent.hpp"
 
-ColouredComponent::ColouredComponent(int colour) {
+ColouredComponent::ColouredComponent(Point center, int colour) : ComponentDisplay(center) {
     switch(colour) {
         case Constants::RED:
             fl_colour = FL_RED;

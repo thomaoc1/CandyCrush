@@ -5,8 +5,8 @@
 
 class StripedDisplay : public ColouredComponent {
 public:
-    StripedDisplay(int colour) : ColouredComponent(colour) {}
-    void draw(int y, int x) const override;
+    StripedDisplay(Point center, int colour) : ColouredComponent(center, colour) {}
+    void draw() const override;
 };
 
 #endif

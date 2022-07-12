@@ -1,12 +1,26 @@
 #include "gridDisplay.hpp"
 
 
+/**
+ * @brief Calculates the center of the shape based on its location in the reconstructed
+ *  matrix
+ * 
+ * @param row 
+ * @param col 
+ * @return Point 
+ */
 Point GridDisplay::calculateCenter(int row, int col) const {
     return {static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2),
             static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2)};
 }
 
 
+/**
+ * @brief Returns associated colour for every component (namely bombs/specials)
+ * 
+ * @param component 
+ * @return int 
+ */
 int GridDisplay::associatedColour(int component) const {
     int ret;
     switch (component) {
@@ -42,6 +56,14 @@ int GridDisplay::associatedColour(int component) const {
 }
 
 
+/**
+ * @brief Factory method design pattern used to construct the correct object given its enum
+ * 
+ * @param row 
+ * @param col 
+ * @param component 
+ * @return std::shared_ptr<ComponentDisplay> 
+ */
 std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, int component) const {
     std::shared_ptr<ComponentDisplay> ret;
     Point center = calculateCenter(row, col);
@@ -78,6 +100,10 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
 }
 
 
+/**
+ * @brief Reconstructs the grid with visual representations
+ * 
+ */
 void GridDisplay::reconstructGrid() {
     visualComponents.clear();
     for (int row = 0; row < Grid::ROWS; ++row) {
@@ -87,10 +113,11 @@ void GridDisplay::reconstructGrid() {
     }
 }
 
-
-// public
-
-
+/**
+ * @brief Construct a new GridDisplay object
+ * 
+ * @param grid 
+ */
 GridDisplay::GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} {
     for (int row = 0; row < Grid::ROWS; ++row) {
         std::vector<CellDisplay> tmp;
@@ -104,6 +131,10 @@ GridDisplay::GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} 
 }
 
 
+/**
+ * @brief Displays the reconstructed grid and animations
+ * 
+ */
 void GridDisplay::draw()  {
 
     /* In the case that something has happened that hasn't already happened */

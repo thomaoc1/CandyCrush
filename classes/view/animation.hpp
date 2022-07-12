@@ -1,20 +1,20 @@
 #ifndef ANIMATION_HPP
 #define ANIMATION_HPP
 
-class Animation;
+class ComponentDisplay;
 
-#include "colouredComponent.hpp"
+#include "componentDisplay.hpp"
 #include <memory>
 
 class Animation {
-    ColouredComponent * component;
+    ComponentDisplay * component;
 protected:
     const double animationTime = 60;
     double time = 0;
 public:
-    Animation(ColouredComponent * component) : component{component} {}
+    Animation(ComponentDisplay * component) : component{component} {}
     virtual void draw()=0;
-    virtual ColouredComponent * getComponent() {return component;}
+    virtual ComponentDisplay * getComponent() {return component;}
     virtual bool over() const {return time >= animationTime;}
 };
 

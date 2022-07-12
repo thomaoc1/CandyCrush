@@ -5,11 +5,24 @@ void GridDisplay::componentMove(std::shared_ptr<Action> move) {
     // Starting indices in the visualComponents matrix
     Point start = move->getStart();
     Point dest = move->getDest();
-    std::shared_ptr<ColouredComponent> component = std::dynamic_pointer_cast<ColouredComponent>(visualComponents[start.y][start.x]);
-    component->moveAnimate(calculateCenter(dest.y, dest.x));
+    visualComponents[start.y][start.x]->moveAnimate(calculateCenter(dest.y, dest.x));
+}
+
+/*
+void GridDisplay::componentRemove(std::shared_ptr<Action> remove) {
+    Point coord = remove->getStart();
+    visualComponents[coord.x][coord.y] = nullptr;
 }
 
 
+void GridDisplay::componentSwap(std::shared_ptr<Action> swap) {
+    Point coord1 = swap->getStart();
+    Point coord2 = swap->getDest();
+    std::shared_ptr<ColouredComponent> component1 = std::dynamic_pointer_cast<ColouredComponent>(visualComponents[coord1.y][coord1.x]);
+    std::shared_ptr<ColouredComponent> component2 = std::dynamic_pointer_cast<ColouredComponent>(visualComponents[coord2.y][coord2.x]);
+    component1->moveAnimate(calculateCenter(coord2.y, coord2.x));
+    component2->moveAnimate(calculateCenter(coord1.y, coord1.x));
+*/
 /**
  * @brief Calculates the center of the shape based on its location in the reconstructed
  *  matrix
@@ -165,7 +178,19 @@ void GridDisplay::draw()  {
         }
     } 
     
-    // TODO: 1. Reconstruction of visual grid
+    bool animations = false; 
+    for (auto &row : visualComponents) {
+        for (auto &c : row) {
+            if (c->inAnimation()) {
+                animations = true;
+                break;
+            }
+        }
+    }
+    if (!animations) reconstructGrid();
+        
+
+
     // TODO: 2. Displaying grid
     for (int row = 0; row < Grid::ROWS; ++row) {
         for (int col = 0; col < Grid::COLS; ++col) {

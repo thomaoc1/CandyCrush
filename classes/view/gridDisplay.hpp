@@ -3,6 +3,7 @@
 
 #include "../model/actions/events.hpp"
 #include "../model/grid.hpp"
+#include "componentDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "candyDisplay.hpp"
 #include "stripedDisplay.hpp"

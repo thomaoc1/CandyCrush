@@ -548,7 +548,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
     } 
     else {
-        // resetEvents();
+        resetEvents();
         events.addAction(std::make_shared<Swap>(cell1, cell2));
         std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl; 
     }

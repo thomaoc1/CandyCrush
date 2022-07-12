@@ -1,6 +1,6 @@
-#include "colouredComponent.hpp"
+#include "componentDisplay.hpp"
 
-ColouredComponent::ColouredComponent(Point center, int colour) : ComponentDisplay(center) {
+ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) : center{center} {
     switch(colour) {
         case Constants::RED:
             fl_colour = FL_RED;
@@ -24,7 +24,27 @@ ColouredComponent::ColouredComponent(Point center, int colour) : ComponentDispla
 }
 
 
-void ColouredComponent::moveAnimate(const Point &dest) {
-    if (animation && !animation->over()) return;
+void ComponentDisplay::draw() {
+    if (inAnimation()) animation->draw();
+    else {
+        animation = nullptr;
+        drawShape();
+    }
+}
+
+
+bool ComponentDisplay::inAnimation() const {return animation && !animation->over();}
+
+
+void ComponentDisplay::moveAnimate(const Point &dest) {
+    if (inAnimation()) return;
     animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
+}
+
+void ComponentDisplay::swapAnimate(ComponentDisplay * other) {
+
+}
+
+void ComponentDisplay::removeAnimate() {
+
 }

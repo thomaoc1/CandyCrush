@@ -12,7 +12,8 @@ class WallDisplay : public ComponentDisplay {
     const Fl_Color fillColour = FL_BLACK;
 public:
     WallDisplay(Point center) : ComponentDisplay(center) {}
-    void draw() override;
+    void draw() override {drawShape();}
+    void drawShape() const override;
 };
 
 #endif

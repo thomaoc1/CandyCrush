@@ -1,11 +1,11 @@
 #ifndef STRIPED_DISPLAY_HPP
 #define STRIPED_DISPLAY_HPP
 
-#include "colouredComponent.hpp"
+#include "componentDisplay.hpp"
 
-class StripedDisplay : public ColouredComponent {
+class StripedDisplay : public ComponentDisplay {
 public:
-    StripedDisplay(Point center, int colour) : ColouredComponent(center, colour) {}
+    StripedDisplay(Point center, int colour) : ComponentDisplay(center, colour) {}
     void draw() override;
     void drawShape() const override;
 };

@@ -1,17 +1,16 @@
 #ifndef CANDY_DISPLAY_HPP
 #define CANDY_DISPLAY_HPP
 
-#include "colouredComponent.hpp"
+#include "componentDisplay.hpp"
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 
-class CandyDisplay : public ColouredComponent {
+class CandyDisplay : public ComponentDisplay {
 public:
-    CandyDisplay(Point center, int colour) : ColouredComponent(center, colour) {}
-    void draw() override;
+    CandyDisplay(Point center, int colour) : ComponentDisplay(center, colour) {}
     void drawShape() const override;
 };
 

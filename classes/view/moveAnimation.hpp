@@ -3,7 +3,7 @@
 
 #include "../model/point.hpp"
 #include "animation.hpp"
-#include "colouredComponent.hpp"
+#include "componentDisplay.hpp"
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
@@ -14,7 +14,8 @@ class MoveAnimation  : public Animation {
     Point start;
     Point dest;
 public:
-    MoveAnimation(ColouredComponent * component, const Point &start, const Point &dest) : Animation{component}, start{start}, dest{dest} {}
+    MoveAnimation(ComponentDisplay * component, const Point &start, const Point &dest) : Animation{component}, start{start}, dest{dest} {}
+    // ~MoveAnimation() {std::cout << "dead" << std::endl;}
     void draw() override;
 private:
     Point deltaCalculator(const Point &start) const;

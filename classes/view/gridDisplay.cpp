@@ -142,13 +142,13 @@ void GridDisplay::draw()  {
         events = grid->getEvents();
         for (int i = 0; i < events.eventLength(); ++i) {
             switch(events.getAction(i)->type()) {
-                case Constants::DROP:
+                case Constants::DISPLACEMENT:
                     std::cout << "Dropped" << std::endl;
                     break;
                 case Constants::SWAP:
                     std::cout << "Swapped" << std::endl;
                     break;
-                case Constants::POP:
+                case Constants::SUPPRESSION:
                     std::cout << "Popped" << std::endl;
                     break;
             }

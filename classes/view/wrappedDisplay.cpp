@@ -1,7 +1,7 @@
 #include "wrappedDisplay.hpp"
 
 void WrappedDisplay::draw() const {
-    fl_color(fl_colour);
+    fl_color(getFLColour());
     fl_begin_polygon();
     fl_circle(getCenter().x, 
                 getCenter().y, 

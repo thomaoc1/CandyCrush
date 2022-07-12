@@ -1,10 +1,7 @@
 #ifndef CELL_DISPLAY_HPP
 #define CELL_DISPLAY_HPP
 
-class CellDisplay;
-
 #include "componentDisplay.hpp"
-#include "dropAnimation.hpp"
 
 #include <memory>
 

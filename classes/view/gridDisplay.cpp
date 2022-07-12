@@ -2,70 +2,72 @@
 
 
 void GridDisplay::reconstructGrid() {
+    visualGrid.clear();
     for (int row = 0; row < Grid::ROWS; ++row) {
-        visualGrid.push_back(std::vector<CellDisplay>(Grid::COLS));
+        std::vector<CellDisplay> tmp = {};
         for (int col = 0; col < Grid::COLS; ++col) {
             int component = grid->getCell(row, col);
             switch (component) {
                 case Constants::RED:
-                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    tmp.push_back(CellDisplay{std::make_shared<CandyDisplay>(component), row, col});
                     break;        
                 case Constants::BLUE:
-                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    tmp.push_back(CellDisplay{std::make_shared<CandyDisplay>(component), row, col});
                     break;
                 case Constants::GREEN:
-                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    tmp.push_back(CellDisplay{std::make_shared<CandyDisplay>(component), row, col});
                     break;
                 case Constants::PURPLE:
-                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    tmp.push_back(CellDisplay{std::make_shared<CandyDisplay>(component), row, col});
                     break;
                 case Constants::YELLOW:
-                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    tmp.push_back(CellDisplay{std::make_shared<CandyDisplay>(component), row, col});
                     break;
                 case Constants::ORANGE:
-                    visualGrid[row][col].setOccupied(std::make_shared<CandyDisplay>(component));
+                    tmp.push_back(CellDisplay{std::make_shared<CandyDisplay>(component), row, col});
                     break;
                 case Constants::RED_STRIPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(Constants::RED));
+                    tmp.push_back(CellDisplay{std::make_shared<StripedDisplay>(Constants::RED), row, col});
                     break;
                 case Constants::BLUE_STRIPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(Constants::BLUE));
+                    tmp.push_back(CellDisplay{std::make_shared<StripedDisplay>(Constants::BLUE), row, col});
                     break;
                 case Constants::GREEN_STRIPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(Constants::GREEN));
+                    tmp.push_back(CellDisplay{std::make_shared<StripedDisplay>(Constants::GREEN), row, col});
                     break;
                 case Constants::YELLOW_STRIPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(Constants::YELLOW));
+                    tmp.push_back(CellDisplay{std::make_shared<StripedDisplay>(Constants::YELLOW), row, col});
                     break;
                 case Constants::PURPLE_STRIPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(Constants::PURPLE));
+                    tmp.push_back(CellDisplay{std::make_shared<StripedDisplay>(Constants::PURPLE), row, col});
                     break;
                 case Constants::ORANGE_STRIPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<StripedDisplay>(Constants::ORANGE));
+                    tmp.push_back(CellDisplay{std::make_shared<StripedDisplay>(Constants::ORANGE), row, col});
                     break;        
                 case Constants::RED_WRAPPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(Constants::RED));
+                    tmp.push_back(CellDisplay{std::make_shared<WrappedDisplay>(Constants::RED), row, col});
                     break;
                 case Constants::BLUE_WRAPPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(Constants::BLUE));
+                    tmp.push_back(CellDisplay{std::make_shared<WrappedDisplay>(Constants::BLUE), row, col});
                     break;
                 case Constants::GREEN_WRAPPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(Constants::GREEN));
+                    tmp.push_back(CellDisplay{std::make_shared<WrappedDisplay>(Constants::GREEN), row, col});
                     break;
                 case Constants::YELLOW_WRAPPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(Constants::YELLOW));
+                    tmp.push_back(CellDisplay{std::make_shared<WrappedDisplay>(Constants::YELLOW), row, col});
                     break;
                 case Constants::PURPLE_WRAPPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(Constants::PURPLE));
+                    tmp.push_back(CellDisplay{std::make_shared<WrappedDisplay>(Constants::PURPLE), row, col});
                     break;
                 case Constants::ORANGE_WRAPPED_BOMB:
-                    visualGrid[row][col].setOccupied(std::make_shared<WrappedDisplay>(Constants::ORANGE));
+                    tmp.push_back(CellDisplay{std::make_shared<WrappedDisplay>(Constants::ORANGE), row, col});
                     break;
                 case Constants::WALL:
-                    visualGrid[row][col].setOccupied(std::make_shared<WallDisplay>());
+                    tmp.push_back(CellDisplay{std::make_shared<WallDisplay>(), row, col});
                     break;
             }
         }
+        visualGrid.push_back(tmp);
     }
 }
 
@@ -101,7 +103,7 @@ void GridDisplay::draw()  {
     // TODO: 2. Displaying grid
     for (int row = 0; row < Grid::ROWS; ++row) {
         for (int col = 0; col < Grid::COLS; ++col) {
-            visualGrid[row][col].draw(row, col);
+            visualGrid[row][col].draw();
         }
     }
 }

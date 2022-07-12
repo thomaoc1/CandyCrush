@@ -13,12 +13,14 @@
 class CellDisplay {
     std::shared_ptr<ComponentDisplay> occupied;
     const Fl_Color frameColour = FL_BLACK;
+    const int row, col;
 public:
-    CellDisplay() {}
-    // CellDisplay(std::shared_ptr<ComponentDisplay> occupied) : occupied{occupied} {}
+    // CellDisplay() {}
+    CellDisplay(std::shared_ptr<ComponentDisplay> occupied, int row, int col) : occupied{occupied}, row{row}, col{col} {}
     void setOccupied(std::shared_ptr<ComponentDisplay> component) {occupied = component;}
     void unOccupy() {occupied = nullptr;}
-    void draw(int row, int col) const;
+    void draw() const;
+    void drawNoAnimation(); 
 };
 
 #endif

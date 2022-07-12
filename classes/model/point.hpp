@@ -14,10 +14,15 @@
 #define POINT_HPP
 
 struct Point{
-    Point() {}
-    Point(int x, int y) : x{x}, y{y} {}
     int x;
     int y;
+
+    Point() {}
+    Point(int x, int y) : x{x}, y{y} {}
+
+    Point operator+(const Point &other) const {return {x + other.x, y + other.y};}
+    Point operator-(const Point &other) const {return {x - other.x, y - other.y};}
+    void operator+=(const Point &other) {x += other.x; y += other.y;}
 };
 
 #endif

@@ -6,12 +6,8 @@
 #include <vector>
 
 class Displacement : public Action {
-    typedef std::pair< Point, Point > PointPair; 
-    PointPair couple;
 public:
-    Displacement(PointPair couple) : couple{couple} {}
-    virtual ~Displacement() {};
-    virtual Point getFirst() const {return couple.first;}
-    virtual Point getSecond() const {return couple.second;}
+    Displacement(const Point &start, const Point &dest) : Action(start, dest) {}
+    int type() const {return Constants::DISPLACEMENT;}
 };
 #endif

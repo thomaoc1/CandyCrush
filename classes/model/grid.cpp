@@ -185,12 +185,10 @@ void Grid::pop(Cell * target) {
  * @brief Pops all cells in toPop vector
  */
 void Grid::popAll() {
-    std::vector< Point > tmp = {};
     for (auto &cell : toPop) {
-        tmp.emplace_back(cell->getLocation());
+        events.addAction(std::make_shared<Suppression>(cell->getLocation()));
         pop(cell);
     }
-    events.addAction(std::make_shared<Pop>(std::move(tmp)));
     toPop.clear();
 }
 
@@ -512,7 +510,7 @@ bool Grid::directedDrop(int direction) {
                 cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
                 drop = true; 
-                events.addAction(std::make_shared<Drop>(Point{i, j}, Point{i + delta[direction][0], j + delta[direction][1]}));
+                events.addAction(std::make_shared<Displacement>(Point{i, j}, Point{i + delta[direction][0], j + delta[direction][1]}));
                 if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
             }
         }

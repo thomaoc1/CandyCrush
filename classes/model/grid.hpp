@@ -21,9 +21,9 @@
 #include "stripedBomb.hpp"
 #include "actions/events.hpp"
 #include "actions/action.hpp"
-#include "actions/drop.hpp"
+#include "actions/suppression.hpp"
+#include "actions/displacement.hpp"
 #include "actions/swap.hpp"
-#include "actions/pop.hpp"
 #include "point.hpp"
 
 #include <vector>

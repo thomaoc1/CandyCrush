@@ -5,9 +5,8 @@
 #include "../../constants/constants.hpp"
 
 class Swap : public Displacement {
-    typedef std::pair< Point, Point > PointPair; 
 public:
-    Swap(const Point &c1, const Point &c2) : Displacement({c1, c2}) {}
+    Swap(const Point &start, const Point &dest) : Displacement(start, dest) {}
     int type() const override {return Constants::SWAP;}
 };
 

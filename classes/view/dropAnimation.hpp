@@ -1,6 +1,8 @@
 #ifndef DROP_ANIMATION_HPP
 #define DROP_ANIMATION_HPP
 
+class DropAnimation;
+
 #include "../model/point.hpp"
 #include "cellDisplay.hpp"
 
@@ -27,10 +29,10 @@ class DropAnimation {
     CellDisplay * cell;
 public:
     DropAnimation(CellDisplay * cell) : cell{cell} {}
-    void draw();
+    void draw(const Point &dest);
     bool animationOver() const {return time < animationTime;}
 private:
-    Point currentTranslation();
+    Point currentTranslation(const Point &dest);
 };
 
 #endif

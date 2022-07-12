@@ -1,7 +1,10 @@
 #ifndef CELL_DISPLAY_HPP
 #define CELL_DISPLAY_HPP
 
+class CellDisplay;
+
 #include "componentDisplay.hpp"
+#include "dropAnimation.hpp"
 
 #include <memory>
 
@@ -14,12 +17,13 @@ class CellDisplay {
     std::shared_ptr<ComponentDisplay> occupied;
     const Fl_Color frameColour = FL_BLACK;
     const int row, col;
+    std::shared_ptr<DropAnimation> currentAnimation;
 public:
-    // CellDisplay() {}
     CellDisplay(std::shared_ptr<ComponentDisplay> occupied, int row, int col) : occupied{occupied}, row{row}, col{col} {}
     void setOccupied(std::shared_ptr<ComponentDisplay> component) {occupied = component;}
     void unOccupy() {occupied = nullptr;}
-    void draw() const;
+    Point getLoc() const {return {row, col};}
+    void draw(int animation=Constants::NO_ANIMATION);
     void drawNoAnimation(); 
 };
 

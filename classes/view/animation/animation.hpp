@@ -3,7 +3,7 @@
 
 class ComponentDisplay;
 
-#include "componentDisplay.hpp"
+#include "../componentDisplay.hpp"
 #include <memory>
 
 class Animation {
@@ -13,6 +13,7 @@ protected:
     double time = 0;
 public:
     Animation(ComponentDisplay * component) : component{component} {}
+    virtual ~Animation() {}
     virtual void draw()=0;
     virtual ComponentDisplay * getComponent() {return component;}
     virtual bool over() const {return time >= animationTime;}

@@ -1,9 +1,9 @@
 #ifndef MOVE_ANIMATION_HPP
 #define MOVE_ANIMATION_HPP
 
-#include "../model/point.hpp"
+#include "../../model/point.hpp"
 #include "animation.hpp"
-#include "componentDisplay.hpp"
+#include "../componentDisplay.hpp"
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
@@ -18,7 +18,6 @@ public:
     // ~MoveAnimation() {std::cout << "dead" << std::endl;}
     void draw() override;
 private:
-    Point deltaCalculator(const Point &start) const;
     Point currentTranslation() const;
 };
 

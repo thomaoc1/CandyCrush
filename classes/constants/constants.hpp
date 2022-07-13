@@ -39,6 +39,7 @@ public:
 
     
     static int randomCandy() {return candies[rand() % 6];}
+    static int associatedColour(int component);
 };
 
 

@@ -111,7 +111,7 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::YELLOW_STRIPED_BOMB:
         case Constants::PURPLE_STRIPED_BOMB:
         case Constants::ORANGE_STRIPED_BOMB:
-            ret = std::make_shared<StripedDisplay>(center, associatedColour(component));
+            ret = std::make_shared<StripedDisplay>(center, Constants::associatedColour(component));
             break;
         case Constants::RED_WRAPPED_BOMB: 
         case Constants::BLUE_WRAPPED_BOMB:
@@ -119,7 +119,7 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::YELLOW_WRAPPED_BOMB:
         case Constants::PURPLE_WRAPPED_BOMB:
         case Constants::ORANGE_WRAPPED_BOMB:
-            ret = std::make_shared<WrappedDisplay>(center, associatedColour(component));
+            ret = std::make_shared<WrappedDisplay>(center, Constants::associatedColour(component));
             break;
         case Constants::WALL:
             ret = std::make_shared<WallDisplay>(center);

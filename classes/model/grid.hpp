@@ -64,6 +64,7 @@ private:
     /* Insertion / Suppression */
     void pop(Cell * target);
     void popAll();
+    
     void insertComponent(int row, int col);
     void insertComponent(Cell * cell, int type);
     void placeWrappedCandies();

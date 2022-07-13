@@ -200,19 +200,13 @@ void Grid::popAll() {
  * @param col 
  */
 void Grid::insertComponent(int row, int col) {
-    const int component = rand() % 30;
-
-    // Special Bomb insertion
-    //if (component == 0) insert special
-
+    const int component = rand() % 81;
     // StripedBomb insertion
     if (component > 0 && component < 3) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
-
     // Wrapped insertion
     if (component >= 3 && component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
-
     // Wall insertion
-    if (component >= 7 && component < 12 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
+    if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
 
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
@@ -228,51 +222,41 @@ void Grid::insertComponent(int row, int col) {
  */
 void Grid::insertComponent(Cell * cell, int component) {
     switch (component) {
+        case Constants::RED:
+        case Constants::BLUE:
+        case Constants::GREEN:
+        case Constants::YELLOW:
+        case Constants::PURPLE:
+        case Constants::ORANGE:
+            cell->setOccupied(std::make_shared<Candy>(component));
+            break;
         case Constants::RED_STRIPED_BOMB:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::RED));
-            break;
         case Constants::BLUE_STRIPED_BOMB:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::BLUE));
-            break;
         case Constants::GREEN_STRIPED_BOMB:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::GREEN));
-            break;
         case Constants::YELLOW_STRIPED_BOMB:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::YELLOW));
-            break;
         case Constants::PURPLE_STRIPED_BOMB:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::PURPLE));
-            break;
         case Constants::ORANGE_STRIPED_BOMB:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::ORANGE));
+            cell->setOccupied(std::make_shared<StripedBomb>(Constants::associatedColour(component)));
             break;        
         case Constants::RED_WRAPPED_BOMB:
-            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::RED));
-            break;
         case Constants::BLUE_WRAPPED_BOMB:
-            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::BLUE));
-            break;
         case Constants::GREEN_WRAPPED_BOMB:
-            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::GREEN));
-            break;
         case Constants::YELLOW_WRAPPED_BOMB:
-            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::YELLOW));
-            break;
         case Constants::PURPLE_WRAPPED_BOMB:
-            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::PURPLE));
-            break;
         case Constants::ORANGE_WRAPPED_BOMB:
-            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::ORANGE));
+            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::associatedColour(component)));
             break;
         case Constants::WALL:
             cell->setOccupied(std::make_shared<Wall>());
             break;
-        default:
-            cell->setOccupied(std::make_shared<Candy>(component));
     }
 }
 
 
+/**
+ * @brief Places all wrapped candies from the wrappedBombs array
+ * 
+ */
 void Grid::placeWrappedCandies() {
     for (auto &cell : wrappedBombs) {
         switch (cell.second) {
@@ -300,7 +284,10 @@ void Grid::placeWrappedCandies() {
 }
 
 
-
+/**
+ * @brief Places all striped candies from the stripedBombs array
+ * 
+ */
 void Grid::placeStripedCandies() {
     for (auto &cell : stripedBombs) {
         switch (cell.second) {
@@ -389,7 +376,8 @@ std::vector< std::vector< Cell * > > Grid::getCrossNbs(int row, int col) {
 }
 
 /**
- * @brief
+ * @brief Returns all nbs bellow cell at grid[row][col] (left, center, right)
+ * 
  */
 std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
     std::vector< Cell * > nbs{nullptr, nullptr, nullptr}; 

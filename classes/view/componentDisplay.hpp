@@ -5,12 +5,10 @@ class Animation;
 
 #include "../constants/constants.hpp"
 #include "../model/point.hpp"
-#include "animation/animation.hpp"
-#include "animation/moveAnimation.hpp"
+#include "animation.hpp"
+#include "moveAnimation.hpp"
 
 #include <memory>
-#include <queue>
-
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Double_Window.H>
@@ -20,8 +18,7 @@ class ComponentDisplay {
     Point center;
 protected:
     Fl_Color fl_colour;
-    std::shared_ptr<Animation> animation;
-    std::queue< std::shared_ptr<Animation> > animations;
+    std::shared_ptr<Animation> animation{nullptr};
 public:
     ComponentDisplay(const Point &center) : center{center}, fl_colour{FL_BLACK} {}
     ComponentDisplay(Point center, int colour);

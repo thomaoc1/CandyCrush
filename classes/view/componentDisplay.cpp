@@ -1,6 +1,5 @@
 #include "componentDisplay.hpp"
 
-
 ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) : center{center} {
     switch(colour) {
         case Constants::RED:
@@ -26,19 +25,20 @@ ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) :
 
 
 void ComponentDisplay::draw() {
-    if (inAnimation()) animations.front()->draw();
-    else if (animations.size() > 1) {
-        animations.pop();
-        animations.front()->draw();
-    } else drawShape();
+    if (inAnimation()) animation->draw();
+    else {
+        animation = nullptr;
+        drawShape();
+    }
 }
 
 
-bool ComponentDisplay::inAnimation() const {return animations.size() && !animations.front()->over();}
+bool ComponentDisplay::inAnimation() const {return animation && !animation->over();}
 
 
 void ComponentDisplay::moveAnimate(const Point &dest) {
-    animations.emplace(std::make_shared<MoveAnimation>(this, getCenter(), dest));
+    if (inAnimation()) return;
+    animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
 }
 
 void ComponentDisplay::swapAnimate(ComponentDisplay * other) {
@@ -46,5 +46,5 @@ void ComponentDisplay::swapAnimate(ComponentDisplay * other) {
 }
 
 void ComponentDisplay::removeAnimate() {
-    
+
 }

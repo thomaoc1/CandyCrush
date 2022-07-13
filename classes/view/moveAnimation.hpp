@@ -17,8 +17,8 @@ public:
     MoveAnimation(ComponentDisplay * component, const Point &start, const Point &dest) : Animation{component}, start{start}, dest{dest} {}
     // ~MoveAnimation() {std::cout << "dead" << std::endl;}
     void draw() override;
+    Point finalLoc() const override {return dest;}
 private:
-    Point deltaCalculator(const Point &start) const;
     Point currentTranslation() const;
 };
 

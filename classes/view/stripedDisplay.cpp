@@ -8,9 +8,3 @@ void StripedDisplay::drawShape() const {
                 Constants::CANDY_RADIUS);
     fl_end_polygon();
 }
-
-
-void StripedDisplay::draw() {
-    if (animation) animation->draw();
-    else drawShape();
-}

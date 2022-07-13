@@ -11,7 +11,3 @@ void WrappedDisplay::drawShape() const {
 }
 
 
-void WrappedDisplay::draw() {
-    if (animation) animation->draw();
-    else drawShape();
-}

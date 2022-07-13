@@ -14,6 +14,7 @@ protected:
 public:
     Animation(ComponentDisplay * component) : component{component} {}
     virtual void draw()=0;
+    virtual Point finalLoc() const=0;
     virtual ComponentDisplay * getComponent() {return component;}
     virtual bool over() const {return time >= animationTime;}
 };

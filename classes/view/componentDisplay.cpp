@@ -1,5 +1,6 @@
 #include "componentDisplay.hpp"
 
+
 ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) : center{center} {
     switch(colour) {
         case Constants::RED:
@@ -25,26 +26,36 @@ ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) :
 
 
 void ComponentDisplay::draw() {
-    if (inAnimation()) animation->draw();
-    else {
-        animation = nullptr;
-        drawShape();
+    // First animation is still going
+    if (animationStatus()) animations.front()->draw();
+    else if (animations.size() > 1) {
+        animations.pop();
+        animations.front()->draw();
     }
+    else if (animations.size() > 0) animations.pop();
+    else drawShape();
 }
 
 
-bool ComponentDisplay::inAnimation() const {return animation && !animation->over();}
+bool ComponentDisplay::animationStatus() const {return animations.size() > 0 && !animations.front()->over();} 
+
+
+bool ComponentDisplay::inAnimation() const {return animations.size() > 0;} /*return animationStatus() || animations.size() > 1;*/
 
 
 void ComponentDisplay::moveAnimate(const Point &dest) {
-    if (inAnimation()) return;
-    animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
+    // gives center at time of animation
+    Point previousDest = getCenter();
+    if (inAnimation()) previousDest = animations.back()->finalLoc();
+    std::cout << "Start: " << fl_colour << ": " << previousDest.x << " " << previousDest.y << std::endl;
+    std::cout << "Finish: " << fl_colour << ": " << dest.x << " " << dest.y << std::endl;
+    animations.emplace(std::make_shared<MoveAnimation>(this, previousDest, dest));
 }
 
-void ComponentDisplay::swapAnimate(ComponentDisplay * other) {
+void ComponentDisplay::swapAnimate(ComponentDisplay * /* other */) {
 
 }
 
-void ComponentDisplay::removeAnimate() {
-
+void ComponentDisplay::popAnimate() {
+    
 }

@@ -5,16 +5,21 @@ void GridDisplay::componentMove(std::shared_ptr<Action> move) {
     // Starting indices in the visualComponents matrix
     Point start = move->getStart();
     Point dest = move->getDest();
+    std::cout << start.y << " " << start.x << std::endl;
+    std::cout << dest.y << " " << dest.x << std::endl;
+    
     visualComponents[start.y][start.x]->moveAnimate(calculateCenter(dest.y, dest.x));
+    visualComponents[dest.y][dest.x] = visualComponents[start.y][start.x];
+    //visualComponents[start.y][start.x] = std::shared_ptr<ComponentDisplay>{nullptr};
 }
 
-/*
+
 void GridDisplay::componentRemove(std::shared_ptr<Action> remove) {
     Point coord = remove->getStart();
     visualComponents[coord.x][coord.y] = nullptr;
 }
 
-
+/*
 void GridDisplay::componentSwap(std::shared_ptr<Action> swap) {
     Point coord1 = swap->getStart();
     Point coord2 = swap->getDest();
@@ -177,11 +182,12 @@ void GridDisplay::draw()  {
             }
         }
     } 
-    
+
+
     bool animations = false; 
     for (auto &row : visualComponents) {
         for (auto &c : row) {
-            if (c->inAnimation()) {
+            if (c && c->inAnimation()) {
                 animations = true;
                 break;
             }
@@ -190,12 +196,11 @@ void GridDisplay::draw()  {
     if (!animations) reconstructGrid();
         
 
-
     // TODO: 2. Displaying grid
     for (int row = 0; row < Grid::ROWS; ++row) {
         for (int col = 0; col < Grid::COLS; ++col) {
             visualGrid[row][col].draw();
-            visualComponents[row][col]->draw();
+            if (visualComponents[row][col]) visualComponents[row][col]->draw();
         }
     }
 }

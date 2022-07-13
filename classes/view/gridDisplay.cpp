@@ -9,7 +9,12 @@ void GridDisplay::componentMove(const Point &start, const Point &dest) {
 
 
 void GridDisplay::componentMove(std::shared_ptr<Action> move) {
-    componentMove(move->getStart(), move->getDest());
+    Point coord1 = move->getStart();
+    Point coord2 = move->getDest();
+    componentMove(coord1, coord2);
+    // std::shared_ptr<ComponentDisplay> tmp = std::move(visualComponents[coord1.y][coord1.x]);
+    // visualComponents[coord1.y][coord1.x] = std::move(visualComponents[coord2.y][coord2.x]);
+    // visualComponents[coord2.y][coord2.x] = std::move(tmp);
 }
 
 

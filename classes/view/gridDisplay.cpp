@@ -1,33 +1,30 @@
 #include "gridDisplay.hpp"
 
 
-void GridDisplay::componentMove(std::shared_ptr<Action> move) {
-    // Starting indices in the visualComponents matrix
-    Point start = move->getStart();
-    Point dest = move->getDest();
-    std::cout << start.y << " " << start.x << std::endl;
-    std::cout << dest.y << " " << dest.x << std::endl;
-    
+void GridDisplay::componentMove(const Point &start, const Point &dest) {
     visualComponents[start.y][start.x]->moveAnimate(calculateCenter(dest.y, dest.x));
     visualComponents[dest.y][dest.x] = visualComponents[start.y][start.x];
     //visualComponents[start.y][start.x] = std::shared_ptr<ComponentDisplay>{nullptr};
 }
 
 
-void GridDisplay::componentRemove(std::shared_ptr<Action> remove) {
-    Point coord = remove->getStart();
-    visualComponents[coord.x][coord.y] = nullptr;
+void GridDisplay::componentMove(std::shared_ptr<Action> move) {
+    componentMove(move->getStart(), move->getDest());
 }
 
-/*
+
+void GridDisplay::componentRemove(std::shared_ptr<Action> /*remove*/) {
+    // Point coord = remove->getStart();
+    // visualComponents[coord.x][coord.y] = std::shared_ptr<ComponentDisplay>{nullptr};
+}
+
+
 void GridDisplay::componentSwap(std::shared_ptr<Action> swap) {
     Point coord1 = swap->getStart();
     Point coord2 = swap->getDest();
-    std::shared_ptr<ColouredComponent> component1 = std::dynamic_pointer_cast<ColouredComponent>(visualComponents[coord1.y][coord1.x]);
-    std::shared_ptr<ColouredComponent> component2 = std::dynamic_pointer_cast<ColouredComponent>(visualComponents[coord2.y][coord2.x]);
-    component1->moveAnimate(calculateCenter(coord2.y, coord2.x));
-    component2->moveAnimate(calculateCenter(coord1.y, coord1.x));
-*/
+    visualComponents[coord1.y][coord1.x]->swapAnimate(visualComponents[coord2.y][coord2.x]);
+}
+
 /**
  * @brief Calculates the center of the shape based on its location in the reconstructed
  *  matrix
@@ -140,6 +137,7 @@ void GridDisplay::reconstructGrid() {
     }
 }
 
+
 /**
  * @brief Construct a new GridDisplay object
  * 
@@ -159,31 +157,43 @@ GridDisplay::GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} 
 
 
 /**
- * @brief Displays the reconstructed grid and animations
+ * @brief
  * 
+ * @return bool
  */
-void GridDisplay::draw()  {
-
-    /* In the case that something has happened that hasn't already happened */
+bool GridDisplay::eventHandler() {
+    bool occurence = false;
     if (events != grid->getEvents() && grid->occurence()) { 
+        occurence = true;
         events = grid->getEvents();
         for (int i = 0; i < events.eventLength(); ++i) {
-            switch(events.getAction(i)->type()) {
+            std::shared_ptr<Action> action = events.getAction(i);
+            switch(action->type()) {
                 case Constants::DISPLACEMENT:
                     std::cout << "Dropped" << std::endl;
-                    componentMove(events.getAction(i));
+                    componentMove(action);
                     break;
                 case Constants::SWAP:
                     std::cout << "Swapped" << std::endl;
+                    componentSwap(action);
                     break;
                 case Constants::SUPPRESSION:
                     std::cout << "Popped" << std::endl;
+                    componentRemove(action);
                     break;
             }
         }
     } 
+    return occurence;
+}
 
 
+/**
+ * @brief
+ * 
+ * @return bool
+ */
+bool GridDisplay::onGoingAnimation() const {
     bool animations = false; 
     for (auto &row : visualComponents) {
         for (auto &c : row) {
@@ -193,8 +203,19 @@ void GridDisplay::draw()  {
             }
         }
     }
-    if (!animations) reconstructGrid();
-        
+    return animations;
+}
+
+/**
+ * @brief Displays the reconstructed grid and animations
+ * 
+ */
+void GridDisplay::draw()  {
+
+    /* In the case that something has happened that hasn't already happened */
+    // Highly ineffecient, reconstructs grid 60 times per second when nothing is happenning
+    eventHandler();
+    if (!onGoingAnimation()) reconstructGrid();        
 
     // TODO: 2. Displaying grid
     for (int row = 0; row < Grid::ROWS; ++row) {

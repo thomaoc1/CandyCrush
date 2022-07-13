@@ -47,13 +47,12 @@ void ComponentDisplay::moveAnimate(const Point &dest) {
     // gives center at time of animation
     Point previousDest = getCenter();
     if (inAnimation()) previousDest = animations.back()->finalLoc();
-    std::cout << "Start: " << fl_colour << ": " << previousDest.x << " " << previousDest.y << std::endl;
-    std::cout << "Finish: " << fl_colour << ": " << dest.x << " " << dest.y << std::endl;
     animations.emplace(std::make_shared<MoveAnimation>(this, previousDest, dest));
 }
 
-void ComponentDisplay::swapAnimate(ComponentDisplay * /* other */) {
-
+void ComponentDisplay::swapAnimate(std::shared_ptr<ComponentDisplay>  other) {
+    moveAnimate(other->getCenter());
+    other->moveAnimate(getCenter());
 }
 
 void ComponentDisplay::popAnimate() {

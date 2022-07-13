@@ -33,7 +33,7 @@ public:
 
     virtual void moveAnimate(const Point &dest);
     virtual void popAnimate();
-    virtual void swapAnimate(ComponentDisplay * other);
+    virtual void swapAnimate(std::shared_ptr<ComponentDisplay> other);
 
     virtual void draw();
     virtual void drawShape() const=0;

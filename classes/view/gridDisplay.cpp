@@ -151,4 +151,5 @@ void GridDisplay::draw()  {
 
 void GridDisplay::componentSwap(const Point &c1, const Point &c2) {
     // visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
+    std::cout << c1.y << " " << c1.x << std::endl;
 }

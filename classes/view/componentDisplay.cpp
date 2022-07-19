@@ -27,30 +27,16 @@ ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) :
 
 void ComponentDisplay::draw() {
     // First animation is still going
-    if (animationStatus()) animations.front()->draw();
-    else if (animations.size() > 1) {
-        animations.pop();
-        animations.front()->draw();
-    }
-    else if (animations.size() > 0) animations.pop();
+    if (inAnimation()) animation->draw();
     else drawShape();
 }
 
 
-bool ComponentDisplay::animationStatus() const {return animations.size() > 0 && !animations.front()->over();} 
-
-
-bool ComponentDisplay::inAnimation() const {return animations.size() > 0;} /*return animationStatus() || animations.size() > 1;*/
+bool ComponentDisplay::inAnimation() const {return animation && animation->over();} /*return animationStatus() || animations.size() > 1;*/
 
 
 void ComponentDisplay::moveAnimate(const Point &dest) {
-    // gives center at time of animation
-    Point previousDest = getCenter();
-    if (inAnimation()) {
-        previousDest = animations.back()->finalLoc();
-    }
-    std::cout << fl_colour << ": " << previousDest.x << " " << previousDest.y << std::endl;
-    animations.emplace(std::make_shared<MoveAnimation>(this, previousDest, dest));
+    animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
 }
 
 void ComponentDisplay::swapAnimate(std::shared_ptr<ComponentDisplay>  other) {

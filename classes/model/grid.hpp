@@ -21,7 +21,7 @@
 #include "stripedBomb.hpp"
 #include "point.hpp"
 
-// class GridObserver;
+class GridObserver;
 
 #include "../control/gridObserver.hpp"
 

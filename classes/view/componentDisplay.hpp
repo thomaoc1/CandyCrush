@@ -20,14 +20,13 @@ class ComponentDisplay {
     Point center;
 protected:
     Fl_Color fl_colour;
-    std::queue< std::shared_ptr<Animation> > animations;
+    std::shared_ptr<Animation> animation;
 public:
     ComponentDisplay(const Point &center) : center{center}, fl_colour{FL_BLACK} {}
     ComponentDisplay(Point center, int colour);
     virtual ~ComponentDisplay() {}
 
     virtual Point getCenter() const {return center;}
-    virtual bool animationStatus() const;
     virtual bool inAnimation() const;
     virtual void setCenter(const Point &dest) {center = dest;}
 

@@ -9,12 +9,14 @@ class Grid;
 #include <vector>
 #include <iostream>
 
+
 class GridObserver {
     GridDisplay * gridDisplay;
 public:
-    void setObserver(GridDisplay * gridDisplay) {this->gridDisplay = gridDisplay;}
 
-    void notifySwap(const Point &/*coord1*/, const Point &/*coord2*/) const {}
+    void setObserver(GridDisplay * display);
+
+    void notifySwap(const Point &coord1, const Point &coord2) const;
 
     void notifyDropDown(const std::vector<Point> &/*drops*/) const {}
     void notifyDropLeft(const Point &/*coord*/) const {}

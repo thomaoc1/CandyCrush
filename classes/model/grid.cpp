@@ -204,7 +204,6 @@ void Grid::insertComponent(int row, int col) {
     if (component >= 3 && component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
     // Wall insertion
     if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
-
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
 }
@@ -559,7 +558,7 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
  -----------------------------------------------------------*/
 
 
-Grid::Grid() {
+Grid::Grid(/*GridObserver * observer*/) /* : observer{observer}*/ {
     for (int row = 0; row < 9; ++row) {
         std::vector<Cell> tmp = {};
         for (int col = 0; col < 9; ++col) {
@@ -597,7 +596,7 @@ Grid::Grid() {
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
-        // Notify
+        observer->notifySwap(cell1, cell2);
         clean();
     }
 }

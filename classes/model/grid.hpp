@@ -21,14 +21,21 @@
 #include "stripedBomb.hpp"
 #include "point.hpp"
 
+// class GridObserver;
+
+#include "../control/gridObserver.hpp"
+
 #include <vector>
 #include <memory>
 #include <iostream>
 #include <algorithm>
 
 class Grid {
-    std::vector< std::vector< Cell > > grid;
+    GridObserver * observer;
+
+    using CellMatrix = std::vector< std::vector< Cell > >;
     using CellIntPair = std::pair< Cell *, int >;
+    CellMatrix grid;
     std::vector< CellIntPair > stripedBombs;
     std::vector< CellIntPair > wrappedBombs;
     std::vector< Cell * > toPop; 
@@ -37,8 +44,8 @@ public:
     // I dont like this lol
     static const int COLS = 9;
     static const int ROWS = 9;
-    Grid();
-    Grid(const std::string &level);
+    Grid(/*GridObserver * observer*/);
+    Grid(/*GridObserver * observer,*/const std::string &level);
     int getCell(int y, int x) const {return grid[y][x].package();}
     void swap(const Point &cell1, const Point &cell2);
 private:

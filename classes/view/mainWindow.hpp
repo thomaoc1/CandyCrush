@@ -4,7 +4,9 @@
 #include "../constants/constants.hpp"
 #include "../model/grid.hpp"
 #include "../control/gridControl.hpp"
+#include "../control/gridObserver.hpp"
 #include "gridDisplay.hpp"
+
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -13,6 +15,7 @@
 #include <string>
 
 class MainWindow : public Fl_Window {
+    GridObserver gridObserver;
     std::shared_ptr<Grid> grid;
     GridControl gridControl;
     GridDisplay gridDisplay;

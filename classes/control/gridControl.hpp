@@ -6,7 +6,6 @@
 #include <FL/Fl.H>
 
 #include <string>
-#include <cmath>
 
 class GridControl {
     std::shared_ptr<Grid> grid;
@@ -20,7 +19,6 @@ public:
     void drop();
     void clean();
     bool clearGrid();
-    void gameLoop();
 private:
     void clickEvent(const Point &mouseLoc);
     bool coordInGame(const Point &mouseLoc) const;

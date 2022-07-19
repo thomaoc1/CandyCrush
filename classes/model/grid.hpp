@@ -37,33 +37,39 @@ public:
     // I dont like this lol
     static const int COLS = 9;
     static const int ROWS = 9;
-
     Grid();
     Grid(const std::string &level);
-    /* Grid manipulation */
-    bool fill();
-    bool clear();
-    bool directedDrop(int direction);
-    bool checkSwap(const Point &cell1, const Point &cell2);
     int getCell(int y, int x) const {return grid[y][x].package();}
+    void swap(const Point &cell1, const Point &cell2);
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
     bool stripedBomb(Cell * cell, const std::vector< Cell * > &cColour);
     bool specialBomb(Cell * cell, const std::vector< Cell * > &cColour);
     void clearCheck(Cell * cell, int direction);
+
     /* Insertion / Suppression */
     void pop(Cell * target);
     void popAll();
-    
     void insertComponent(int row, int col);
     void insertComponent(Cell * cell, int type);
     void placeWrappedCandies();
     void placeStripedCandies();
-    void swap(Cell * c1, Cell * c2);
+    void exchangeCells(Cell * c1, Cell * c2);
+
+    /* Grid manipulation */
+    bool fillTop();
+    void completeFill();
+    bool clear();
+    bool directedDrop(int direction);
+    void completeDrop();
+    void clean();
+    bool checkSwap(const Point &cell1, const Point &cell2);
+
     /* Sequential colour fetching */
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
     std::vector< std::vector< Cell * > > continuousColour(Cell * current);
+
     /* Neighbour Fetching */
     std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);
     std::vector< Cell * > getBelowNbs(int row, int col);

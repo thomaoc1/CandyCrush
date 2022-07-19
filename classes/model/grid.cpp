@@ -318,12 +318,168 @@ void Grid::placeStripedCandies() {
  * @param c1
  * @param c2
  */
-void Grid::swap(Cell * c1, Cell * c2) {
+void Grid::exchangeCells(Cell * c1, Cell * c2) {
     std::shared_ptr<GameComponent> tmp = std::move(c1->getOccupied());
     c1->setOccupied(std::move(c2->getOccupied()));
     c2->setOccupied(std::move(tmp));
 }
 
+
+/*-----------------------------------------------------------
+ *                                                          *
+ *                      Grid Cleaning                       *
+ *                                                          *
+ -----------------------------------------------------------*/
+
+
+/**
+ * @brief Fills top row of grid
+ */
+bool Grid::fillTop() {
+    bool filled = false;
+    for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
+        if (grid[0][i].getOccupied()) continue;
+        insertComponent(0, i);
+        filled = true;
+    }
+    return filled;
+}   
+
+
+/**
+ * @brief Repeatedly fills the top row
+ * 
+ */
+void Grid::completeFill() {
+    while(fillTop()) {
+        completeDrop();
+    }
+}
+
+
+/**
+ * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
+ *  false if not.
+ *
+ * @return bool 
+ * 
+ */
+bool Grid::clear() {
+    bool clearGrid = true;
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
+            clearCheck(&grid[row][col], Constants::HORIZONTAL);
+            clearCheck(&grid[row][col], Constants::VERTICAL);
+        }
+    } 
+    if (toPop.size() > 0) clearGrid = false;
+    popAll();
+    placeWrappedCandies();
+    placeStripedCandies();
+    return clearGrid;
+}
+
+
+/**
+ * @brief Drop GameComponent in given direction if possible. If a candy has been dropped, returns true.
+ * 
+ * @param direction
+ * @return bool
+ * 
+ */
+bool Grid::directedDrop(int direction) {
+    //int delta[3][2] = {{1, -1}, {1, 0}, {1, 1}};
+    bool drop = false;
+    for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
+        for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
+            Cell &cell = grid[i][j]; 
+            if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;   
+
+            Cell * cellBeneath = cell.getBelow(direction);
+
+            if (cellBeneath && !cellBeneath->getOccupied()) {
+                cellBeneath->setOccupied(cell.getOccupied());
+                cell.unOccupy();
+                drop = true; 
+                
+                // Questionable but I think it makes sense
+                fillTop();
+                
+                if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
+            }
+        }
+        if (drop && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
+    }
+    return drop;
+}
+
+
+/**
+ * @brief Continously drops candies in correct order / direction
+ * 
+ */
+void Grid::completeDrop() {
+    bool dropComplete = false;
+    while (!dropComplete)  {
+        // Drop down until can't
+        while(directedDrop(Constants::BELOW)) std::cout << "=== Drop Down ===" << std::endl;
+        // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
+        // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
+        if (!directedDrop(Constants::BELOW_LEFT)) {
+            // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
+            // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
+            if (!directedDrop(Constants::BELOW_RIGHT)) dropComplete = true;
+            else std::cout << "=== Drop Right ===" << std::endl;
+        } 
+        else std::cout << "=== Drop Left ===" << std::endl;
+    }
+}
+
+
+/**
+ * @brief Verifies validity of a Candy swap. If valid, executes swap.
+ * 
+ * @param cell1
+ * @param cell2
+ * @return bool
+ * 
+ */
+bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
+    bool validity = false;
+    Cell * c1 = &grid[cell1.y][cell1.x];
+    Cell * c2 = &grid[cell2.y][cell2.x];
+    if (!(c1->getOccupied() || c2->getOccupied()) 
+            || c1->package() == Constants::WALL
+            || c2->package() == Constants::WALL) return validity;
+
+    exchangeCells(c1, c2);
+    std::vector< std::vector< Cell * > > c1_nbs = continuousColour(c1);
+    std::vector< std::vector< Cell * > > c2_nbs = continuousColour(c2);
+
+    for (int i = 0; i < 2; ++i) {
+        if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
+    }
+
+    if (!validity) {
+        exchangeCells(c1, c2);
+        std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
+    } 
+    else std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl;
+    return validity;
+}
+
+
+/**
+ * @brief Combines all grid cleaning mechanics to clean up the grid
+ * 
+ */
+void Grid::clean() {
+    while (!clear()) {
+        std::cout << "=== Clear ===" << std::endl;
+        completeDrop();
+        completeFill();
+    } 
+}
 
 /*-----------------------------------------------------------
  *                                                          *
@@ -432,106 +588,16 @@ Grid::Grid() {
 }
 
 
-/*-----------------------------------------------------------
- *                                                          *
- *                      Grid Cleaning                       *
- *                                                          *
- -----------------------------------------------------------*/
-
-
 /**
- * @brief Fills grid
- */
-bool Grid::fill() {
-    bool filled = false;
-    for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
-        if (grid[0][i].getOccupied()) continue;
-        insertComponent(0, i);
-        filled = true;
-    }
-    return filled;
-}   
-
-
-/**
- * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
- *  false if not.
- *
- * @return bool 
- */
-bool Grid::clear() {
-    bool clearGrid = true;
-    for (int row = 0; row < ROWS; ++row) {
-        for (int col = 0; col < COLS; ++col) {
-            clearCheck(&grid[row][col], Constants::HORIZONTAL);
-            clearCheck(&grid[row][col], Constants::VERTICAL);
-        }
-    } 
-    if (toPop.size() > 0) clearGrid = false;
-    popAll();
-    placeWrappedCandies();
-    placeStripedCandies();
-    return clearGrid;
-}
-
-
-/**
- * @brief Drop GameComponent in given direction if possible. If a candy has been dropped, returns true.
- * 
- * @param direction
- * @return bool
- */
-bool Grid::directedDrop(int direction) {
-    // int delta[3][2] = {{1, -1}, {1, 0}, {1, 1}};
-    bool drop = false;
-    for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
-        for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
-            Cell &cell = grid[i][j]; 
-            if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;   
-
-            Cell * cellBeneath = cell.getBelow(direction);
-
-            if (cellBeneath && !cellBeneath->getOccupied()) {
-                cellBeneath->setOccupied(cell.getOccupied());
-                cell.unOccupy();
-                drop = true; 
-                fill();
-                if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
-            }
-        }
-        if (drop && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
-    }
-    return drop;
-}
-
-
-/**
- * @brief Verifies validity of a Candy swap. If valid, executes swap.
+ * @brief Attempts swap on grid between two cells and, if the swap is successful, cleans the grid
  * 
  * @param cell1
  * @param cell2
- * @return bool
+ * 
  */
-bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
-    bool validity = false;
-    Cell * c1 = &grid[cell1.y][cell1.x];
-    Cell * c2 = &grid[cell2.y][cell2.x];
-    if (!(c1->getOccupied() || c2->getOccupied()) 
-            || c1->package() == Constants::WALL
-            || c2->package() == Constants::WALL) return validity;
-
-    swap(c1, c2);
-    std::vector< std::vector< Cell * > > c1_nbs = continuousColour(c1);
-    std::vector< std::vector< Cell * > > c2_nbs = continuousColour(c2);
-
-    for (int i = 0; i < 2; ++i) {
-        if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
+void Grid::swap(const Point &cell1, const Point &cell2) {
+    if (checkSwap(cell1, cell2)) {
+        // Notify
+        clean();
     }
-
-    if (!validity) {
-        swap(c1, c2);
-        std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
-    } 
-    else std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl;
-    return validity;
 }

@@ -1,7 +1,6 @@
 #ifndef GRID_DISPLAY_HPP
 #define GRID_DISPLAY_HPP
 
-#include "../model/actions/events.hpp"
 #include "../model/grid.hpp"
 #include "componentDisplay.hpp"
 #include "cellDisplay.hpp"
@@ -18,19 +17,13 @@
 
 class GridDisplay {
     const std::shared_ptr< const Grid > grid;
-    Events events;
     std::vector< std::vector<CellDisplay> > visualGrid;
     std::vector< std::vector< std::shared_ptr<ComponentDisplay> > > visualComponents;
 public:
     GridDisplay(const std::shared_ptr< const Grid > grid);
     void draw();
 private:
-    bool eventHandler();
-    bool onGoingAnimation() const;
     void componentMove(const Point &start, const Point &dest);
-    void componentMove(std::shared_ptr<Action> move);
-    void componentSwap(std::shared_ptr<Action> swap);
-    void componentRemove(std::shared_ptr<Action> remove);
     Point calculateCenter(int row, int col) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
     int associatedColour(int component) const;

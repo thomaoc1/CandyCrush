@@ -46,7 +46,10 @@ bool ComponentDisplay::inAnimation() const {return animations.size() > 0;} /*ret
 void ComponentDisplay::moveAnimate(const Point &dest) {
     // gives center at time of animation
     Point previousDest = getCenter();
-    if (inAnimation()) previousDest = animations.back()->finalLoc();
+    if (inAnimation()) {
+        previousDest = animations.back()->finalLoc();
+    }
+    std::cout << fl_colour << ": " << previousDest.x << " " << previousDest.y << std::endl;
     animations.emplace(std::make_shared<MoveAnimation>(this, previousDest, dest));
 }
 

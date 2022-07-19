@@ -185,10 +185,7 @@ void Grid::pop(Cell * target) {
  * @brief Pops all cells in toPop vector
  */
 void Grid::popAll() {
-    for (auto &cell : toPop) {
-        events.addAction(std::make_shared<Suppression>(cell->getLocation()));
-        pop(cell);
-    }
+    for (auto &cell : toPop) pop(cell);
     toPop.clear();
 }
 
@@ -485,7 +482,7 @@ bool Grid::clear() {
  * @return bool
  */
 bool Grid::directedDrop(int direction) {
-    int delta[3][2] = {{1, -1}, {1, 0}, {1, 1}};
+    // int delta[3][2] = {{1, -1}, {1, 0}, {1, 1}};
     bool drop = false;
     for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
         for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
@@ -498,7 +495,7 @@ bool Grid::directedDrop(int direction) {
                 cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
                 drop = true; 
-                events.addAction(std::make_shared<Displacement>(Point{j, i}, Point{j + delta[direction][1], i + delta[direction][0]}));
+                fill();
                 if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
             }
         }
@@ -535,10 +532,6 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         swap(c1, c2);
         std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
     } 
-    else {
-        resetEvents();
-        events.addAction(std::make_shared<Swap>(cell1, cell2));
-        std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl; 
-    }
+    else std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl;
     return validity;
 }

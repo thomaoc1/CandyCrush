@@ -17,11 +17,14 @@
 
 class GridDisplay {
     const std::shared_ptr< const Grid > grid;
-    std::vector< std::vector<CellDisplay> > visualGrid;
-    std::vector< std::vector< std::shared_ptr<ComponentDisplay> > > visualComponents;
+    using CellMatrix = std::vector< std::vector<CellDisplay> >;
+    using ComponentMatrix = std::vector< std::vector< std::shared_ptr<ComponentDisplay> > >;
+    CellMatrix visualGrid;
+    ComponentMatrix visualComponents;
 public:
     GridDisplay(const std::shared_ptr< const Grid > grid);
     void draw();
+    void componentSwap(const Point &start, const Point &dest);
 private:
     void componentMove(const Point &start, const Point &dest);
     Point calculateCenter(int row, int col) const;

@@ -1,5 +1,6 @@
 #include "gridDisplay.hpp"
 
+
 /**
  * @brief Calculates the center of the shape based on its location in the reconstructed
  *  matrix
@@ -137,7 +138,7 @@ GridDisplay::GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} 
  */
 void GridDisplay::draw()  {
 
-    reconstructGrid();      
+    // reconstructGrid();      
 
     // TODO: 2. Displaying grid
     for (int row = 0; row < Grid::ROWS; ++row) {
@@ -146,4 +147,8 @@ void GridDisplay::draw()  {
             if (visualComponents[row][col]) visualComponents[row][col]->draw();
         }
     }
+}
+
+void GridDisplay::componentSwap(const Point &c1, const Point &c2) {
+    // visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
 }

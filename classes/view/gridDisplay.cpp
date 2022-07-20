@@ -100,35 +100,16 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
 }
 
 
-/**
- * @brief Reconstructs the grid with visual representations
- * 
- */
-void GridDisplay::reconstructGrid() {
-    visualComponents.clear();
-    for (int row = 0; row < Grid::ROWS; ++row) {
-        std::vector< std::shared_ptr<ComponentDisplay> > tmp;
-        for (int col = 0; col < Grid::COLS; ++col) tmp.push_back(factoryMethod(row, col, grid->getCell(row, col)));
-        visualComponents.push_back(tmp);
-    }
-}
-
-
-/**
- * @brief Construct a new GridDisplay object
- * 
- * @param grid 
- */
-GridDisplay::GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} {
-    for (int row = 0; row < Grid::ROWS; ++row) {
+GridDisplay::GridDisplay() {
+    for (int i = 0; i < 9; ++i) visualComponents.push_back({});
+    for (int row = 0; row < 9; ++row) {
         std::vector<CellDisplay> tmp;
-        for (int col = 0; col < Grid::COLS; ++col) {
+        for (int col = 0; col < 9; ++col) {
             tmp.push_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi),
                                 static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi)});
         }
         visualGrid.push_back(std::move(tmp));
     }
-    reconstructGrid();
 }
 
 
@@ -137,19 +118,21 @@ GridDisplay::GridDisplay(const std::shared_ptr< const Grid > grid) : grid{grid} 
  * 
  */
 void GridDisplay::draw()  {
-
-    // reconstructGrid();      
-
-    // TODO: 2. Displaying grid
-    for (int row = 0; row < Grid::ROWS; ++row) {
-        for (int col = 0; col < Grid::COLS; ++col) {
+    for (int row = 0; row < 9; ++row) {
+        for (int col = 0; col < 9; ++col) {
             visualGrid[row][col].draw();
             if (visualComponents[row][col]) visualComponents[row][col]->draw();
         }
     }
 }
 
-void GridDisplay::componentSwap(const Point &c1, const Point &c2) {
-    // visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
-    std::cout << c1.y << " " << c1.x << std::endl;
+
+void GridDisplay::notifyInsert(const Point &coord, int type) {
+    visualComponents[coord.y].push_back(factoryMethod(coord.y, coord.x, type));
+}
+
+
+void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
+    std::cout << "Swap notified received !" << std::endl;
+    visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
 }

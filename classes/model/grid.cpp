@@ -558,7 +558,7 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
  -----------------------------------------------------------*/
 
 
-Grid::Grid(/*GridObserver * observer*/) /* : observer{observer}*/ {
+Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
     for (int row = 0; row < 9; ++row) {
         std::vector<Cell> tmp = {};
         for (int col = 0; col < 9; ++col) {
@@ -567,8 +567,13 @@ Grid::Grid(/*GridObserver * observer*/) /* : observer{observer}*/ {
         grid.emplace_back(std::move(tmp));
     }
 
-    for (int row = 0; row < 9; ++ row) 
-        for (int col = 0; col < 9; ++col) insertComponent(row, col);
+    for (int row = 0; row < 9; ++ row) {
+        for (int col = 0; col < 9; ++col) {
+            insertComponent(row, col);
+            observer->notifyInsert(Point{col, row}, grid[row][col].package());
+        } 
+    }
+        
 
     // Setting neighbours of each Cell
     for (int row = 0; row < 9; ++row) {

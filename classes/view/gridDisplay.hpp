@@ -1,7 +1,6 @@
 #ifndef GRID_DISPLAY_HPP
 #define GRID_DISPLAY_HPP
 
-#include "../model/grid.hpp"
 #include "componentDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "candyDisplay.hpp"
@@ -16,22 +15,27 @@
 #include <FL/Fl_Box.H>
 
 class GridDisplay {
-    const std::shared_ptr< const Grid > grid;
     using CellMatrix = std::vector< std::vector<CellDisplay> >;
     using ComponentMatrix = std::vector< std::vector< std::shared_ptr<ComponentDisplay> > >;
+    using CoordColour = std::pair< Point, int >;
     CellMatrix visualGrid;
     ComponentMatrix visualComponents;
 public:
-    GridDisplay(const std::shared_ptr< const Grid > grid);
+    GridDisplay();
     void draw();
-    void componentSwap(const Point &start, const Point &dest);
+    void notifyInsert(const Point &coord, int type);
+    void notifyFill(const std::vector<CoordColour> &fill);
+    void notifyDropDown(const std::vector<Point> &drop);
+    void notifyDropLeft(const Point &drop);
+    void notifyDropRight(const Point &drop);
+    void notifyPop(const std::vector<Point> &pop);
+    void notifySwap(const Point &start, const Point &dest);
 private:
     void componentMove(const Point &start, const Point &dest);
     Point calculateCenter(int row, int col) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
     int associatedColour(int component) const;
-    void reconstructGrid();
-    
+    void initialiseGrid();
 };
 
 #endif

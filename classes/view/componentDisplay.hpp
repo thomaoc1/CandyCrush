@@ -2,7 +2,7 @@
 #define COMPONENT_DISPLAY_HPP
 
 #include "../constants/constants.hpp"
-#include "../model/point.hpp"
+#include "../shared/point.hpp"
 
 #include <memory>
 #include <FL/Fl.H>

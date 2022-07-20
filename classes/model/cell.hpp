@@ -14,7 +14,7 @@
 #define CELL_HPP
 
 #include "gameComponent.hpp"
-#include "point.hpp"
+#include "../shared/point.hpp"
 
 #include <memory>
 
@@ -27,6 +27,7 @@ class Cell {
     bool toPop = false;
 public:
     Cell(int row, int col) : row{row}, col{col} {}
+
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
     void unOccupy() {setOccupied(nullptr);}

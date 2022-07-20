@@ -19,7 +19,7 @@
 #include "wall.hpp"
 #include "wrappedBomb.hpp"
 #include "stripedBomb.hpp"
-#include "point.hpp"
+#include "../shared/point.hpp"
 
 #include "../view/gridDisplay.hpp"
 

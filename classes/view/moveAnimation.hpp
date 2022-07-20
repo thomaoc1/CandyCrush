@@ -1,7 +1,7 @@
 #ifndef MOVE_ANIMATION_HPP
 #define MOVE_ANIMATION_HPP
 
-#include "../model/point.hpp"
+#include "../shared/point.hpp"
 #include "animation.hpp"
 #include "componentDisplay.hpp"
 

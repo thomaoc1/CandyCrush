@@ -12,4 +12,5 @@ void FillAnimation::draw() {
         time = animationTime;
     }
     else getComponent()->setSize(newSize); 
+    getComponent()->drawShape();
 }

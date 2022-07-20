@@ -9,7 +9,7 @@ class ComponentDisplay;
 class Animation {
     ComponentDisplay * component;
 protected:
-    const double animationTime = 60;
+    const double animationTime = 30;
     double time = 0;
 public:
     Animation(ComponentDisplay * component) : component{component} {}

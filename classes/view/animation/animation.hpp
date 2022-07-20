@@ -3,7 +3,7 @@
 
 class ComponentDisplay;
 
-#include "../componentDisplay.hpp"
+#include "../components/componentDisplay.hpp"
 #include <memory>
 
 class Animation {

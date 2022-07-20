@@ -3,7 +3,7 @@
 
 #include "../../shared/point.hpp"
 #include "animation.hpp"
-#include "../componentDisplay.hpp"
+#include "../components/componentDisplay.hpp"
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>

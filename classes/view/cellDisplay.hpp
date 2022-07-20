@@ -1,7 +1,7 @@
 #ifndef CELL_DISPLAY_HPP
 #define CELL_DISPLAY_HPP
 
-#include "componentDisplay.hpp"
+#include "components/componentDisplay.hpp"
 
 #include <memory>
 

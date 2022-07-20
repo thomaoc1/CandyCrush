@@ -1,12 +1,12 @@
 #ifndef GRID_DISPLAY_HPP
 #define GRID_DISPLAY_HPP
 
-#include "componentDisplay.hpp"
+#include "components/componentDisplay.hpp"
+#include "components/candyDisplay.hpp"
+#include "components/stripedDisplay.hpp"
+#include "components/wrappedDisplay.hpp"
+#include "components/wallDisplay.hpp"
 #include "cellDisplay.hpp"
-#include "candyDisplay.hpp"
-#include "stripedDisplay.hpp"
-#include "wrappedDisplay.hpp"
-#include "wallDisplay.hpp"
 
 #include <memory>
 #include <vector>

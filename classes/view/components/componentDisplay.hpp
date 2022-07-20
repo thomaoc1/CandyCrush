@@ -1,8 +1,8 @@
 #ifndef COMPONENT_DISPLAY_HPP
 #define COMPONENT_DISPLAY_HPP
 
-#include "../constants/constants.hpp"
-#include "../shared/point.hpp"
+#include "../../constants/constants.hpp"
+#include "../../shared/point.hpp"
 
 #include <memory>
 #include <FL/Fl.H>

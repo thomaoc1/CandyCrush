@@ -17,9 +17,21 @@ void GridDisplay::nextAnimation() {
             performDrop(Constants::BELOW_RIGHT);
             break;
         case animations::Fill:
+            performFill();
             break;
     }
     animationQueue.pop();
+}
+
+
+void GridDisplay::performFill() {
+    std::vector<CoordColour> toFill = fillQueue.front();
+    fillQueue.pop();
+    for (auto &cc : toFill) {
+        Point coord = cc.first;
+        visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, cc.second);
+        visualComponents[coord.y][coord.x]->fillAnimate();
+    }
 }
 
 
@@ -29,9 +41,13 @@ void GridDisplay::performDrop(int direction) {
     dropQueue.pop();
    
     for (auto &p : toDrop) {
-        visualComponents[p.y][p.x]->moveAnimate(calculateCenter(p + delta[direction]));
-        std::cout << "Start = " << p << std::endl;
-        std::cout << "End = " << p + delta[direction] << std::endl;
+        // Temporary
+        if (!visualComponents[p.y][p.x]) return;
+        
+        Point dest = p + delta[direction];
+        visualComponents[p.y][p.x]->moveAnimate(calculateCenter(dest));
+        visualComponents[dest.y][dest.x] = visualComponents[p.y][p.x]; 
+        visualComponents[p.y][p.x] = nullptr;
     } 
 }
 
@@ -40,11 +56,10 @@ void GridDisplay::performPop() {
     std::vector<Point> toPop = popQueue.front();
     popQueue.pop();
     for (auto &p : toPop) {
-        std::cout << p.y << " " << p.x << std::endl;
-        // std::cout << visualComponents[p.y][p.x]->getColor() << std::endl;
+        // Temporary check
+        if (!visualComponents[p.y][p.x]) return;
         visualComponents[p.y][p.x]->popAnimate();
     }
-    // std::cout << "============" << std::endl;
 }
 
 
@@ -187,8 +202,20 @@ void GridDisplay::draw()  {
 }
 
 
-void GridDisplay::notifyInsert(const Point &coord, int type) {
+void GridDisplay::notifyInit(const Point &coord, int type) {
     visualComponents[coord.y].push_back(factoryMethod(coord.y, coord.x, type));
+}
+
+
+void GridDisplay::notifyInsert(const Point &coord, int type) {
+    animationQueue.push(animations::Fill);
+    fillQueue.push({{coord, type}});
+}
+
+
+void GridDisplay::notifyFill(const std::vector<CoordColour> &toFill) {
+    animationQueue.push(animations::Fill);
+    fillQueue.push(toFill);
 }
 
 

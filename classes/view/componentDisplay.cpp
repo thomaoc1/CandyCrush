@@ -1,6 +1,7 @@
 #include "componentDisplay.hpp"
 #include "moveAnimation.hpp"
 #include "popAnimation.hpp"
+#include "fillAnimation.hpp"
 
 ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{center}, size{size} {
     switch(colour) {
@@ -33,6 +34,11 @@ void ComponentDisplay::draw() {
 
 
 bool ComponentDisplay::inAnimation() const {return animation && !animation->over();} 
+
+
+void ComponentDisplay::fillAnimate() {
+    if (!inAnimation()) animation = std::make_shared<FillAnimation>(this);
+}
 
 
 void ComponentDisplay::moveAnimate(const Point &dest) {

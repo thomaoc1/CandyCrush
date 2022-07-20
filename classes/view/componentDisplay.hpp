@@ -31,6 +31,7 @@ public:
     virtual void setCenter(const Point &dest) {center = dest;}
     virtual void setSize(int newSize) {size = newSize;}
 
+    virtual void fillAnimate();
     virtual void moveAnimate(const Point &dest);
     virtual void popAnimate();
     virtual void swapAnimate(std::shared_ptr<ComponentDisplay> other);

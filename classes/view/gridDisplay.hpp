@@ -32,6 +32,7 @@ class GridDisplay {
 public:
     GridDisplay();
     void draw();
+    void notifyInit(const Point &coord, int type);
     void notifyInsert(const Point &coord, int type);
     
     void notifyFill(const std::vector<CoordColour> &fill);

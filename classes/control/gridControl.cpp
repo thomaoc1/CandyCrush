@@ -43,6 +43,7 @@ void GridControl::clickEvent(const Point &mouseLoc) {
     clicked = true;
     click = mouseLoc;
     clickToIndex = coordToCell(mouseLoc);
+    std::cout << "Click: " << grid->getCell(clickToIndex.y, clickToIndex.x) << std::endl;
 }
 
 

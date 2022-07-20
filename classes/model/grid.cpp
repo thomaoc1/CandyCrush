@@ -263,21 +263,27 @@ void Grid::placeWrappedCandies() {
         switch (cell.second) {
             case Constants::RED:
                 insertComponent(cell.first, Constants::RED_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::RED_WRAPPED_BOMB);
                 break;
             case Constants::BLUE:
                 insertComponent(cell.first, Constants::BLUE_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::BLUE_WRAPPED_BOMB);
                 break;
             case Constants::GREEN:
                 insertComponent(cell.first, Constants::GREEN_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::GREEN_WRAPPED_BOMB);
                 break;
             case Constants::YELLOW:
                 insertComponent(cell.first, Constants::YELLOW_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::YELLOW_WRAPPED_BOMB);
                 break;
             case Constants::PURPLE:
                 insertComponent(cell.first, Constants::PURPLE_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::PURPLE_WRAPPED_BOMB);
                 break;
             case Constants::ORANGE:
                 insertComponent(cell.first, Constants::ORANGE_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::ORANGE_WRAPPED_BOMB);
                 break;
         }  
     }
@@ -294,21 +300,27 @@ void Grid::placeStripedCandies() {
         switch (cell.second) {
             case Constants::RED:
                 insertComponent(cell.first, Constants::RED_STRIPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::RED_WRAPPED_BOMB);
                 break;
             case Constants::BLUE:
                 insertComponent(cell.first, Constants::BLUE_STRIPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::BLUE_WRAPPED_BOMB);
                 break;
             case Constants::GREEN:
                 insertComponent(cell.first, Constants::GREEN_STRIPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::GREEN_WRAPPED_BOMB);
                 break;
             case Constants::YELLOW:
                 insertComponent(cell.first, Constants::YELLOW_STRIPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::YELLOW_WRAPPED_BOMB);
                 break;
             case Constants::PURPLE:
                 insertComponent(cell.first, Constants::PURPLE_STRIPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::PURPLE_WRAPPED_BOMB);
                 break;
             case Constants::ORANGE:
                 insertComponent(cell.first, Constants::ORANGE_STRIPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::ORANGE_WRAPPED_BOMB);
                 break;
         } 
     }
@@ -338,15 +350,18 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
 
 /**
  * @brief Fills top row of grid
+ * 
  */
 bool Grid::fillTop() {
-    bool filled = false;
+    using CoordColour = std::pair< Point, int >;
+    std::vector<CoordColour> toFill;
     for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
         if (grid[0][i].getOccupied()) continue;
         insertComponent(0, i);
-        filled = true;
+        toFill.push_back(CoordColour{{i, 0}, grid[0][i].package()});
     }
-    return filled;
+    if (toFill.size() > 0) observer->notifyFill(toFill);
+    return toFill.size() > 0;
 }   
 
 
@@ -392,7 +407,7 @@ bool Grid::clear() {
  * 
  */
 bool Grid::directedDrop(int direction) {
-    bool drop = false;
+    std::vector<Point> toDrop;
     for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
         for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
             Cell &cell = grid[i][j]; 
@@ -403,17 +418,17 @@ bool Grid::directedDrop(int direction) {
             if (cellBeneath && !cellBeneath->getOccupied()) {
                 cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
-                drop = true; 
                 toDrop.push_back(cell.getLocation());
-                // Questionable but I think it makes sense
-                fillTop();
-                
                 if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
             }
         }
-        if (drop && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
+        if (toDrop.size() > 0 && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
     }
-    return drop;
+    if (toDrop.size() > 0) {
+        observer->notifyDrop(toDrop, direction);
+        fillTop();
+    } 
+    return toDrop.size() > 0;
 }
 
 
@@ -426,25 +441,16 @@ void Grid::completeDrop() {
     while (!dropComplete)  {
         // Drop down until can't
         while(directedDrop(Constants::BELOW)) std::cout << "=== Drop Down ===" << std::endl;
-        observer->notifyDrop(toDrop, Constants::BELOW);
-        toDrop.clear();
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
         if (!directedDrop(Constants::BELOW_LEFT)) {
             // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
             if (!directedDrop(Constants::BELOW_RIGHT)) dropComplete = true;
-            else {
-                std::cout << "=== Drop Right ===" << std::endl;
-                observer->notifyDrop(toDrop, Constants::BELOW_RIGHT);
-                toDrop.clear();
-            }
+            else std::cout << "=== Drop Right ===" << std::endl;
+    
         } 
-        else {
-            observer->notifyDrop(toDrop, Constants::BELOW_LEFT);
-            toDrop.clear();
-            std::cout << "=== Drop Left ===" << std::endl;
-        }
+        else std::cout << "=== Drop Left ===" << std::endl;
     }
 }
 
@@ -526,7 +532,6 @@ std::vector< std::vector< Cell * > > Grid::getCrossNbs(int row, int col) {
         if (! (row_d >= static_cast<int>(grid[0].size()) 
             || row_d < 0)) {
                 verticalNbs.push_back(&grid[row_d][col]);
-                
             }
         
         // Validity of horizontal shift
@@ -584,11 +589,10 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
     for (int row = 0; row < 9; ++ row) {
         for (int col = 0; col < 9; ++col) {
             insertComponent(row, col);
-            observer->notifyInsert(Point{col, row}, grid[row][col].package());
+            observer->notifyInit(Point{col, row}, grid[row][col].package());
         } 
     }
         
-
     // Setting neighbours of each Cell
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {

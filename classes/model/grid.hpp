@@ -36,8 +36,6 @@ class Grid {
     std::vector< CellIntPair > stripedBombs;
     std::vector< CellIntPair > wrappedBombs;
 
-    std::vector<Point> toDrop;
-
     std::shared_ptr<GridDisplay> observer;
     
     std::vector< Cell * > toPop; 

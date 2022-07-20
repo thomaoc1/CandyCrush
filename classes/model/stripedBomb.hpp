@@ -7,7 +7,7 @@ class StripedBomb : public Candy {
 public:
     StripedBomb(int colour) : Candy(colour) {}
     StripedBomb() : Candy(Constants::randomCandy()) {}
-    int package() const override;
+    int type() const override;
 };
 
 #endif

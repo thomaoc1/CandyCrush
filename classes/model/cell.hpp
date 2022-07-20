@@ -46,8 +46,8 @@ public:
     Cell * getBelow(int direction) const {return belowNbs[direction];}
     bool getPop() const {return toPop;}
     
-    int getColour() const {return occupied ? occupied->getColour() : Constants::components::NONE;}
-    int package() const {return occupied ? occupied->package() : Constants::components::EMPTY;};
+    int getColour() const {return occupied ? occupied->getColour() : Constants::NONE;}
+    int type() const {return occupied ? occupied->type() : Constants::EMPTY;};
 };
 
 

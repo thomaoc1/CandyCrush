@@ -47,7 +47,7 @@ public:
 
     Grid(std::shared_ptr<GridDisplay> observer);
     Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);
-    int getCell(int y, int x) const {return grid[y][x].package();}
+    int getCell(int y, int x) const {return grid[y][x].type();}
     void swap(const Point &cell1, const Point &cell2);
 private:
     /* Grid Cleaning */

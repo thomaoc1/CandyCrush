@@ -26,7 +26,7 @@ public:
     GameComponent() : colour{Constants::components::NONE} {}
     virtual ~GameComponent() {};
     virtual int getColour() const {return colour;}
-    virtual int package() const=0;
+    virtual int type() const=0;
 };
 
 #endif

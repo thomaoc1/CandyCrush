@@ -30,7 +30,7 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
         int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
         if (cross[perpendicular].size() >= 3) {
             isWrapped = true;
-            wrappedBombs.push_back({cell, cell->package()});
+            wrappedBombs.push_back({cell, cell->type()});
             for (auto &pCell : cross[perpendicular]) {
                 pCell->willPop();
                 toPop.push_back(pCell);
@@ -54,7 +54,7 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
 bool Grid::stripedBomb(Cell * cell, const std::vector< Cell * > &cColour) {
     bool isStriped = false;
     if (cColour.size() == 4) {
-        stripedBombs.push_back({cell, cell->package()});
+        stripedBombs.push_back({cell, cell->type()});
         isStriped = true;
     }
     for (auto &cell : cColour) {
@@ -358,7 +358,7 @@ bool Grid::fillTop() {
     for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
         if (grid[0][i].getOccupied()) continue;
         insertComponent(0, i);
-        toFill.push_back(CoordColour{{i, 0}, grid[0][i].package()});
+        toFill.push_back(CoordColour{{i, 0}, grid[0][i].type()});
     }
     if (toFill.size() > 0) observer->notifyFill(toFill);
     return toFill.size() > 0;
@@ -411,7 +411,7 @@ bool Grid::directedDrop(int direction) {
     for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
         for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
             Cell &cell = grid[i][j]; 
-            if (!cell.getOccupied() || cell.package() == Constants::WALL) continue;   
+            if (!cell.getOccupied() || cell.type() == Constants::WALL) continue;   
 
             Cell * cellBeneath = cell.getBelow(direction);
 
@@ -468,8 +468,8 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     Cell * c1 = &grid[cell1.y][cell1.x];
     Cell * c2 = &grid[cell2.y][cell2.x];
     if (!(c1->getOccupied() || c2->getOccupied()) 
-            || c1->package() == Constants::WALL
-            || c2->package() == Constants::WALL) return validity;
+            || c1->type() == Constants::WALL
+            || c2->type() == Constants::WALL) return validity;
 
     exchangeCells(c1, c2);
     std::vector< std::vector< Cell * > > c1_nbs = continuousColour(c1);
@@ -481,9 +481,9 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
 
     if (!validity) {
         exchangeCells(c1, c2);
-        std::cout << "Failed to swap " << c1->package() << " and " << c2->package() << std::endl;
+        std::cout << "Failed to swap " << c1->type() << " and " << c2->type() << std::endl;
     } 
-    else std::cout << "Swapped " << c1->package() << " and " << c2->package() << std::endl;
+    else std::cout << "Swapped " << c1->type() << " and " << c2->type() << std::endl;
     return validity;
 }
 
@@ -589,7 +589,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
     for (int row = 0; row < 9; ++ row) {
         for (int col = 0; col < 9; ++col) {
             insertComponent(row, col);
-            observer->notifyInit(Point{col, row}, grid[row][col].package());
+            observer->notifyInit(Point{col, row}, grid[row][col].type());
         } 
     }
         

@@ -1,6 +1,6 @@
 #include "wrappedBomb.hpp"
 
-int WrappedBomb::package() const {
+int WrappedBomb::type() const {
     int repr;
     switch (getColour()) {
         case Constants::RED:

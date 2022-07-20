@@ -1,6 +1,6 @@
 #include "stripedBomb.hpp"
 
-int StripedBomb::package() const {
+int StripedBomb::type() const {
     int repr;
     switch (getColour()) {
         case Constants::RED:

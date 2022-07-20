@@ -13,7 +13,7 @@
 #ifndef GAMECOMPONENT_HPP
 #define GAMECOMPONENT_HPP
 
-#include "../constants/constants.hpp"
+#include "../../constants/constants.hpp"
 
 #include <string>
 #include <vector>
@@ -26,7 +26,7 @@ public:
     GameComponent() : colour{Constants::components::NONE} {}
     virtual ~GameComponent() {};
     virtual int getColour() const {return colour;}
-    virtual int package() const=0;
+    virtual int type() const=0;
 };
 
 #endif

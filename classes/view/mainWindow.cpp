@@ -1,14 +1,16 @@
 #include "mainWindow.hpp"
 
-MainWindow::MainWindow() : Fl_Window(Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT, "CandySmash"), grid{std::make_shared<Grid>()}, 
-                                        gridControl{grid}, gridDisplay{grid} {
+MainWindow::MainWindow() : Fl_Window(Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT, "CandySmash"),
+                            gridDisplay{std::make_shared<GridDisplay>()},
+                            grid{std::make_shared<Grid>(gridDisplay)}, 
+                            gridControl{grid} {
     Fl::add_timeout(1.0/Constants::FPS, Timer_CB, this);
     resizable(this);
 }
 
 void MainWindow::draw() {
     Fl_Window::draw();
-    gridDisplay.draw();
+    gridDisplay->draw();
 }
 
 int MainWindow::handle(int event) {

@@ -13,17 +13,21 @@
 #ifndef CELL_HPP
 #define CELL_HPP
 
-#include "gameComponent.hpp"
+#include "../components/gameComponent.hpp"
+#include "../../shared/point.hpp"
 
 #include <memory>
 
 class Cell {
+    const int row, col;
     std::shared_ptr<GameComponent> occupied;
     std::vector< Cell * > vertNbs;
     std::vector< Cell * > horizNbs;
     std::vector< Cell * > belowNbs{nullptr, nullptr, nullptr};
     bool toPop = false;
 public:
+    Cell(int row, int col) : row{row}, col{col} {}
+
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
     void unOccupy() {setOccupied(nullptr);}
@@ -36,14 +40,15 @@ public:
     void popped() {toPop = false;}
     
     /* Getters */
+    Point getLocation() const {return Point{col, row};}
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}
     Cell * getBelow(int direction) const {return belowNbs[direction];}
     bool getPop() const {return toPop;}
     
-    int getColour() const {return occupied ? occupied->getColour() : Constants::components::NONE;}
-    int package() const {return occupied ? occupied->package() : Constants::components::EMPTY;};
+    int getColour() const {return occupied ? occupied->getColour() : Constants::NONE;}
+    int type() const {return occupied ? occupied->type() : Constants::EMPTY;};
 };
 
 

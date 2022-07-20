@@ -15,11 +15,13 @@
 #define BOARD_HPP
 
 #include "cell.hpp"
-#include "candy.hpp"
-#include "wall.hpp"
-#include "wrappedBomb.hpp"
-#include "stripedBomb.hpp"
-#include "point.hpp"
+#include "../components/candy.hpp"
+#include "../components/wall.hpp"
+#include "../components/wrappedBomb.hpp"
+#include "../components/stripedBomb.hpp"
+#include "../../shared/point.hpp"
+
+#include "../../view/gridDisplay.hpp"
 
 #include <vector>
 #include <memory>
@@ -27,31 +29,33 @@
 #include <algorithm>
 
 class Grid {
-    std::vector< std::vector< Cell > > grid;
+    using CellMatrix = std::vector< std::vector< Cell > >;
+    CellMatrix grid;
 
-    typedef std::pair< Cell *, int > CellIntPair;
+    using CellIntPair = std::pair< Cell *, int >;
     std::vector< CellIntPair > stripedBombs;
     std::vector< CellIntPair > wrappedBombs;
+
+    std::shared_ptr<GridDisplay> observer;
+    
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
 public:
+    // I dont like this lol
     static const int COLS = 9;
     static const int ROWS = 9;
 
-    Grid();
-    Grid(const std::string &level);
-    /* Grid manipulation */
-    bool fill();
-    bool clear();
-    bool directedDrop(int direction);
-    bool checkSwap(const Point &cell1, const Point &cell2);
-    int getCell(int y, int x) const {return grid[y][x].package();}
+    Grid(std::shared_ptr<GridDisplay> observer);
+    Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);
+    int getCell(int y, int x) const {return grid[y][x].type();}
+    void swap(const Point &cell1, const Point &cell2);
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
     bool stripedBomb(Cell * cell, const std::vector< Cell * > &cColour);
     bool specialBomb(Cell * cell, const std::vector< Cell * > &cColour);
-    std::vector< Cell * > clearCheck(Cell * cell, int direction);
+    void clearCheck(Cell * cell, int direction);
+
     /* Insertion / Suppression */
     void pop(Cell * target);
     void popAll();
@@ -59,10 +63,21 @@ private:
     void insertComponent(Cell * cell, int type);
     void placeWrappedCandies();
     void placeStripedCandies();
-    void swap(Cell * c1, Cell * c2);
+    void exchangeCells(Cell * c1, Cell * c2);
+
+    /* Grid manipulation */
+    bool fillTop();
+    void completeFill();
+    bool clear();
+    bool directedDrop(int direction);
+    void completeDrop();
+    void clean();
+    bool checkSwap(const Point &cell1, const Point &cell2);
+
     /* Sequential colour fetching */
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
     std::vector< std::vector< Cell * > > continuousColour(Cell * current);
+
     /* Neighbour Fetching */
     std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);
     std::vector< Cell * > getBelowNbs(int row, int col);

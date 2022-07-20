@@ -9,8 +9,9 @@ class Constants {
 public:
 
     /* Model Constants */
-    static enum directions{VERTICAL, HORIZONTAL, } directions;
-    static enum below{BELOW, BELOW_LEFT, BELOW_RIGHT} below;
+    static enum directions{VERTICAL, HORIZONTAL} directions;
+    static enum below{BELOW_LEFT, BELOW, BELOW_RIGHT} below;
+    static enum actions{DISPLACEMENT, SWAP, SUPPRESSION} actions;
 
     /* View Constants */
     static const double FPS;
@@ -21,7 +22,9 @@ public:
     static const double GAME_WINDOW_Yf;
     static const double GAME_WINDOW_Xf;
     static const double INTER_CELL;
-    static const double CELL_SIZE;
+    static const double CANDY_RADIUS;
+
+    static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;
 
 
     static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, NONE, ALL, EMPTY, WALL, 
@@ -36,6 +39,7 @@ public:
 
     
     static int randomCandy() {return candies[rand() % 6];}
+    static int associatedColour(int component);
 };
 
 

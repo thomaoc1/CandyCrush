@@ -2,7 +2,7 @@
 #define MAINWINDOW_HPP
 
 #include "../constants/constants.hpp"
-#include "../model/grid.hpp"
+#include "../model/containers/grid.hpp"
 #include "../control/gridControl.hpp"
 #include "gridDisplay.hpp"
 
@@ -13,9 +13,9 @@
 #include <string>
 
 class MainWindow : public Fl_Window {
+    std::shared_ptr<GridDisplay> gridDisplay;
     std::shared_ptr<Grid> grid;
     GridControl gridControl;
-    GridDisplay gridDisplay;
 public:
     MainWindow();
     void draw() override;

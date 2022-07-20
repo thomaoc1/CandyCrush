@@ -2,7 +2,7 @@
 #define MAINWINDOW_HPP
 
 #include "../constants/constants.hpp"
-#include "../model/grid.hpp"
+#include "../model/containers/grid.hpp"
 #include "../control/gridControl.hpp"
 #include "gridDisplay.hpp"
 

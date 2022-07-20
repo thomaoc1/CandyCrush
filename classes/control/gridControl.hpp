@@ -1,7 +1,7 @@
 #ifndef GRIDCONTROL_HPP
 #define GRIDCONTROL_HPP
 
-#include "../model/grid.hpp"
+#include "../model/containers/grid.hpp"
 
 #include <FL/Fl.H>
 

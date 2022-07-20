@@ -15,13 +15,13 @@
 #define BOARD_HPP
 
 #include "cell.hpp"
-#include "candy.hpp"
-#include "wall.hpp"
-#include "wrappedBomb.hpp"
-#include "stripedBomb.hpp"
-#include "../shared/point.hpp"
+#include "../components/candy.hpp"
+#include "../components/wall.hpp"
+#include "../components/wrappedBomb.hpp"
+#include "../components/stripedBomb.hpp"
+#include "../../shared/point.hpp"
 
-#include "../view/gridDisplay.hpp"
+#include "../../view/gridDisplay.hpp"
 
 #include <vector>
 #include <memory>

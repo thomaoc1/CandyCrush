@@ -13,8 +13,8 @@
 #ifndef CELL_HPP
 #define CELL_HPP
 
-#include "gameComponent.hpp"
-#include "../shared/point.hpp"
+#include "../components/gameComponent.hpp"
+#include "../../shared/point.hpp"
 
 #include <memory>
 

@@ -1,7 +1,7 @@
 #include "componentDisplay.hpp"
-#include "moveAnimation.hpp"
-#include "popAnimation.hpp"
-#include "fillAnimation.hpp"
+#include "animation/moveAnimation.hpp"
+#include "animation/popAnimation.hpp"
+#include "animation/fillAnimation.hpp"
 
 ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{center}, size{size} {
     switch(colour) {

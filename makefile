@@ -1,4 +1,4 @@
-FILES=main.cpp classes/*/*.cpp 
+FILES=main.cpp classes/*/*.cpp classes/*/*/*.cpp 
 FLAGS=-Wall -Wextra -pedantic -std=c++2a
 LINKERS=-lfltk
 

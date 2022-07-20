@@ -5,7 +5,7 @@
 
 class StripedDisplay : public ComponentDisplay {
 public:
-    StripedDisplay(Point center, int colour) : ComponentDisplay(center, colour) {}
+    StripedDisplay(Point center, int colour) : ComponentDisplay(center, Constants::CANDY_RADIUS, colour) {}
     void drawShape() const override;
 };
 

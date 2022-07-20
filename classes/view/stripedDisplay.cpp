@@ -5,6 +5,6 @@ void StripedDisplay::drawShape() const {
     fl_begin_polygon();
     fl_circle(getCenter().x, 
                 getCenter().y, 
-                Constants::CANDY_RADIUS);
+                size);
     fl_end_polygon();
 }

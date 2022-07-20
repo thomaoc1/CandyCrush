@@ -13,6 +13,8 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
+#include <iostream>
+
 struct Point{
     int x;
     int y;
@@ -23,6 +25,7 @@ struct Point{
     Point operator+(const Point &other) const {return {x + other.x, y + other.y};}
     Point operator-(const Point &other) const {return {x - other.x, y - other.y};}
     void operator+=(const Point &other) {x += other.x; y += other.y;}
+    friend std::ostream & operator<<(std::ostream &out, const Point &p);
 };
 
 #endif

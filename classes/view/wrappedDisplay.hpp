@@ -5,7 +5,7 @@
 
 class WrappedDisplay : public ComponentDisplay {
 public:
-    WrappedDisplay(Point center, int colour) : ComponentDisplay(center, colour) {}
+    WrappedDisplay(Point center, int colour) : ComponentDisplay(center, Constants::CANDY_RADIUS, colour) {}
     void drawShape() const override;
 };
 

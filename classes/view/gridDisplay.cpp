@@ -1,5 +1,60 @@
 #include "gridDisplay.hpp"
+#include <iostream>
 
+
+void GridDisplay::nextAnimation() {
+    switch (animationQueue.front()) {
+        case animations::Pop:
+            performPop();
+            break;
+        case animations::DropLeft:
+            performDrop(Constants::BELOW_LEFT);
+            break;
+        case animations::DropDown:
+            performDrop(Constants::BELOW);
+            break;
+        case animations::DropRight:
+            performDrop(Constants::BELOW_RIGHT);
+            break;
+        case animations::Fill:
+            break;
+    }
+    animationQueue.pop();
+}
+
+
+void GridDisplay::performDrop(int direction) {
+    Point delta[] = {{-1, 1}, {0, 1}, {1, 1}};
+    std::vector<Point> toDrop = dropQueue.front();
+    dropQueue.pop();
+   
+    for (auto &p : toDrop) {
+        visualComponents[p.y][p.x]->moveAnimate(calculateCenter(p + delta[direction]));
+        std::cout << "Start = " << p << std::endl;
+        std::cout << "End = " << p + delta[direction] << std::endl;
+    } 
+}
+
+
+void GridDisplay::performPop() {
+    std::vector<Point> toPop = popQueue.front();
+    popQueue.pop();
+    for (auto &p : toPop) {
+        std::cout << p.y << " " << p.x << std::endl;
+        // std::cout << visualComponents[p.y][p.x]->getColor() << std::endl;
+        visualComponents[p.y][p.x]->popAnimate();
+    }
+    // std::cout << "============" << std::endl;
+}
+
+
+void GridDisplay::performSwap(const Point &c1, const Point &c2) {
+    std::shared_ptr<ComponentDisplay> comp1 = visualComponents[c1.y][c1.x];
+    std::shared_ptr<ComponentDisplay> comp2 = visualComponents[c2.y][c2.x];
+    std::swap(comp1, comp2);
+    comp1->swapAnimate(comp2);
+    std::cout << comp1->getColor() << std::endl;
+}
 
 /**
  * @brief Calculates the center of the shape based on its location in the reconstructed
@@ -9,9 +64,9 @@
  * @param col 
  * @return Point 
  */
-Point GridDisplay::calculateCenter(int row, int col) const {
-    return {static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2),
-            static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2)};
+Point GridDisplay::calculateCenter(const Point &coord) const {
+    return {static_cast<int>(Constants::INTER_CELL * coord.x + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2),
+            static_cast<int>(Constants::INTER_CELL * coord.y + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2)};
 }
 
 
@@ -66,7 +121,7 @@ int GridDisplay::associatedColour(int component) const {
  */
 std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, int component) const {
     std::shared_ptr<ComponentDisplay> ret;
-    Point center = calculateCenter(row, col);
+    Point center = calculateCenter({col, row});
     switch (component) {
         case Constants::RED: 
         case Constants::BLUE:
@@ -118,12 +173,17 @@ GridDisplay::GridDisplay() {
  * 
  */
 void GridDisplay::draw()  {
+    bool isAnimation = false;
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
             visualGrid[row][col].draw();
-            if (visualComponents[row][col]) visualComponents[row][col]->draw();
+            if (!visualComponents[row][col]) continue; 
+            if (visualComponents[row][col]->inAnimation()) isAnimation = true;
+            visualComponents[row][col]->draw();
         }
     }
+
+    if (!isAnimation && animationQueue.size() > 0) nextAnimation();
 }
 
 
@@ -132,7 +192,26 @@ void GridDisplay::notifyInsert(const Point &coord, int type) {
 }
 
 
-void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
-    std::cout << "Swap notified received !" << std::endl;
-    visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
+void GridDisplay::notifyPop(const std::vector<Point> &toPop) {
+    animationQueue.push(animations::Pop);
+    popQueue.push(toPop);
 }
+
+
+void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
+    switch (direction) {
+        case Constants::BELOW:
+            animationQueue.push(animations::DropDown);
+            break;
+        case Constants::BELOW_LEFT:
+            animationQueue.push(animations::DropLeft);
+            break;
+        case Constants::BELOW_RIGHT:
+            animationQueue.push(animations::DropRight);
+            break;
+    }
+    dropQueue.push(toDrop);
+}
+
+
+void GridDisplay::notifySwap(const Point &c1, const Point &c2) {performSwap(c1, c2);}

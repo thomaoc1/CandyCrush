@@ -185,7 +185,12 @@ void Grid::pop(Cell * target) {
  * @brief Pops all cells in toPop vector
  */
 void Grid::popAll() {
-    for (auto &cell : toPop) pop(cell);
+    std::vector<Point> toObserver;
+    for (auto &cell : toPop) {
+        pop(cell);
+        toObserver.push_back(cell->getLocation());
+    }
+    observer->notifyPop(toObserver);
     toPop.clear();
 }
 
@@ -387,7 +392,6 @@ bool Grid::clear() {
  * 
  */
 bool Grid::directedDrop(int direction) {
-    //int delta[3][2] = {{1, -1}, {1, 0}, {1, 1}};
     bool drop = false;
     for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
         for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
@@ -400,7 +404,7 @@ bool Grid::directedDrop(int direction) {
                 cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
                 drop = true; 
-                
+                toDrop.push_back(cell.getLocation());
                 // Questionable but I think it makes sense
                 fillTop();
                 
@@ -422,15 +426,25 @@ void Grid::completeDrop() {
     while (!dropComplete)  {
         // Drop down until can't
         while(directedDrop(Constants::BELOW)) std::cout << "=== Drop Down ===" << std::endl;
+        observer->notifyDrop(toDrop, Constants::BELOW);
+        toDrop.clear();
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
         if (!directedDrop(Constants::BELOW_LEFT)) {
             // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
             if (!directedDrop(Constants::BELOW_RIGHT)) dropComplete = true;
-            else std::cout << "=== Drop Right ===" << std::endl;
+            else {
+                std::cout << "=== Drop Right ===" << std::endl;
+                observer->notifyDrop(toDrop, Constants::BELOW_RIGHT);
+                toDrop.clear();
+            }
         } 
-        else std::cout << "=== Drop Left ===" << std::endl;
+        else {
+            observer->notifyDrop(toDrop, Constants::BELOW_LEFT);
+            toDrop.clear();
+            std::cout << "=== Drop Left ===" << std::endl;
+        }
     }
 }
 
@@ -589,6 +603,8 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
             grid[row][col].setHorizNbs(xNbs[Constants::HORIZONTAL]);
         }
     }
+
+    clean();
 }
 
 

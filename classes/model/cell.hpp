@@ -39,7 +39,7 @@ public:
     void popped() {toPop = false;}
     
     /* Getters */
-    Point getLocation() const {return Point{row, col};}
+    Point getLocation() const {return Point{col, row};}
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}

@@ -14,7 +14,7 @@ class CellDisplay : public ComponentDisplay {
     const Fl_Color frameColour = FL_BLACK;
     const Point center;
 public:
-    CellDisplay(const Point &center) : ComponentDisplay(center) {}
+    CellDisplay(const Point &center) : ComponentDisplay(center, Constants::INTER_CELL) {}
     void draw() override {drawShape();}
     void drawShape() const override;
 };

@@ -1,7 +1,5 @@
 #include "moveAnimation.hpp"
 
-#include <iostream>
-
 
 Point MoveAnimation::currentTranslation() const {
     if (over()) return dest - start;

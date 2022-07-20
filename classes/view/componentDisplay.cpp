@@ -1,7 +1,8 @@
 #include "componentDisplay.hpp"
+#include "moveAnimation.hpp"
+#include "popAnimation.hpp"
 
-
-ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) : center{center} {
+ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{center}, size{size} {
     switch(colour) {
         case Constants::RED:
             fl_colour = FL_RED;
@@ -26,11 +27,7 @@ ComponentDisplay::ComponentDisplay(Point center, int colour = Constants::NONE) :
 
 
 void ComponentDisplay::draw() {
-    // First animation is still going
-    if (inAnimation()) {
-        std::cout << "in animation" << std::endl;
-        animation->draw();
-    }
+    if (inAnimation()) animation->draw();
     else drawShape();
 }
 
@@ -48,5 +45,5 @@ void ComponentDisplay::swapAnimate(std::shared_ptr<ComponentDisplay>  other) {
 }
 
 void ComponentDisplay::popAnimate() {
-    
+    if (!inAnimation()) animation = std::make_shared<PopAnimation>(this);
 }

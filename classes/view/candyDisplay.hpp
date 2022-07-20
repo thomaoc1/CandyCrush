@@ -10,7 +10,7 @@
 
 class CandyDisplay : public ComponentDisplay {
 public:
-    CandyDisplay(Point center, int colour) : ComponentDisplay(center, colour) {}
+    CandyDisplay(Point center, int colour) : ComponentDisplay(center, Constants::CANDY_RADIUS, colour) {}
     void drawShape() const override;
 };
 

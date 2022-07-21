@@ -1,3 +1,15 @@
+/**
+ * File : 
+ *  gridControl.hpp
+ *
+ * Decription :
+ *  Handles events and makes changes to the grid when necessary
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ */
+
 #ifndef GRIDCONTROL_HPP
 #define GRIDCONTROL_HPP
 

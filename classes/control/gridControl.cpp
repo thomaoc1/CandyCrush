@@ -2,11 +2,11 @@
 
 
 /**
- * @brief
+ * @brief Converts mouse location to matrix indices
  * 
- * @param
+ * @param mouseLoc
  * 
- * @return
+ * @return Point
  * 
  */
 Point GridControl::coordToCell(const Point &mouseLoc) const {
@@ -17,11 +17,11 @@ Point GridControl::coordToCell(const Point &mouseLoc) const {
 
 
 /**
- * @brief
+ * @brief Checks if the coordinate given is in the game's allocated rectangle
  * 
- * @param
+ * @param mouseLoc
  * 
- * @return
+ * @return Point
  * 
  */
 bool GridControl::coordInGame(const Point &mouseLoc) const {
@@ -33,9 +33,9 @@ bool GridControl::coordInGame(const Point &mouseLoc) const {
 
 
 /**
- * @brief
+ * @brief If the click is in the game window, the location is converted matrix indices.
  * 
- * @param
+ * @param mouseLoc
  * 
  */
 void GridControl::clickEvent(const Point &mouseLoc) {
@@ -48,9 +48,9 @@ void GridControl::clickEvent(const Point &mouseLoc) {
 
 
 /**
- * @brief
+ * @brief Verifies drag conditions and converts the drag location to matrix indices.
  * 
- * @param
+ * @param mouseLoc
  * 
  */
 void GridControl::dragEvent(const Point &mouseLoc) {
@@ -77,11 +77,11 @@ void GridControl::dragEvent(const Point &mouseLoc) {
 
 
 /**
- * @brief
+ * @brief Event processor
  * 
- * @param
+ * @param event
  * 
- * @return
+ * @return bool
  * 
  */
 bool GridControl::proccessEvent(int event) {

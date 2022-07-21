@@ -6,6 +6,17 @@
  *  Class which groups Cells and GameComponents to represent the state of 
  *  a CandyCrush match
  * 
+ * Dependencies :
+ *  Model
+ *      cell.hpp
+ *      candy.hpp
+ *      wall.hpp
+ *      wrappedBomb.hpp
+ *      stripedBomb.hpp
+ *      point.hpp
+ *  View
+ *      gridDisplay.hpp
+ * 
  * Authors : 
  *  Thomas O'Cuilleanain, 
  *  Marcus Chretirn

@@ -1,18 +1,16 @@
 #include "grid.hpp"
 
 
-/*-----------------------------------------------------------
- *                                                          *
- *                    Private Methods                       *
- *                                                          *
- -----------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Private Methods                                     *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
 
 
-/*-----------------------------------------------------------
- *                                                          *
- *           Grid Cleaning: Colour popping                  *
- *                                                          *
- -----------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*
+ *                                        Grid Cleaning                                      *
+ *-------------------------------------------------------------------------------------------*/
 
 
 /**
@@ -22,6 +20,7 @@
  * @param direction
  * 
  * @return bool
+ * 
  */
 bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
     bool isWrapped = false;
@@ -50,6 +49,7 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
  * @param cColour
  * 
  * @return bool
+ * 
  */
 bool Grid::stripedBomb(Cell * cell, const std::vector< Cell * > &cColour) {
     bool isStriped = false;
@@ -72,6 +72,7 @@ bool Grid::stripedBomb(Cell * cell, const std::vector< Cell * > &cColour) {
  * @param cColour
  * 
  * @return bool
+ * 
  */
 bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
     bool isSpecial = false;
@@ -109,71 +110,16 @@ void Grid::clearCheck(Cell * cell, int direction) {
 }
 
 
-/**
- * @brief Returns continous Candy neighbours with identical colour as the source Candy on the initial cell
- *  in the given orientation.
- * 
- * @param initial 
- * @param orientation
- * @return std::vector< Cell * > 
- */
-std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
-    // Colour of source
-    const int colour = initial->getColour();
-
-    // DFS Tools
-    std::vector< Cell * > stack = {initial}; 
-    Cell * current = initial;
-
-    // Elligible Candies
-    std::vector< Cell * > continousColors = {initial}; 
-
-    // DFS
-    while (!stack.empty()) {
-        current = stack.back();
-        stack.pop_back();
-        std::vector< Cell * > nbs;
-        if (orientation == Constants::VERTICAL) nbs = current->getVertNbs();
-        else nbs = current->getHorizNbs();
-        for (auto &nb : nbs) {
-            if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
-                || nb->getColour() != colour) continue;
-            // Elligible Candies
-            stack.push_back(nb);
-            continousColors.push_back(nb);
-        }
-    }
-    return continousColors;
-}
-
-
-/**
- * @brief Returns vertical and horizontal sequential neighbours which have the same colour as 
- *  the GameComponent on the initial Cell.
- * 
- * @param initial
- * @return std::vector< std::vector< Cell * > >
- */
-std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) {
-    // Fetching sequential same coloured neighbours
-    std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
-    std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
-    std::vector< std::vector< Cell * > >  ret{std::move(v_cont), std::move(h_cont)};
-    return ret;
-}
-
-
-/*-----------------------------------------------------------
- *                                                          *
- *               Insertion / Supression                     *
- *                                                          *
- -----------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*
+ *                              Insertion / Suppression                                      *
+ *-------------------------------------------------------------------------------------------*/
 
 
 /**
  * @brief 'Pops' the Candy occupying the cell by Un-occupying it 
  * 
  * @param target
+ * 
  */
 void Grid::pop(Cell * target) {
     target->unOccupy();
@@ -183,6 +129,7 @@ void Grid::pop(Cell * target) {
 
 /**
  * @brief Pops all cells in toPop vector
+ * 
  */
 void Grid::popAll() {
     std::vector<Point> toObserver;
@@ -200,6 +147,7 @@ void Grid::popAll() {
  * 
  * @param row 
  * @param col 
+ * 
  */
 void Grid::insertComponent(int row, int col) {
     const int component = rand() % 81;
@@ -220,6 +168,7 @@ void Grid::insertComponent(int row, int col) {
  * @param cell
  * @param type
  * @param colour
+ * 
  */
 void Grid::insertComponent(Cell * cell, int component) {
     switch (component) {
@@ -333,6 +282,7 @@ void Grid::placeStripedCandies() {
  * 
  * @param c1
  * @param c2
+ * 
  */
 void Grid::exchangeCells(Cell * c1, Cell * c2) {
     std::shared_ptr<GameComponent> tmp = std::move(c1->getOccupied());
@@ -341,11 +291,9 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
 }
 
 
-/*-----------------------------------------------------------
- *                                                          *
- *                      Grid Cleaning                       *
- *                                                          *
- -----------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*
+ *                                Grid Manipulation                                          *
+ *-------------------------------------------------------------------------------------------*/
 
 
 /**
@@ -456,6 +404,19 @@ void Grid::completeDrop() {
 
 
 /**
+ * @brief Combines all grid cleaning mechanics to clean up the grid
+ * 
+ */
+void Grid::clean() {
+    while (!clear()) {
+        std::cout << "=== Clear ===" << std::endl;
+        completeDrop();
+        completeFill();
+    } 
+}
+
+
+/**
  * @brief Verifies validity of a Candy swap. If valid, executes swap.
  * 
  * @param cell1
@@ -479,32 +440,76 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
     }
 
-    if (!validity) {
-        exchangeCells(c1, c2);
-        std::cout << "Failed to swap " << c1->type() << " and " << c2->type() << std::endl;
-    } 
-    else std::cout << "Swapped " << c1->type() << " and " << c2->type() << std::endl;
+    if (!validity) exchangeCells(c1, c2);
+
     return validity;
 }
 
 
+/*-------------------------------------------------------------------------------------------*
+ *                             Sequential Colour Fetching                                    *
+ *-------------------------------------------------------------------------------------------*/
+
+
 /**
- * @brief Combines all grid cleaning mechanics to clean up the grid
+ * @brief Returns continous Candy neighbours with identical colour as the source Candy on 
+ *  the initial cell in the given orientation.
+ * 
+ * @param initial 
+ * @param orientation
+ * @return std::vector< Cell * > 
  * 
  */
-void Grid::clean() {
-    while (!clear()) {
-        std::cout << "=== Clear ===" << std::endl;
-        completeDrop();
-        completeFill();
-    } 
+std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
+    // Colour of source
+    const int colour = initial->getColour();
+
+    // DFS Tools
+    std::vector< Cell * > stack = {initial}; 
+    Cell * current = initial;
+
+    // Elligible Candies
+    std::vector< Cell * > continousColors = {initial}; 
+
+    // DFS
+    while (!stack.empty()) {
+        current = stack.back();
+        stack.pop_back();
+        std::vector< Cell * > nbs;
+        if (orientation == Constants::VERTICAL) nbs = current->getVertNbs();
+        else nbs = current->getHorizNbs();
+        for (auto &nb : nbs) {
+            if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
+                || nb->getColour() != colour) continue;
+            // Elligible Candies
+            stack.push_back(nb);
+            continousColors.push_back(nb);
+        }
+    }
+    return continousColors;
 }
 
-/*-----------------------------------------------------------
- *                                                          *
- *                Neighbour Fetching                        *
- *                                                          *
- -----------------------------------------------------------*/
+
+/**
+ * @brief Returns vertical and horizontal sequential neighbours which have the same 
+ *  colour as the GameComponent on the initial Cell.
+ * 
+ * @param initial
+ * @return std::vector< std::vector< Cell * > >
+ * 
+ */
+std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) {
+    // Fetching sequential same coloured neighbours
+    std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
+    std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
+    std::vector< std::vector< Cell * > >  ret{std::move(v_cont), std::move(h_cont)};
+    return ret;
+}
+
+
+/*-------------------------------------------------------------------------------------------*
+ *                                   Neighbour Fetching                                      *
+ *-------------------------------------------------------------------------------------------*/
 
 
 /**
@@ -514,6 +519,7 @@ void Grid::clean() {
  * @param row 
  * @param col 
  * @return std::vector< std::vector< Cell * > >
+ * 
  */
 std::vector< std::vector< Cell * > > Grid::getCrossNbs(int row, int col) {
 
@@ -546,6 +552,7 @@ std::vector< std::vector< Cell * > > Grid::getCrossNbs(int row, int col) {
     return neighbours;
 }
 
+
 /**
  * @brief Returns all nbs bellow cell at grid[row][col] (left, center, right)
  * 
@@ -570,11 +577,11 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
 }
 
 
-/*-----------------------------------------------------------
- *                                                          *
- *                    Public Methods                        *
- *                                                          *
- -----------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Public Methods                                      *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
 
 
 Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
@@ -607,7 +614,6 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
             grid[row][col].setHorizNbs(xNbs[Constants::HORIZONTAL]);
         }
     }
-
     clean();
 }
 

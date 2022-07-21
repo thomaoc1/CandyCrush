@@ -3,7 +3,11 @@
  *  cell.hpp
  *
  * Decription :
- *  Class which represents a possible 'slot' in which a GameComponent can be in
+ *  Class which represents a possible container in which a GameComponent can be in
+ * 
+ * Dependencies :
+ *  gameComponent.hpp
+ *  point.hpp
  * 
  * Authors:
  *  Thomas O'Cuilleanain,

@@ -5,6 +5,9 @@
  * Decription :
  *  Class which represents a specific GameComponent ; "Wall"
  * 
+ * Dependencies : 
+ *  gameComponent.hpp
+ * 
  * Authors:
  *  Thomas O'Cuilleanain,
  *  Marcus Chretien

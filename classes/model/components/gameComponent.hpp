@@ -5,6 +5,9 @@
  * Decription :
  *  Interface which describes the behavior of GameComponents
  * 
+ * Dependencies:
+ *  constants.hpp
+ * 
  * Authors:
  *  Thomas O'Cuilleanain
  *  Marcus Chretien

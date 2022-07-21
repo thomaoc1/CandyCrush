@@ -5,6 +5,9 @@
  * Description : 
  *  Class which represents a specific GameComponent ; "Candy".
  * 
+ * Dependencies :
+ *  gameComponent.hpp
+ * 
  * Authors : 
  *  Thomas O'Cuilleanain,
  *  Marcus Chretien
@@ -20,7 +23,7 @@ public:
     Candy() : GameComponent(Constants::randomCandy()) {}
     Candy(int colour) : GameComponent(colour) {}
     virtual ~Candy() {}
-    virtual int type() const override {return getColour();};
+    virtual int type() const override {return getColour();}
 };
 
 #endif

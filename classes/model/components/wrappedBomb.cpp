@@ -1,5 +1,12 @@
 #include "wrappedBomb.hpp"
 
+
+/**
+ * @brief Gives type of Wrapped Candy Bomb depending on colour
+ *  
+ * @return int
+ * 
+ */
 int WrappedBomb::type() const {
     int repr;
     switch (getColour()) {

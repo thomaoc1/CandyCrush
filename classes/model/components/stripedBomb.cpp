@@ -1,5 +1,12 @@
 #include "stripedBomb.hpp"
 
+
+/**
+ * @brief Gives type of Striped Candy Bomb depending on colour
+ *  
+ * @return int
+ * 
+ */
 int StripedBomb::type() const {
     int repr;
     switch (getColour()) {

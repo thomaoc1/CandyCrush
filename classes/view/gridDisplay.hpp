@@ -29,6 +29,8 @@ class GridDisplay {
     std::queue< std::vector<Point> > popQueue;
     std::queue< std::vector<CoordColour> > fillQueue;
     std::queue<animations> animationQueue;
+
+    bool swapping = false;
 public:
     GridDisplay();
     void draw();

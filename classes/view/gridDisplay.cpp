@@ -1,5 +1,4 @@
 #include "gridDisplay.hpp"
-#include <iostream>
 
 
 void GridDisplay::nextAnimation() {
@@ -64,11 +63,9 @@ void GridDisplay::performPop() {
 
 
 void GridDisplay::performSwap(const Point &c1, const Point &c2) {
-    std::shared_ptr<ComponentDisplay> comp1 = visualComponents[c1.y][c1.x];
-    std::shared_ptr<ComponentDisplay> comp2 = visualComponents[c2.y][c2.x];
-    std::swap(comp1, comp2);
-    comp1->swapAnimate(comp2);
-    std::cout << comp1->getColor() << std::endl;
+    std::swap(visualComponents[c2.y][c2.x], visualComponents[c1.y][c1.x]);
+    visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
+    swapping = true;
 }
 
 /**
@@ -197,8 +194,8 @@ void GridDisplay::draw()  {
             visualComponents[row][col]->draw();
         }
     }
-
     if (!isAnimation && animationQueue.size() > 0) nextAnimation();
+    else swapping = false;
 }
 
 
@@ -241,4 +238,6 @@ void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
 }
 
 
-void GridDisplay::notifySwap(const Point &c1, const Point &c2) {performSwap(c1, c2);}
+void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
+    if (!swapping) performSwap(c1, c2);
+}

@@ -30,6 +30,7 @@
 #include "../components/wall.hpp"
 #include "../components/wrappedBomb.hpp"
 #include "../components/stripedBomb.hpp"
+#include "../filehandler/fileHandler.hpp"
 #include "../../shared/point.hpp"
 
 #include "../../view/gridDisplay.hpp"

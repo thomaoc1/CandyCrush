@@ -156,7 +156,7 @@ void Grid::insertComponent(int row, int col) {
     // Wrapped insertion
     if (component >= 3 && component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
     // Wall insertion
-    if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
+    //if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
 }
@@ -584,7 +584,7 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
  --------------------------------------------------------------------------------------------*/
 
 
-Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
+Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : observer{observer} {
     for (int row = 0; row < 9; ++row) {
         std::vector<Cell> tmp = {};
         for (int col = 0; col < 9; ++col) {
@@ -593,12 +593,20 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer)  : observer{observer} {
         grid.emplace_back(std::move(tmp));
     }
 
+    GameData gd = FileHandler{level}.getGameData();
+
+    for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
+    for (auto &p : gd.frostings);
+    
     for (int row = 0; row < 9; ++ row) {
         for (int col = 0; col < 9; ++col) {
+            if(grid[row][col].getOccupied()) continue;
             insertComponent(row, col);
-            observer->notifyInit(Point{col, row}, grid[row][col].type());
         } 
     }
+
+    for (int row = 0; row < 9; ++row) 
+        for (int col = 0; col < 9; ++col) observer->notifyInit(Point{col, row}, grid[row][col].type());
         
     // Setting neighbours of each Cell
     for (int row = 0; row < 9; ++row) {

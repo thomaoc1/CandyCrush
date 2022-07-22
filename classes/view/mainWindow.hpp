@@ -1,3 +1,22 @@
+/**
+ * File : 
+ *  mainWindow.hpp
+ *
+ * Decription :
+ *  Class responsible of creating the FL_Window.
+ * 
+ * Dependencies:
+ *  constants.hpp
+ *  grid.hpp
+ *  gridControl.hpp
+ *  gridDisplay.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
@@ -8,9 +27,6 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
-
-#include <vector>
-#include <string>
 
 class MainWindow : public Fl_Window {
     std::shared_ptr<GridDisplay> gridDisplay;

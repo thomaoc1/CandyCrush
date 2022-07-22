@@ -1,6 +1,22 @@
 #include "gridDisplay.hpp"
 
 
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                      Private Methods                                      *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
+
+
+/*-------------------------------------------------------------------------------------------*
+ *                                      Animations                                           *
+ *-------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Pops the queue to get the next set of animations 
+ *
+ */
 void GridDisplay::nextAnimation() {
     switch (animationQueue.front()) {
         case animations::Pop:
@@ -23,6 +39,10 @@ void GridDisplay::nextAnimation() {
 }
 
 
+/**
+ * @brief Displays the fill animation
+ *
+ */
 void GridDisplay::performFill() {
     std::vector<CoordColour> toFill = fillQueue.front();
     fillQueue.pop();
@@ -34,6 +54,12 @@ void GridDisplay::performFill() {
 }
 
 
+/**
+ * @brief Displays the drop animation
+ * 
+ * @param direction
+ * 
+ */
 void GridDisplay::performDrop(int direction) {
     Point delta[] = {{-1, 1}, {0, 1}, {1, 1}};
     std::vector<Point> toDrop = dropQueue.front();
@@ -51,6 +77,10 @@ void GridDisplay::performDrop(int direction) {
 }
 
 
+/**
+ * @brief Displays the pop animation
+ * 
+ */
 void GridDisplay::performPop() {
     std::vector<Point> toPop = popQueue.front();
     popQueue.pop();
@@ -62,11 +92,24 @@ void GridDisplay::performPop() {
 }
 
 
+/**
+ * @brief Displays the swap animation
+ * 
+ * @param c1
+ * @param c2
+ * 
+ */
 void GridDisplay::performSwap(const Point &c1, const Point &c2) {
     std::swap(visualComponents[c2.y][c2.x], visualComponents[c1.y][c1.x]);
     visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
     swapping = true;
 }
+
+
+/*-------------------------------------------------------------------------------------------*
+ *                                       Utility                                             *
+ *-------------------------------------------------------------------------------------------*/
+
 
 /**
  * @brief Calculates the center of the shape based on its location in the reconstructed
@@ -167,6 +210,13 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
 }
 
 
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Public Methods                                      *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
+
+
 GridDisplay::GridDisplay() {
     for (int i = 0; i < 9; ++i) visualComponents.push_back({});
     for (int row = 0; row < 9; ++row) {
@@ -199,29 +249,67 @@ void GridDisplay::draw()  {
 }
 
 
+/*-------------------------------------------------------------------------------------------*
+ *                                   Observer Methods                                        *
+ *-------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Notify an initialisation insert 
+ * 
+ * @param coord
+ * @param type
+ *
+ */
 void GridDisplay::notifyInit(const Point &coord, int type) {
     visualComponents[coord.y].push_back(factoryMethod(coord.y, coord.x, type));
 }
 
 
+/**
+ * @brief Notify a normal insert (fill)
+ *
+ * @param coord
+ * @param type
+ * 
+ */
 void GridDisplay::notifyInsert(const Point &coord, int type) {
     animationQueue.push(animations::Fill);
     fillQueue.push({{coord, type}});
 }
 
 
+/**
+ * @brief Notify a fill 
+ * 
+ * @param toFill
+ *
+ */
 void GridDisplay::notifyFill(const std::vector<CoordColour> &toFill) {
     animationQueue.push(animations::Fill);
     fillQueue.push(toFill);
 }
 
 
+/**
+ * @brief Notify a pop / suppression
+ * 
+ * @param toPop
+ *
+ */
 void GridDisplay::notifyPop(const std::vector<Point> &toPop) {
     animationQueue.push(animations::Pop);
     popQueue.push(toPop);
 }
 
 
+/**
+ * @brief Notify a drop
+ * 
+ * @param toDrop 
+ * @param direction
+ *
+ */
 void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
     switch (direction) {
         case Constants::BELOW:
@@ -238,6 +326,13 @@ void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
 }
 
 
+/**
+ * @brief Notify a swap
+ * 
+ * @param c1
+ * @param c2
+ *
+ */
 void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
     if (!swapping) performSwap(c1, c2);
 }

@@ -1,3 +1,24 @@
+/**
+ * File : 
+ *  gridDisplay.hpp
+ *
+ * Decription :
+ *  Class responsible of displaying a the entire grid.
+ * 
+ * Dependencies:
+ *  componentDisplay.hpp
+ *  candyDisplay.hpp
+ *  stripedDisplay.hpp
+ *  wrappedDisplay.hpp
+ *  wallDisplay.hpp
+ *  cellDisplay.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
 #ifndef GRID_DISPLAY_HPP
 #define GRID_DISPLAY_HPP
 
@@ -33,26 +54,27 @@ class GridDisplay {
     bool swapping = false;
 public:
     GridDisplay();
+
     void draw();
+
+    /* Observer Methods */
     void notifyInit(const Point &coord, int type);
     void notifyInsert(const Point &coord, int type);
-    
     void notifyFill(const std::vector<CoordColour> &fill);
     void notifyDrop(const std::vector<Point> &drop, int direction);
     void notifyPop(const std::vector<Point> &pop);
     void notifySwap(const Point &start, const Point &dest);
 private:
+    /* Animations */
     void nextAnimation();
     void performFill();
     void performDrop(int direction);
     void performPop();
     void performSwap(const Point &start, const Point &dest);
-
-    void componentMove(const Point &start, const Point &dest);
+    /* Utility */
     Point calculateCenter(const Point &coord) const;
-    std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
     int associatedColour(int component) const;
-    void initialiseGrid();
+    std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
 };
 
 #endif

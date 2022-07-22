@@ -1,3 +1,19 @@
+/**
+ * File : 
+ *  cellDisplay.hpp
+ *
+ * Decription :
+ *  Class responsible of displaying a gameComponent container.
+ * 
+ * Dependencies:
+ *  componentDisplay.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
 #ifndef CELL_DISPLAY_HPP
 #define CELL_DISPLAY_HPP
 

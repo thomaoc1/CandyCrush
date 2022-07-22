@@ -1,3 +1,22 @@
+/**
+ * File : 
+ *  moveAnimation.hpp
+ *
+ * Decription :
+ *  Class reponsible for animating a moving event 
+ * 
+ * Dependencies : 
+ *  point.hpp
+ *  animation.hpp
+ *  componentDisplay.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
+
 #ifndef MOVE_ANIMATION_HPP
 #define MOVE_ANIMATION_HPP
 

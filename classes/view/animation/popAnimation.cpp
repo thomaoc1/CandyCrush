@@ -1,5 +1,17 @@
 #include "popAnimation.hpp"
 
+
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Public Methods                                      *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Draws animation if not complete, then draws shape.
+ * 
+ */
 void PopAnimation::draw() {
     ++time;
     int newSize = getComponent()->getSize() - 1;

@@ -1,6 +1,19 @@
 #include "moveAnimation.hpp"
 
 
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Private Methods                                     *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Calculates next translation for movement animation.
+ * 
+ * @return Point
+ *
+ */
 Point MoveAnimation::currentTranslation() const {
     if (over()) return dest - start;
     double x = (time / animationTime) * (dest.x - start.x);
@@ -9,6 +22,18 @@ Point MoveAnimation::currentTranslation() const {
 }
 
 
+
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Public Methods                                      *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Draws animation if not complete, then draws shape.
+ *
+ */
 void MoveAnimation::draw() {
     ++time;
     getComponent()->setCenter(start + currentTranslation());

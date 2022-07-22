@@ -1,3 +1,20 @@
+/**
+ * File : 
+ *  componentDisplay.hpp
+ *
+ * Decription :
+ *  Abstract class which generalises the visual representation of gameComponents.
+ * 
+ * Dependencies:
+ *  constants.hpp
+ *  point.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
 #ifndef COMPONENT_DISPLAY_HPP
 #define COMPONENT_DISPLAY_HPP
 

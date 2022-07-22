@@ -1,3 +1,19 @@
+/**
+ * File : 
+ *  stripedDisplay.hpp
+ *
+ * Decription :
+ *  Class responsible of displaying a specific gameComponent: "Striped Candy Bomb".
+ * 
+ * Dependencies:
+ *  componentDisplay.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
 #ifndef STRIPED_DISPLAY_HPP
 #define STRIPED_DISPLAY_HPP
 

@@ -5,6 +5,9 @@
  * Decription :
  *  Handles events and makes changes to the grid when necessary
  * 
+ * Dependencies : 
+ *  grid.hpp
+ * 
  * Authors:
  *  Thomas O'Cuilleanain,
  *  Marcus Chretien

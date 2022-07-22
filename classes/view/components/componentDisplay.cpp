@@ -3,6 +3,14 @@
 #include "../animation/popAnimation.hpp"
 #include "../animation/fillAnimation.hpp"
 
+
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Public Methods                                      *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
+
+
 ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{center}, size{size} {
     switch(colour) {
         case Constants::RED:
@@ -27,6 +35,10 @@ ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{
 }
 
 
+/**
+ * @brief Displays the component
+ * 
+ */
 void ComponentDisplay::draw() {
     if (inAnimation()) animation->draw();
     else drawShape();
@@ -36,20 +48,38 @@ void ComponentDisplay::draw() {
 bool ComponentDisplay::inAnimation() const {return animation && !animation->over();} 
 
 
+/**
+ * @brief Starts fill animation
+ *
+ */
 void ComponentDisplay::fillAnimate() {
     if (!inAnimation()) animation = std::make_shared<FillAnimation>(this);
 }
 
 
+/**
+ * @brief Starts move animation
+ *
+ */
 void ComponentDisplay::moveAnimate(const Point &dest) {
     if (!inAnimation()) animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
 }
 
+
+/**
+ * @brief Starts swap animation
+ *
+ */
 void ComponentDisplay::swapAnimate(std::shared_ptr<ComponentDisplay>  other) {
     moveAnimate(other->getCenter());
     other->moveAnimate(getCenter());
 }
 
+
+/**
+ * @brief Starts pop animation
+ *
+ */
 void ComponentDisplay::popAnimate() {
     if (!inAnimation()) animation = std::make_shared<PopAnimation>(this);
 }

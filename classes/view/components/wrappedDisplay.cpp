@@ -1,6 +1,17 @@
 #include "wrappedDisplay.hpp"
 
 
+/*-------------------------------------------------------------------------------------------*
+ *                                                                                           *
+ *                                       Public Methods                                      *
+ *                                                                                           *
+ --------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Draws associated shape to the window
+ * 
+ */
 void WrappedDisplay::drawShape() const {
     fl_color(fl_colour);
     fl_begin_polygon();

@@ -1,3 +1,19 @@
+/**
+ * File : 
+ *  candyDisplay.hpp
+ *
+ * Decription :
+ *  Class responsible of displaying a specific gameComponent: "Wrapped Candy Bomb".
+ * 
+ * Dependencies:
+ *  componentDisplay.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
 #ifndef WRAPPED_DISPLAY_HPP
 #define WRAPPED_DISPLAY_HPP
 

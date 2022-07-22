@@ -1,3 +1,20 @@
+/**
+ * File : 
+ *  candyDisplay.hpp
+ *
+ * Decription :
+ *  Class responsible of displaying a specific gameComponent: "Candy".
+ * 
+ * Dependencies:
+ *  componentDisplay.hpp
+ * 
+ * Authors:
+ *  Thomas O'Cuilleanain,
+ *  Marcus Chretien
+ * 
+ */
+
+
 #ifndef CANDY_DISPLAY_HPP
 #define CANDY_DISPLAY_HPP
 

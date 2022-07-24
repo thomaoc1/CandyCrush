@@ -28,6 +28,7 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
         std::vector< std::vector< Cell * > > cross = continuousColour(cell);
         int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
         if (cross[perpendicular].size() >= 3) {
+            std::cout << "Wrapped" << std::endl;
             isWrapped = true;
             wrappedBombs.push_back({cell, cell->type()});
             for (auto &pCell : cross[perpendicular]) {
@@ -249,27 +250,27 @@ void Grid::placeStripedCandies() {
         switch (cell.second) {
             case Constants::RED:
                 insertComponent(cell.first, Constants::RED_STRIPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::RED_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::RED_STRIPED_BOMB);
                 break;
             case Constants::BLUE:
                 insertComponent(cell.first, Constants::BLUE_STRIPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::BLUE_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::BLUE_STRIPED_BOMB);
                 break;
             case Constants::GREEN:
                 insertComponent(cell.first, Constants::GREEN_STRIPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::GREEN_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::GREEN_STRIPED_BOMB);
                 break;
             case Constants::YELLOW:
                 insertComponent(cell.first, Constants::YELLOW_STRIPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::YELLOW_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::YELLOW_STRIPED_BOMB);
                 break;
             case Constants::PURPLE:
                 insertComponent(cell.first, Constants::PURPLE_STRIPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::PURPLE_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::PURPLE_STRIPED_BOMB);
                 break;
             case Constants::ORANGE:
                 insertComponent(cell.first, Constants::ORANGE_STRIPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::ORANGE_WRAPPED_BOMB);
+                observer->notifyInsert(cell.first->getLocation(), Constants::ORANGE_STRIPED_BOMB);
                 break;
         } 
     }
@@ -597,7 +598,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
     GameData gd = FileHandler{level}.getGameData();
 
     for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
-    for (auto &p : gd.frostings);
+    // for (auto &p : gd.frostings);
     
     for (int row = 0; row < 9; ++ row) {
         for (int col = 0; col < 9; ++col) {

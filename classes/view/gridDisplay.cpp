@@ -362,13 +362,13 @@ void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
  *
  */
 void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
-    if (!swapping) {
+    if (!swapping && animationQueue.size() == 0) {
         animationQueue.push(animations::Swap);
         swapQueue.push({c1, c2});
     }
 }
 
 
-void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
+void GridDisplay::notifyFailedSwap(const Point &, const Point &) {
     std::cout << "View Swap failed" << std::endl;
 }

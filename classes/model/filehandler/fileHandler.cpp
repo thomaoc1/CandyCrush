@@ -51,7 +51,7 @@ FileHandler::FileHandler(const std::string &filename) {
     getline(inFile, line, '\n'); 
     numFrostings = stoi(line);    
 
-    for (int i = 0; i < numWalls; ++i) {
+    for (int i = 0; i < numFrostings; ++i) {
         getline(inFile, line, '\n');
         frostings.push_back(lineInterpreter(line));
     }

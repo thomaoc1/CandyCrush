@@ -16,27 +16,41 @@ const std::array< int, 6 > Constants::candies = {components::RED, components::BL
 int Constants::associatedColour(int component) {
     int colour;
     switch (component) {
-        case Constants::RED_STRIPED_BOMB:
+        case Constants::RED:
+        case Constants::BLUE:
+        case Constants::GREEN:
+        case Constants::YELLOW:
+        case Constants::PURPLE:
+        case Constants::ORANGE:
+            colour = component;
+            break;
+        case Constants::RED_STRIPED_BOMB_V:
+        case Constants::RED_STRIPED_BOMB_H:
         case Constants::RED_WRAPPED_BOMB:
             colour = Constants::RED;
             break;
-        case Constants::BLUE_STRIPED_BOMB:
+        case Constants::BLUE_STRIPED_BOMB_V:
+        case Constants::BLUE_STRIPED_BOMB_H:
         case Constants::BLUE_WRAPPED_BOMB:
             colour = Constants::BLUE;
             break;
-        case Constants::GREEN_STRIPED_BOMB:
+        case Constants::GREEN_STRIPED_BOMB_V:
+        case Constants::GREEN_STRIPED_BOMB_H:
         case Constants::GREEN_WRAPPED_BOMB:
             colour = Constants::GREEN;
             break;
-        case Constants::YELLOW_STRIPED_BOMB:
+        case Constants::YELLOW_STRIPED_BOMB_V:
+        case Constants::YELLOW_STRIPED_BOMB_H:
         case Constants::YELLOW_WRAPPED_BOMB:
             colour = Constants::YELLOW;
             break;
-        case Constants::PURPLE_STRIPED_BOMB:
+        case Constants::PURPLE_STRIPED_BOMB_V:
+        case Constants::PURPLE_STRIPED_BOMB_H:
         case Constants::PURPLE_WRAPPED_BOMB:
             colour = Constants::PURPLE;
             break;
-        case Constants::ORANGE_STRIPED_BOMB:
+        case Constants::ORANGE_STRIPED_BOMB_V:
+        case Constants::ORANGE_STRIPED_BOMB_H:
         case Constants::ORANGE_WRAPPED_BOMB:
             colour = Constants::ORANGE;
             break;
@@ -45,4 +59,80 @@ int Constants::associatedColour(int component) {
             break;
     }
     return colour;
+}
+
+
+int Constants::associatedStripedBomb(int colour, int direction) {
+    int type;
+    if (direction == Constants::VERTICAL) {
+        switch (colour) {
+            case Constants::RED:
+                type = Constants::RED_STRIPED_BOMB_V;
+                break;
+            case Constants::BLUE:
+                type = Constants::BLUE_STRIPED_BOMB_V;
+                break;
+            case Constants::GREEN:
+                type = Constants::GREEN_STRIPED_BOMB_V;
+                break;
+            case Constants::YELLOW:
+                type = Constants::YELLOW_STRIPED_BOMB_V;
+                break;
+            case Constants::PURPLE:
+                type = Constants::PURPLE_STRIPED_BOMB_V;
+                break;
+            case Constants::ORANGE:
+                type = Constants::ORANGE_STRIPED_BOMB_V;
+                break;
+        }
+    }
+    else {
+        switch (colour) {
+            case Constants::RED:
+                type = Constants::RED_STRIPED_BOMB_H;
+                break;
+            case Constants::BLUE:
+                type = Constants::BLUE_STRIPED_BOMB_H;
+                break;
+            case Constants::GREEN:
+                type = Constants::GREEN_STRIPED_BOMB_H;
+                break;
+            case Constants::YELLOW:
+                type = Constants::YELLOW_STRIPED_BOMB_H;
+                break;
+            case Constants::PURPLE:
+                type = Constants::PURPLE_STRIPED_BOMB_H;
+                break;
+            case Constants::ORANGE:
+                type = Constants::ORANGE_STRIPED_BOMB_H;
+                break;
+        }
+    }
+    return type;
+}
+
+
+int Constants::associatedWrappedBomb(int colour) {
+    int type;
+    switch (colour) {
+        case Constants::RED:
+            type = Constants::RED_WRAPPED_BOMB;
+            break;
+        case Constants::BLUE:
+            type = Constants::BLUE_WRAPPED_BOMB;
+            break;
+        case Constants::GREEN:
+            type = Constants::GREEN_WRAPPED_BOMB;
+            break;
+        case Constants::YELLOW:
+            type = Constants::YELLOW_WRAPPED_BOMB;
+            break;
+        case Constants::PURPLE:
+            type = Constants::PURPLE_WRAPPED_BOMB;
+            break;
+        case Constants::ORANGE:
+            type = Constants::ORANGE_WRAPPED_BOMB;
+            break;
+    }
+    return type;
 }

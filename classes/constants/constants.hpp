@@ -9,7 +9,7 @@ class Constants {
 public:
 
     /* Model Constants */
-    static enum directions{VERTICAL, HORIZONTAL} directions;
+    enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
     static enum below{BELOW_LEFT, BELOW, BELOW_RIGHT} below;
     static enum actions{DISPLACEMENT, SWAP, SUPPRESSION} actions;
 
@@ -29,8 +29,10 @@ public:
 
     static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, NONE, ALL, EMPTY, WALL, 
 
-                            RED_STRIPED_BOMB, BLUE_STRIPED_BOMB, GREEN_STRIPED_BOMB, YELLOW_STRIPED_BOMB,
-                            PURPLE_STRIPED_BOMB, ORANGE_STRIPED_BOMB,
+                            RED_STRIPED_BOMB_V, BLUE_STRIPED_BOMB_V, GREEN_STRIPED_BOMB_V, YELLOW_STRIPED_BOMB_V,
+                            PURPLE_STRIPED_BOMB_V, ORANGE_STRIPED_BOMB_V,
+                            RED_STRIPED_BOMB_H, BLUE_STRIPED_BOMB_H, GREEN_STRIPED_BOMB_H, YELLOW_STRIPED_BOMB_H,
+                            PURPLE_STRIPED_BOMB_H, ORANGE_STRIPED_BOMB_H,
 
                             RED_WRAPPED_BOMB, BLUE_WRAPPED_BOMB, GREEN_WRAPPED_BOMB, YELLOW_WRAPPED_BOMB,
                             PURPLE_WRAPPED_BOMB, ORANGE_WRAPPED_BOMB,
@@ -39,7 +41,11 @@ public:
 
     
     static int randomCandy() {return candies[rand() % 6];}
+    static int randomDirection() {return rand() % 2;}
+    
     static int associatedColour(int component);
+    static int associatedStripedBomb(int colour, int direction);
+    static int associatedWrappedBomb(int colour);
 };
 
 

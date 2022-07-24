@@ -20,7 +20,10 @@ void StripedDisplay::drawShape() const {
                 size);
     fl_end_polygon();
 
-    std::string s = "St";
+    std::string s;
+    if (blastDirection == Constants::VERTICAL) s = "StV";
+    else s = "StH";
+
     fl_color(FL_BLACK);
     fl_font(FL_HELVETICA, size / 1.5);
     int width, height;

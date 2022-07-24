@@ -134,47 +134,6 @@ Point GridDisplay::calculateCenter(const Point &coord) const {
 
 
 /**
- * @brief Returns associated colour for every component (namely bombs/specials)
- * 
- * @param component 
- * @return int 
- */
-int GridDisplay::associatedColour(int component) const {
-    int ret;
-    switch (component) {
-        case Constants::RED_STRIPED_BOMB:
-        case Constants::RED_WRAPPED_BOMB:
-            ret = Constants::RED;
-            break;
-        case Constants::BLUE_STRIPED_BOMB:
-        case Constants::BLUE_WRAPPED_BOMB:
-            ret = Constants::BLUE;
-            break;
-        case Constants::GREEN_STRIPED_BOMB:
-        case Constants::GREEN_WRAPPED_BOMB:
-            ret = Constants::GREEN;
-            break;
-        case Constants::YELLOW_STRIPED_BOMB:
-        case Constants::YELLOW_WRAPPED_BOMB:
-            ret = Constants::YELLOW;
-            break;
-        case Constants::PURPLE_STRIPED_BOMB:
-        case Constants::PURPLE_WRAPPED_BOMB:
-            ret = Constants::PURPLE;
-            break;
-        case Constants::ORANGE_STRIPED_BOMB:
-        case Constants::ORANGE_WRAPPED_BOMB:
-            ret = Constants::ORANGE;
-            break;
-        default:
-            ret = Constants::NONE;
-            break;
-    }
-    return ret;
-}
-
-
-/**
  * @brief Factory method design pattern used to construct the correct object given its enum
  * 
  * @param row 
@@ -194,13 +153,21 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::ORANGE:
             ret = std::make_shared<CandyDisplay>(center, component);
             break;
-        case Constants::RED_STRIPED_BOMB: 
-        case Constants::BLUE_STRIPED_BOMB:
-        case Constants::GREEN_STRIPED_BOMB:
-        case Constants::YELLOW_STRIPED_BOMB:
-        case Constants::PURPLE_STRIPED_BOMB:
-        case Constants::ORANGE_STRIPED_BOMB:
-            ret = std::make_shared<StripedDisplay>(center, Constants::associatedColour(component));
+        case Constants::RED_STRIPED_BOMB_V: 
+        case Constants::BLUE_STRIPED_BOMB_V:
+        case Constants::GREEN_STRIPED_BOMB_V:
+        case Constants::YELLOW_STRIPED_BOMB_V:
+        case Constants::PURPLE_STRIPED_BOMB_V:
+        case Constants::ORANGE_STRIPED_BOMB_V:
+            ret = std::make_shared<StripedDisplay>(center, Constants::associatedColour(component), Constants::VERTICAL);
+            break;
+        case Constants::RED_STRIPED_BOMB_H: 
+        case Constants::BLUE_STRIPED_BOMB_H:
+        case Constants::GREEN_STRIPED_BOMB_H:
+        case Constants::YELLOW_STRIPED_BOMB_H:
+        case Constants::PURPLE_STRIPED_BOMB_H:
+        case Constants::ORANGE_STRIPED_BOMB_H:
+            ret = std::make_shared<StripedDisplay>(center, Constants::associatedColour(component), Constants::HORIZONTAL);
             break;
         case Constants::RED_WRAPPED_BOMB: 
         case Constants::BLUE_WRAPPED_BOMB:

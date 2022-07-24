@@ -78,7 +78,6 @@ private:
     void performFailedSwap();
     /* Utility */
     Point calculateCenter(const Point &coord) const;
-    int associatedColour(int component) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
 };
 

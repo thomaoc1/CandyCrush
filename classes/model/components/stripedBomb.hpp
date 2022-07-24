@@ -16,12 +16,12 @@
 #ifndef STRIPED_BOMB_HPP
 #define STRIPED_BOMB_HPP
 
-#include "candy.hpp"
+#include "gameComponent.hpp"
 
-class StripedBomb : public Candy {
+class StripedBomb : public GameComponent {
 public:
-    StripedBomb(int colour) : Candy(colour) {}
-    StripedBomb() : Candy(Constants::randomCandy()) {}
+    StripedBomb(int colour, int blastDirection) : GameComponent(colour, 1, blastDirection) {}
+    StripedBomb() : GameComponent(Constants::randomCandy(), 1, Constants::randomDirection()) {}
     int type() const override;
 };
 

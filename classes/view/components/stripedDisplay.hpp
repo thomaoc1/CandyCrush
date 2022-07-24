@@ -20,8 +20,11 @@
 #include "componentDisplay.hpp"
 
 class StripedDisplay : public ComponentDisplay {
+    const int blastDirection;
 public:
-    StripedDisplay(Point center, int colour) : ComponentDisplay(center, Constants::CANDY_RADIUS, colour) {}
+    StripedDisplay(Point center, int colour, int blastDirection) : 
+                    ComponentDisplay(center, Constants::CANDY_RADIUS, colour),
+                    blastDirection{blastDirection} {}
     void drawShape() const override;
 };
 

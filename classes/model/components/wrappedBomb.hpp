@@ -16,12 +16,12 @@
 #ifndef WRAPPED_BOMB_HPP
 #define WRAPPED_BOMB_HPP
 
-#include "candy.hpp"
+#include "gameComponent.hpp"
 
-class WrappedBomb : public Candy {
+class WrappedBomb : public GameComponent {
 public:
-    WrappedBomb(int colour) : Candy(colour) {}
-    WrappedBomb() : Candy(Constants::randomCandy()) {}
+    WrappedBomb(int colour) : GameComponent(colour, 9, Constants::NO_DIRECTION) {}
+    WrappedBomb() : GameComponent(Constants::randomCandy(), 9, Constants::NO_DIRECTION) {}
     int type() const override;
 };
 

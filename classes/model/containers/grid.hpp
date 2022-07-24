@@ -41,11 +41,16 @@
 #include <algorithm>
 
 class Grid {
+
+    enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
+
+
     using CellMatrix = std::vector< std::vector< Cell > >;
     CellMatrix grid;
 
+    using CellIntInt = std::pair< Cell *, std::pair< int, int > >;
     using CellIntPair = std::pair< Cell *, int >;
-    std::vector< CellIntPair > stripedBombs;
+    std::vector< CellIntInt > stripedBombs;
     std::vector< CellIntPair > wrappedBombs;
 
     std::shared_ptr<GridDisplay> observer;
@@ -64,7 +69,7 @@ public:
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
-    bool stripedBomb(Cell * cell, const std::vector< Cell * > &cColour);
+    bool stripedBomb(Cell * cell, const std::vector< Cell * > &cColour, int direction);
     bool specialBomb(Cell * cell, const std::vector< Cell * > &cColour);
     void clearCheck(Cell * cell, int direction);
 

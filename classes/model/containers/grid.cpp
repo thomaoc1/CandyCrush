@@ -433,6 +433,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
             || c2->type() == Constants::WALL) return validity;
 
     exchangeCells(c1, c2);
+
     std::vector< std::vector< Cell * > > c1_nbs = continuousColour(c1);
     std::vector< std::vector< Cell * > > c2_nbs = continuousColour(c2);
 
@@ -634,8 +635,10 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
  * 
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
+    std::cout << "swap call" << std::endl;
     if (checkSwap(cell1, cell2)) {
         observer->notifySwap(cell1, cell2);
         clean();
-    }
+    } 
+    // else observer->notifyFailedSwap(cell1, cell2);
 }

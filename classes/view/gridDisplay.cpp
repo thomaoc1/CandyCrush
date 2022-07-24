@@ -34,6 +34,9 @@ void GridDisplay::nextAnimation() {
         case animations::Fill:
             performFill();
             break;
+        case animations::Swap:
+            performSwap();
+            break;
     }
     animationQueue.pop();
 }
@@ -99,9 +102,14 @@ void GridDisplay::performPop() {
  * @param c2
  * 
  */
-void GridDisplay::performSwap(const Point &c1, const Point &c2) {
+void GridDisplay::performSwap() {
+    CoordPair toSwap = swapQueue.front();
+    swapQueue.pop();
+
+    Point c1 = toSwap.first, c2 = toSwap.second;
     std::swap(visualComponents[c2.y][c2.x], visualComponents[c1.y][c1.x]);
     visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
+
     swapping = true;
 }
 
@@ -249,6 +257,26 @@ void GridDisplay::draw()  {
 }
 
 
+/**
+ * @brief Returns true if any components are being animated
+ * 
+ * @return bool
+ * 
+ */
+bool GridDisplay::inAnimation() const {
+    
+    bool isAnimation = false;
+    for (int row = 0; row < 9; ++row) {
+        for (int col = 0; col < 9; ++col) {
+            if (!visualComponents[row][col]) continue; 
+            if (visualComponents[row][col]->inAnimation()) isAnimation = true;
+        }
+    }
+    std::cout << "In animation: " << isAnimation << std::endl;
+    return isAnimation;
+}
+
+
 /*-------------------------------------------------------------------------------------------*
  *                                   Observer Methods                                        *
  *-------------------------------------------------------------------------------------------*/
@@ -334,5 +362,13 @@ void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
  *
  */
 void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
-    if (!swapping) performSwap(c1, c2);
+    if (!swapping) {
+        animationQueue.push(animations::Swap);
+        swapQueue.push({c1, c2});
+    }
+}
+
+
+void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
+    std::cout << "View Swap failed" << std::endl;
 }

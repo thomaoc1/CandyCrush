@@ -45,7 +45,9 @@ class GridDisplay {
     ComponentMatrix visualComponents;
     
     using CoordColour = std::pair< Point, int >;
-    enum class animations{Pop, Fill, DropDown, DropLeft, DropRight};
+    using CoordPair = std::pair< Point, Point >;
+    enum class animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
+    std::queue< CoordPair > swapQueue;
     std::queue< std::vector<Point> > dropQueue;
     std::queue< std::vector<Point> > popQueue;
     std::queue< std::vector<CoordColour> > fillQueue;
@@ -56,6 +58,7 @@ public:
     GridDisplay();
 
     void draw();
+    bool inAnimation() const;
 
     /* Observer Methods */
     void notifyInit(const Point &coord, int type);
@@ -64,13 +67,15 @@ public:
     void notifyDrop(const std::vector<Point> &drop, int direction);
     void notifyPop(const std::vector<Point> &pop);
     void notifySwap(const Point &start, const Point &dest);
+    void notifyFailedSwap(const Point &start, const Point &dest);
 private:
     /* Animations */
     void nextAnimation();
     void performFill();
     void performDrop(int direction);
     void performPop();
-    void performSwap(const Point &start, const Point &dest);
+    void performSwap();
+    void performFailedSwap();
     /* Utility */
     Point calculateCenter(const Point &coord) const;
     int associatedColour(int component) const;

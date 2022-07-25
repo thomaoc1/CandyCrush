@@ -56,6 +56,7 @@ void GridControl::clickEvent(const Point &mouseLoc) {
  */
 void GridControl::dragEvent(const Point &mouseLoc) {
     if (!(clicked && coordInGame(mouseLoc)) || (coordInGame(mouseLoc) && view->inAnimation())) return;
+    std::cout << "59: GC" << std::endl;
     Point dragToIndex = coordToCell(mouseLoc);
     std::cout << "DRAG Row : " << dragToIndex.y << " Col : " << dragToIndex.x << std::endl;
     if (dragToIndex.x == clickToIndex.x) {

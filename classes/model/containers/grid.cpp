@@ -28,7 +28,6 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
         std::vector< std::vector< Cell * > > cross = continuousColour(cell);
         int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
         if (cross[perpendicular].size() >= 3) {
-            std::cout << "Wrapped" << std::endl;
             isWrapped = true;
             wrappedBombs.push_back({cell, cell->type()});
             for (auto &pCell : cross[perpendicular]) {
@@ -36,8 +35,6 @@ bool Grid::wrappedBomb(const std::vector< Cell * > &cColour, int direction) {
                 toPop.push_back(pCell);
             }
         }
-        cell->willPop();
-        toPop.push_back(cell);
     }
     return isWrapped;
 }
@@ -58,10 +55,6 @@ bool Grid::stripedBomb(Cell * cell, const std::vector< Cell * > &cColour, int di
         stripedBombs.push_back({cell, {cell->type(), direction}});
         isStriped = true;
     }
-    for (auto &cell : cColour) {
-        cell->willPop();
-        toPop.push_back(cell);
-    }
     return isStriped;
 }
 
@@ -81,10 +74,6 @@ bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
         specialBombs.push_back(cell);
         isSpecial = true;
     }
-    for (auto &cell : cColour) {
-        cell->willPop();
-        toPop.push_back(cell);
-    } 
     return isSpecial;
 }
 
@@ -109,11 +98,10 @@ void Grid::clearCheck(Cell * cell, int direction) {
     stripedBomb(cell, contColour[direction], direction);   
 
     for (auto &c : contColour[direction]) {
-        if (c->getOccupied()->getBlastArea() == 9) {
-            
-        }
-        else if (c->getOccupied()->getBlastDirection() == Constants::VERTICAL);      
-        else if (c->getOccupied()->getBlastDirection() == Constants::HORIZONTAL);      
+        c->willPop();
+        toPop.push_back(c);
+        if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
+        else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);           
     }
 }
 
@@ -121,6 +109,69 @@ void Grid::clearCheck(Cell * cell, int direction) {
 /*-------------------------------------------------------------------------------------------*
  *                              Insertion / Suppression                                      *
  *-------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Simulates wrapped candy explosion
+ * 
+ * @param target
+ * 
+ */
+void Grid::wrappedBlast(Cell * target) {
+    for (auto &c : target->getNbs()) {
+        if (!c || c->getPop()) continue;
+        c->willPop();
+        toPop.push_back(c);
+        if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
+        else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+    }
+}
+
+
+/**
+ * @brief Simulates wrapped candy explosion
+ * 
+ * @param target
+ * 
+ */
+void Grid::stripedBlast(Cell * target) {
+    int direction = target->getOccupied()->getBlastDirection();
+    Point start = target->getLocation();
+    Cell * c;
+    if (direction == Constants::VERTICAL) {
+        for (int i = start.y + 1; i < 9; ++i){
+            c = &grid[i][start.x];
+            toPop.push_back(c);
+            c->willPop();
+            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
+            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+        }
+        for (int i = start.y - 1; i >= 0; --i){
+            c = &grid[i][start.x];
+            toPop.push_back(c);
+            c->willPop();
+            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
+            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+        }
+    }
+    else {
+        for (int i = start.x + 1; i < 9; ++i){
+            c = &grid[start.y][i];
+            toPop.push_back(c);
+            c->willPop();
+            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
+            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+        }
+        for (int i = start.x - 1; i >= 0; --i){
+            c = &grid[start.y][i];
+            toPop.push_back(c);
+            c->willPop();
+            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
+            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+        }
+    }
+}
+
 
 
 /**
@@ -316,7 +367,7 @@ bool Grid::fillTop() {
 void Grid::completeFill() {
     while(fillTop()) {
         std::cout << "====== Fill ========" << std::endl;
-        displayTerminal();
+        //displayTerminal();
         completeDrop();
     }
 }
@@ -331,10 +382,10 @@ void Grid::completeFill() {
  */
 bool Grid::clear() {
     bool clearGrid = true;
-    for (int row = 0; row < ROWS; ++row) {
-        for (int col = 0; col < COLS; ++col) {
-            clearCheck(&grid[row][col], Constants::HORIZONTAL);
-            clearCheck(&grid[row][col], Constants::VERTICAL);
+    for (auto &row : grid) {
+        for (auto &c : row) {
+            clearCheck(&c, Constants::HORIZONTAL);
+            clearCheck(&c, Constants::VERTICAL);
         }
     } 
     if (toPop.size() > 0) clearGrid = false;
@@ -388,7 +439,7 @@ void Grid::completeDrop() {
         // Drop down until can't
         while(directedDrop(Constants::CENTER)) {
             std::cout << "=== Drop Down ===" << std::endl;
-            displayTerminal();
+            //displayTerminal();
         }
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
@@ -398,13 +449,13 @@ void Grid::completeDrop() {
             if (!directedDrop(Constants::RIGHT)) dropComplete = true;
             else {
                 std::cout << "=== Drop Right ===" << std::endl;
-                displayTerminal();
+                //displayTerminal();
             }
     
         } 
         else {
             std::cout << "=== Drop Left ===" << std::endl;
-            displayTerminal();
+            //displayTerminal();
         }
     }
 }
@@ -415,11 +466,11 @@ void Grid::completeDrop() {
  * 
  */
 void Grid::clean() {
-    displayTerminal();
+    //displayTerminal();
     while (!clear()) {
         std::cout << "=== Clear ===" << std::endl;
 
-        displayTerminal();
+        //displayTerminal();
 
         completeDrop();
         completeFill();
@@ -531,15 +582,34 @@ std::vector< Cell * > Grid::getNbs(int row, int col) {
         int row_d = row + DELTA[i].x;
         int col_d = col + DELTA[i].y;
 
-        if (row_d >= static_cast<int>(grid.size()) 
-            || row_d < 0 
-            || col_d >= static_cast<int>(grid[0].size())
-            || col_d < 0) continue;
+        if (inGrid({col_d, row_d})) continue;
 
         nbs[i] = &grid[row_d][col_d];
     }    
     return nbs; 
 }
+
+
+/*-------------------------------------------------------------------------------------------*
+ *                                           Utility                                         *
+ *-------------------------------------------------------------------------------------------*/
+
+
+/**
+ * @brief Checks if coordinate is in the grid
+ * 
+ * @param coord 
+ * 
+ * @return bool
+ * 
+ */
+bool Grid::inGrid(const Point &coord) const {
+    return coord.y >= static_cast<int>(grid.size()) 
+            || coord.y < 0 
+            || coord.x >= static_cast<int>(grid[0].size())
+            || coord.x < 0;
+}
+
 
 
 /*-------------------------------------------------------------------------------------------*
@@ -591,6 +661,7 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
     } 
     // else observer->notifyFailedSwap(cell1, cell2);
 }
+
 
 
 void Grid::displayTerminal() const {

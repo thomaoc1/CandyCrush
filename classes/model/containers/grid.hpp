@@ -72,6 +72,8 @@ private:
     void clearCheck(Cell * cell, int direction);
 
     /* Insertion / Suppression */
+    void wrappedBlast(Cell * target);
+    void stripedBlast(Cell * target);
     void pop(Cell * target);
     void popAll();
     void insertComponent(int row, int col);
@@ -95,6 +97,9 @@ private:
 
     /* Neighbour Fetching */
     std::vector< Cell * > getNbs(int row, int col);
+
+    /* Utility */ 
+    bool inGrid(const Point &coord) const;
 };
 
 #endif

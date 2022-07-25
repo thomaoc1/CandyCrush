@@ -7,15 +7,15 @@
  *                                                                                           *
  --------------------------------------------------------------------------------------------*/
 
- 
+
 /**
  * @brief Sets neighbours into four groups (above, below, vertical, horizontal)
  * 
  * @param nbs
  * 
  */
-void Cell::setNbs(const std::vector< Cell * > &nbs) {
-    std::cout << nbs.size() << std::endl;
+void Cell::setNbs(const std::vector< Cell * > &newNbs) {
+    nbs = newNbs;
     for (int i = 0; i < static_cast<int>(nbs.size()); ++i) {
         if (i < 3) {
             aboveNbs[i] = nbs[i];

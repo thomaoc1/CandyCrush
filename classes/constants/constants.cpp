@@ -10,8 +10,10 @@ const double Constants::GAME_WINDOW_Xf = 8 * Constants::INTER_CELL + Constants::
 const double Constants::INTER_CELL = (0.325) * Constants::GAME_WINDOW_Xi;
 const double Constants::CANDY_RADIUS = (0.05) * (Constants::GAME_WINDOW_Yf - Constants::GAME_WINDOW_Yi);
 
+
 const std::array< int, 6 > Constants::candies = {components::RED, components::BLUE, components::GREEN, 
                                                     components::YELLOW, components::PURPLE, components::ORANGE};
+
 
 int Constants::associatedColour(int component) {
     int colour;
@@ -53,9 +55,6 @@ int Constants::associatedColour(int component) {
         case Constants::ORANGE_STRIPED_BOMB_H:
         case Constants::ORANGE_WRAPPED_BOMB:
             colour = Constants::ORANGE;
-            break;
-        default:
-            colour = Constants::NONE;
             break;
     }
     return colour;

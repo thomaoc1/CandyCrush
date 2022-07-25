@@ -100,13 +100,20 @@ bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
 void Grid::clearCheck(Cell * cell, int direction) {
     if (!cell->getOccupied() || cell->getPop()) return;
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
-    if (contColour[direction].size() >= 3) {
-        /* Special Bomb Condition */
-        specialBomb(cell, contColour[direction]);
-        /* Wrapped Bomb Condition */
-        wrappedBomb(contColour[direction], direction);
-        /* Striped Bomb Condition */
-        stripedBomb(cell, contColour[direction], direction) ;   
+    if (contColour[direction].size() < 3) return;  
+    /* Special Bomb Condition */
+    specialBomb(cell, contColour[direction]);
+    /* Wrapped Bomb Condition */
+    wrappedBomb(contColour[direction], direction);
+    /* Striped Bomb Condition */
+    stripedBomb(cell, contColour[direction], direction);   
+
+    for (auto &c : contColour[direction]) {
+        if (c->getOccupied()->getBlastArea() == 9) {
+            
+        }
+        else if (c->getOccupied()->getBlastDirection() == Constants::VERTICAL);      
+        else if (c->getOccupied()->getBlastDirection() == Constants::HORIZONTAL);      
     }
 }
 
@@ -308,6 +315,8 @@ bool Grid::fillTop() {
  */
 void Grid::completeFill() {
     while(fillTop()) {
+        std::cout << "====== Fill ========" << std::endl;
+        displayTerminal();
         completeDrop();
     }
 }
@@ -356,10 +365,10 @@ bool Grid::directedDrop(int direction) {
                 cellBeneath->setOccupied(cell.getOccupied());
                 cell.unOccupy();
                 toDrop.push_back(cell.getLocation());
-                if (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT) break;   
+                if (direction == Constants::LEFT || direction == Constants::RIGHT) break;   
             }
         }
-        if (toDrop.size() > 0 && (direction == Constants::BELOW_LEFT || direction == Constants::BELOW_RIGHT)) break;
+        if (toDrop.size() > 0 && (direction == Constants::LEFT || direction == Constants::RIGHT)) break;
     }
     if (toDrop.size() > 0) {
         observer->notifyDrop(toDrop, direction);
@@ -377,17 +386,26 @@ void Grid::completeDrop() {
     bool dropComplete = false;
     while (!dropComplete)  {
         // Drop down until can't
-        while(directedDrop(Constants::BELOW)) std::cout << "=== Drop Down ===" << std::endl;
+        while(directedDrop(Constants::CENTER)) {
+            std::cout << "=== Drop Down ===" << std::endl;
+            displayTerminal();
+        }
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
-        if (!directedDrop(Constants::BELOW_LEFT)) {
+        if (!directedDrop(Constants::LEFT)) {
             // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
-            if (!directedDrop(Constants::BELOW_RIGHT)) dropComplete = true;
-            else std::cout << "=== Drop Right ===" << std::endl;
+            if (!directedDrop(Constants::RIGHT)) dropComplete = true;
+            else {
+                std::cout << "=== Drop Right ===" << std::endl;
+                displayTerminal();
+            }
     
         } 
-        else std::cout << "=== Drop Left ===" << std::endl;
+        else {
+            std::cout << "=== Drop Left ===" << std::endl;
+            displayTerminal();
+        }
     }
 }
 
@@ -397,8 +415,12 @@ void Grid::completeDrop() {
  * 
  */
 void Grid::clean() {
+    displayTerminal();
     while (!clear()) {
         std::cout << "=== Clear ===" << std::endl;
+
+        displayTerminal();
+
         completeDrop();
         completeFill();
     } 
@@ -453,15 +475,11 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
 std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
     // Colour of source
     const int colour = Constants::associatedColour(initial->type());
-    //const int colour = initial->getColour();
-
     // DFS Tools
     std::vector< Cell * > stack = {initial}; 
     Cell * current = initial;
-
     // Elligible Candies
     std::vector< Cell * > continousColors = {initial}; 
-
     // DFS
     while (!stack.empty()) {
         current = stack.back();
@@ -503,55 +521,11 @@ std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) {
  *-------------------------------------------------------------------------------------------*/
 
 
-/**
- * @brief Returns vertical and horizontal neighbours of game component at row, col as
- *  a pair of vectors
- * 
- * @param row 
- * @param col 
- * @return std::vector< std::vector< Cell * > >
- * 
- */
-std::vector< std::vector< Cell * > > Grid::getCrossNbs(int row, int col) {
-
-    // Possible shifts
-    const std::vector<int> DELTA = {-1, 1};
-    
-    std::vector< Cell * > verticalNbs;
-    std::vector< Cell * > horizontalNbs;    
-    
-    
-    for (auto &d : DELTA) {
-        int row_d = row + d;
-        int col_d = col + d;
-
-        // Validity of vertical shift
-        if (! (row_d >= static_cast<int>(grid[0].size()) 
-            || row_d < 0)) {
-                verticalNbs.push_back(&grid[row_d][col]);
-            }
-        
-        // Validity of horizontal shift
-        if (! (col_d >= static_cast<int>(grid.size())
-            || col_d < 0 )) {
-                horizontalNbs.push_back(&grid[row][col_d]);
-            }
-    }
-    
-    std::vector< std::vector< Cell * > > neighbours{std::move(verticalNbs), std::move(horizontalNbs)};
-
-    return neighbours;
-}
-
-
-/**
- * @brief Returns all nbs bellow cell at grid[row][col] (left, center, right)
- * 
- */
-std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
-    std::vector< Cell * > nbs{nullptr, nullptr, nullptr}; 
-
-    const std::vector<Point> DELTA = {{1, -1}, {1, 0}, {1, 1}};
+std::vector< Cell * > Grid::getNbs(int row, int col) {
+    std::vector< Cell * > nbs(8, nullptr); 
+    const std::vector<Point> DELTA = {{-1, -1}, {-1, 0}, {-1, 1},
+                                      {0, -1}, {0, 1},
+                                      {1, -1}, {1, 0}, {1, 1}};
 
     for (int i = 0; i < static_cast<int>(DELTA.size()); ++i) {
         int row_d = row + DELTA[i].x;
@@ -564,7 +538,7 @@ std::vector< Cell * > Grid::getBelowNbs(int row, int col) {
 
         nbs[i] = &grid[row_d][col_d];
     }    
-    return nbs;            
+    return nbs; 
 }
 
 
@@ -589,30 +563,15 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
     for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
     // for (auto &p : gd.frostings);
     
-    for (int row = 0; row < 9; ++ row) {
-        for (int col = 0; col < 9; ++col) {
-            if(grid[row][col].getOccupied()) continue;
-            insertComponent(row, col);
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            Point coord = cell.getLocation();
+            cell.setNbs(getNbs(coord.y, coord.x));
+            if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
+            observer->notifyInit(coord, cell.type());
         } 
     }
 
-    for (int row = 0; row < 9; ++row) 
-        for (int col = 0; col < 9; ++col) observer->notifyInit(Point{col, row}, grid[row][col].type());
-        
-    // Setting neighbours of each Cell
-    for (int row = 0; row < 9; ++row) {
-        for (int col = 0; col < 9; ++col) {
-            std::vector< std::vector< Cell * > > xNbs = getCrossNbs(row, col);
-            std::vector< Cell * > belowNbs = getBelowNbs(row, col);
-
-            grid[row][col].setBelowLeft(belowNbs[Constants::BELOW_LEFT]);
-            grid[row][col].setBelow(belowNbs[Constants::BELOW]);
-            grid[row][col].setBelowRight(belowNbs[Constants::BELOW_RIGHT]);
-            
-            grid[row][col].setVertNbs(xNbs[Constants::VERTICAL]);
-            grid[row][col].setHorizNbs(xNbs[Constants::HORIZONTAL]);
-        }
-    }
     clean();
 }
 
@@ -631,4 +590,16 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         clean();
     } 
     // else observer->notifyFailedSwap(cell1, cell2);
+}
+
+
+void Grid::displayTerminal() const {
+    std::cout << "\n               GRID\n=================================\n";
+    for (auto &r : grid) {
+        for (auto &c : r) {
+            if (c.type() > 9) std::cout << c.type() << "  ";
+            else std::cout << (c.type() == 8 ? -1 : c.type()) << "   ";
+        }
+        std::cout << "\n";
+    }
 }

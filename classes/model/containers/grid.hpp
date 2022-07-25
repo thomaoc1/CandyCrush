@@ -42,9 +42,6 @@
 
 class Grid {
 
-    enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
-
-
     using CellMatrix = std::vector< std::vector< Cell > >;
     CellMatrix grid;
 
@@ -66,6 +63,7 @@ public:
     Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);
     int getCell(int y, int x) const {return grid[y][x].type();}
     void swap(const Point &cell1, const Point &cell2);
+    void displayTerminal() const;
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
@@ -96,9 +94,7 @@ private:
     std::vector< std::vector< Cell * > > continuousColour(Cell * current);
 
     /* Neighbour Fetching */
-    std::vector< std::vector< Cell * > > getCrossNbs(int row, int col);
-    std::vector< Cell * > getBelowNbs(int row, int col);
-
+    std::vector< Cell * > getNbs(int row, int col);
 };
 
 #endif

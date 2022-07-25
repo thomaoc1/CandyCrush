@@ -10,7 +10,7 @@ public:
 
     /* Model Constants */
     enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
-    static enum below{BELOW_LEFT, BELOW, BELOW_RIGHT} below;
+    static enum {LEFT, CENTER, RIGHT} below;
     static enum actions{DISPLACEMENT, SWAP, SUPPRESSION} actions;
 
     /* View Constants */

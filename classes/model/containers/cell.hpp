@@ -28,6 +28,7 @@ class Cell {
     std::vector< Cell * > vertNbs;
     std::vector< Cell * > horizNbs;
     std::vector< Cell * > belowNbs{nullptr, nullptr, nullptr};
+    std::vector< Cell * > aboveNbs{nullptr, nullptr, nullptr};
     bool toPop = false;
 public:
     Cell(int row, int col) : row{row}, col{col} {}
@@ -35,11 +36,7 @@ public:
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
     void unOccupy() {setOccupied(nullptr);}
-    void setVertNbs(const std::vector< Cell * > &nbs) {vertNbs = nbs;}
-    void setHorizNbs(const std::vector< Cell * > &nbs) {horizNbs = nbs;}
-    void setBelow(Cell * cell) {belowNbs[Constants::BELOW] = cell;}
-    void setBelowLeft(Cell * cell) {belowNbs[Constants::BELOW_LEFT] = cell;}
-    void setBelowRight(Cell * cell) {belowNbs[Constants::BELOW_RIGHT] = cell;}
+    void setNbs(const std::vector< Cell * > &nbs);
     void willPop() {toPop = true;}
     void popped() {toPop = false;}
     

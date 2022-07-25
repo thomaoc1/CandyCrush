@@ -23,13 +23,13 @@ void GridDisplay::nextAnimation() {
             performPop();
             break;
         case animations::DropLeft:
-            performDrop(Constants::BELOW_LEFT);
+            performDrop(Constants::LEFT);
             break;
         case animations::DropDown:
-            performDrop(Constants::BELOW);
+            performDrop(Constants::CENTER);
             break;
         case animations::DropRight:
-            performDrop(Constants::BELOW_RIGHT);
+            performDrop(Constants::RIGHT);
             break;
         case animations::Fill:
             performFill();
@@ -307,13 +307,13 @@ void GridDisplay::notifyPop(const std::vector<Point> &toPop) {
  */
 void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
     switch (direction) {
-        case Constants::BELOW:
+        case Constants::CENTER:
             animationQueue.push(animations::DropDown);
             break;
-        case Constants::BELOW_LEFT:
+        case Constants::LEFT:
             animationQueue.push(animations::DropLeft);
             break;
-        case Constants::BELOW_RIGHT:
+        case Constants::RIGHT:
             animationQueue.push(animations::DropRight);
             break;
     }

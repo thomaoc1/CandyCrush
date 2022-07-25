@@ -12,6 +12,7 @@
 
 
 ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{center}, size{size} {
+    colour = Constants::associatedColour(colour);
     switch(colour) {
         case Constants::RED:
             fl_colour = FL_RED;

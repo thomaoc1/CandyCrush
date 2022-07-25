@@ -26,7 +26,7 @@ class ComponentDisplay;
 class Animation {
     ComponentDisplay * component;
 protected:
-    const double animationTime = 30;
+    const double animationTime = 20;
     double time = 0;
 public:
     Animation(ComponentDisplay * component) : component{component} {}

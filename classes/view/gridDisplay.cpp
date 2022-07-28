@@ -71,7 +71,6 @@ void GridDisplay::performDrop(int direction) {
     for (auto &p : toDrop) {
         // Temporary
         if (!visualComponents[p.y][p.x]) return;
-        
         Point dest = p + delta[direction];
         visualComponents[p.y][p.x]->moveAnimate(calculateCenter(dest));
         visualComponents[dest.y][dest.x] = visualComponents[p.y][p.x]; 
@@ -180,7 +179,10 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::WALL:
             ret = std::make_shared<WallDisplay>(center);
             break;
-    }
+        default:
+            std::cout << component << ": uh oh" << std::endl;
+            break;
+     }
     return ret;
 }
 
@@ -197,7 +199,7 @@ GridDisplay::GridDisplay() {
     for (int row = 0; row < 9; ++row) {
         std::vector<CellDisplay> tmp;
         for (int col = 0; col < 9; ++col) {
-            tmp.push_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi),
+            tmp.emplace_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi),
                                 static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi)});
         }
         visualGrid.push_back(std::move(tmp));

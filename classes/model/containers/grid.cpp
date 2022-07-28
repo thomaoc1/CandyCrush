@@ -314,8 +314,8 @@ void Grid::placeWrappedCandies() {
 void Grid::placeStripedCandies() {
     for (auto &cell : stripedBombs) {
         Cell * cp = cell.first;
-        int blastDirection = cell.second.second, colour = cell.second.first;
-
+        int blastDirection = cell.second.second;
+        int colour = Constants::associatedColour(cell.second.first);
         int stripedBomb = Constants::associatedStripedBomb(colour, blastDirection);
         insertComponent(cp, stripedBomb);
         observer->notifyInsert(cp->getLocation(), stripedBomb);

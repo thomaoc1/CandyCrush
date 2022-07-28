@@ -30,6 +30,7 @@ protected:
     double time = 0;
 public:
     Animation(ComponentDisplay * component) : component{component} {}
+
     virtual void draw()=0;
     virtual ComponentDisplay * getComponent() {return component;}
     virtual bool over() const {return time >= animationTime;}

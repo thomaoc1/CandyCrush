@@ -16,6 +16,10 @@ class AnimationQueue {
     std::queue< std::vector<CoordColour> > fills;
     std::queue<int> queue;
 public:
+    AnimationQueue() = default;
+    AnimationQueue(const AnimationQueue &) = default;
+    AnimationQueue(AnimationQueue &&) = default;
+    
     void enqueueSwap(const CoordPair &swap);
     void enqueueDrop(const std::vector<Point> &drops, int direction);
     void enqueuePop(const std::vector<Point> &pop);

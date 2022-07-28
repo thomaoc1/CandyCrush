@@ -17,16 +17,13 @@
 #ifndef WRAPPED_DISPLAY_HPP
 #define WRAPPED_DISPLAY_HPP
 
-#include "componentDisplay.hpp"
-#include "../shapes/circle.hpp"
-#include "../text/textDisplay.hpp"
+#include "bombDisplay.hpp"
 
-class WrappedDisplay : public ComponentDisplay {
+class WrappedDisplay : public BombDisplay {
 public:
-    WrappedDisplay(const Point &center, int colour) : ComponentDisplay(std::make_shared<Circle>(center, colour, Constants::CANDY_RADIUS)) {}
+    WrappedDisplay(const Point &center, int colour) : BombDisplay(center, colour, "Wr") {}
     WrappedDisplay(const WrappedDisplay &) = default;
     WrappedDisplay(WrappedDisplay &&) = default;
-    void drawShape() const override;
 };
 
 #endif

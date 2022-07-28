@@ -1,4 +1,4 @@
-#include "wrappedDisplay.hpp"
+#include "bombDisplay.hpp"
 
 
 /*-------------------------------------------------------------------------------------------*
@@ -12,15 +12,19 @@
  * @brief Draws associated shape to the window
  * 
  */
-void WrappedDisplay::drawShape() const {
+void BombDisplay::drawShape() const {
     ComponentDisplay::drawShape();
-
-    std::string s = "Wr";
-    fl_color(FL_BLACK);
-    fl_font(FL_HELVETICA, getSize() / 1.5);
-    int width, height;
-    fl_measure(s.c_str(), width, height, false);
-    fl_draw(s.c_str(), getCenter().x-width/2, getCenter().y-fl_descent()+height/2);
+    text.draw();
 }
 
 
+void BombDisplay::setCenter(const Point &dest) {
+    shape->setCenter(dest);
+    text.setCenter(dest);
+}
+
+
+void BombDisplay::setSize(int newSize) {
+    shape->setSize(newSize);
+    text.setSize(static_cast<int>(newSize / 1.5));
+}

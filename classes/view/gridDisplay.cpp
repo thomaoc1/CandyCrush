@@ -331,18 +331,19 @@ void GridDisplay::package() const {
     std::string temp;
 
     for (int i = 0; i < 9; ++i) {
-        if (i == 0) temp += "   " + std::to_string(i)+ "   ";
-        else temp += std::to_string(i) + "   ";
+        if (i == 0) temp += "   " + std::to_string(i)+ "    ";
+        else temp += std::to_string(i) + "    ";
     }
-    temp += "\n======================================\n";
+    temp += "\n============================================\n";
 
     for (int i = 0; i < 9; ++i) {
         for (int j = 0; j < 9; ++j) {
-            if (j == 0) temp += std::to_string(i) + " |";
+            if (j == 0) temp += std::to_string(i) + "| ";
             std::string component = " ";
             if (visualComponents[i][j]) component = visualComponents[i][j]->type();
-            if (component.length() == 1) temp += component + "   ";
-            else if (component.length() == 2) temp += component + "  ";
+            if (component.length() == 1) temp += component + "    ";
+            else if (component.length() == 2) temp += component + "   ";
+            else if (component.length() == 3) temp += component + "  ";
             else temp += component + " ";
         }
         temp += "\n";

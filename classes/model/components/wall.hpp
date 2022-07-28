@@ -20,7 +20,8 @@
 
 class Wall : public GameComponent {
 public:
-    int type() const override {return Constants::WALL;};
+    int type() const override {return Constants::WALL;}
+    
 };
 
 #endif

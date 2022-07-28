@@ -367,7 +367,7 @@ bool Grid::fillTop() {
 void Grid::completeFill() {
     while(fillTop()) {
         std::cout << "====== Fill ========" << std::endl;
-        //displayTerminal();
+        //package();
         completeDrop();
     }
 }
@@ -439,7 +439,7 @@ void Grid::completeDrop() {
         // Drop down until can't
         while(directedDrop(Constants::CENTER)) {
             std::cout << "=== Drop Down ===" << std::endl;
-            //displayTerminal();
+            //package();
         }
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
@@ -449,13 +449,13 @@ void Grid::completeDrop() {
             if (!directedDrop(Constants::RIGHT)) dropComplete = true;
             else {
                 std::cout << "=== Drop Right ===" << std::endl;
-                //displayTerminal();
+                //package();
             }
     
         } 
         else {
             std::cout << "=== Drop Left ===" << std::endl;
-            //displayTerminal();
+            //package();
         }
     }
 }
@@ -466,11 +466,11 @@ void Grid::completeDrop() {
  * 
  */
 void Grid::clean() {
-    //displayTerminal();
+    //package();
     while (!clear()) {
         std::cout << "=== Clear ===" << std::endl;
 
-        //displayTerminal();
+        //package();
 
         completeDrop();
         completeFill();
@@ -664,13 +664,29 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
 
 
 
-void Grid::displayTerminal() const {
-    std::cout << "\n               GRID\n=================================\n";
-    for (auto &r : grid) {
-        for (auto &c : r) {
-            if (c.type() > 9) std::cout << c.type() << "  ";
-            else std::cout << (c.type() == 8 ? -1 : c.type()) << "   ";
-        }
-        std::cout << "\n";
+void Grid::package() const {
+    std::cout << "Packaging Model" << std::endl;
+    std::string temp;
+
+    for (int i = 0; i < 9; ++i) {
+        if (i == 0) temp += "   " + std::to_string(i)+ "    ";
+        else temp += std::to_string(i) + "    ";
     }
+    temp += "\n============================================\n";
+
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            if (j == 0) temp += std::to_string(i) + "| ";
+            std::string component = " ";
+            if (grid[i][j].getOccupied()) component = grid[i][j].getOccupied()->toString();
+            if (component.length() == 1) temp += component + "    ";
+            else if (component.length() == 2) temp += component + "   ";
+            else if (component.length() == 3) temp += component + "  ";
+            else temp += component + " ";
+        }
+        temp += "\n";
+    }
+
+    Log::get().addModelMessage(temp);
+
 }

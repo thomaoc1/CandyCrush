@@ -8,7 +8,7 @@
  * 
  */
 Log &Log::get() {
-    if (!singleton) singleton = std::make_unique<Log>();
+    if (!singleton) singleton = std::make_unique<Log>(ctorKey{0});
     return *singleton;
 }
 

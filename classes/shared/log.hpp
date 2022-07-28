@@ -7,14 +7,20 @@
 
 class Log {
 
+    struct ctorKey {
+        explicit ctorKey(int) {};
+    };
+
     static std::unique_ptr<Log> singleton;
 
     int eventCounter = 0;
     std::ofstream logfile; 
-    Log():logfile{"logs.txt"}{};
+    Log() : logfile{"logs.txt"} {};
 
 public:
     
+    explicit Log(ctorKey) : Log() {}
+
     static Log &get();
 
     void addMessage(const std::string &message);

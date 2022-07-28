@@ -24,7 +24,7 @@ void Log::addMessage(const std::string &message) {
     ++eventCounter;
 }
 
-void addMatrix(int vecNum, std::vector<std::vector<>>){
+void addMatrix(int vecNum, std::vector<std::vector<int>>){
     
 }
 

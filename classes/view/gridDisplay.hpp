@@ -22,6 +22,7 @@
 #ifndef GRID_DISPLAY_HPP
 #define GRID_DISPLAY_HPP
 
+#include "animation/animationQueue.hpp"
 #include "components/componentDisplay.hpp"
 #include "components/candyDisplay.hpp"
 #include "components/stripedDisplay.hpp"
@@ -43,15 +44,11 @@ class GridDisplay {
     
     using ComponentMatrix = std::vector< std::vector< std::shared_ptr<ComponentDisplay> > >;
     ComponentMatrix visualComponents;
-    
+
     using CoordColour = std::pair< Point, int >;
     using CoordPair = std::pair< Point, Point >;
-    enum class animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
-    std::queue< CoordPair > swapQueue;
-    std::queue< std::vector<Point> > dropQueue;
-    std::queue< std::vector<Point> > popQueue;
-    std::queue< std::vector<CoordColour> > fillQueue;
-    std::queue<animations> animationQueue;
+    enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
+    AnimationQueue animationQueue;
 
     bool swapping = false;
 public:

@@ -77,6 +77,10 @@ private:
     /* Utility */
     Point calculateCenter(const Point &coord) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
+
+
+    // TEMP
+    void package() const;
 };
 
 #endif

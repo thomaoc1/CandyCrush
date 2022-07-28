@@ -19,12 +19,17 @@ Log &Log::get() {
  * @param message
  * 
  */
-void Log::addMessage(const std::string &message) {
+void Log::addViewMessage(const std::string &message) {
+    vecView.push_back(message);
     //logfile<<message<<std::endl;
-    ++eventCounter;
 }
 
-void addMatrix(int vecNum, std::vector<std::vector<>>){
+void Log::addModelMessage(const std::string &message) {
+    vecModel.push_back(message);
+    //logfile<<message<<std::endl;
+}
+
+void addModelMatrix(std::vector<std::vector<Cell>>&){
     
 }
 

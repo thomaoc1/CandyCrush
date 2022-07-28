@@ -54,6 +54,9 @@ public:
 
     virtual void draw();
     virtual void drawShape() const;
+
+    // TEMP
+    virtual void type() const = 0;
 };
 
 #endif

@@ -4,6 +4,10 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <string>
+#include <vector>
+
+#include "../model/containers/cell.hpp"
 
 class Log {
 
@@ -14,8 +18,12 @@ class Log {
     static std::unique_ptr<Log> singleton;
 
     int eventCounter = 0;
-    std::ofstream logfile; 
-    Log() : logfile{"logs.txt"} {};
+    std::vector<std::string> vec1;
+    std::vector<std::string> vec2;
+    //std::ofstream logfile; 
+    // Log: logfile{"logs.txt"} {};
+    Log(){};
+
 
 public:
     

@@ -20,8 +20,12 @@ Log &Log::get() {
  * 
  */
 void Log::addMessage(const std::string &message) {
-    logfile<<message<<std::endl;
+    //logfile<<message<<std::endl;
     ++eventCounter;
+}
+
+void addMatrix(int vecNum, std::vector<std::vector<>>){
+    
 }
 
 std::unique_ptr<Log> Log::singleton;

@@ -18,6 +18,7 @@
  *
  */
 void GridDisplay::nextAnimation() {
+    package();
     switch (animationQueue.nextAnimation()) {
         case animations::Pop:
             performPop();
@@ -38,7 +39,7 @@ void GridDisplay::nextAnimation() {
             performSwap();
             break;
     }
-    package();
+    // package();
 }
 
 
@@ -333,7 +334,7 @@ void GridDisplay::package() const {
         if (i == 0) temp += "   " + std::to_string(i)+ "   ";
         else temp += std::to_string(i) + "   ";
     }
-    temp += "\n========================================\n";
+    temp += "\n======================================\n";
 
     for (int i = 0; i < 9; ++i) {
         for (int j = 0; j < 9; ++j) {

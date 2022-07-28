@@ -42,6 +42,7 @@ void Log::Dump(){
  
     for(int i = 0; i < static_cast<int>(vecView.size()); i++)
     {
+        if (i > 0) ViewLog << "============== FRAME " + std::to_string(i) + " ===============\n\n";
         ViewLog << vecView[i] << std::endl;
     }
     ViewLog.close();
@@ -50,6 +51,7 @@ void Log::Dump(){
     ModelLog.open("logs/ModelLog.txt",std::ios_base::out);
     for(int i = 0; i < static_cast<int>(vecModel.size()); i++)
     {
+        if (i > 0) ModelLog << "============== FRAME " + std::to_string(i) + " ===============\n\n";
         ModelLog << vecModel[i] << std::endl;
     }
     ModelLog.close();

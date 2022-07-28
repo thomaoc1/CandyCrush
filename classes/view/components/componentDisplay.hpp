@@ -34,6 +34,7 @@ class ComponentDisplay {
 protected:
     std::shared_ptr<Animation> animation;
     std::shared_ptr<Shape> shape;
+    bool popping = false;
 public:
     ComponentDisplay(std::shared_ptr<Shape> shape) noexcept : shape{shape} {};
     ComponentDisplay(const ComponentDisplay &other) = default;

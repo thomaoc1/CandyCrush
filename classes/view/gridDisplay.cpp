@@ -38,6 +38,7 @@ void GridDisplay::nextAnimation() {
             performSwap();
             break;
     }
+    package();
 }
 
 
@@ -216,7 +217,9 @@ void GridDisplay::draw()  {
             visualComponents[row][col]->draw();
         }
     }
-    if (!isAnimation && animationQueue.size() > 0) nextAnimation();
+    if (!isAnimation && animationQueue.size() > 0){
+        nextAnimation();
+    }   
     else swapping = false;
 }
 
@@ -318,4 +321,36 @@ void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
 
 void GridDisplay::notifyFailedSwap(const Point &, const Point &) {
     std::cout << "View Swap failed" << std::endl;
+}
+
+
+// TEMP
+void GridDisplay::package() const {
+    std::cout << "Packaging" << std::endl;
+    std::string temp;
+
+    for (int i = 0; i < 9; ++i) {
+        if (i == 0) temp += "   " + std::to_string(i)+ "   ";
+        else temp += std::to_string(i) + "   ";
+    }
+    temp += "\n========================================\n";
+
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            if (j == 0) temp += std::to_string(i) + " |";
+            std::string component = " ";
+            if (visualComponents[i][j]) component = visualComponents[i][j]->type();
+            if (component.length() == 1) temp += component + "   ";
+            else if (component.length() == 2) temp += component + "  ";
+            else temp += component + " ";
+        }
+        temp += "\n";
+    }
+    
+    // std::cout << temp << std::endl;
+
+    Log::get().addViewMessage(temp);
+
+    //auto &log = Log::get();
+    //log.addViewMessage(temp);
 }

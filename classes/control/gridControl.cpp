@@ -105,6 +105,10 @@ bool GridControl::proccessEvent(int event) {
 
             dragEvent({Fl::event_x(), Fl::event_y()});
             break;
+
+        case FL_KEYDOWN:
+            Log::get().Dump();
+            exit(0);
     } 
     return event;
 }

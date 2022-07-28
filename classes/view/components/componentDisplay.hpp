@@ -42,6 +42,9 @@ public:
 
     virtual Point getCenter() const {return shape->getCenter();}
     virtual int getSize() const {return shape->getSize();}
+    // TEMP START
+    virtual int getColour() const {return shape->getColour();}
+    // TEMP END
     virtual bool inAnimation() const;
 
     virtual void setCenter(const Point &dest) {shape->setCenter(dest);}
@@ -56,7 +59,7 @@ public:
     virtual void drawShape() const;
 
     // TEMP
-    virtual void type() const = 0;
+    virtual std::string type() const;
 };
 
 #endif

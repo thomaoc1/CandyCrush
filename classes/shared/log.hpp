@@ -7,8 +7,6 @@
 #include <string>
 #include <vector>
 
-#include "../model/containers/cell.hpp"
-#include "../model/containers/grid.hpp"
 
 class Log {
 
@@ -36,8 +34,11 @@ public:
     void addViewMessage(const std::string &message);
     void addModelMessage(const std::string &message);
 
+    void Dump();
+
     void addMove() {};
 
+    ~Log() {Dump();}
 };
 
 

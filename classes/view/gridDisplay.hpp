@@ -29,6 +29,7 @@
 #include "components/wrappedDisplay.hpp"
 #include "components/wallDisplay.hpp"
 #include "cellDisplay.hpp"
+#include "../shared/log.hpp"
 
 #include <memory>
 #include <vector>

@@ -20,6 +20,7 @@
 
 #include "../../constants/constants.hpp"
 #include "../../shared/point.hpp"
+#include "../shapes/shape.hpp"
 
 #include <memory>
 #include <FL/Fl.H>
@@ -30,23 +31,21 @@
 class Animation;
 
 class ComponentDisplay {
-    Point center;
 protected:
-    Fl_Color fl_colour;
     std::shared_ptr<Animation> animation;
-    int size;
+    std::shared_ptr<Shape> shape;
 public:
-    ComponentDisplay(const Point &center, int size) : center{center}, fl_colour{FL_BLACK}, size{size} {}
-    ComponentDisplay(Point center, int size, int colour);
-    virtual ~ComponentDisplay() {}
+    ComponentDisplay(std::shared_ptr<Shape> shape) noexcept : shape{shape} {};
+    ComponentDisplay(const ComponentDisplay &other) = default;
+    ComponentDisplay(ComponentDisplay &&other) = default;
+    virtual ~ComponentDisplay() = default;
 
-    virtual Point getCenter() const {return center;}
-    virtual Fl_Color getColor() const {return fl_colour;}
-    virtual int getSize() const {return size;}
+    virtual Point getCenter() const {return shape->getCenter();}
+    virtual int getSize() const {return shape->getSize();}
     virtual bool inAnimation() const;
 
-    virtual void setCenter(const Point &dest) {center = dest;}
-    virtual void setSize(int newSize) {size = newSize;}
+    virtual void setCenter(const Point &dest) {shape->setCenter(dest);}
+    virtual void setSize(int newSize) {shape->setSize(newSize);}
 
     virtual void fillAnimate();
     virtual void moveAnimate(const Point &dest);
@@ -54,7 +53,7 @@ public:
     virtual void swapAnimate(std::shared_ptr<ComponentDisplay> other);
 
     virtual void draw();
-    virtual void drawShape() const=0;
+    virtual void drawShape() const;
 };
 
 #endif

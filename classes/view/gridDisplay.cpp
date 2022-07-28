@@ -18,7 +18,7 @@
  *
  */
 void GridDisplay::nextAnimation() {
-    switch (animationQueue.front()) {
+    switch (animationQueue.nextAnimation()) {
         case animations::Pop:
             performPop();
             break;
@@ -38,7 +38,6 @@ void GridDisplay::nextAnimation() {
             performSwap();
             break;
     }
-    animationQueue.pop();
 }
 
 
@@ -47,8 +46,7 @@ void GridDisplay::nextAnimation() {
  *
  */
 void GridDisplay::performFill() {
-    std::vector<CoordColour> toFill = fillQueue.front();
-    fillQueue.pop();
+    std::vector<CoordColour> toFill = animationQueue.nextFill();
     for (auto &cc : toFill) {
         Point coord = cc.first;
         visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, cc.second);
@@ -65,13 +63,11 @@ void GridDisplay::performFill() {
  */
 void GridDisplay::performDrop(int direction) {
     Point delta[] = {{-1, 1}, {0, 1}, {1, 1}};
-    std::vector<Point> toDrop = dropQueue.front();
-    dropQueue.pop();
+    std::vector<Point> toDrop = animationQueue.nextDrop();
    
     for (auto &p : toDrop) {
         // Temporary
         if (!visualComponents[p.y][p.x]) return;
-        
         Point dest = p + delta[direction];
         visualComponents[p.y][p.x]->moveAnimate(calculateCenter(dest));
         visualComponents[dest.y][dest.x] = visualComponents[p.y][p.x]; 
@@ -85,8 +81,7 @@ void GridDisplay::performDrop(int direction) {
  * 
  */
 void GridDisplay::performPop() {
-    std::vector<Point> toPop = popQueue.front();
-    popQueue.pop();
+    std::vector<Point> toPop = animationQueue.nextPop();
     for (auto &p : toPop) {
         // Temporary check
         if (!visualComponents[p.y][p.x]) return;
@@ -103,8 +98,7 @@ void GridDisplay::performPop() {
  * 
  */
 void GridDisplay::performSwap() {
-    CoordPair toSwap = swapQueue.front();
-    swapQueue.pop();
+    CoordPair toSwap = animationQueue.nextSwap();
 
     Point c1 = toSwap.first, c2 = toSwap.second;
     std::swap(visualComponents[c2.y][c2.x], visualComponents[c1.y][c1.x]);
@@ -180,7 +174,10 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::WALL:
             ret = std::make_shared<WallDisplay>(center);
             break;
-    }
+        default:
+            std::cout << component << ": uh oh" << std::endl;
+            break;
+     }
     return ret;
 }
 
@@ -197,8 +194,8 @@ GridDisplay::GridDisplay() {
     for (int row = 0; row < 9; ++row) {
         std::vector<CellDisplay> tmp;
         for (int col = 0; col < 9; ++col) {
-            tmp.push_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi),
-                                static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi)});
+            tmp.emplace_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2),
+                                static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2)});
         }
         visualGrid.push_back(std::move(tmp));
     }
@@ -269,8 +266,7 @@ void GridDisplay::notifyInit(const Point &coord, int type) {
  * 
  */
 void GridDisplay::notifyInsert(const Point &coord, int type) {
-    animationQueue.push(animations::Fill);
-    fillQueue.push({{coord, type}});
+    animationQueue.enqueueFill({{coord, type}});
 }
 
 
@@ -281,8 +277,7 @@ void GridDisplay::notifyInsert(const Point &coord, int type) {
  *
  */
 void GridDisplay::notifyFill(const std::vector<CoordColour> &toFill) {
-    animationQueue.push(animations::Fill);
-    fillQueue.push(toFill);
+    animationQueue.enqueueFill(toFill);
 }
 
 
@@ -293,8 +288,7 @@ void GridDisplay::notifyFill(const std::vector<CoordColour> &toFill) {
  *
  */
 void GridDisplay::notifyPop(const std::vector<Point> &toPop) {
-    animationQueue.push(animations::Pop);
-    popQueue.push(toPop);
+    animationQueue.enqueuePop(toPop);
 }
 
 
@@ -306,18 +300,7 @@ void GridDisplay::notifyPop(const std::vector<Point> &toPop) {
  *
  */
 void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
-    switch (direction) {
-        case Constants::CENTER:
-            animationQueue.push(animations::DropDown);
-            break;
-        case Constants::LEFT:
-            animationQueue.push(animations::DropLeft);
-            break;
-        case Constants::RIGHT:
-            animationQueue.push(animations::DropRight);
-            break;
-    }
-    dropQueue.push(toDrop);
+    animationQueue.enqueueDrop(toDrop, direction);
 }
 
 
@@ -329,10 +312,7 @@ void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
  *
  */
 void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
-    if (!swapping && animationQueue.size() == 0) {
-        animationQueue.push(animations::Swap);
-        swapQueue.push({c1, c2});
-    }
+    if (!swapping && animationQueue.size() == 0) animationQueue.enqueueSwap({c1, c2});
 }
 
 

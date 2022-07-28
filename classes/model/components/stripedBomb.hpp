@@ -20,8 +20,8 @@
 
 class StripedBomb : public GameComponent {
 public:
-    StripedBomb(int colour, int blastDirection) : GameComponent(colour, 1, blastDirection) {}
-    StripedBomb() : GameComponent(Constants::randomCandy(), 1, Constants::randomDirection()) {}
+    StripedBomb(int colour, int blastDirection) noexcept : GameComponent(colour, 1, blastDirection) {}
+    StripedBomb() noexcept : GameComponent(Constants::randomCandy(), 1, Constants::randomDirection()) {}
     int type() const override;
 };
 

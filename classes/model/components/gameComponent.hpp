@@ -27,11 +27,11 @@ class GameComponent {
     const int blastArea;
     const int blastDirection;
 public:
-    GameComponent(int colour, int blastArea, int blastDirection) : colour{colour}, 
-                                                                     blastArea{blastArea}, 
-                                                                     blastDirection{blastDirection} {}
-    GameComponent() : colour{Constants::NONE}, blastArea{0}, blastDirection{Constants::NO_DIRECTION} {}
-    virtual ~GameComponent() {};
+    GameComponent(int colour, int blastArea, int blastDirection) noexcept : colour{colour}, 
+                                                                            blastArea{blastArea}, 
+                                                                            blastDirection{blastDirection} {}
+    GameComponent() noexcept : colour{Constants::NONE}, blastArea{0}, blastDirection{Constants::NO_DIRECTION} {}
+    virtual ~GameComponent() = default;
     virtual int getColour() const {return colour;}
     virtual int getBlastArea() const {return blastArea;}
     virtual int getBlastDirection() const {return blastDirection;}

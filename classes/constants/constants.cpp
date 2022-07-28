@@ -56,8 +56,40 @@ int Constants::associatedColour(int component) {
         case Constants::ORANGE_WRAPPED_BOMB:
             colour = Constants::ORANGE;
             break;
+        case Constants::WALL:
+            colour = Constants::BLACK;
     }
     return colour;
+}
+
+
+Fl_Color Constants::associatedFLColour(int colour) {
+    Fl_Color fl_colour;
+    colour = associatedColour(colour);
+    switch(colour) {
+        case Constants::RED:
+            fl_colour = FL_RED;
+            break;        
+        case Constants::BLUE:
+            fl_colour = FL_BLUE;
+            break;
+        case Constants::GREEN:
+            fl_colour = FL_GREEN;
+            break;
+        case Constants::PURPLE:
+            fl_colour = FL_MAGENTA;
+            break;
+        case Constants::YELLOW:
+            fl_colour = FL_YELLOW;
+            break;
+        case Constants::ORANGE:
+            fl_colour = fl_rgb_color(255,165,0);
+            break;
+        case Constants::BLACK:
+            fl_colour = FL_BLACK;
+            break;
+    }
+    return fl_colour;
 }
 
 

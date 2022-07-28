@@ -215,7 +215,7 @@ void Grid::insertComponent(int row, int col) {
     // Wrapped insertion
     if (component >= 3 && component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
     // Wall insertion
-    //if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
+    if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
 }
@@ -314,8 +314,8 @@ void Grid::placeWrappedCandies() {
 void Grid::placeStripedCandies() {
     for (auto &cell : stripedBombs) {
         Cell * cp = cell.first;
-        int blastDirection = cell.second.second, colour = cell.second.first;
-
+        int blastDirection = cell.second.second;
+        int colour = Constants::associatedColour(cell.second.first);
         int stripedBomb = Constants::associatedStripedBomb(colour, blastDirection);
         insertComponent(cp, stripedBomb);
         observer->notifyInsert(cp->getLocation(), stripedBomb);

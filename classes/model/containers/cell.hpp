@@ -32,7 +32,7 @@ class Cell {
     std::vector< Cell * > aboveNbs{nullptr, nullptr, nullptr};
     bool toPop = false;
 public:
-    Cell(int row, int col) : row{row}, col{col} {}
+    Cell(int row, int col) noexcept : row{row}, col{col} {}
 
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}

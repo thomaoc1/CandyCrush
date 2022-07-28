@@ -20,8 +20,8 @@
 
 class WrappedBomb : public GameComponent {
 public:
-    WrappedBomb(int colour) : GameComponent(colour, 9, Constants::NO_DIRECTION) {}
-    WrappedBomb() : GameComponent(Constants::randomCandy(), 9, Constants::NO_DIRECTION) {}
+    WrappedBomb(int colour) noexcept : GameComponent(colour, 9, Constants::NO_DIRECTION) {}
+    WrappedBomb() noexcept : GameComponent(Constants::randomCandy(), 9, Constants::NO_DIRECTION) {}
     int type() const override;
 };
 

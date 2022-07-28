@@ -1,3 +1,6 @@
+differenceV = []
+differenceM = []
+
 with open('ModelLog.txt', 'r') as Model, open('ViewLog.txt', 'r') as View:
     same = True
     counter = 0
@@ -6,10 +9,12 @@ with open('ModelLog.txt', 'r') as Model, open('ViewLog.txt', 'r') as View:
         lineM = Model.readline()
         counter += 1
         if counter > 1 and lineM != lineV:
-            print("Model: " + lineM + "\n" + "View: " + lineV)
-            same = False
+            differenceM.append((counter, lineM))
+            differenceV.append((counter,lineV))
         elif lineV == "" or lineM == "":
             same = False
             print("You good bro")
 
-print(counter)            
+for i in range(len(differenceV)):
+    print("View(" + str(differenceV[i][0]) + "):  " + differenceV[i][1])  
+    print("Model(" + str(differenceM[i][0]) + "):  " + differenceM[i][1])  

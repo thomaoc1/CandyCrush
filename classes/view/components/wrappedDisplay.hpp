@@ -19,6 +19,7 @@
 
 #include "componentDisplay.hpp"
 #include "../shapes/circle.hpp"
+#include "../text/textDisplay.hpp"
 
 class WrappedDisplay : public ComponentDisplay {
 public:

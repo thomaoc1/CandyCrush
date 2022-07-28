@@ -18,6 +18,9 @@ class TextDisplay {
 public:
     TextDisplay(const Point &center, const std::string &text, Fl_Font font, int size)
         : center{center}, text{text}, font{font}, size{size} {}
+    TextDisplay(const TextDisplay &) = default;
+    TextDisplay(TextDisplay &&) = default;
+    
     void setSize(int newSize) {size = newSize;}
     void setCenter(const Point &dest) {center = dest;}
     void draw() const;

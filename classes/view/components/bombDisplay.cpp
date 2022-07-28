@@ -18,6 +18,9 @@ void BombDisplay::drawShape() const {
 }
 
 
+/**
+ * \see ComponentDisplay::setCenter(const Point &)
+ */
 void BombDisplay::setCenter(const Point &dest) {
     shape->setCenter(dest);
     text.setCenter(dest);

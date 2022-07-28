@@ -303,6 +303,7 @@ void Grid::placeWrappedCandies() {
                 break;
         }  
     }
+    if (wrappedBombs.size() > 0) package();
     wrappedBombs.clear();
 }
 
@@ -320,6 +321,7 @@ void Grid::placeStripedCandies() {
         insertComponent(cp, stripedBomb);
         observer->notifyInsert(cp->getLocation(), stripedBomb);
     }
+    if (stripedBombs.size() > 0) package();
     stripedBombs.clear();
 }
 
@@ -355,7 +357,12 @@ bool Grid::fillTop() {
         insertComponent(0, i);
         toFill.push_back(CoordColour{{i, 0}, grid[0][i].type()});
     }
-    if (toFill.size() > 0) observer->notifyFill(toFill);
+    //
+    if (toFill.size() > 0){
+        observer->notifyFill(toFill);
+        std::cout << "361: FILL TOP PACKAGE" << std::endl;
+        package();
+    } 
     return toFill.size() > 0;
 }   
 
@@ -365,11 +372,7 @@ bool Grid::fillTop() {
  * 
  */
 void Grid::completeFill() {
-    while(fillTop()) {
-        std::cout << "====== Fill ========" << std::endl;
-        //package();
-        completeDrop();
-    }
+    while(fillTop()) completeDrop();
 }
 
 
@@ -388,10 +391,16 @@ bool Grid::clear() {
             clearCheck(&c, Constants::VERTICAL);
         }
     } 
-    if (toPop.size() > 0) clearGrid = false;
-    popAll();
-    placeWrappedCandies();
-    placeStripedCandies();
+    if (toPop.size() > 0) {
+        clearGrid = false;
+        popAll();
+        package();
+        placeWrappedCandies();
+        placeStripedCandies();
+
+        std::cout << "396: CLEARING PACKAGE" << std::endl;
+    }
+    
     return clearGrid;
 }
 
@@ -423,6 +432,8 @@ bool Grid::directedDrop(int direction) {
     }
     if (toDrop.size() > 0) {
         observer->notifyDrop(toDrop, direction);
+        std::cout << "431: DROPPING " << direction << " PACKAGE" << std::endl;
+        package();
         fillTop();
     } 
     return toDrop.size() > 0;
@@ -437,25 +448,13 @@ void Grid::completeDrop() {
     bool dropComplete = false;
     while (!dropComplete)  {
         // Drop down until can't
-        while(directedDrop(Constants::CENTER)) {
-            std::cout << "=== Drop Down ===" << std::endl;
-            //package();
-        }
+        while(directedDrop(Constants::CENTER));
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
         if (!directedDrop(Constants::LEFT)) {
             // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
             if (!directedDrop(Constants::RIGHT)) dropComplete = true;
-            else {
-                std::cout << "=== Drop Right ===" << std::endl;
-                //package();
-            }
-    
-        } 
-        else {
-            std::cout << "=== Drop Left ===" << std::endl;
-            //package();
         }
     }
 }
@@ -466,12 +465,8 @@ void Grid::completeDrop() {
  * 
  */
 void Grid::clean() {
-    //package();
+    // package();
     while (!clear()) {
-        std::cout << "=== Clear ===" << std::endl;
-
-        //package();
-
         completeDrop();
         completeFill();
     } 
@@ -641,7 +636,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
             observer->notifyInit(coord, cell.type());
         } 
     }
-
+    package();
     clean();
 }
 
@@ -656,6 +651,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
 void Grid::swap(const Point &cell1, const Point &cell2) {
     std::cout << "swap call" << std::endl;
     if (checkSwap(cell1, cell2)) {
+        package();
         observer->notifySwap(cell1, cell2);
         clean();
     } 

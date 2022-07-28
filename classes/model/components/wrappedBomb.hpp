@@ -23,6 +23,7 @@ public:
     WrappedBomb(int colour) noexcept : GameComponent(colour, 9, Constants::NO_DIRECTION) {}
     WrappedBomb() noexcept : GameComponent(Constants::randomCandy(), 9, Constants::NO_DIRECTION) {}
     int type() const override;
+    std::string toString() const override {return GameComponent::toString() + "Wr";}
 };
 
 #endif

@@ -18,7 +18,7 @@
  *
  */
 void GridDisplay::nextAnimation() {
-    package();
+    //package();
     switch (animationQueue.nextAnimation()) {
         case animations::Pop:
             performPop();
@@ -39,7 +39,7 @@ void GridDisplay::nextAnimation() {
             performSwap();
             break;
     }
-    // package();
+    //package();
 }
 
 
@@ -54,6 +54,7 @@ void GridDisplay::performFill() {
         visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, cc.second);
         visualComponents[coord.y][coord.x]->fillAnimate();
     }
+    package();
 }
 
 
@@ -75,6 +76,7 @@ void GridDisplay::performDrop(int direction) {
         visualComponents[dest.y][dest.x] = visualComponents[p.y][p.x]; 
         visualComponents[p.y][p.x] = nullptr;
     } 
+    package();
 }
 
 
@@ -89,6 +91,7 @@ void GridDisplay::performPop() {
         if (!visualComponents[p.y][p.x]) return;
         visualComponents[p.y][p.x]->popAnimate();
     }
+    package();
 }
 
 
@@ -107,6 +110,7 @@ void GridDisplay::performSwap() {
     visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
 
     swapping = true;
+    package();
 }
 
 
@@ -232,7 +236,7 @@ void GridDisplay::draw()  {
  * 
  */
 bool GridDisplay::inAnimation() const {
-    std::cout << "inAnimation call" << std::endl;
+    // std::cout << "inAnimation call" << std::endl;
     bool isAnimation = false;
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
@@ -240,7 +244,7 @@ bool GridDisplay::inAnimation() const {
             if (visualComponents[row][col]->inAnimation()) isAnimation = true;
         }
     }
-    std::cout << "In animation: " << isAnimation << std::endl;
+    // std::cout << "In animation: " << isAnimation << std::endl;
     return isAnimation;
 }
 
@@ -259,6 +263,7 @@ bool GridDisplay::inAnimation() const {
  */
 void GridDisplay::notifyInit(const Point &coord, int type) {
     visualComponents[coord.y].push_back(factoryMethod(coord.y, coord.x, type));
+    if (coord.x == 8 && coord.y == 8) package();
 }
 
 

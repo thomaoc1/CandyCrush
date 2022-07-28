@@ -16,7 +16,7 @@ public:
     virtual void setCenter(const Point &dest) override;
     virtual void setSize(int newSize) override;
 
-    virtual std::string type() const {return ComponentDisplay::type() + text.getText();}
+    virtual std::string type() const {return ComponentDisplay::type() != " " ? ComponentDisplay::type() + text.getText() : " ";}
 };
 
 #endif

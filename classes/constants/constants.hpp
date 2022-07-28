@@ -4,6 +4,12 @@
 #include <string>
 #include <array>
 
+#include <FL/Fl.H>
+#include <FL/fl_draw.H>
+#include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Box.H>
+
+
 class Constants {
     const static std::array< int, 6 > candies;
 public:
@@ -44,8 +50,10 @@ public:
     static int randomDirection() {return rand() % 2;}
     
     static int associatedColour(int component);
+    static int associatedFLColour(int colour);
     static int associatedStripedBomb(int colour, int direction);
     static int associatedWrappedBomb(int colour);
+    
 };
 
 

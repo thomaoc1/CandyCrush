@@ -26,6 +26,7 @@
 #include <FL/Fl_Box.H>
 
 class CandyDisplay : public ComponentDisplay {
+    // Circle circle;
 public:
     CandyDisplay(Point center, int colour) : ComponentDisplay(center, Constants::CANDY_RADIUS, colour) {}
     void drawShape() const override;

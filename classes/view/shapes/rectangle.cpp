@@ -1,4 +1,4 @@
-#include "candyDisplay.hpp"
+#include "rectangle.hpp"
 
 
 /*-------------------------------------------------------------------------------------------*
@@ -9,15 +9,14 @@
 
 
 /**
- * @brief Draws associated shape to the window
+ * @brief Draws shape.
  * 
  */
-void CandyDisplay::drawShape() const {
-    // circle.draw();
-    fl_color(fl_colour);
-    fl_begin_polygon();
-    fl_circle(getCenter().x, 
-                getCenter().y, 
-                size);
-    fl_end_polygon();
+void Rectangle::draw() const {
+    fl_draw_box(FL_FLAT_BOX, 
+                static_cast<int>(center.x - Constants::INTER_CELL/2),
+                static_cast<int>(center.y - Constants::INTER_CELL/2), 
+                size,
+                size, 
+                colour);
 }

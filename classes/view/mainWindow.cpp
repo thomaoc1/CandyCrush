@@ -37,7 +37,7 @@ int MainWindow::handle(int event) {
 
 
 /**
- * @brief Call back method. Called Constants::FPS times per second.
+ * @brief Call back method.
  * 
  * @param userdata
  * 

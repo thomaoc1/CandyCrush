@@ -61,6 +61,33 @@ int Constants::associatedColour(int component) {
 }
 
 
+int Constants::associatedFLColour(int colour) {
+    Fl_Color fl_colour;
+    colour = associatedColour(colour);
+    switch(colour) {
+        case Constants::RED:
+            fl_colour = FL_RED;
+            break;        
+        case Constants::BLUE:
+            fl_colour = FL_BLUE;
+            break;
+        case Constants::GREEN:
+            fl_colour = FL_GREEN;
+            break;
+        case Constants::PURPLE:
+            fl_colour = FL_MAGENTA;
+            break;
+        case Constants::YELLOW:
+            fl_colour = FL_YELLOW;
+            break;
+        case Constants::ORANGE:
+            fl_colour = fl_rgb_color(255,165,0);
+            break;
+    }
+    return fl_colour;
+}
+
+
 int Constants::associatedStripedBomb(int colour, int direction) {
     int type;
     if (direction == Constants::VERTICAL) {

@@ -20,6 +20,7 @@
 
 #include "../../constants/constants.hpp"
 #include "../../shared/point.hpp"
+#include "../shapes/shape.hpp"
 
 #include <memory>
 #include <FL/Fl.H>
@@ -30,11 +31,13 @@
 class Animation;
 
 class ComponentDisplay {
-    Point center;
 protected:
+    Point center;
     Fl_Color fl_colour;
-    std::shared_ptr<Animation> animation;
     int size;
+
+    std::shared_ptr<Animation> animation;
+    std::shared_ptr<Shape> shape;
 public:
     ComponentDisplay(const Point &center, int size) : center{center}, fl_colour{FL_BLACK}, size{size} {}
     ComponentDisplay(Point center, int size, int colour);

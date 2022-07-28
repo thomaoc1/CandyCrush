@@ -11,10 +11,14 @@ with open('ModelLog.txt', 'r') as Model, open('ViewLog.txt', 'r') as View:
         if counter > 1 and lineM != lineV:
             differenceM.append((counter, lineM))
             differenceV.append((counter,lineV))
-        elif lineV == "" or lineM == "":
+        elif not lineV or not lineM:
             same = False
-            print("You good bro")
+            print("EOF Reached")
 
-for i in range(len(differenceV)):
-    print("View(" + str(differenceV[i][0]) + "):  " + differenceV[i][1])  
-    print("Model(" + str(differenceM[i][0]) + "):  " + differenceM[i][1])  
+if len(differenceM) == 0:
+    print("No differences, chilliiinnn")
+else:
+    print("Uh oh")
+    for i in range(len(differenceV)):
+        print("View(" + str(differenceV[i][0]) + "):  " + differenceV[i][1])  
+        print("Model(" + str(differenceM[i][0]) + "):  " + differenceM[i][1])  

@@ -41,7 +41,7 @@ bool GridControl::coordInGame(const Point &mouseLoc) const {
 void GridControl::clickEvent(const Point &mouseLoc) {
     // if (!coordInGame(mouseLoc)) return;
     if (!coordInGame(mouseLoc) || (coordInGame(mouseLoc) && view->inAnimation())) return;
-    clicked = true;
+    dragged = false;
     click = mouseLoc;
     clickToIndex = coordToCell(mouseLoc);
     // std::cout << "Click: " << grid->getCell(clickToIndex.y, clickToIndex.x) << std::endl;
@@ -55,10 +55,11 @@ void GridControl::clickEvent(const Point &mouseLoc) {
  * 
  */
 void GridControl::dragEvent(const Point &mouseLoc) {
-    if (!(clicked && coordInGame(mouseLoc)) || (coordInGame(mouseLoc) && view->inAnimation())) return;
-    // std::cout << "59: GC" << std::endl;
+    if (dragged || !coordInGame(mouseLoc) 
+                || (coordInGame(mouseLoc) && view->inAnimation())
+                || coordToCell(mouseLoc) == clickToIndex) return;
     Point dragToIndex = coordToCell(mouseLoc);
-    // std::cout << "DRAG Row : " << dragToIndex.y << " Col : " << dragToIndex.x << std::endl;
+    dragged = true;
     if (dragToIndex.x == clickToIndex.x) {
         if (dragToIndex.y < clickToIndex.y) {
             grid->swap(clickToIndex, {clickToIndex.x, clickToIndex.y - 1});
@@ -96,7 +97,7 @@ bool GridControl::proccessEvent(int event) {
         }
         case FL_RELEASE : {
             if (Fl::event_button() != FL_LEFT_MOUSE) break;
-            clicked = false;
+            dragged = false;
             click = Point{};
             break;
         }

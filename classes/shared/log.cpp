@@ -19,12 +19,12 @@ Log &Log::get() {
  * @param message
  * 
  */
-void Log::addMessage(const std::string &message) {
+void Log::addMessage(const std::string &/*message*/) {
     //logfile<<message<<std::endl;
     ++eventCounter;
 }
 
-void addMatrix(int vecNum, std::vector<std::vector<int>>){
+void addMatrix(int, std::vector<std::vector<int>>){
     
 }
 

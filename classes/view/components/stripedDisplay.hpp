@@ -18,13 +18,16 @@
 #define STRIPED_DISPLAY_HPP
 
 #include "componentDisplay.hpp"
+#include "../shapes/circle.hpp"
 
 class StripedDisplay : public ComponentDisplay {
     const int blastDirection;
 public:
-    StripedDisplay(Point center, int colour, int blastDirection) : 
-                    ComponentDisplay(center, Constants::CANDY_RADIUS, colour),
+    StripedDisplay(const Point &center, int colour, int blastDirection) : 
+                    ComponentDisplay(std::make_shared<Circle>(center, colour, Constants::CANDY_RADIUS)),
                     blastDirection{blastDirection} {}
+    StripedDisplay(const StripedDisplay &) = default;
+    StripedDisplay(StripedDisplay &&) = default;
     void drawShape() const override;
 };
 

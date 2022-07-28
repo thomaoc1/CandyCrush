@@ -199,8 +199,8 @@ GridDisplay::GridDisplay() {
     for (int row = 0; row < 9; ++row) {
         std::vector<CellDisplay> tmp;
         for (int col = 0; col < 9; ++col) {
-            tmp.emplace_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi),
-                                static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi)});
+            tmp.emplace_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2),
+                                static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2)});
         }
         visualGrid.push_back(std::move(tmp));
     }

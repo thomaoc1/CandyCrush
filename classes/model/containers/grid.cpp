@@ -215,7 +215,7 @@ void Grid::insertComponent(int row, int col) {
     // Wrapped insertion
     if (component >= 3 && component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
     // Wall insertion
-    //if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
+    if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
 }

@@ -33,7 +33,7 @@ public:
     static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;
 
 
-    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, NONE, ALL, EMPTY, WALL, 
+    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ALL, EMPTY, WALL, 
 
                             RED_STRIPED_BOMB_V, BLUE_STRIPED_BOMB_V, GREEN_STRIPED_BOMB_V, YELLOW_STRIPED_BOMB_V,
                             PURPLE_STRIPED_BOMB_V, ORANGE_STRIPED_BOMB_V,
@@ -50,7 +50,7 @@ public:
     static int randomDirection() {return rand() % 2;}
     
     static int associatedColour(int component);
-    static int associatedFLColour(int colour);
+    static Fl_Color associatedFLColour(int colour);
     static int associatedStripedBomb(int colour, int direction);
     static int associatedWrappedBomb(int colour);
     

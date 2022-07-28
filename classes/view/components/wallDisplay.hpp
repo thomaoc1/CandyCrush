@@ -18,13 +18,13 @@
 #define WALL_DISPLAY_HPP
 
 #include "componentDisplay.hpp"
+#include "../shapes/rectangle.hpp"
 
 class WallDisplay : public ComponentDisplay {
-    const Fl_Color fillColour = FL_BLACK;
 public:
-    WallDisplay(Point center) : ComponentDisplay(center, Constants::INTER_CELL) {}
-    void draw() override {drawShape();}
-    void drawShape() const override;
+    WallDisplay(Point center) : 
+        ComponentDisplay(std::make_shared<Rectangle>(center, Constants::WALL, Constants::INTER_CELL, FL_FLAT_BOX)) {}
+    void draw() override {ComponentDisplay::drawShape();}
 };
 
 #endif

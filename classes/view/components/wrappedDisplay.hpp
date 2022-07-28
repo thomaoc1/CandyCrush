@@ -18,10 +18,13 @@
 #define WRAPPED_DISPLAY_HPP
 
 #include "componentDisplay.hpp"
+#include "../shapes/circle.hpp"
 
 class WrappedDisplay : public ComponentDisplay {
 public:
-    WrappedDisplay(Point center, int colour) : ComponentDisplay(center, Constants::CANDY_RADIUS, colour) {}
+    WrappedDisplay(const Point &center, int colour) : ComponentDisplay(std::make_shared<Circle>(center, colour, Constants::CANDY_RADIUS)) {}
+    WrappedDisplay(const WrappedDisplay &) = default;
+    WrappedDisplay(WrappedDisplay &&) = default;
     void drawShape() const override;
 };
 

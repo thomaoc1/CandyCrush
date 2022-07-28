@@ -12,6 +12,7 @@
  * @brief Draws associated shape to the window
  * 
  */
+/*
 void CandyDisplay::drawShape() const {
     // circle.draw();
     fl_color(fl_colour);
@@ -21,3 +22,4 @@ void CandyDisplay::drawShape() const {
                 size);
     fl_end_polygon();
 }
+*/

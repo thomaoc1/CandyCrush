@@ -4,12 +4,11 @@
 #include "shape.hpp"
 
 class Rectangle : public Shape {
-    Fl_Color frameColour;
-    const int size;
+    Fl_Boxtype type;
 public:
-    Rectangle(const Point &center, Fl_Color fillColour, Fl_Color frameColour, int size) : Shape{center, colour}, 
-                                                                                          frameColour{frameColour}, 
-                                                                                          size{size} {}
+    Rectangle(const Point &center, int fillColour, int size, Fl_Boxtype type) 
+                : Shape{center, fillColour, size}, type{type} {}
+                                                                                          
     Rectangle(const Rectangle &) = default;
     Rectangle(Rectangle &&) = default;
 

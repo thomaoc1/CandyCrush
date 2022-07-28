@@ -4,9 +4,8 @@
 #include "shape.hpp"
 
 class Circle : public Shape {
-    const double radius;
 public:
-    Circle(const Point &center, Fl_Color colour, double radius) : Shape{center, colour}, radius{radius} {}
+    Circle(const Point &center, int colour, int radius) : Shape{center, colour, radius} {}
     Circle(const Circle &) = default;
     Circle(Circle &&) = default;
 

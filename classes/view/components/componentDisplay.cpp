@@ -11,31 +11,6 @@
  --------------------------------------------------------------------------------------------*/
 
 
-ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{center}, size{size} {
-    colour = Constants::associatedColour(colour);
-    switch(colour) {
-        case Constants::RED:
-            fl_colour = FL_RED;
-            break;        
-        case Constants::BLUE:
-            fl_colour = FL_BLUE;
-            break;
-        case Constants::GREEN:
-            fl_colour = FL_GREEN;
-            break;
-        case Constants::PURPLE:
-            fl_colour = FL_MAGENTA;
-            break;
-        case Constants::YELLOW:
-            fl_colour = FL_YELLOW;
-            break;
-        case Constants::ORANGE:
-            fl_colour = fl_rgb_color(255,165,0);
-            break;
-    }
-}
-
-
 /**
  * @brief Displays the component
  * 
@@ -43,6 +18,15 @@ ComponentDisplay::ComponentDisplay(Point center, int size, int colour) : center{
 void ComponentDisplay::draw() {
     if (inAnimation()) animation->draw();
     else drawShape();
+}
+
+
+/**
+ * @brief Displays the component
+ * 
+ */
+void ComponentDisplay::drawShape() const {
+    shape->draw();
 }
 
 

@@ -8,7 +8,7 @@
  * 
  */
 Log &Log::get() {
-    if (!singleton){ singleton=std::unique_ptr<Log>(new Log());}
+    if (!singleton) singleton = std::make_unique<Log>();
     return *singleton;
 }
 

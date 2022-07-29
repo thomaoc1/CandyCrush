@@ -43,6 +43,8 @@ public:
                             RED_WRAPPED_BOMB, BLUE_WRAPPED_BOMB, GREEN_WRAPPED_BOMB, YELLOW_WRAPPED_BOMB,
                             PURPLE_WRAPPED_BOMB, ORANGE_WRAPPED_BOMB,
 
+                            CHERRY, HAZELNUT,
+
                             SPECIAL_BOMB} components;
 
     /** @brief Returns a random candy */

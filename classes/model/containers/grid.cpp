@@ -100,10 +100,10 @@ void Grid::clearCheck(Cell * cell, int direction) {
     stripedBomb(cell, contColour[direction], direction);   
 
     for (auto &c : contColour[direction]) {
-        c->willPop();
-        toPop.push_back(c);
-        if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
-        else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);           
+        if (!c->getOccupied()) continue;
+        willPop(c);
+        if (wrBlastCond(c)) wrappedBlast(c);
+        else if (stBlastCond(c)) stripedBlast(c);           
     }
 }
 
@@ -121,11 +121,10 @@ void Grid::clearCheck(Cell * cell, int direction) {
  */
 void Grid::wrappedBlast(Cell * target) {
     for (auto &c : target->getNbs()) {
-        if (!c || c->getPop()) continue;
-        c->willPop();
-        toPop.push_back(c);
-        if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
-        else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+        if (!c || !c->getOccupied() || c->getPop()) continue;
+        willPop(c);
+        if (wrBlastCond(c)) wrappedBlast(c);
+        else if (stBlastCond(c)) stripedBlast(c);
     }
 }
 
@@ -137,40 +136,46 @@ void Grid::wrappedBlast(Cell * target) {
  * 
  */
 void Grid::stripedBlast(Cell * target) {
+    if (!target->getOccupied()) return;
     int direction = target->getOccupied()->getBlastDirection();
     Point start = target->getLocation();
     Cell * c;
     if (direction == Constants::VERTICAL) {
         for (int i = start.y + 1; i < 9; ++i){
+            std::cout << "V" << Point{i, start.y} << std::endl;
             c = &grid[i][start.x];
-            toPop.push_back(c);
-            c->willPop();
-            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
-            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+            if (!c->getOccupied() || c->getPop()) continue;
+            willPop(c);
+            if (wrBlastCond(c)) wrappedBlast(c);
+            else if (stBlastCond(c)) stripedBlast(c);
+            std::cout << "V" << Point{i, start.y} << std::endl;
         }
         for (int i = start.y - 1; i >= 0; --i){
             c = &grid[i][start.x];
-            toPop.push_back(c);
-            c->willPop();
-            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
-            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+            if (!c->getOccupied() || c->getPop()) continue;
+            willPop(c);
+            if (wrBlastCond(c)) wrappedBlast(c);
+            else if (stBlastCond(c)) stripedBlast(c);
         }
     }
     else {
         for (int i = start.x + 1; i < 9; ++i){
             c = &grid[start.y][i];
-            toPop.push_back(c);
-            c->willPop();
-            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
-            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
+            //std::cout << Point{i, start.y} << std::endl;
+            if (!c->getOccupied() || c->getPop()) continue;
+            //std::cout << Point{i, start.y} << std::endl;
+            willPop(c);
+            if (wrBlastCond(c)) wrappedBlast(c);
+            else if (stBlastCond(c)) stripedBlast(c);
         }
         for (int i = start.x - 1; i >= 0; --i){
+            std::cout << "H" << Point{i, start.y} << std::endl;
             c = &grid[start.y][i];
-            toPop.push_back(c);
-            c->willPop();
-            if (c->getOccupied()->getBlastArea() == 9) wrappedBlast(c);
-            else if (c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION) stripedBlast(c);
-        }
+            if (!c->getOccupied() || c->getPop()) continue;
+            willPop(c);
+            if (wrBlastCond(c)) wrappedBlast(c);
+            else if (stBlastCond(c)) stripedBlast(c);
+            std::cout << "H" << Point{i, start.y} << std::endl;        }
     }
 }
 
@@ -204,6 +209,16 @@ void Grid::popAll() {
 
 
 /**
+ * @brief
+ * 
+ */
+void Grid::willPop(Cell * target) {
+    target->willPop();
+    toPop.push_back(target);
+}
+
+
+/**
  * @brief Insert random game component at indices row, col into the Grid
  * 
  * @param row 
@@ -212,14 +227,18 @@ void Grid::popAll() {
  */
 void Grid::insertComponent(int row, int col) {
     const int component = rand() % 81;
+    
     // StripedBomb insertion
-    if (component > 0 && component < 3) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
+    if (component < 8) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
     // Wrapped insertion
-    if (component >= 3 && component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
+    else if (component < 12) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
     // Wall insertion
-    if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
+    // else if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
     // Candy insertion
+    else if (component == 81) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
+
     else grid[row][col].setOccupied(std::make_shared<Candy>());
+    
 }
 
 
@@ -338,6 +357,7 @@ void Grid::placeStripedCandies() {
 void Grid::placeSpecialBombs() {
     for (auto &cell : specialBombs) {
         insertComponent(cell, cell->type());
+        std::cout << "Notifying insert: " << cell->getLocation() << " " << cell->type() << std::endl;
         observer->notifyInsert(cell->getLocation(), cell->type());
     }
 }
@@ -377,7 +397,6 @@ bool Grid::fillTop() {
     //
     if (toFill.size() > 0){
         observer->notifyFill(toFill);
-        std::cout << "361: FILL TOP PACKAGE" << std::endl;
         package();
     } 
     return toFill.size() > 0;
@@ -445,9 +464,6 @@ bool Grid::directedDrop(int direction) {
         if (toDrop.size() > 0 && (direction == Constants::LEFT || direction == Constants::RIGHT)) break;
     }
     if (toDrop.size() > 0) {
-        std::cout << direction << ": ";
-        for (auto &p : toDrop) std::cout << p << ", ";
-        std::cout<< std::endl;
         observer->notifyDrop(toDrop, direction);
         package();
         fillTop();
@@ -646,6 +662,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
             Point coord = cell.getLocation();
             cell.setNbs(getNbs(coord.y, coord.x));
             if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
+            std::cout << "Notifying insert: " << cell.getLocation() << " " << cell.type() << std::endl;
             observer->notifyInit(coord, cell.type());
         } 
     }

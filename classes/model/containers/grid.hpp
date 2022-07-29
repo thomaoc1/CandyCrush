@@ -76,6 +76,7 @@ private:
     void stripedBlast(Cell * target);
     void pop(Cell * target);
     void popAll();
+    void willPop(Cell * target);
     void insertComponent(int row, int col);
     void insertComponent(Cell * cell, int type);
     void placeWrappedCandies();
@@ -101,6 +102,8 @@ private:
 
     /* Utility */ 
     bool inGrid(const Point &coord) const;
+    bool wrBlastCond(Cell * c) const {return c->getOccupied()->getBlastArea() == 9;}
+    bool stBlastCond(Cell * c) const {return c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION;}
 
     // TEMP
     void package() const;

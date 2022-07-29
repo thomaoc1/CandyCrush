@@ -70,7 +70,10 @@ int Constants::associatedColour(int component) {
 
 Fl_Color Constants::associatedFLColour(int colour) {
     Fl_Color fl_colour;
-    colour = associatedColour(colour);
+    
+    if (colour != Constants::SPECIAL_BOMB) colour = associatedColour(colour);
+    else return FL_DARK_RED;
+
     switch(colour) {
         case Constants::RED:
             fl_colour = FL_RED;

@@ -187,6 +187,7 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
             break;
         case Constants::SPECIAL_BOMB:
             ret = std::make_shared<SpecialDisplay>(center);
+            std::cout << "View making special Bomb" << std::endl;
      }
     return ret;
 }

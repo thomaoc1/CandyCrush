@@ -20,8 +20,8 @@
 
 class Candy : public GameComponent {
 public:
-    Candy() noexcept : GameComponent(Constants::randomCandy(), 1, Constants::NO_DIRECTION) {}
-    Candy(int colour) noexcept : GameComponent(colour, 1, Constants::NO_DIRECTION) {}
+    Candy() noexcept : GameComponent(Constants::randomCandy()) {}
+    Candy(int colour) noexcept : GameComponent(colour) {}
     virtual ~Candy() = default;
     virtual int type() const override {return getColour();}
 };

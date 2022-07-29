@@ -176,7 +176,7 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::ORANGE_WRAPPED_BOMB:
             ret = std::make_shared<WrappedDisplay>(center, Constants::associatedColour(component));
             break;
-        case Constants::WALL:
+        case Constants::IMMOBILE:
             ret = std::make_shared<WallDisplay>(center);
             break;
      }

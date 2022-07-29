@@ -33,7 +33,7 @@ public:
     static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;
 
 
-    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ALL, EMPTY, WALL, 
+    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ALL, EMPTY, IMMOBILE, 
 
                             RED_STRIPED_BOMB_V, BLUE_STRIPED_BOMB_V, GREEN_STRIPED_BOMB_V, YELLOW_STRIPED_BOMB_V,
                             PURPLE_STRIPED_BOMB_V, ORANGE_STRIPED_BOMB_V,

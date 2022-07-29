@@ -87,7 +87,7 @@ bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
  * 
  */
 void Grid::clearCheck(Cell * cell, int direction) {
-    if (!cell->getOccupied() || cell->type() == Constants::WALL 
+    if (!cell->getOccupied() || cell->type() == Constants::IMMOBILE 
                              || cell->getPop()) return;
 
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
@@ -265,7 +265,7 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::ORANGE_WRAPPED_BOMB:
             cell->setOccupied(std::make_shared<WrappedBomb>(Constants::associatedColour(component)));
             break;
-        case Constants::WALL:
+        case Constants::IMMOBILE:
             cell->setOccupied(std::make_shared<Wall>());
             break;
     }
@@ -416,7 +416,7 @@ bool Grid::directedDrop(int direction) {
     for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
         for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
             Cell &cell = grid[i][j]; 
-            if (!cell.getOccupied() || cell.type() == Constants::WALL) continue;   
+            if (!cell.getOccupied() || cell.type() == Constants::IMMOBILE) continue;   
 
             Cell * cellBeneath = cell.getBelow(direction);
 
@@ -487,8 +487,8 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     Cell * c1 = &grid[cell1.y][cell1.x];
     Cell * c2 = &grid[cell2.y][cell2.x];
     if (!(c1->getOccupied() || c2->getOccupied()) 
-            || c1->type() == Constants::WALL
-            || c2->type() == Constants::WALL) return validity;
+            || c1->type() == Constants::IMMOBILE
+            || c2->type() == Constants::IMMOBILE) return validity;
 
     exchangeCells(c1, c2);
 
@@ -623,7 +623,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
 
     GameData gd = FileHandler{level}.getGameData();
 
-    for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
+    for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::IMMOBILE);
     // for (auto &p : gd.frostings);
     
     for (auto &row : grid) {

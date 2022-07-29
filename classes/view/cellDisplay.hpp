@@ -31,7 +31,7 @@
 class CellDisplay : public ComponentDisplay {
 public:
     CellDisplay(const Point &center)
-        : ComponentDisplay(std::make_shared<Rectangle>(center, Constants::WALL, Constants::INTER_CELL, FL_BORDER_FRAME)) {}
+        : ComponentDisplay(std::make_shared<Rectangle>(center, Constants::IMMOBILE, Constants::INTER_CELL, FL_BORDER_FRAME)) {}
     void draw() override {drawShape();}
 };
 

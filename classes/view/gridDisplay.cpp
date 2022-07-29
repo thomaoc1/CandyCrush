@@ -49,8 +49,10 @@ void GridDisplay::nextAnimation() {
  */
 void GridDisplay::performFill() {
     std::vector<CoordColour> toFill = animationQueue.nextFill();
+    
     for (auto &cc : toFill) {
         Point coord = cc.first;
+        if(cc.second == Constants::SPECIAL_BOMB) std::cout << "Here: " << coord << std::endl;
         visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, cc.second);
         visualComponents[coord.y][coord.x]->fillAnimate();
     }
@@ -338,7 +340,7 @@ void GridDisplay::notifyFailedSwap(const Point &, const Point &) {
 
 // TEMP
 void GridDisplay::package() const {
-    std::cout << "Packaging" << std::endl;
+    // std::cout << "Packaging" << std::endl;
     std::string temp;
 
     for (int i = 0; i < 9; ++i) {

@@ -66,10 +66,10 @@ public:
     void swap(const Point &cell1, const Point &cell2);
 private:
     /* Grid Cleaning */
-    bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
-    bool stripedBomb(Cell * cell, const std::vector< Cell * > &cColour, int direction);
-    bool specialBomb(Cell * cell, const std::vector< Cell * > &cColour);
-    void clearCheck(Cell * cell, int direction);
+    void wrBombExtract(const std::vector< Cell * > &cColour, int direction);
+    void stBombExtract(Cell * cell, int direction);
+    void spBombExtract(Cell * cell);
+    void clearCheck(Cell * cell);
 
     /* Insertion / Suppression */
     void wrappedBlast(Cell * target);
@@ -95,13 +95,19 @@ private:
 
     /* Sequential colour fetching */
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
-    std::vector< std::vector< Cell * > > continuousColour(Cell * current);
+    std::vector< std::vector< Cell * > > continuousColour(Cell * current) const;
 
     /* Neighbour Fetching */
     std::vector< Cell * > getNbs(int row, int col);
 
     /* Utility */ 
     bool inGrid(const Point &coord) const;
+
+    bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
+    bool wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
+    bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;};
+
+    bool spBlastCond(const std::vector< Cell * > &cColour);
     bool wrBlastCond(Cell * c) const {return c->getOccupied()->getBlastArea() == 9;}
     bool stBlastCond(Cell * c) const {return c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION;}
 

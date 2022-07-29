@@ -107,7 +107,7 @@ Start View Log
 1| P    Y    G    R    B    O    R    O    B    
 2| O    #    #    G    Y    G    #    #    O    
 3|      #    #    Y    P    Y    #    #    G    
-4| B         B    G    R    G    G    Y    B    
+4| G    B    B    G    R    G    G    Y    B    
 5| G    P    Y    R    R    G    B    P    R    
 6| R    G    #    G    O    Y    #    P    B    
 7| Y    G    O    #    #    #    P    Y    Y    
@@ -121,7 +121,7 @@ Start View Log
 1| R    Y    G    R    B    O    R    O    B    
 2| P    #    #    G    Y    G    #    #    O    
 3| O    #    #    Y    P    Y    #    #    G    
-4| B         B    G    R    G    G    Y    B    
+4| G    B    B    G    R    G    G    Y    B    
 5| G    P    Y    R    R    G    B    P    R    
 6| R    G    #    G    O    Y    #    P    B    
 7| Y    G    O    #    #    #    P    Y    Y    
@@ -135,8 +135,386 @@ Start View Log
 1| R    Y    G    R    B    O    R    O    B    
 2| P    #    #    G    Y    G    #    #    O    
 3| O    #    #    Y    P    Y    #    #    G    
-4| B         B    G    R    G    G    Y    B    
+4| G    B    B    G    R    G    G    Y    B    
 5| G    P    Y    R    R    G    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 11 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    P    G    G    O    R    P    
+1| R    Y    G    R    B    O    R    O    B    
+2| P    #    #    G    P    G    #    #    O    
+3| O    #    #    Y    Y    Y    #    #    G    
+4| G    B    B    G    R    G    G    Y    B    
+5| G    P    Y    R    R    G    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 12 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    P    G    G    O    R    P    
+1| R    Y    G    R    B    O    R    O    B    
+2| P    #    #    G    P    G    #    #    O    
+3| O    #    #                   #    #    G    
+4| G    B    B    G    R    G    G    Y    B    
+5| G    P    Y    R    R    G    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 13 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B                   O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    B    O    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    G    R    G    G    Y    B    
+5| G    P    Y    R    R    G    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 14 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    G    O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    B    O    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    G    R    G    G    Y    B    
+5| G    P    Y    R    R    G    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 15 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    G    O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    B    O    #    #    O    
+3| O    #    #    G    P         #    #    G    
+4| G    B    B    G    R         G    Y    B    
+5| G    P    Y    R    R         B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 16 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G         O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    B    G    #    #    O    
+3| O    #    #    G    P    O    #    #    G    
+4| G    B    B    G    R         G    Y    B    
+5| G    P    Y    R    R         B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 17 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    O    O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    B    G    #    #    O    
+3| O    #    #    G    P    O    #    #    G    
+4| G    B    B    G    R         G    Y    B    
+5| G    P    Y    R    R         B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 18 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G         O    R    P    
+1| R    Y    G    P    G    O    R    O    B    
+2| P    #    #    R    B    G    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    G    R    O    G    Y    B    
+5| G    P    Y    R    R         B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 19 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    P    O    R    P    
+1| R    Y    G    P    G    O    R    O    B    
+2| P    #    #    R    B    G    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    G    R    O    G    Y    B    
+5| G    P    Y    R    R         B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 20 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G         O    R    P    
+1| R    Y    G    P    G    P    R    O    B    
+2| P    #    #    R    B    O    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    G    R    G    G    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 21 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    G    O    R    P    
+1| R    Y    G    P    G    P    R    O    B    
+2| P    #    #    R    B    O    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    G    R    G    G    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 22 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    G    O    R    P    
+1| R    Y    G    P    G    P    R    O    B    
+2| P    #    #    R    B    O    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    R    G    G    G    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 23 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    G    O    R    P    
+1| R    Y    G    P    G    P    R    O    B    
+2| P    #    #    R    B    O    #    #    O    
+3| O    #    #    G    P    G    #    #    G    
+4| G    B    B    R                   Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 24 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R              O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    G    P    #    #    O    
+3| O    #    #    G    B    O    #    #    G    
+4| G    B    B    R    P    G         Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 25 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    P    O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    G    P    #    #    O    
+3| O    #    #    G    B    O    #    #    G    
+4| G    B    B    R    P    G         Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 26 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    P    O    R    P    
+1| R    Y    G    P    G    G    R    O    B    
+2| P    #    #    R    G    P    #    #    O    
+3| O    #    #    G    B         #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 27 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G         O    R    P    
+1| R    Y    G    P    G    P    R    O    B    
+2| P    #    #    R    G    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 28 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    G    O    O    R    P    
+1| R    Y    G    P    G    P    R    O    B    
+2| P    #    #    R    G    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 29 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R         O    O    R    P    
+1| R    Y    G    P         P    R    O    B    
+2| P    #    #    R         G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 30 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R         O    O    R    P    
+1| R    Y    G    P              R    O    B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 31 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    Y    O    O    R    P    
+1| R    Y    G    P              R    O    B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 32 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R              O    R    P    
+1| R    Y    G    P    Y    O    R    O    B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 33 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    O    Y    O    R    P    
+1| R    Y    G    P    Y    O    R    O    B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 34 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    O    Y    R    R    P    
+1| R    Y    G    P    Y    O    O    O    B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 35 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    O    Y    R    R    P    
+1| R    Y    G    P    Y                   B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 36 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    O                   P    
+1| R    Y    G    P    Y    Y    R    R    B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
+6| R    G    #    G    O    Y    #    P    B    
+7| Y    G    O    #    #    #    P    Y    Y    
+8| G    Y    P    O    R    P    P    G    Y    
+
+================= FRAME 37 =================
+
+   0    1    2    3    4    5    6    7    8    
+============================================
+0| P    B    B    R    O    P    O    O    P    
+1| R    Y    G    P    Y    Y    R    R    B    
+2| P    #    #    R    P    G    #    #    O    
+3| O    #    #    G    B    P    #    #    G    
+4| G    B    B    R    P    G    O    Y    B    
+5| G    P    Y    R    R    O    B    P    R    
 6| R    G    #    G    O    Y    #    P    B    
 7| Y    G    O    #    #    #    P    Y    Y    
 8| G    Y    P    O    R    P    P    G    Y    

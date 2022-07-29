@@ -56,7 +56,7 @@ int Constants::associatedColour(int component) {
         case Constants::ORANGE_WRAPPED_BOMB:
             colour = Constants::ORANGE;
             break;
-        case Constants::IMMOBILE:
+        case Constants::WALL:
             colour = Constants::BLACK;
     }
     return colour;

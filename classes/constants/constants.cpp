@@ -58,6 +58,9 @@ int Constants::associatedColour(int component) {
             break;
         case Constants::WALL:
             colour = Constants::BLACK;
+        case Constants::FROSTING1:
+        case Constants::FROSTING2:
+            colour = Constants::BLUE;
     }
     return colour;
 }

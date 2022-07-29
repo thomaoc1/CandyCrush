@@ -179,6 +179,14 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::WALL:
             ret = std::make_shared<WallDisplay>(center);
             break;
+        case Constants::FROSTING1:
+            // ret = std::make_shared<Frosting>(1);
+            break;
+        case Constants::FROSTING2:
+            // ret = std::make_shared<Frosting>(1);
+            break;
+        case Constants::SPECIAL_BOMB:
+            ret = std::make_shared<SpecialDisplay>(center);
      }
     return ret;
 }

@@ -27,6 +27,7 @@
 #include "components/candyDisplay.hpp"
 #include "components/stripedDisplay.hpp"
 #include "components/wrappedDisplay.hpp"
+#include "components/specialDisplay.hpp"
 #include "components/wallDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"

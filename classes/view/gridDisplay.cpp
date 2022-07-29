@@ -67,7 +67,6 @@ void GridDisplay::performFill() {
 void GridDisplay::performDrop(int direction) {
     Point delta[] = {{-1, 1}, {0, 1}, {1, 1}};
     std::vector<Point> toDrop = animationQueue.nextDrop();
-    if (direction == 2) std::cout << "Size: " <<  toDrop.size() << std::endl;
     for (auto &p : toDrop) {
         // Temporary
         if (!visualComponents[p.y][p.x]) return;
@@ -180,9 +179,6 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::WALL:
             ret = std::make_shared<WallDisplay>(center);
             break;
-        default:
-            std::cout << component << ": uh oh" << std::endl;
-            break;
      }
     return ret;
 }
@@ -239,7 +235,6 @@ void GridDisplay::draw()  {
  * 
  */
 bool GridDisplay::inAnimation() const {
-    // std::cout << "inAnimation call" << std::endl;
     bool isAnimation = false;
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
@@ -247,7 +242,6 @@ bool GridDisplay::inAnimation() const {
             if (visualComponents[row][col]->inAnimation()) isAnimation = true;
         }
     }
-    // std::cout << "In animation: " << isAnimation << std::endl;
     return isAnimation;
 }
 
@@ -356,11 +350,6 @@ void GridDisplay::package() const {
         }
         temp += "\n";
     }
-    
-    // std::cout << temp << std::endl;
 
     Log::get().addViewMessage(temp);
-
-    //auto &log = Log::get();
-    //log.addViewMessage(temp);
 }

@@ -27,7 +27,7 @@ class GameComponent {
     const int blastArea;
     const int blastDirection;
 public:
-    GameComponent(int colour, int blastArea, int blastDirection) noexcept 
+    GameComponent(int componentType, int blastArea, int blastDirection) noexcept 
         : colour{colour}, blastArea{blastArea}, blastDirection{blastDirection} {}
     GameComponent(int colour) 
         : colour{colour}, blastArea{1}, blastDirection{Constants::NO_DIRECTION} {}

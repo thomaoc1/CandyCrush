@@ -12,5 +12,4 @@ public:
     int type() const override {return Constants::SPECIAL_BOMB;}
 };
 
-
 #endif

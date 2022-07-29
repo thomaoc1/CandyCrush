@@ -53,7 +53,7 @@ public:
     static Fl_Color associatedFLColour(int colour);
     static int associatedStripedBomb(int colour, int direction);
     static int associatedWrappedBomb(int colour);
-    
+    static bool isImmobile(int component) {return WALL || FROSTING1 || FROSTING2;}
 };
 
 

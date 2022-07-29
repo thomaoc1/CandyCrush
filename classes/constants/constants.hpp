@@ -52,8 +52,8 @@ public:
     static int randomDirection() {return rand() % 2;}
 
     /** @brief Returns a random direction (horizontal / verical) */
-    static bool isImmobile(int component) {return WALL || FROSTING1 || FROSTING2;}
-    
+    static bool isImmobile(int component) {return component == WALL || component == FROSTING1 || component == FROSTING2;}
+
     static int associatedColour(int component);
     static Fl_Color associatedFLColour(int colour);
     static int associatedStripedBomb(int colour, int direction);

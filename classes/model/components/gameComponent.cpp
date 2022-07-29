@@ -10,7 +10,7 @@ std::string GameComponent::toString() const {
                 ret = "B";
                 break;
             case Constants::GREEN:
-                return "G";
+                ret = "G";
                 break;
             case Constants::PURPLE:
                 ret = "P";

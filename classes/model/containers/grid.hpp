@@ -30,6 +30,7 @@
 #include "../components/wall.hpp"
 #include "../components/wrappedBomb.hpp"
 #include "../components/stripedBomb.hpp"
+#include "../components/specialBomb.hpp"
 #include "../filehandler/fileHandler.hpp"
 #include "../../shared/point.hpp"
 
@@ -79,6 +80,7 @@ private:
     void insertComponent(Cell * cell, int type);
     void placeWrappedCandies();
     void placeStripedCandies();
+    void placeSpecialBombs();
     void exchangeCells(Cell * c1, Cell * c2);
 
     /* Grid manipulation */

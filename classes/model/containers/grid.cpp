@@ -265,6 +265,9 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::ORANGE_WRAPPED_BOMB:
             cell->setOccupied(std::make_shared<WrappedBomb>(Constants::associatedColour(component)));
             break;
+        case Constants::SPECIAL_BOMB:
+            cell->setOccupied(std::make_shared<SpecialBomb>());
+            break;
         case Constants::WALL:
             cell->setOccupied(std::make_shared<Wall>());
             break;
@@ -325,6 +328,18 @@ void Grid::placeStripedCandies() {
     }
     if (stripedBombs.size() > 0) package();
     stripedBombs.clear();
+}
+
+
+/**
+ * @brief
+ * 
+ */
+void Grid::placeSpecialBombs() {
+    for (auto &cell : specialBombs) {
+        insertComponent(cell, cell->type());
+        observer->notifyInsert(cell->getLocation(), cell->type());
+    }
 }
 
 

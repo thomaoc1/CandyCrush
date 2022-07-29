@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-#include "../model/containers/cell.hpp"
 
 class Log {
 
@@ -18,8 +17,9 @@ class Log {
     static std::unique_ptr<Log> singleton;
 
     int eventCounter = 0;
-    std::vector<std::string> vec1;
-    std::vector<std::string> vec2;
+    std::vector<std::string> vecView;
+    std::vector<std::string> vecModel;
+
     //std::ofstream logfile; 
     // Log: logfile{"logs.txt"} {};
     Log(){};
@@ -31,9 +31,14 @@ public:
 
     static Log &get();
 
-    void addMessage(const std::string &message);
-    void addMatrix() {};
+    void addViewMessage(const std::string &message);
+    void addModelMessage(const std::string &message);
+
+    void Dump();
+
     void addMove() {};
+
+    ~Log() {Dump();}
 };
 
 

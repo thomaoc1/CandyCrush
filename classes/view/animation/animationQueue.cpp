@@ -23,7 +23,7 @@ void AnimationQueue::enqueueDrop(const std::vector<Point> &drop, int direction) 
             queue.push(animations::DropDown);
             break;
         case Constants::RIGHT:
-            queue.push(animations::DropDown);
+            queue.push(animations::DropRight);
             break;
     }
     drops.push(drop);

@@ -87,7 +87,9 @@ bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
  * 
  */
 void Grid::clearCheck(Cell * cell, int direction) {
-    if (!cell->getOccupied() || cell->getPop()) return;
+    if (!cell->getOccupied() || cell->type() == Constants::WALL 
+                             || cell->getPop()) return;
+
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
     if (contColour[direction].size() < 3) return;  
     /* Special Bomb Condition */
@@ -303,6 +305,7 @@ void Grid::placeWrappedCandies() {
                 break;
         }  
     }
+    if (wrappedBombs.size() > 0) package();
     wrappedBombs.clear();
 }
 
@@ -320,6 +323,7 @@ void Grid::placeStripedCandies() {
         insertComponent(cp, stripedBomb);
         observer->notifyInsert(cp->getLocation(), stripedBomb);
     }
+    if (stripedBombs.size() > 0) package();
     stripedBombs.clear();
 }
 
@@ -355,7 +359,12 @@ bool Grid::fillTop() {
         insertComponent(0, i);
         toFill.push_back(CoordColour{{i, 0}, grid[0][i].type()});
     }
-    if (toFill.size() > 0) observer->notifyFill(toFill);
+    //
+    if (toFill.size() > 0){
+        observer->notifyFill(toFill);
+        std::cout << "361: FILL TOP PACKAGE" << std::endl;
+        package();
+    } 
     return toFill.size() > 0;
 }   
 
@@ -365,11 +374,7 @@ bool Grid::fillTop() {
  * 
  */
 void Grid::completeFill() {
-    while(fillTop()) {
-        std::cout << "====== Fill ========" << std::endl;
-        //displayTerminal();
-        completeDrop();
-    }
+    while(fillTop()) completeDrop();
 }
 
 
@@ -388,10 +393,13 @@ bool Grid::clear() {
             clearCheck(&c, Constants::VERTICAL);
         }
     } 
-    if (toPop.size() > 0) clearGrid = false;
-    popAll();
-    placeWrappedCandies();
-    placeStripedCandies();
+    if (toPop.size() > 0) {
+        clearGrid = false;
+        popAll();
+        package();
+        placeWrappedCandies();
+        placeStripedCandies();
+    }
     return clearGrid;
 }
 
@@ -422,7 +430,11 @@ bool Grid::directedDrop(int direction) {
         if (toDrop.size() > 0 && (direction == Constants::LEFT || direction == Constants::RIGHT)) break;
     }
     if (toDrop.size() > 0) {
+        std::cout << direction << ": ";
+        for (auto &p : toDrop) std::cout << p << ", ";
+        std::cout<< std::endl;
         observer->notifyDrop(toDrop, direction);
+        package();
         fillTop();
     } 
     return toDrop.size() > 0;
@@ -437,25 +449,13 @@ void Grid::completeDrop() {
     bool dropComplete = false;
     while (!dropComplete)  {
         // Drop down until can't
-        while(directedDrop(Constants::CENTER)) {
-            std::cout << "=== Drop Down ===" << std::endl;
-            //displayTerminal();
-        }
+        while(directedDrop(Constants::CENTER));
         // DirectedDrop(Left) -> true : means at least one candy was dropped. !!! So restart DropDown 
         // DirectedDrop(Left) -> false : means no candy was dropped to the left, therefore start DropRight 
         if (!directedDrop(Constants::LEFT)) {
             // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
             if (!directedDrop(Constants::RIGHT)) dropComplete = true;
-            else {
-                std::cout << "=== Drop Right ===" << std::endl;
-                //displayTerminal();
-            }
-    
-        } 
-        else {
-            std::cout << "=== Drop Left ===" << std::endl;
-            //displayTerminal();
         }
     }
 }
@@ -466,12 +466,8 @@ void Grid::completeDrop() {
  * 
  */
 void Grid::clean() {
-    //displayTerminal();
+    // package();
     while (!clear()) {
-        std::cout << "=== Clear ===" << std::endl;
-
-        //displayTerminal();
-
         completeDrop();
         completeFill();
     } 
@@ -526,18 +522,16 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
 std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
     // Colour of source
     const int colour = Constants::associatedColour(initial->type());
-    // DFS Tools
-    std::vector< Cell * > stack = {initial}; 
-    Cell * current = initial;
     // Elligible Candies
     std::vector< Cell * > continousColors = {initial}; 
     // DFS
+    std::vector< Cell * > stack = {initial}; 
+    Cell * current = initial;
     while (!stack.empty()) {
         current = stack.back();
         stack.pop_back();
-        std::vector< Cell * > nbs;
-        if (orientation == Constants::VERTICAL) nbs = current->getVertNbs();
-        else nbs = current->getHorizNbs();
+        std::vector< Cell * > nbs = orientation == Constants::VERTICAL ? current->getVertNbs() 
+                                                                       : current->getHorizNbs();
         for (auto &nb : nbs) {
             if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
                 || Constants::associatedColour(nb->type()) != colour) continue;
@@ -611,7 +605,6 @@ bool Grid::inGrid(const Point &coord) const {
 }
 
 
-
 /*-------------------------------------------------------------------------------------------*
  *                                                                                           *
  *                                       Public Methods                                      *
@@ -642,6 +635,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
         } 
     }
 
+    package();
     clean();
 }
 
@@ -656,6 +650,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
 void Grid::swap(const Point &cell1, const Point &cell2) {
     std::cout << "swap call" << std::endl;
     if (checkSwap(cell1, cell2)) {
+        package();
         observer->notifySwap(cell1, cell2);
         clean();
     } 
@@ -664,13 +659,29 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
 
 
 
-void Grid::displayTerminal() const {
-    std::cout << "\n               GRID\n=================================\n";
-    for (auto &r : grid) {
-        for (auto &c : r) {
-            if (c.type() > 9) std::cout << c.type() << "  ";
-            else std::cout << (c.type() == 8 ? -1 : c.type()) << "   ";
-        }
-        std::cout << "\n";
+void Grid::package() const {
+    // std::cout << "Packaging Model" << std::endl; << std::endl;
+    std::string temp;
+
+    for (int i = 0; i < 9; ++i) {
+        if (i == 0) temp += "   " + std::to_string(i)+ "    ";
+        else temp += std::to_string(i) + "    ";
     }
+    temp += "\n============================================\n";
+
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            if (j == 0) temp += std::to_string(i) + "| ";
+            std::string component = " ";
+            if (grid[i][j].getOccupied()) component = grid[i][j].getOccupied()->toString();
+            if (component.length() == 1) temp += component + "    ";
+            else if (component.length() == 2) temp += component + "   ";
+            else if (component.length() == 3) temp += component + "  ";
+            else temp += component + " ";
+        }
+        temp += "\n";
+    }
+
+    Log::get().addModelMessage(temp);
+
 }

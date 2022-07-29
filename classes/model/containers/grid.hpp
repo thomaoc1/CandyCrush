@@ -63,7 +63,6 @@ public:
     Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);
     int getCell(int y, int x) const {return grid[y][x].type();}
     void swap(const Point &cell1, const Point &cell2);
-    void displayTerminal() const;
 private:
     /* Grid Cleaning */
     bool wrappedBomb(const std::vector< Cell * > &cColour, int direction);
@@ -100,6 +99,9 @@ private:
 
     /* Utility */ 
     bool inGrid(const Point &coord) const;
+
+    // TEMP
+    void package() const;
 };
 
 #endif

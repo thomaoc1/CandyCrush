@@ -29,6 +29,7 @@
 #include "components/wrappedDisplay.hpp"
 #include "components/wallDisplay.hpp"
 #include "cellDisplay.hpp"
+#include "../shared/log.hpp"
 
 #include <memory>
 #include <vector>
@@ -77,6 +78,10 @@ private:
     /* Utility */
     Point calculateCenter(const Point &coord) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
+
+
+    // TEMP
+    void package() const;
 };
 
 #endif

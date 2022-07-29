@@ -17,6 +17,7 @@
 #define GRIDCONTROL_HPP
 
 #include "../model/containers/grid.hpp"
+#include "../shared/log.hpp"
 
 #include <FL/Fl.H>
 
@@ -27,9 +28,9 @@ class GridControl {
     std::shared_ptr<GridDisplay> view;
     Point click, clickToIndex;
     Point hold, holdToIndex;
-    bool clicked = false;
+    bool dragged = false;
 public:
-    GridControl(std::shared_ptr<Grid> grid, std::shared_ptr<GridDisplay> view) : grid{grid}, view{view} {}
+    GridControl(std::shared_ptr<Grid> grid, std::shared_ptr<GridDisplay> view) : grid{grid}, view{view} {} 
     bool proccessEvent(const int event);
 private:
     void clickEvent(const Point &mouseLoc);

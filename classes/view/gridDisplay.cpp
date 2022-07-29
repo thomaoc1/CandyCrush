@@ -18,6 +18,7 @@
  *
  */
 void GridDisplay::nextAnimation() {
+    //package();
     switch (animationQueue.nextAnimation()) {
         case animations::Pop:
             performPop();
@@ -38,6 +39,7 @@ void GridDisplay::nextAnimation() {
             performSwap();
             break;
     }
+    //package();
 }
 
 
@@ -52,6 +54,7 @@ void GridDisplay::performFill() {
         visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, cc.second);
         visualComponents[coord.y][coord.x]->fillAnimate();
     }
+    package();
 }
 
 
@@ -64,7 +67,6 @@ void GridDisplay::performFill() {
 void GridDisplay::performDrop(int direction) {
     Point delta[] = {{-1, 1}, {0, 1}, {1, 1}};
     std::vector<Point> toDrop = animationQueue.nextDrop();
-   
     for (auto &p : toDrop) {
         // Temporary
         if (!visualComponents[p.y][p.x]) return;
@@ -73,6 +75,7 @@ void GridDisplay::performDrop(int direction) {
         visualComponents[dest.y][dest.x] = visualComponents[p.y][p.x]; 
         visualComponents[p.y][p.x] = nullptr;
     } 
+    package();
 }
 
 
@@ -87,6 +90,7 @@ void GridDisplay::performPop() {
         if (!visualComponents[p.y][p.x]) return;
         visualComponents[p.y][p.x]->popAnimate();
     }
+    package();
 }
 
 
@@ -105,6 +109,7 @@ void GridDisplay::performSwap() {
     visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
 
     swapping = true;
+    package();
 }
 
 
@@ -174,9 +179,6 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::WALL:
             ret = std::make_shared<WallDisplay>(center);
             break;
-        default:
-            std::cout << component << ": uh oh" << std::endl;
-            break;
      }
     return ret;
 }
@@ -190,7 +192,10 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
 
 
 GridDisplay::GridDisplay() {
-    for (int i = 0; i < 9; ++i) visualComponents.push_back({});
+    for (int i = 0; i < 9; ++i) {
+        visualComponents.push_back({});
+        for (int j = 0; j < 9; ++j) visualComponents[i].push_back(nullptr);
+    }
     for (int row = 0; row < 9; ++row) {
         std::vector<CellDisplay> tmp;
         for (int col = 0; col < 9; ++col) {
@@ -216,7 +221,9 @@ void GridDisplay::draw()  {
             visualComponents[row][col]->draw();
         }
     }
-    if (!isAnimation && animationQueue.size() > 0) nextAnimation();
+    if (!isAnimation && animationQueue.size() > 0){
+        nextAnimation();
+    }   
     else swapping = false;
 }
 
@@ -228,7 +235,6 @@ void GridDisplay::draw()  {
  * 
  */
 bool GridDisplay::inAnimation() const {
-    std::cout << "inAnimation call" << std::endl;
     bool isAnimation = false;
     for (int row = 0; row < 9; ++row) {
         for (int col = 0; col < 9; ++col) {
@@ -236,7 +242,6 @@ bool GridDisplay::inAnimation() const {
             if (visualComponents[row][col]->inAnimation()) isAnimation = true;
         }
     }
-    std::cout << "In animation: " << isAnimation << std::endl;
     return isAnimation;
 }
 
@@ -254,7 +259,8 @@ bool GridDisplay::inAnimation() const {
  *
  */
 void GridDisplay::notifyInit(const Point &coord, int type) {
-    visualComponents[coord.y].push_back(factoryMethod(coord.y, coord.x, type));
+    visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
+    if (coord.x == 8 && coord.y == 8) package();
 }
 
 
@@ -318,4 +324,32 @@ void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
 
 void GridDisplay::notifyFailedSwap(const Point &, const Point &) {
     std::cout << "View Swap failed" << std::endl;
+}
+
+
+// TEMP
+void GridDisplay::package() const {
+    std::cout << "Packaging" << std::endl;
+    std::string temp;
+
+    for (int i = 0; i < 9; ++i) {
+        if (i == 0) temp += "   " + std::to_string(i)+ "    ";
+        else temp += std::to_string(i) + "    ";
+    }
+    temp += "\n============================================\n";
+
+    for (int i = 0; i < 9; ++i) {
+        for (int j = 0; j < 9; ++j) {
+            if (j == 0) temp += std::to_string(i) + "| ";
+            std::string component = " ";
+            if (visualComponents[i][j]) component = visualComponents[i][j]->type();
+            if (component.length() == 1) temp += component + "    ";
+            else if (component.length() == 2) temp += component + "   ";
+            else if (component.length() == 3) temp += component + "  ";
+            else temp += component + " ";
+        }
+        temp += "\n";
+    }
+
+    Log::get().addViewMessage(temp);
 }

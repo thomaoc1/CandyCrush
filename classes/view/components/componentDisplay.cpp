@@ -66,5 +66,38 @@ void ComponentDisplay::swapAnimate(std::shared_ptr<ComponentDisplay>  other) {
  *
  */
 void ComponentDisplay::popAnimate() {
+    popping = true;
     if (!inAnimation()) animation = std::make_shared<PopAnimation>(this);
+}
+
+
+
+/**
+ * @brief debugging
+ * 
+ */
+std::string ComponentDisplay::type() const {
+    if (popping) return " ";
+    std::string ret;
+    switch(getColour()) {
+        case (Constants::RED):
+            ret = "R";
+            break;
+        case (Constants::BLUE):
+            ret = "B";
+            break;
+        case (Constants::GREEN):
+            ret = "G";
+            break;
+        case (Constants::YELLOW):
+            ret = "Y";
+            break;
+        case (Constants::PURPLE):
+            ret = "P";
+            break;
+        case (Constants::ORANGE):
+            ret = "O";
+            break;
+    } 
+    return ret;
 }

@@ -20,6 +20,8 @@ public:
         : center{center}, text{text}, font{font}, size{size} {}
     TextDisplay(const TextDisplay &) = default;
     TextDisplay(TextDisplay &&) = default;
+    
+    std::string getText() const {return text;}
 
     void setSize(int newSize) {size = newSize;}
     void setCenter(const Point &dest) {center = dest;}

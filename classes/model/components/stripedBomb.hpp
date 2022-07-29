@@ -23,6 +23,11 @@ public:
     StripedBomb(int colour, int blastDirection) noexcept : GameComponent(colour, 1, blastDirection) {}
     StripedBomb() noexcept : GameComponent(Constants::randomCandy(), 1, Constants::randomDirection()) {}
     int type() const override;
+
+    std::string toString() const override {
+        std::string direction = getBlastDirection() == Constants::VERTICAL ? "V" : "H";
+        return GameComponent::toString() + "St" + direction;
+    } 
 };
 
 #endif

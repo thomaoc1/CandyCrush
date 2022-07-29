@@ -34,6 +34,7 @@ class ComponentDisplay {
 protected:
     std::shared_ptr<Animation> animation;
     std::shared_ptr<Shape> shape;
+    bool popping = false;
 public:
     ComponentDisplay(std::shared_ptr<Shape> shape) noexcept : shape{shape} {};
     ComponentDisplay(const ComponentDisplay &other) = default;
@@ -42,6 +43,9 @@ public:
 
     virtual Point getCenter() const {return shape->getCenter();}
     virtual int getSize() const {return shape->getSize();}
+    // TEMP START
+    virtual int getColour() const {return shape->getColour();}
+    // TEMP END
     virtual bool inAnimation() const;
 
     virtual void setCenter(const Point &dest) {shape->setCenter(dest);}
@@ -54,6 +58,9 @@ public:
 
     virtual void draw();
     virtual void drawShape() const;
+
+    // TEMP
+    virtual std::string type() const;
 };
 
 #endif

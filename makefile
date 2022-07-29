@@ -4,6 +4,5 @@ LINKERS=-lfltk
 
 CandyCrush: $(FILES)
 	g++ $(FLAGS) $(FILES) -o CandyCrush $(LINKERS)
-
 clean:
 	rm -f CandyCrush

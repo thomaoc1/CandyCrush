@@ -39,12 +39,10 @@ bool GridControl::coordInGame(const Point &mouseLoc) const {
  * 
  */
 void GridControl::clickEvent(const Point &mouseLoc) {
-    // if (!coordInGame(mouseLoc)) return;
     if (!coordInGame(mouseLoc) || (coordInGame(mouseLoc) && view->inAnimation())) return;
     dragged = false;
     click = mouseLoc;
     clickToIndex = coordToCell(mouseLoc);
-    // std::cout << "Click: " << grid->getCell(clickToIndex.y, clickToIndex.x) << std::endl;
 }
 
 
@@ -58,8 +56,10 @@ void GridControl::dragEvent(const Point &mouseLoc) {
     if (dragged || !coordInGame(mouseLoc) 
                 || (coordInGame(mouseLoc) && view->inAnimation())
                 || coordToCell(mouseLoc) == clickToIndex) return;
+                
     Point dragToIndex = coordToCell(mouseLoc);
     dragged = true;
+
     if (dragToIndex.x == clickToIndex.x) {
         if (dragToIndex.y < clickToIndex.y) {
             grid->swap(clickToIndex, {clickToIndex.x, clickToIndex.y - 1});

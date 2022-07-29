@@ -636,6 +636,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
             observer->notifyInit(coord, cell.type());
         } 
     }
+
     package();
     clean();
 }

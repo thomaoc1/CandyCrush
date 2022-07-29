@@ -87,7 +87,9 @@ bool Grid::specialBomb(Cell * cell, const std::vector< Cell * > &cColour) {
  * 
  */
 void Grid::clearCheck(Cell * cell, int direction) {
-    if (!cell->getOccupied() || cell->getPop()) return;
+    if (!cell->getOccupied() || cell->type() == Constants::WALL 
+                             || cell->getPop()) return;
+
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
     if (contColour[direction].size() < 3) return;  
     /* Special Bomb Condition */
@@ -397,10 +399,7 @@ bool Grid::clear() {
         package();
         placeWrappedCandies();
         placeStripedCandies();
-
-        std::cout << "396: CLEARING PACKAGE" << std::endl;
     }
-    
     return clearGrid;
 }
 
@@ -431,8 +430,10 @@ bool Grid::directedDrop(int direction) {
         if (toDrop.size() > 0 && (direction == Constants::LEFT || direction == Constants::RIGHT)) break;
     }
     if (toDrop.size() > 0) {
+        std::cout << direction << ": ";
+        for (auto &p : toDrop) std::cout << p << ", ";
+        std::cout<< std::endl;
         observer->notifyDrop(toDrop, direction);
-        std::cout << "431: DROPPING " << direction << " PACKAGE" << std::endl;
         package();
         fillTop();
     } 
@@ -521,18 +522,16 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
 std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
     // Colour of source
     const int colour = Constants::associatedColour(initial->type());
-    // DFS Tools
-    std::vector< Cell * > stack = {initial}; 
-    Cell * current = initial;
     // Elligible Candies
     std::vector< Cell * > continousColors = {initial}; 
     // DFS
+    std::vector< Cell * > stack = {initial}; 
+    Cell * current = initial;
     while (!stack.empty()) {
         current = stack.back();
         stack.pop_back();
-        std::vector< Cell * > nbs;
-        if (orientation == Constants::VERTICAL) nbs = current->getVertNbs();
-        else nbs = current->getHorizNbs();
+        std::vector< Cell * > nbs = orientation == Constants::VERTICAL ? current->getVertNbs() 
+                                                                       : current->getHorizNbs();
         for (auto &nb : nbs) {
             if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
                 || Constants::associatedColour(nb->type()) != colour) continue;
@@ -606,7 +605,6 @@ bool Grid::inGrid(const Point &coord) const {
 }
 
 
-
 /*-------------------------------------------------------------------------------------------*
  *                                                                                           *
  *                                       Public Methods                                      *
@@ -662,7 +660,7 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
 
 
 void Grid::package() const {
-    std::cout << "Packaging Model" << std::endl;
+    // std::cout << "Packaging Model" << std::endl; << std::endl;
     std::string temp;
 
     for (int i = 0; i < 9; ++i) {

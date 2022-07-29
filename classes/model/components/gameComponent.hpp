@@ -59,7 +59,7 @@ public:
             case Constants::ORANGE:
                 ret = "O";
                 break;
-            case Constants::WALL:
+            case Constants::NONE:
                 ret = "#";
                 break;
         }

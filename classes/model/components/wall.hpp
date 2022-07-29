@@ -21,7 +21,7 @@
 class Wall : public GameComponent {
 public:
     int type() const override {return Constants::WALL;}
-    
+    std::string toString() const override {return "#";}
 };
 
 #endif

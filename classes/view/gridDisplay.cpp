@@ -67,7 +67,7 @@ void GridDisplay::performFill() {
 void GridDisplay::performDrop(int direction) {
     Point delta[] = {{-1, 1}, {0, 1}, {1, 1}};
     std::vector<Point> toDrop = animationQueue.nextDrop();
-   
+    if (direction == 2) std::cout << "Size: " <<  toDrop.size() << std::endl;
     for (auto &p : toDrop) {
         // Temporary
         if (!visualComponents[p.y][p.x]) return;

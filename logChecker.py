@@ -1,7 +1,7 @@
 differenceV = []
 differenceM = []
 
-with open('ModelLog.txt', 'r') as Model, open('ViewLog.txt', 'r') as View:
+with open('logs/ModelLog.txt', 'r') as Model, open('logs/ViewLog.txt', 'r') as View:
     same = True
     counter = 0
     while same:

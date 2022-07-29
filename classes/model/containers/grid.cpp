@@ -382,6 +382,7 @@ void Grid::placeSpecialBombs() {
         insertComponent(cell, Constants::SPECIAL_BOMB);
         observer->notifyInsert(cell->getLocation(), Constants::SPECIAL_BOMB);
     }
+    specialBombs.clear();
 }
 
 

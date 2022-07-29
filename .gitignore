@@ -1,0 +1,9 @@
+# Log files
+logs/*txt
+
+# Binary files 
+CandyCrush
+testing
+
+# Rest 
+testing.cpp

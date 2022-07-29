@@ -19,18 +19,13 @@ Log &Log::get() {
  * @param message
  * 
  */
-<<<<<<< HEAD
 void Log::addViewMessage(const std::string &message) {
     vecView.push_back(message);
     //std::cout<<"pushed back"<<std::endl;
     //std::cout << message << std::endl;
-=======
-void Log::addMessage(const std::string &/*message*/) {
->>>>>>> main
     //logfile<<message<<std::endl;
 }
 
-<<<<<<< HEAD
 void Log::addModelMessage(const std::string &message) {
     vecModel.push_back(message);
     // std::cout << message << std::endl;
@@ -51,9 +46,6 @@ void Log::Dump(){
         ViewLog << vecView[i] << std::endl;
     }
     ViewLog.close();
-=======
-void addMatrix(int, std::vector<std::vector<int>>){
->>>>>>> main
     
     std::fstream ModelLog;
     ModelLog.open("logs/ModelLog.txt",std::ios_base::out);

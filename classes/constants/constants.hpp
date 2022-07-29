@@ -45,15 +45,20 @@ public:
 
                             SPECIAL_BOMB} components;
 
-    
+    /** @brief Returns a random candy */
     static int randomCandy() {return candies[rand() % 6];}
+
+    /** @brief Returns a random direction (horizontal / verical) */
     static int randomDirection() {return rand() % 2;}
+
+    /** @brief Returns a random direction (horizontal / verical) */
+    static bool isImmobile(int component) {return WALL || FROSTING1 || FROSTING2;}
     
     static int associatedColour(int component);
     static Fl_Color associatedFLColour(int colour);
     static int associatedStripedBomb(int colour, int direction);
     static int associatedWrappedBomb(int colour);
-    static bool isImmobile(int component) {return WALL || FROSTING1 || FROSTING2;}
+    
 };
 
 

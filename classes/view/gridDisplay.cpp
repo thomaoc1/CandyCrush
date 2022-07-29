@@ -49,10 +49,8 @@ void GridDisplay::nextAnimation() {
  */
 void GridDisplay::performFill() {
     std::vector<CoordColour> toFill = animationQueue.nextFill();
-    
     for (auto &cc : toFill) {
         Point coord = cc.first;
-        if(cc.second == Constants::SPECIAL_BOMB) std::cout << "Here: " << coord << std::endl;
         visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, cc.second);
         visualComponents[coord.y][coord.x]->fillAnimate();
     }
@@ -189,7 +187,7 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
             break;
         case Constants::SPECIAL_BOMB:
             ret = std::make_shared<SpecialDisplay>(center);
-            std::cout << "View making special Bomb" << std::endl;
+            break;
      }
     return ret;
 }

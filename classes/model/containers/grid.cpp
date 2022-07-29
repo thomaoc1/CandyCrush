@@ -102,7 +102,6 @@ void Grid::clearCheck(Cell * cell) {
         else typeDirection = {Normal, dir};
     }
     
-
     for (auto &c : contColour[typeDirection.second]) {
         if (!c->getOccupied()) continue;
         willPop(c);
@@ -110,28 +109,17 @@ void Grid::clearCheck(Cell * cell) {
         else if (stBlastCond(c)) stripedBlast(c); 
     }
     
-
     switch (typeDirection.first) {
         case Striped:
-            std::cout << "Hist" << std::endl;
             stBombExtract(cell, typeDirection.second);
             break;
         case Wrapped:
-            std::cout << "Hiw" << std::endl;
             wrBombExtract(contColour[typeDirection.second], typeDirection.second);
             break;
         case Special:
-            std::cout << "Hi" << std::endl;
             spBombExtract(cell);
             break;
     }
-
-     //for (auto &c : contColour[dir]) {
-        //    if (!c->getOccupied()) continue;
-        //    willPop(c);
-        //    if (wrBlastCond(c)) wrappedBlast(c);
-        //    else if (stBlastCond(c)) stripedBlast(c);    
-        //}
 }
 
 
@@ -377,7 +365,6 @@ void Grid::placeStripedCandies() {
  * 
  */
 void Grid::placeSpecialBombs() {
-    std::cout << specialBombs.size() << std::endl;
     for (auto &cell : specialBombs) {
         insertComponent(cell, Constants::SPECIAL_BOMB);
         observer->notifyInsert(cell->getLocation(), Constants::SPECIAL_BOMB);
@@ -724,7 +711,6 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
  * 
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
-    std::cout << "swap call" << std::endl;
     if (checkSwap(cell1, cell2)) {
         package();
         observer->notifySwap(cell1, cell2);

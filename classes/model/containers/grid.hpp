@@ -76,6 +76,7 @@ private:
     /* Insertion / Suppression */
     void wrappedBlast(Cell * target);
     void stripedBlast(Cell * target);
+    void bombSwap(Cell * c1, Cell * c2);
     void pop(Cell * target);
     void popAll();
     void willPop(Cell * target);
@@ -84,8 +85,6 @@ private:
     void placeWrappedCandies();
     void placeStripedCandies();
     void placeSpecialBombs();
-    void markSwap(Cell * c1, Cell * c2);
-    void markSwappped(Cell * c1, Cell * c2);
     void exchangeCells(Cell * c1, Cell * c2);
 
     /* Grid manipulation */
@@ -107,8 +106,7 @@ private:
     /* Conditions */
     bool inGrid(const Point &coord) const;
 
-    bool bombSwap(Cell * c1, Cell * c2);
-    // bool bombSwap(Cell * c1, Cell * c2) {return c1}
+    bool bombSwapCheck(Cell * c1, Cell * c2);
 
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
     int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;

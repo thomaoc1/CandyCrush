@@ -372,26 +372,6 @@ void Grid::placeSpecialBombs() {
 
 
 /**
- * @brief Marks two cells for swapping
- * 
- */
-void Grid::markSwap(Cell * c1, Cell * c2) {
-    c1->willSwap();
-    c1->willSwap();
-}
-
-
-/**
- * @brief Marks two cells for swapping
- * 
- */
-void Grid::markSwappped(Cell * c1, Cell * c2) {
-    c1->swapped();
-    c1->swapped();
-}
-
-
-/**
  * @brief Swaps occupations of two cells
  * 
  * @param c1
@@ -402,6 +382,43 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
     std::shared_ptr<GameComponent> tmp = std::move(c1->getOccupied());
     c1->setOccupied(std::move(c2->getOccupied()));
     c2->setOccupied(std::move(tmp));
+}
+
+
+/**
+ * @brief
+ * 
+ * @param c1
+ * @param c2
+ * 
+ */
+void Grid::bombSwap(Cell *c1, Cell * c2) {
+    if (c1->getOccupied()->getBlastType() == Constants::SPECIAL
+        || c2->getOccupied()->getBlastType() == Constants::SPECIAL) return;
+
+
+    if ((c1->getOccupied()->getBlastType() == Constants::STRIPED
+        && c2->getOccupied()->getBlastType() == Constants::STRIPED)
+        || (c1->getOccupied()->getBlastType() == Constants::WRAPPED
+        && c2->getOccupied()->getBlastType() == Constants::WRAPPED)) {
+        
+        willPop(c1);
+        willPop(c2);
+    }
+        
+
+    Point start = c1->getLocation();
+    std::vector< Cell * > tmp;
+
+    for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
+    for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
+    for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
+    for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
+    
+    for (auto &c : tmp) {
+        c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
+        willPop(c);
+    }
 }
 
 
@@ -558,7 +575,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
     }
 
-    if (!validity) validity = bombSwap(c1, c2);
+    if (!validity) validity = bombSwapCheck(c1, c2);
 
     exchangeCells(c1, c2);
 
@@ -667,7 +684,7 @@ bool Grid::inGrid(const Point &coord) const {
 }
 
 
-bool Grid::bombSwap(Cell * c1, Cell * c2) {
+bool Grid::bombSwapCheck(Cell * c1, Cell * c2) {
     return c1->getOccupied()->getBlastType() != Constants::SIMPLE
             && c2->getOccupied()->getBlastType() != Constants::SIMPLE;
 
@@ -744,10 +761,7 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         Cell * c1 = &grid[cell1.y][cell1.x];
         Cell * c2 = &grid[cell2.y][cell2.x];
         exchangeCells(c1, c2);
-        if (bombSwap(c1, c2)) {
-            willPop(c1);
-            willPop(c2);
-        }
+        if (bombSwapCheck(c1, c2)) bombSwap(c1, c2);
         package();
         observer->notifySwap(cell1, cell2);
         clean();

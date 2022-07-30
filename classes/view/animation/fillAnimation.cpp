@@ -19,7 +19,7 @@
 int FillAnimation::nextSize(int size) const {
     int newSize = 0;
     if (time != 1) {
-        newSize = size + 1;
+        newSize = size + 2;
         if (newSize >= Constants::CANDY_RADIUS) newSize = Constants::CANDY_RADIUS;
     } 
     return newSize;

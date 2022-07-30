@@ -55,10 +55,12 @@ class Grid {
     
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
+    const int ROWS = Constants::ROWS;
+    const int COLS = Constants::COLS;
+
+
+
 public:
-    // I dont like this lol
-    static const int COLS = 9;
-    static const int ROWS = 9;
 
     Grid(std::shared_ptr<GridDisplay> observer);
     Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);

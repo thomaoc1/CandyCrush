@@ -10,8 +10,9 @@
  * 
  */
 Point GridControl::coordToCell(const Point &mouseLoc) const {
-    int row = (mouseLoc.y - Constants::GAME_WINDOW_Yi) / Constants::INTER_CELL;
-    int col = (mouseLoc.x - Constants::GAME_WINDOW_Xi) / Constants::INTER_CELL;
+    int col = (mouseLoc.x - ( Constants::GAME_WINDOW_Xi ) - Constants::GAP_SIZE / 2 ) / ( Constants::CELL_SIZE + Constants::GAP_SIZE );
+    int row = (mouseLoc.y - ( Constants::GAME_WINDOW_Yi ) - Constants::GAP_SIZE / 2 ) / ( Constants::CELL_SIZE + Constants::GAP_SIZE );
+
     return Point{col, row};
 } 
 
@@ -25,10 +26,10 @@ Point GridControl::coordToCell(const Point &mouseLoc) const {
  * 
  */
 bool GridControl::coordInGame(const Point &mouseLoc) const {
-    return mouseLoc.x >= Constants::GAME_WINDOW_Xi
-            && mouseLoc.x < Constants::GAME_WINDOW_Xf + Constants::INTER_CELL
-            && mouseLoc.y >= Constants::GAME_WINDOW_Yi 
-            && mouseLoc.y <= Constants::GAME_WINDOW_Yf + Constants::INTER_CELL;
+    return mouseLoc.x > Constants::GAME_WINDOW_Xi
+            && mouseLoc.x < Constants::GAME_WINDOW_Xf 
+            && mouseLoc.y > Constants::GAME_WINDOW_Yi 
+            && mouseLoc.y < Constants::GAME_WINDOW_Yf ;
 }
 
 

@@ -53,6 +53,10 @@ class GridDisplay {
     AnimationQueue animationQueue;
 
     bool swapping = false;
+
+    const int ROWS = Constants::ROWS;
+    const int COLS = Constants::COLS;
+
 public:
     GridDisplay();
     GridDisplay(const GridDisplay &) = default;

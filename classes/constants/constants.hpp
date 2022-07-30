@@ -27,7 +27,22 @@ public:
     static const double GAME_WINDOW_Xi;
     static const double GAME_WINDOW_Yf;
     static const double GAME_WINDOW_Xf;
-    static const double INTER_CELL;
+    
+    static const double CELL_SIZE;
+    static const double HALVE_CELL_SIZE;
+    static const double STEP_SIZE;
+    static const double GAP_SIZE;
+    static const double HALVE_GRIDSIZE;
+    static const int COLS;
+    static const int ROWS;
+
+
+
+
+
+
+
+
     static const double CANDY_RADIUS;
 
     static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;

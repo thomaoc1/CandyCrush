@@ -159,7 +159,7 @@ void Grid::stripedBlast(Cell * target) {
     Point start = target->getLocation();
     Cell * c;
     if (direction == Constants::VERTICAL) {
-        for (int i = start.y + 1; i < 9; ++i){
+        for (int i = start.y + 1; i < ROWS; ++i){
             c = &grid[i][start.x];
             if (!c->getOccupied() || c->getPop()) continue;
             willPop(c);
@@ -171,7 +171,7 @@ void Grid::stripedBlast(Cell * target) {
         }
     }
     else {
-        for (int i = start.x + 1; i < 9; ++i){
+        for (int i = start.x + 1; i < COLS; ++i){
             c = &grid[start.y][i];
             if (!c->getOccupied() || c->getPop()) continue;
             willPop(c);
@@ -410,9 +410,9 @@ void Grid::bombSwap(Cell *c1, Cell * c2) {
     Point start = c1->getLocation();
     std::vector< Cell * > tmp;
 
-    for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
+    for (int i = start.y + 1; i < ROWS; i += 2) tmp.push_back(&grid[i][start.x]); 
     for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
-    for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
+    for (int i = start.x + 1; i < COLS; ++i) tmp.push_back(&grid[start.y][i]);
     for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
     
     for (auto &c : tmp) {
@@ -722,9 +722,9 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
 
 
 Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : observer{observer} {
-    for (int row = 0; row < 9; ++row) {
+    for (int row = 0; row < COLS; ++row) {
         std::vector<Cell> tmp = {};
-        for (int col = 0; col < 9; ++col) {
+        for (int col = 0; col < ROWS; ++col) {
             tmp.emplace_back(Cell(row, col));
         }
         grid.emplace_back(std::move(tmp));
@@ -775,14 +775,14 @@ void Grid::package() const {
     // std::cout << "Packaging Model" << std::endl; << std::endl;
     std::string temp;
 
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < COLS; ++i) {
         if (i == 0) temp += "   " + std::to_string(i)+ "    ";
         else temp += std::to_string(i) + "    ";
     }
     temp += "\n============================================\n";
 
-    for (int i = 0; i < 9; ++i) {
-        for (int j = 0; j < 9; ++j) {
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
             if (j == 0) temp += std::to_string(i) + "| ";
             std::string component = " ";
             if (grid[i][j].getOccupied()) component = grid[i][j].getOccupied()->toString();

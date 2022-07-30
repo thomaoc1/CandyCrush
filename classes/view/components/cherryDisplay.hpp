@@ -7,7 +7,7 @@
 class CherryDisplay : public ComponentDisplay {
 public:
     CherryDisplay(const Point &center) : 
-        ComponentDisplay(std::make_shared<Rectangle>(center, Constants::CHERRY, Constants::INTER_CELL, FL_FLAT_BOX)) {}
+        ComponentDisplay(std::make_shared<Rectangle>(center, Constants::CHERRY, Constants::CELL_SIZE, FL_FLAT_BOX)) {}
     void draw() override {ComponentDisplay::drawShape();}
 
     // DEBUG

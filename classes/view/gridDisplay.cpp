@@ -127,8 +127,8 @@ void GridDisplay::performSwap() {
  * @return Point 
  */
 Point GridDisplay::calculateCenter(const Point &coord) const {
-    return {static_cast<int>(Constants::INTER_CELL * coord.x + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2),
-            static_cast<int>(Constants::INTER_CELL * coord.y + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2)};
+    return {static_cast<int>( Constants::HALVE_CELL_SIZE * (coord.x + 1) + coord.x * Constants::STEP_SIZE + Constants::WINDOW_WIDTH/2 - Constants::HALVE_GRIDSIZE ),
+            static_cast<int>(Constants::HALVE_CELL_SIZE * (coord.y + 1) + coord.y * Constants::STEP_SIZE + ((Constants::WINDOW_HEIGHT*3)/5) - Constants::HALVE_GRIDSIZE)};
 }
 
 
@@ -201,15 +201,15 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
 
 
 GridDisplay::GridDisplay() {
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < ROWS; ++i) {
         visualComponents.push_back({});
-        for (int j = 0; j < 9; ++j) visualComponents[i].push_back(nullptr);
+        for (int j = 0; j < COLS; ++j) visualComponents[i].push_back({});
     }
-    for (int row = 0; row < 9; ++row) {
+    for (int row = 0; row < ROWS; ++row) {
         std::vector<CellDisplay> tmp;
-        for (int col = 0; col < 9; ++col) {
-            tmp.emplace_back(Point{static_cast<int>(Constants::INTER_CELL * col + Constants::GAME_WINDOW_Xi + Constants::INTER_CELL/2),
-                                static_cast<int>(Constants::INTER_CELL * row + Constants::GAME_WINDOW_Yi + Constants::INTER_CELL/2)});
+        for (int col = 0; col < COLS; ++col) {
+            tmp.emplace_back(CellDisplay{Point{static_cast<int>( Constants::HALVE_CELL_SIZE * (col + 1) + col * Constants::STEP_SIZE + Constants::WINDOW_WIDTH/2 - Constants::HALVE_GRIDSIZE ),
+                                static_cast<int>( Constants::HALVE_CELL_SIZE * (row + 1) + row * Constants::STEP_SIZE + ((Constants::WINDOW_HEIGHT*3)/5) - Constants::HALVE_GRIDSIZE) }});
         }
         visualGrid.push_back(std::move(tmp));
     }
@@ -222,8 +222,8 @@ GridDisplay::GridDisplay() {
  */
 void GridDisplay::draw()  {
     bool isAnimation = false;
-    for (int row = 0; row < 9; ++row) {
-        for (int col = 0; col < 9; ++col) {
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
             visualGrid[row][col].draw();
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation()) isAnimation = true;
@@ -245,8 +245,8 @@ void GridDisplay::draw()  {
  */
 bool GridDisplay::inAnimation() const {
     bool isAnimation = false;
-    for (int row = 0; row < 9; ++row) {
-        for (int col = 0; col < 9; ++col) {
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col < COLS; ++col) {
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation()) isAnimation = true;
         }
@@ -341,14 +341,14 @@ void GridDisplay::package() const {
     // std::cout << "Packaging" << std::endl;
     std::string temp;
 
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < COLS; ++i) {
         if (i == 0) temp += "   " + std::to_string(i)+ "    ";
         else temp += std::to_string(i) + "    ";
     }
     temp += "\n============================================\n";
 
-    for (int i = 0; i < 9; ++i) {
-        for (int j = 0; j < 9; ++j) {
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
             if (j == 0) temp += std::to_string(i) + "| ";
             std::string component = " ";
             if (visualComponents[i][j]) component = visualComponents[i][j]->type();

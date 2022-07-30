@@ -155,7 +155,7 @@ void Grid::wrappedBlast(Cell * target) {
  */
 void Grid::stripedBlast(Cell * target) {
     if (!target->getOccupied()) return;
-    int direction = target->getOccupied()->getBlastDirection();
+    int direction = target->getBlastDirection();
     Point start = target->getLocation();
     Cell * c;
     if (direction == Constants::VERTICAL) {
@@ -239,11 +239,11 @@ void Grid::insertComponent(int row, int col) {
     // StripedBomb insertion
     if (component < 8) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
     // Wrapped insertion
-    else if (component < 12) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
+    //else if (component < 12) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
     // Wall insertion
     // else if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
     // Candy insertion
-    else if (component == 81) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
+    else if (component > 65) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
 
     else grid[row][col].setOccupied(std::make_shared<Candy>());
     
@@ -393,31 +393,48 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  * 
  */
 void Grid::bombSwap(Cell *c1, Cell * c2) {
-    if (c1->getOccupied()->getBlastType() == Constants::SPECIAL
-        || c2->getOccupied()->getBlastType() == Constants::SPECIAL) return;
+    std::cout << "Hi" << std::endl;
+    if (specialSwapCheck(c1, c2)) {
+        if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
+            for (auto &row : grid) 
+                for (auto &cell : row) willPop(&cell);
+        }
+        else {
+            Cell * target = c1->getBlastType() == Constants::SPECIAL ? c2 : c1;
+            for (auto &row : grid) {
+                for (auto &cell : row) {
+                    if (cell.getColour() == target->getColour()) {
+                        insertComponent(&cell, target->type());
+                        willPop(&cell);
+                    }
+                }
+            }
+        }
+    }
 
 
-    if ((c1->getOccupied()->getBlastType() == Constants::STRIPED
-        && c2->getOccupied()->getBlastType() == Constants::STRIPED)
-        || (c1->getOccupied()->getBlastType() == Constants::WRAPPED
-        && c2->getOccupied()->getBlastType() == Constants::WRAPPED)) {
+    else if ((c1->getBlastType() == Constants::STRIPED
+        && c2->getBlastType() == Constants::STRIPED)
+        || (c1->getBlastType() == Constants::WRAPPED
+        && c2->getBlastType() == Constants::WRAPPED)) {
         
         willPop(c1);
         willPop(c2);
     }
         
+    else {
+        Point start = c1->getLocation();
+        std::vector< Cell * > tmp;
 
-    Point start = c1->getLocation();
-    std::vector< Cell * > tmp;
+        for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
+        for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
+        for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
+        for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
 
-    for (int i = start.y + 1; i < ROWS; i += 2) tmp.push_back(&grid[i][start.x]); 
-    for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
-    for (int i = start.x + 1; i < COLS; ++i) tmp.push_back(&grid[start.y][i]);
-    for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
-    
-    for (auto &c : tmp) {
-        c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
-        willPop(c);
+        for (auto &c : tmp) {
+            c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
+            willPop(c);
+    }
     }
 }
 
@@ -540,10 +557,22 @@ void Grid::completeDrop() {
 /**
  * @brief Combines all grid cleaning mechanics to clean up the grid
  * 
+ * \see Grid::clean()
+ * 
+ */
+void Grid::clean(Cell * c1, Cell * c2) {
+    if (bombSwapCheck(c1, c2)) bombSwap(c1, c2);
+    clean();
+}
+
+
+/**
+ * @brief Combines all grid cleaning mechanics to clean up the grid
+ * 
  */
 void Grid::clean() {
-    // package();
     while (!clear()) {
+        completeFill();
         completeDrop();
         completeFill();
     } 
@@ -684,12 +713,10 @@ bool Grid::inGrid(const Point &coord) const {
 }
 
 
-bool Grid::bombSwapCheck(Cell * c1, Cell * c2) {
-    return c1->getOccupied()->getBlastType() != Constants::SIMPLE
-            && c2->getOccupied()->getBlastType() != Constants::SIMPLE;
-
-    //willPop(c1);
-    //willPop(c2);
+bool Grid::bombSwapCheck(Cell * c1, Cell * c2) const {
+    return ((c1->getBlastType() != Constants::SIMPLE
+            && c2->getBlastType() != Constants::SIMPLE) 
+            || specialSwapCheck(c1, c2));
 }
 
 
@@ -758,13 +785,10 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
-        Cell * c1 = &grid[cell1.y][cell1.x];
-        Cell * c2 = &grid[cell2.y][cell2.x];
-        exchangeCells(c1, c2);
-        if (bombSwapCheck(c1, c2)) bombSwap(c1, c2);
+        exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();
         observer->notifySwap(cell1, cell2);
-        clean();
+        clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
     // else observer->notifyFailedSwap(cell1, cell2);
 }

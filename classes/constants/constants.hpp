@@ -47,7 +47,7 @@ public:
 
     static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;
 
-    static enum blastTypes{SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;
+    static enum blastTypes{NO_BLAST, SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;
 
     static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ALL, EMPTY, WALL, FROSTING1, FROSTING2,
 

@@ -20,9 +20,12 @@
 
 class StripedBomb : public GameComponent {
 public:
-    StripedBomb(int colour, int blastDirection) noexcept : GameComponent(colour, 1, blastDirection) {}
-    StripedBomb() noexcept : GameComponent(Constants::randomCandy(), 1, Constants::randomDirection()) {}
-    int type() const override;
+    StripedBomb(int colour, int blastDirection) noexcept : GameComponent(colour, Constants::STRIPED, blastDirection) {}
+    StripedBomb() noexcept : GameComponent(Constants::randomCandy(), Constants::STRIPED, Constants::randomDirection()) {}
+    StripedBomb(const StripedBomb &) = default;
+    StripedBomb(StripedBomb &&) = default;
+
+    int type() const override {return Constants::associatedStripedBomb(getColour(), getBlastDirection());};
 
     std::string toString() const override {
         std::string direction = getBlastDirection() == Constants::VERTICAL ? "V" : "H";

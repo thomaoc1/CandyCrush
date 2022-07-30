@@ -103,13 +103,14 @@ private:
     /* Utility */ 
     bool inGrid(const Point &coord) const;
 
+    /* Conditions */
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
     bool wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;};
 
-    bool spBlastCond(const std::vector< Cell * > &cColour);
-    bool wrBlastCond(Cell * c) const {return c->getOccupied()->getBlastArea() == 9;}
-    bool stBlastCond(Cell * c) const {return c->getOccupied()->getBlastDirection() != Constants::NO_DIRECTION;}
+    bool spBlastCond(Cell * c) const {return c->getOccupied()->getBlastType() == Constants::SPECIAL;}
+    bool wrBlastCond(Cell * c) const {return c->getOccupied()->getBlastType() == Constants::WRAPPED;}
+    bool stBlastCond(Cell * c) const {return c->getOccupied()->getBlastType() == Constants::STRIPED;}
 
     // TEMP
     void package() const;

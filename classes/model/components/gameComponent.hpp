@@ -24,19 +24,19 @@
 
 class GameComponent {
     const int colour;
-    const int blastArea;
+    const int blastType;
     const int blastDirection;
 public:
-    GameComponent(int colour, int blastArea, int blastDirection) noexcept 
-        : colour{colour}, blastArea{blastArea}, blastDirection{blastDirection} {}
-    GameComponent(int colour) 
-        : colour{colour}, blastArea{1}, blastDirection{Constants::NO_DIRECTION} {}
+    GameComponent(int colour, int blastType, int blastDirection) noexcept 
+        : colour{colour}, blastType{blastType}, blastDirection{blastDirection} {}
+    GameComponent(int colour) noexcept
+        : colour{colour}, blastType{Constants::SIMPLE}, blastDirection{Constants::NO_DIRECTION} {}
     GameComponent() noexcept 
-        : colour{Constants::NONE}, blastArea{0}, blastDirection{Constants::NO_DIRECTION} {}
+        : colour{Constants::NONE}, blastType{Constants::SIMPLE}, blastDirection{Constants::NO_DIRECTION} {}
     virtual ~GameComponent() = default;
 
     virtual int getColour() const {return colour;}
-    virtual int getBlastArea() const {return blastArea;}
+    virtual int getBlastType() const {return blastType;}
     virtual int getBlastDirection() const {return blastDirection;}
     virtual int type() const=0;
 

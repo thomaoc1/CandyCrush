@@ -83,8 +83,10 @@ void Grid::clearCheck(Cell * cell) {
     // If no combo found
     if (contColour[Constants::VERTICAL].size() < 3 
         && contColour[Constants::HORIZONTAL].size() < 3) return;
+        
     // Else at least 3 consecutives found 
-    std::vector<int> directions = {Constants::VERTICAL, Constants::HORIZONTAL};
+    std::array<int, 2> directions = {Constants::VERTICAL, Constants::HORIZONTAL};
+ 
     enum {Normal, Striped, Wrapped, Special};
     
     std::pair<int,int> typeDirection {Normal, Constants::VERTICAL};
@@ -102,12 +104,7 @@ void Grid::clearCheck(Cell * cell) {
         else typeDirection = {Normal, dir};
     }
     
-    for (auto &c : contColour[typeDirection.second]) {
-        if (!c->getOccupied()) continue;
-        willPop(c);
-        if (wrBlastCond(c)) wrappedBlast(c);
-        else if (stBlastCond(c)) stripedBlast(c); 
-    }
+    for (auto &c : contColour[typeDirection.second]) willPop(c);
     
     switch (typeDirection.first) {
         case Striped:
@@ -138,8 +135,6 @@ void Grid::wrappedBlast(Cell * target) {
     for (auto &c : target->getNbs()) {
         if (!c || !c->getOccupied() || c->getPop()) continue;
         willPop(c);
-        if (wrBlastCond(c)) wrappedBlast(c);
-        else if (stBlastCond(c)) stripedBlast(c);
     }
 }
 
@@ -160,15 +155,11 @@ void Grid::stripedBlast(Cell * target) {
             c = &grid[i][start.x];
             if (!c->getOccupied() || c->getPop()) continue;
             willPop(c);
-            if (wrBlastCond(c)) wrappedBlast(c);
-            else if (stBlastCond(c)) stripedBlast(c);
         }
         for (int i = start.y - 1; i >= 0; --i){
             c = &grid[i][start.x];
             if (!c->getOccupied() || c->getPop()) continue;
             willPop(c);
-            if (wrBlastCond(c)) wrappedBlast(c);
-            else if (stBlastCond(c)) stripedBlast(c);
         }
     }
     else {
@@ -176,15 +167,11 @@ void Grid::stripedBlast(Cell * target) {
             c = &grid[start.y][i];
             if (!c->getOccupied() || c->getPop()) continue;
             willPop(c);
-            if (wrBlastCond(c)) wrappedBlast(c);
-            else if (stBlastCond(c)) stripedBlast(c);
         }
         for (int i = start.x - 1; i >= 0; --i) {
             c = &grid[start.y][i];
             if (!c->getOccupied() || c->getPop()) continue;
             willPop(c);
-            if (wrBlastCond(c)) wrappedBlast(c);
-            else if (stBlastCond(c)) stripedBlast(c);
         }
     }
 }
@@ -225,6 +212,8 @@ void Grid::popAll() {
 void Grid::willPop(Cell * target) {
     target->willPop();
     toPop.push_back(target);
+    if (wrBlastCond(target)) wrappedBlast(target);
+    else if (stBlastCond(target)) stripedBlast(target);
 }
 
 

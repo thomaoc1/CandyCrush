@@ -53,7 +53,8 @@ public:
     std::vector< Cell * > getNbs() const {return nbs;}
     bool getPop() const {return toPop;}
     bool getSwap() const {return toSwap;}
-    
+    int getBlastType() const {return occupied ? occupied->getBlastType() : Constants::NO_BLAST;}
+    int getBlastDirection() const {return occupied ? occupied->getBlastDirection() : Constants::NO_DIRECTION;}
     int getColour() const {return occupied ? occupied->getColour() : Constants::NONE;}
     int type() const {return occupied ? occupied->type() : Constants::EMPTY;};
 };

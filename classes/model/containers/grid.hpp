@@ -77,6 +77,7 @@ private:
     void wrappedBlast(Cell * target);
     void stripedBlast(Cell * target);
     void bombSwap(Cell * c1, Cell * c2);
+    void specialSwap(Cell * c1, Cell * c2);
     void pop(Cell * target);
     void popAll();
     void willPop(Cell * target);
@@ -107,15 +108,16 @@ private:
     /* Conditions */
     bool inGrid(const Point &coord) const;
 
-    bool bombSwapCheck(Cell * c1, Cell * c2);
+    bool bombSwapCheck(Cell * c1, Cell * c2) const;
+    bool specialSwapCheck(Cell * c1, Cell * c2) const {return c1->getBlastType() == Constants::SPECIAL || c2->getBlastType() == Constants::SPECIAL;}
 
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
     int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;};
 
-    bool spBlastCond(Cell * c) const {return c->getOccupied()->getBlastType() == Constants::SPECIAL;}
-    bool wrBlastCond(Cell * c) const {return c->getOccupied()->getBlastType() == Constants::WRAPPED;}
-    bool stBlastCond(Cell * c) const {return c->getOccupied()->getBlastType() == Constants::STRIPED;}
+    bool spBlastCond(Cell * c) const {return c->getBlastType() == Constants::SPECIAL;}
+    bool wrBlastCond(Cell * c) const {return c->getBlastType() == Constants::WRAPPED;}
+    bool stBlastCond(Cell * c) const {return c->getBlastType() == Constants::STRIPED;}
 
     // TEMP
     void package() const;

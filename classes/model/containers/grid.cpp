@@ -155,7 +155,7 @@ void Grid::wrappedBlast(Cell * target) {
  */
 void Grid::stripedBlast(Cell * target) {
     if (!target->getOccupied()) return;
-    int direction = target->getOccupied()->getBlastDirection();
+    int direction = target->getBlastDirection();
     Point start = target->getLocation();
     Cell * c;
     if (direction == Constants::VERTICAL) {
@@ -393,14 +393,14 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  * 
  */
 void Grid::bombSwap(Cell *c1, Cell * c2) {
-    if (c1->getOccupied()->getBlastType() == Constants::SPECIAL
-        || c2->getOccupied()->getBlastType() == Constants::SPECIAL) return;
+    if (c1->getBlastType() == Constants::SPECIAL
+        || c2->getBlastType() == Constants::SPECIAL) return;
 
 
-    if ((c1->getOccupied()->getBlastType() == Constants::STRIPED
-        && c2->getOccupied()->getBlastType() == Constants::STRIPED)
-        || (c1->getOccupied()->getBlastType() == Constants::WRAPPED
-        && c2->getOccupied()->getBlastType() == Constants::WRAPPED)) {
+    if ((c1->getBlastType() == Constants::STRIPED
+        && c2->getBlastType() == Constants::STRIPED)
+        || (c1->getBlastType() == Constants::WRAPPED
+        && c2->getBlastType() == Constants::WRAPPED)) {
         
         willPop(c1);
         willPop(c2);
@@ -696,12 +696,9 @@ bool Grid::inGrid(const Point &coord) const {
 }
 
 
-bool Grid::bombSwapCheck(Cell * c1, Cell * c2) {
-    return c1->getOccupied()->getBlastType() != Constants::SIMPLE
-            && c2->getOccupied()->getBlastType() != Constants::SIMPLE;
-
-    //willPop(c1);
-    //willPop(c2);
+bool Grid::bombSwapCheck(Cell * c1, Cell * c2) const {
+    return c1->getBlastType() != Constants::SIMPLE
+            && c2->getBlastType() != Constants::SIMPLE;
 }
 
 

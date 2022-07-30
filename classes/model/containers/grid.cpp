@@ -22,18 +22,10 @@
  * @return bool
  * 
  */
-void Grid::wrBombExtract(const std::vector< Cell * > &cColour, int direction) {
-    for (auto &cell : cColour) {
-        std::vector< std::vector< Cell * > > cross = continuousColour(cell);
-        int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
-        if (cross[perpendicular].size() >= 3) {
-            wrappedBombs.push_back({cell, cell->type()});
-            for (auto &pCell : cross[perpendicular]) {
-                pCell->willPop();
-                toPop.push_back(pCell);
-            }
-        }
-    }
+void Grid::wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction) {
+    int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
+    std::vector< Cell * > cross = continuousColour(cColour[index])[perpendicular];
+    for (auto &cell : cross) willPop(cell);
 }
 
 
@@ -66,6 +58,32 @@ void Grid::spBombExtract(Cell * cell) {
 
 
 /**
+ * @brief Extracts required bomb type from parameters given
+ * 
+ * @param cell 
+ * @param cColour
+ * @param b
+ * 
+ */
+void Grid::bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const BombInfo &b) {
+    enum {Normal, Striped, Wrapped, Special};
+    enum {Type, Direction, Index};
+
+    switch (b[Type]) {
+            case Striped:
+                stBombExtract(cell, b[Direction]);
+                break;
+            case Wrapped:
+                wrBombExtract(cColour, b[Index], b[Direction]);
+                break;
+            case Special:
+                spBombExtract(cell);
+                break;
+        }
+}
+
+
+/**
  * @brief Checks a cell for every clear condition given a direction to check. Marks all cells
  *  which will be cleared with that cell.
  * 
@@ -88,35 +106,25 @@ void Grid::clearCheck(Cell * cell) {
     std::array<int, 2> directions = {Constants::VERTICAL, Constants::HORIZONTAL};
  
     enum {Normal, Striped, Wrapped, Special};
-    
-    std::pair<int,int> typeDirection {Normal, Constants::VERTICAL};
+    enum {Type, Direction, Index};
+    using BombInfo = std::array<int, 3>;
+    BombInfo current = {Normal, Constants::VERTICAL, -1};
 
     for (auto &dir : directions) {
         /* No combo condition*/
         if (contColour[dir].size() < 3) continue; 
+        int index = wrSpawnCond(contColour[dir], dir);
         /* Special Bomb Condition */
-        if (typeDirection.first < Special && spSpawnCond(contColour[dir])) typeDirection = {Special, dir};
+        if (current[Type] < Special && spSpawnCond(contColour[dir])) current = {Special, dir, -1};
         /* Wrapped Bomb Condition */
-        else if (typeDirection.first < Wrapped && wrSpawnCond(contColour[dir], dir)) typeDirection = {Wrapped, dir};
+        else if (current[Type] < Wrapped && index >= 0) current = {Wrapped, dir, index};
         /* Striped Bomb Condition */
-        else if (typeDirection.first < Striped && stSpawnCond(contColour[dir])) typeDirection = {Striped, dir};
-        /* Normal */
-        else typeDirection = {Normal, dir};
+        else if (current[Type] < Striped && stSpawnCond(contColour[dir])) current = {Striped, dir, -1};
+
+        for (auto &c : contColour[dir]) willPop(c);
     }
-    
-    for (auto &c : contColour[typeDirection.second]) willPop(c);
-    
-    switch (typeDirection.first) {
-        case Striped:
-            stBombExtract(cell, typeDirection.second);
-            break;
-        case Wrapped:
-            wrBombExtract(contColour[typeDirection.second], typeDirection.second);
-            break;
-        case Special:
-            spBombExtract(cell);
-            break;
-    }
+
+    bombExtract(cell, contColour[current[Direction]], current);
 }
 
 
@@ -645,12 +653,12 @@ bool Grid::inGrid(const Point &coord) const {
  * @return bool
  * 
  */
-bool Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const {
-    bool isWrapped = false;
-    for (auto &cell : cColour) {
-        std::vector<  std::vector< Cell * > > cross = std::move(continuousColour(cell));
+int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const {
+    int isWrapped = -1;
+    for (int i = 0; i < static_cast<int>(cColour.size()); ++i) {
+        std::vector<  std::vector< Cell * > > cross = std::move(continuousColour(cColour[i]));
         int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
-        if (cross[perpendicular].size() >= 3 && cross[perpendicular].size() < 5) isWrapped = true;
+        if (cross[perpendicular].size() >= 3 && cross[perpendicular].size() < 5) isWrapped = i;
     }
     return isWrapped;
 }

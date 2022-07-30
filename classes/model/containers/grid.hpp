@@ -66,9 +66,11 @@ public:
     void swap(const Point &cell1, const Point &cell2);
 private:
     /* Grid Cleaning */
-    void wrBombExtract(const std::vector< Cell * > &cColour, int direction);
+    void wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction);
     void stBombExtract(Cell * cell, int direction);
     void spBombExtract(Cell * cell);
+    using BombInfo = std::array<int, 3>;
+    void bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const BombInfo &b);
     void clearCheck(Cell * cell);
 
     /* Insertion / Suppression */
@@ -105,7 +107,7 @@ private:
 
     /* Conditions */
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
-    bool wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
+    int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;};
 
     bool spBlastCond(Cell * c) const {return c->getOccupied()->getBlastType() == Constants::SPECIAL;}

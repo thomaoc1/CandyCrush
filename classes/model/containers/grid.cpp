@@ -540,10 +540,22 @@ void Grid::completeDrop() {
 /**
  * @brief Combines all grid cleaning mechanics to clean up the grid
  * 
+ * \see Grid::clean()
+ * 
+ */
+void Grid::clean(Cell * c1, Cell * c2) {
+    if (bombSwapCheck(c1, c2)) bombSwap(c1, c2);
+    clean();
+}
+
+
+/**
+ * @brief Combines all grid cleaning mechanics to clean up the grid
+ * 
  */
 void Grid::clean() {
-    // package();
     while (!clear()) {
+        completeFill();
         completeDrop();
         completeFill();
     } 
@@ -758,13 +770,10 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
-        Cell * c1 = &grid[cell1.y][cell1.x];
-        Cell * c2 = &grid[cell2.y][cell2.x];
-        exchangeCells(c1, c2);
-        if (bombSwapCheck(c1, c2)) bombSwap(c1, c2);
+        exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();
         observer->notifySwap(cell1, cell2);
-        clean();
+        clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
     // else observer->notifyFailedSwap(cell1, cell2);
 }

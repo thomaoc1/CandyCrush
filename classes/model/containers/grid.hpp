@@ -84,6 +84,8 @@ private:
     void placeWrappedCandies();
     void placeStripedCandies();
     void placeSpecialBombs();
+    void markSwap(Cell * c1, Cell * c2);
+    void markSwappped(Cell * c1, Cell * c2);
     void exchangeCells(Cell * c1, Cell * c2);
 
     /* Grid manipulation */
@@ -102,10 +104,12 @@ private:
     /* Neighbour Fetching */
     std::vector< Cell * > getNbs(int row, int col);
 
-    /* Utility */ 
+    /* Conditions */
     bool inGrid(const Point &coord) const;
 
-    /* Conditions */
+    bool bombSwap(Cell * c1, Cell * c2);
+    // bool bombSwap(Cell * c1, Cell * c2) {return c1}
+
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
     int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;};

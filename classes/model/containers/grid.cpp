@@ -372,6 +372,26 @@ void Grid::placeSpecialBombs() {
 
 
 /**
+ * @brief Marks two cells for swapping
+ * 
+ */
+void Grid::markSwap(Cell * c1, Cell * c2) {
+    c1->willSwap();
+    c1->willSwap();
+}
+
+
+/**
+ * @brief Marks two cells for swapping
+ * 
+ */
+void Grid::markSwappped(Cell * c1, Cell * c2) {
+    c1->swapped();
+    c1->swapped();
+}
+
+
+/**
  * @brief Swaps occupations of two cells
  * 
  * @param c1
@@ -538,7 +558,9 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
     }
 
-    if (!validity) exchangeCells(c1, c2);
+    if (!validity) validity = bombSwap(c1, c2);
+
+    exchangeCells(c1, c2);
 
     return validity;
 }
@@ -625,7 +647,7 @@ std::vector< Cell * > Grid::getNbs(int row, int col) {
 
 
 /*-------------------------------------------------------------------------------------------*
- *                                           Utility                                         *
+ *                                        Conditions                                         *
  *-------------------------------------------------------------------------------------------*/
 
 
@@ -642,6 +664,15 @@ bool Grid::inGrid(const Point &coord) const {
             || coord.y < 0 
             || coord.x >= static_cast<int>(grid[0].size())
             || coord.x < 0;
+}
+
+
+bool Grid::bombSwap(Cell * c1, Cell * c2) {
+    return c1->getOccupied()->getBlastType() != Constants::SIMPLE
+            && c2->getOccupied()->getBlastType() != Constants::SIMPLE;
+
+    //willPop(c1);
+    //willPop(c2);
 }
 
 
@@ -710,6 +741,13 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
+        Cell * c1 = &grid[cell1.y][cell1.x];
+        Cell * c2 = &grid[cell2.y][cell2.x];
+        exchangeCells(c1, c2);
+        if (bombSwap(c1, c2)) {
+            willPop(c1);
+            willPop(c2);
+        }
         package();
         observer->notifySwap(cell1, cell2);
         clean();

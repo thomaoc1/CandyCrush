@@ -31,6 +31,7 @@ class Cell {
     std::vector< Cell * > belowNbs{nullptr, nullptr, nullptr};
     std::vector< Cell * > aboveNbs{nullptr, nullptr, nullptr};
     bool toPop = false;
+    bool toSwap = false;
 public:
     Cell(int row, int col) noexcept : row{row}, col{col} {}
 
@@ -38,6 +39,8 @@ public:
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
     void unOccupy() {setOccupied(nullptr);}
     void setNbs(const std::vector< Cell * > &nbs);
+    void willSwap() {toSwap = true;}
+    void swapped() {toSwap = false;}
     void willPop() {toPop = true;}
     void popped() {toPop = false;}
     
@@ -49,6 +52,7 @@ public:
     Cell * getBelow(int direction) const {return belowNbs[direction];}
     std::vector< Cell * > getNbs() const {return nbs;}
     bool getPop() const {return toPop;}
+    bool getSwap() const {return toSwap;}
     
     int getColour() const {return occupied ? occupied->getColour() : Constants::NONE;}
     int type() const {return occupied ? occupied->type() : Constants::EMPTY;};

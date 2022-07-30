@@ -6,7 +6,7 @@
 class SpecialBomb : public GameComponent {
     int component;
 public:
-    SpecialBomb() : GameComponent{Constants::ALL} {}
+    SpecialBomb() : GameComponent{Constants::ALL, Constants::SPECIAL, Constants::NO_DIRECTION} {}
     void setComponent(int toPop) {component = toPop;}
     int getComponent() const {return component;}
     int type() const override {return Constants::SPECIAL_BOMB;}

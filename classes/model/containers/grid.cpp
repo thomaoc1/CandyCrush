@@ -239,11 +239,11 @@ void Grid::insertComponent(int row, int col) {
     // StripedBomb insertion
     if (component < 8) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
     // Wrapped insertion
-    else if (component < 12) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
+    //else if (component < 12) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
     // Wall insertion
     // else if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
     // Candy insertion
-    else if (component == 81) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
+    else if (component > 65) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
 
     else grid[row][col].setOccupied(std::make_shared<Candy>());
     
@@ -397,13 +397,16 @@ void Grid::bombSwap(Cell *c1, Cell * c2) {
     if (specialSwapCheck(c1, c2)) {
         if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
             for (auto &row : grid) 
-                for (auto &cell : row) pop(&cell);
+                for (auto &cell : row) willPop(&cell);
         }
         else {
             Cell * target = c1->getBlastType() == Constants::SPECIAL ? c2 : c1;
             for (auto &row : grid) {
                 for (auto &cell : row) {
-                    if (cell.getColour() == target->getColour()) insertComponent(&cell, target->type());
+                    if (cell.getColour() == target->getColour()) {
+                        insertComponent(&cell, target->type());
+                        willPop(&cell);
+                    }
                 }
             }
         }
@@ -601,7 +604,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
     }
 
-    if (!validity) validity = bombSwapCheck(c1, c2) ;
+    if (!validity) validity = bombSwapCheck(c1, c2);
 
     exchangeCells(c1, c2);
 
@@ -711,8 +714,9 @@ bool Grid::inGrid(const Point &coord) const {
 
 
 bool Grid::bombSwapCheck(Cell * c1, Cell * c2) const {
-    return c1->getBlastType() != Constants::SIMPLE
-            && c2->getBlastType() != Constants::SIMPLE;
+    return ((c1->getBlastType() != Constants::SIMPLE
+            && c2->getBlastType() != Constants::SIMPLE) 
+            || specialSwapCheck(c1, c2));
 }
 
 

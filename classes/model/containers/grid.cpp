@@ -393,11 +393,24 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  * 
  */
 void Grid::bombSwap(Cell *c1, Cell * c2) {
-    if (c1->getBlastType() == Constants::SPECIAL
-        || c2->getBlastType() == Constants::SPECIAL) return;
+    std::cout << "Hi" << std::endl;
+    if (specialSwapCheck(c1, c2)) {
+        if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
+            for (auto &row : grid) 
+                for (auto &cell : row) pop(&cell);
+        }
+        else {
+            Cell * target = c1->getBlastType() == Constants::SPECIAL ? c2 : c1;
+            for (auto &row : grid) {
+                for (auto &cell : row) {
+                    if (cell.getColour() == target->getColour()) insertComponent(&cell, target->type());
+                }
+            }
+        }
+    }
 
 
-    if ((c1->getBlastType() == Constants::STRIPED
+    else if ((c1->getBlastType() == Constants::STRIPED
         && c2->getBlastType() == Constants::STRIPED)
         || (c1->getBlastType() == Constants::WRAPPED
         && c2->getBlastType() == Constants::WRAPPED)) {
@@ -406,18 +419,19 @@ void Grid::bombSwap(Cell *c1, Cell * c2) {
         willPop(c2);
     }
         
+    else {
+        Point start = c1->getLocation();
+        std::vector< Cell * > tmp;
 
-    Point start = c1->getLocation();
-    std::vector< Cell * > tmp;
+        for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
+        for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
+        for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
+        for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
 
-    for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
-    for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
-    for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
-    for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
-    
-    for (auto &c : tmp) {
-        c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
-        willPop(c);
+        for (auto &c : tmp) {
+            c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
+            willPop(c);
+    }
     }
 }
 
@@ -587,7 +601,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
         if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
     }
 
-    if (!validity) validity = bombSwapCheck(c1, c2);
+    if (!validity) validity = bombSwapCheck(c1, c2) ;
 
     exchangeCells(c1, c2);
 

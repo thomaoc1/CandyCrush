@@ -64,14 +64,25 @@ public:
 
     void draw();
     bool inAnimation() const;
-    /* Observer Methods */
     void notifyInit(const Point &coord, int type);
-    void notifyInsert(const Point &coord, int type);
-    void notifyFill(const std::vector<CoordColour> &fill);
-    void notifyDrop(const std::vector<Point> &drop, int direction);
-    void notifyPop(const std::vector<Point> &pop);
-    void notifySwap(const Point &start, const Point &dest);
+
+    /** Queues insert animation */
+    void notifyInsert(const Point &coord, int type) {animationQueue.enqueueFill({{coord, type}});}
+
+    /** Queues fill animation */
+    void notifyFill(const std::vector<CoordColour> &toFill) {animationQueue.enqueueFill(toFill);}
+
+    /** Queues insert animation */
+    void notifyDrop(const std::vector<Point> &toDrop, int direction) {animationQueue.enqueueDrop(toDrop, direction);}
+
+    /** Queues pop animation */
+    void notifyPop(const std::vector<Point> &toPop) {animationQueue.enqueuePop(toPop);};
+
+    /** Queues swap animation */
+    void notifySwap(const Point &start, const Point &dest){animationQueue.enqueueSwap({start, dest});}
+
     void notifyFailedSwap(const Point &start, const Point &dest);
+
 private:
     /* Animations */
     void nextAnimation();
@@ -80,10 +91,10 @@ private:
     void performPop();
     void performSwap();
     void performFailedSwap();
+
     /* Utility */
     Point calculateCenter(const Point &coord) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
-
 
     // TEMP
     void package() const;

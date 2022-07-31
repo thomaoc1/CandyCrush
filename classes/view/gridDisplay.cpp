@@ -269,68 +269,16 @@ bool GridDisplay::inAnimation() const {
  */
 void GridDisplay::notifyInit(const Point &coord, int type) {
     visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
-    if (coord.x == 8 && coord.y == 8) package();
 }
 
 
 /**
- * @brief Notify a normal insert (fill)
- *
- * @param coord
- * @param type
+ * @brief Performs a double swap animation
+ * 
+ * @param c1 
+ * @param c2 
  * 
  */
-void GridDisplay::notifyInsert(const Point &coord, int type) {
-    animationQueue.enqueueFill({{coord, type}});
-}
-
-
-/**
- * @brief Notify a fill 
- * 
- * @param toFill
- *
- */
-void GridDisplay::notifyFill(const std::vector<CoordColour> &toFill) {
-    animationQueue.enqueueFill(toFill);
-}
-
-
-/**
- * @brief Notify a pop / suppression
- * 
- * @param toPop
- *
- */
-void GridDisplay::notifyPop(const std::vector<Point> &toPop) {
-    animationQueue.enqueuePop(toPop);
-}
-
-
-/**
- * @brief Notify a drop
- * 
- * @param toDrop 
- * @param direction
- *
- */
-void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
-    animationQueue.enqueueDrop(toDrop, direction);
-}
-
-
-/**
- * @brief Notify a swap
- * 
- * @param c1
- * @param c2
- *
- */
-void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
-    animationQueue.enqueueSwap({c1, c2});
-}
-
-
 void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
     animationQueue.enqueueSwap({c1, c2});
     animationQueue.enqueueSwap({c1, c2});

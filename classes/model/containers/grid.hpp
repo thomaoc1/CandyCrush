@@ -31,6 +31,7 @@
 #include "../components/wrappedBomb.hpp"
 #include "../components/stripedBomb.hpp"
 #include "../components/specialBomb.hpp"
+#include "../components/cherry.hpp"
 #include "../filehandler/fileHandler.hpp"
 #include "../../shared/point.hpp"
 

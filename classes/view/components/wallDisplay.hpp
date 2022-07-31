@@ -1,6 +1,6 @@
 /**
  * File : 
- *  candyDisplay.hpp
+ *  wallDisplay.hpp
  *
  * Decription :
  *  Class responsible of displaying a specific gameComponent: "Wall".

@@ -29,6 +29,7 @@
 #include "components/wrappedDisplay.hpp"
 #include "components/specialDisplay.hpp"
 #include "components/wallDisplay.hpp"
+#include "components/cherryDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"
 

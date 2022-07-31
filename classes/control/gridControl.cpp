@@ -77,6 +77,7 @@ void GridControl::dragEvent(const Point &mouseLoc) {
                 
     Point dragToIndex = coordToCell(mouseLoc);
     
+    // -1 means the mouse is over a gap
     if ( dragToIndex.x == -1 || dragToIndex.y == -1 ) return;
     
     dragged = true;

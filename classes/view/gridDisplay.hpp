@@ -31,7 +31,7 @@
 #include "components/wallDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"
-#include "broadcast.hpp"
+#include "text/broadcast.hpp"
 
 #include <memory>
 #include <vector>
@@ -53,7 +53,7 @@ class GridDisplay {
     enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
     AnimationQueue animationQueue;
 
-    Broadcast broadcast{"Hello !"};
+    BroadcastBox broadcast{"Hello !"};
 
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;

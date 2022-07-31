@@ -16,8 +16,24 @@
  * @return Point
  * 
  */
-Point FileHandler::lineInterpreter(const std::string &line) const {
-    return {((int)line[2] - 48), ((int)line[0] - 48)};
+void FileHandler::asciiGridInterpreter(const std::string &line) {
+    for (int i = 0; i < static_cast<int>(line.length()); i += 3) {
+        switch (((int)line[i] * 10 - 48) + ((int)line[i] - 48)) {
+            case Constants::ANY:
+                break;
+        }
+    }
+}
+
+
+int FileHandler::numOfInterpreter(const std::string &line) const {
+    int ret = 0;
+    if (line.size() == 1) ret = (int)line[0] - 48;
+    else {
+        ret = ((int)line[0] - 48) * 10;
+        ret += (int)line[1] - 48;
+    }
+    return ret;
 }
 
 
@@ -31,29 +47,31 @@ Point FileHandler::lineInterpreter(const std::string &line) const {
 FileHandler::FileHandler(const std::string &filename) {
     std::ifstream inFile(filename);
     std::string line;
-    
-    int numWalls, numFrostings;
-    std::vector<Point> walls, frostings;
 
     if (!inFile.is_open()) {
         std::cout << "Failed to open" << std::endl;
         exit(1);
     } 
 
-    getline(inFile, line, '\n'); 
-    numWalls = stoi(line);
+    getline(inFile, line, '\n');
+    gameData.maxSwaps = numOfInterpreter(line);
 
-    for (int i = 0; i < numWalls; ++i) {
+    getline(inFile, line, '\n');
+    int numObjectives;
+    numObjectives = numOfInterpreter(line);
+    
+    
+    for (int i = 0; i < numObjectives; ++i ) {
         getline(inFile, line, '\n');
-        walls.push_back(lineInterpreter(line));
+        gameData.objTypes[(int)line[0] - 48] = true;
+        gameData.objectives[(int)line[0] - 48] = ((int)line[2] - 48) * 10 + (int)line[3] - 48;
     }
 
-    getline(inFile, line, '\n'); 
-    numFrostings = stoi(line);    
-
-    for (int i = 0; i < numFrostings; ++i) {
+    for (int i = 0; i < 9; ++i) {
         getline(inFile, line, '\n');
-        frostings.push_back(lineInterpreter(line));
+        for (int i = 0; i < 9; ++i) {
+            asciiGridInterpreter(line);
+        }
     }
 
     gameData.walls = walls;

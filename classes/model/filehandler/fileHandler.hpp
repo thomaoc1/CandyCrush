@@ -18,17 +18,23 @@
 #define FILE_HANDLER_HPP
 
 #include "gameData.hpp"
+#include "../../constants/constants.hpp"
 
 #include <fstream>
 #include <string>
 
 class FileHandler {
+    const int randomCandy = -1;
     GameData gameData;
+    std::vector<Point> candies, walls, frostings, cherries;
+    std::vector<Point> hazels, wrapped, striped, special;
 public:
     FileHandler(const std::string &filename);
     GameData getGameData() const {return gameData;}
 private:
-    Point lineInterpreter(const std::string &filename) const;
+    void asciiGridInterpreter(const std::string &line);
+    int numOfInterpreter(const std::string &line) const;
+    void objectivesInterpreter(const std::string &line);
 };
 
 #endif

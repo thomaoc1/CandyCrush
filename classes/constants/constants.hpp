@@ -36,16 +36,13 @@ public:
     static const int COLS;
     static const int ROWS;
 
-
-
-
     static const double CANDY_RADIUS;
-
-    static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;
 
     static enum blastTypes{NO_BLAST, SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;
 
-    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ALL, EMPTY, WALL, FROSTING1, FROSTING2,
+    static enum objectiveTypes{POPS, CHERRIES, FROSTINGS} objectives;
+
+    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ANY, EMPTY, WALL, FROSTING1, FROSTING2,
 
                             RED_STRIPED_BOMB_V, BLUE_STRIPED_BOMB_V, GREEN_STRIPED_BOMB_V, YELLOW_STRIPED_BOMB_V,
                             PURPLE_STRIPED_BOMB_V, ORANGE_STRIPED_BOMB_V,

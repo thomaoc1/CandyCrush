@@ -803,6 +803,9 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
 
     GameData gd = FileHandler{level}.getGameData();
 
+    for (auto &o : gd.objTypes) std::cout << (o ? "True" : "False") << std::endl;
+    for (auto &i : gd.objectives) std::cout << i << std::endl;
+
     for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
     // for (auto &p : gd.frostings);
     

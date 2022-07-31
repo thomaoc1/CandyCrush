@@ -140,11 +140,8 @@ void Grid::clearCheck(Cell * cell) {
  * 
  */
 void Grid::wrappedBlast(Cell * target) {
-    std::cout << "wrBlast" << std::endl; 
-    for (auto &c : target->getNbs()) {
-        if (!c) continue;
-        willPop(c);
-    }
+    for (auto &c : target->getNbs()) 
+        if (c) willPop(c);
 }
 
 
@@ -378,11 +375,13 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  */
 void Grid::specialBlast(Cell * c1, Cell * c2) {
     if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
-            for (auto &row : grid) 
-                for (auto &cell : row) willPop(&cell);
-        }
+        for (auto &row : grid) 
+            for (auto &cell : row) willPop(&cell);
+    }
     else {
         Cell * target = c1->getBlastType() == Constants::SPECIAL ? c2 : c1;
+        willPop(c1);
+        willPop(c2);
         for (auto &row : grid) {
             for (auto &cell : row) {
                 if (cell.getColour() == target->getColour()) {
@@ -801,7 +800,10 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         observer->notifySwap(cell1, cell2);
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
-    // else observer->notifyFailedSwap(cell1, cell2);
+    else observer->notifyFailedSwap(cell1, cell2);
+    //    observer->notifySwap(cell1, cell2);
+    //    observer->notifySwap(cell1, cell2);
+    
 }
 
 

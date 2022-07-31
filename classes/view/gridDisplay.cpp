@@ -108,7 +108,7 @@ void GridDisplay::performSwap() {
     std::swap(visualComponents[c2.y][c2.x], visualComponents[c1.y][c1.x]);
     visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
 
-    swapping = true;
+    // swapping = true;
     package();
 }
 
@@ -233,7 +233,7 @@ void GridDisplay::draw()  {
     if (!isAnimation && animationQueue.size() > 0){
         nextAnimation();
     }   
-    else swapping = false;
+    // else swapping = false;
 }
 
 
@@ -327,12 +327,13 @@ void GridDisplay::notifyDrop(const std::vector<Point> &toDrop, int direction) {
  *
  */
 void GridDisplay::notifySwap(const Point &c1, const Point &c2) {
-    if (!swapping && animationQueue.size() == 0) animationQueue.enqueueSwap({c1, c2});
+    animationQueue.enqueueSwap({c1, c2});
 }
 
 
-void GridDisplay::notifyFailedSwap(const Point &, const Point &) {
-    std::cout << "View Swap failed" << std::endl;
+void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
+    animationQueue.enqueueSwap({c1, c2});
+    animationQueue.enqueueSwap({c1, c2});
 }
 
 

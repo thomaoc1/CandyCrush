@@ -39,10 +39,6 @@ public:
 
 
 
-
-
-
-
     static const double CANDY_RADIUS;
 
     static enum animations{NO_ANIMATION, MOVE_ANIMATION, SUPPRESION_ANIMATION} animations;

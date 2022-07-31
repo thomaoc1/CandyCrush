@@ -75,6 +75,11 @@ int Constants::associatedColour(int component) {
         case Constants::FROSTING2:
             colour = Constants::BLUE;
             break;
+        case Constants::SPECIAL_BOMB:
+            colour = Constants::SPECIAL_BOMB;
+            break;
+        case Constants::CHERRY:
+            colour = Constants::CHERRY;
     }
     return colour;
 }
@@ -107,6 +112,10 @@ Fl_Color Constants::associatedFLColour(int colour) {
             break;
         case Constants::BLACK:
             fl_colour = FL_BLACK;
+            break;
+        case Constants::CHERRY:
+        case Constants::SPECIAL_BOMB:
+            fl_colour = FL_DARK_RED;
             break;
     }
     return fl_colour;

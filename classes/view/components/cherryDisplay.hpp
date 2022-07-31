@@ -12,7 +12,7 @@
 class CherryDisplay : public ComponentDisplay {
 public:
     CherryDisplay(const Point &center) 
-        : ComponentDisplay{std::make_shared<CherryShape>(center, Constants::RED, Constants::CANDY_RADIUS)} {}
+        : ComponentDisplay{std::make_shared<CherryShape>(center, Constants::CANDY_RADIUS)} {}
     CherryDisplay(const CherryDisplay &) = default;
     CherryDisplay(CherryDisplay &&) = default;
 

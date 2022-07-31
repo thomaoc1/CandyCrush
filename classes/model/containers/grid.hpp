@@ -58,14 +58,13 @@ class Grid {
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
 
-
-
 public:
 
     Grid(std::shared_ptr<GridDisplay> observer);
     Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);
     int getCell(int y, int x) const {return grid[y][x].type();}
     void swap(const Point &cell1, const Point &cell2);
+    
 private:
     /* Grid Cleaning */
     void wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction);
@@ -78,8 +77,9 @@ private:
     /* Insertion / Suppression */
     void wrappedBlast(Cell * target);
     void stripedBlast(Cell * target);
+    void specialBlast(Cell * c1, Cell * c2);
+    void wrStBlast(Cell * c1);
     void bombSwap(Cell * c1, Cell * c2);
-    void specialSwap(Cell * c1, Cell * c2);
     void pop(Cell * target);
     void popAll();
     void willPop(Cell * target);
@@ -109,6 +109,8 @@ private:
 
     /* Conditions */
     bool inGrid(const Point &coord) const;
+
+    bool sameBomb(Cell * c1, Cell * c2) const;
 
     bool bombSwapCheck(Cell * c1, Cell * c2) const;
     bool specialSwapCheck(Cell * c1, Cell * c2) const {return c1->getBlastType() == Constants::SPECIAL || c2->getBlastType() == Constants::SPECIAL;}

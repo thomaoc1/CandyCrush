@@ -140,8 +140,9 @@ void Grid::clearCheck(Cell * cell) {
  * 
  */
 void Grid::wrappedBlast(Cell * target) {
+    std::cout << "wrBlast" << std::endl; 
     for (auto &c : target->getNbs()) {
-        if (!c || !c->getOccupied() || c->getPop()) continue;
+        if (!c) continue;
         willPop(c);
     }
 }
@@ -221,17 +222,14 @@ void Grid::willPop(Cell * target) {
  * 
  */
 void Grid::insertComponent(int row, int col) {
-    const int component = rand() % 81;
-    
+    const int component = rand() % 100;
     // StripedBomb insertion
-    if (component < 8) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
-    // Wrapped insertion
-    //else if (component < 12) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
-    // Wall insertion
-    // else if (component >= 7 && component < 9 && row != 0) grid[row][col].setOccupied(std::make_shared<Wall>());
+    if (component < 5) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
+    // WrappedBomb insertion
+    else if (component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
+    // SpecialBomb insertion
+    else if (component == 81) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
     // Candy insertion
-    else if (component > 65) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
-
     else grid[row][col].setOccupied(std::make_shared<Candy>());
     
 }
@@ -373,55 +371,67 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
 
 
 /**
+ * @brief Blast even when one of the elements in a swap is a Special Candy.
+ * 
+ * @param c1 
+ * @param c2 
+ */
+void Grid::specialBlast(Cell * c1, Cell * c2) {
+    if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
+            for (auto &row : grid) 
+                for (auto &cell : row) willPop(&cell);
+        }
+    else {
+        Cell * target = c1->getBlastType() == Constants::SPECIAL ? c2 : c1;
+        for (auto &row : grid) {
+            for (auto &cell : row) {
+                if (cell.getColour() == target->getColour()) {
+                    insertComponent(&cell, target->type());
+                    willPop(&cell);
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ * @brief Blast event when a Striped and Wrapped bomb are swapped.
+ * 
+ * @param c1 
+ * @param c2 
+ */
+void Grid::wrStBlast(Cell * c1) {
+    Point start = c1->getLocation();
+    std::vector< Cell * > tmp;
+    for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
+    for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
+    for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
+    for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
+    for (auto &c : tmp) {
+        c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
+        willPop(c);
+    }
+}
+
+
+/**
  * @brief
  * 
  * @param c1
  * @param c2
  * 
  */
-void Grid::bombSwap(Cell *c1, Cell * c2) {
-    if (specialSwapCheck(c1, c2)) {
-        if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
-            for (auto &row : grid) 
-                for (auto &cell : row) willPop(&cell);
-        }
-        else {
-            Cell * target = c1->getBlastType() == Constants::SPECIAL ? c2 : c1;
-            for (auto &row : grid) {
-                for (auto &cell : row) {
-                    if (cell.getColour() == target->getColour()) {
-                        insertComponent(&cell, target->type());
-                        willPop(&cell);
-                    }
-                }
-            }
-        }
-    }
-
-
-    else if ((c1->getBlastType() == Constants::STRIPED
-        && c2->getBlastType() == Constants::STRIPED)
-        || (c1->getBlastType() == Constants::WRAPPED
-        && c2->getBlastType() == Constants::WRAPPED)) {
-        
+void Grid::bombSwap(Cell * c1, Cell * c2) {
+    // Special && (anything)
+    if (specialSwapCheck(c1, c2)) specialBlast(c1, c2);
+    // (Striped && Striped) OR (Wrapped && Wrapped)
+    else if (sameBomb(c1, c2)) {
         willPop(c1);
         willPop(c2);
     }
-        
-    else {
-        Point start = c1->getLocation();
-        std::vector< Cell * > tmp;
-
-        for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
-        for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
-        for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
-        for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
-
-        for (auto &c : tmp) {
-            c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
-            willPop(c);
-    }
-    }
+    // Striped && Wrapped
+    else wrStBlast(c1);
 }
 
 
@@ -463,9 +473,9 @@ void Grid::completeFill() {
 /**
  * @brief Pops all continuous, same coloured Candies. Returns true if a pop has been performed and 
  *  false if not.
- *
- * @return bool 
  * 
+ * @return true 
+ * @return false 
  */
 bool Grid::clear() {
     bool clearGrid = true;
@@ -489,9 +499,9 @@ bool Grid::clear() {
 /**
  * @brief Drop GameComponent in given direction if possible. If a candy has been dropped, returns true.
  * 
- * @param direction
- * @return bool
- * 
+ * @param direction 
+ * @return true 
+ * @return false 
  */
 bool Grid::directedDrop(int direction) {
     std::vector<Point> toDrop;
@@ -543,8 +553,6 @@ void Grid::completeDrop() {
 /**
  * @brief Combines all grid cleaning mechanics to clean up the grid
  * 
- * \see Grid::clean()
- * 
  */
 void Grid::clean(Cell * c1, Cell * c2) {
     if (bombSwapCheck(c1, c2)) bombSwap(c1, c2);
@@ -553,7 +561,7 @@ void Grid::clean(Cell * c1, Cell * c2) {
 
 
 /**
- * @brief Combines all grid cleaning mechanics to clean up the grid
+ * @brief Combines all grid cleaning mechanics to clean up the grid.
  * 
  */
 void Grid::clean() {
@@ -566,12 +574,12 @@ void Grid::clean() {
 
 
 /**
- * @brief Verifies validity of a Candy swap. If valid, executes swap.
+ * @brief  Verifies validity of a Candy swap. If valid, executes swap.
  * 
- * @param cell1
- * @param cell2
- * @return bool
- * 
+ * @param cell1 
+ * @param cell2 
+ * @return true 
+ * @return false 
  */
 bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     bool validity = false;
@@ -609,6 +617,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
  * 
  * @param initial 
  * @param orientation
+ * 
  * @return std::vector< Cell * > 
  * 
  */
@@ -699,6 +708,22 @@ bool Grid::inGrid(const Point &coord) const {
 }
 
 
+bool Grid::sameBomb(Cell * c1, Cell * c2) const {
+    return (c1->getBlastType() == Constants::STRIPED
+        && c2->getBlastType() == Constants::STRIPED)
+        || (c1->getBlastType() == Constants::WRAPPED
+        && c2->getBlastType() == Constants::WRAPPED);
+}
+
+
+/**
+ * @brief 
+ * 
+ * @param c1 
+ * @param c2 
+ * @return true 
+ * @return false 
+ */
 bool Grid::bombSwapCheck(Cell * c1, Cell * c2) const {
     return ((c1->getBlastType() != Constants::SIMPLE
             && c2->getBlastType() != Constants::SIMPLE) 

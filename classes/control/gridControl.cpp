@@ -10,9 +10,26 @@
  * 
  */
 Point GridControl::coordToCell(const Point &mouseLoc) const {
-    int col = (mouseLoc.x - ( Constants::GAME_WINDOW_Xi ) - Constants::GAP_SIZE / 2 ) / ( Constants::CELL_SIZE + Constants::GAP_SIZE );
-    int row = (mouseLoc.y - ( Constants::GAME_WINDOW_Yi ) - Constants::GAP_SIZE / 2 ) / ( Constants::CELL_SIZE + Constants::GAP_SIZE );
 
+    int row = -1;
+    int col = -1;
+
+    int x_dividend = mouseLoc.x -  Constants::GAME_WINDOW_Xi;
+    int x_divisor = Constants::CELL_SIZE + Constants::GAP_SIZE;
+
+    float x_quotient = x_dividend / x_divisor;
+    float x_remainder = x_dividend % x_divisor;
+
+    int y_dividend = mouseLoc.y -  Constants::GAME_WINDOW_Yi;
+    int y_divisor = Constants::CELL_SIZE + Constants::GAP_SIZE;
+
+    float y_quotient = y_dividend / y_divisor;
+    float y_remainder = y_dividend % y_divisor;
+
+    if (x_remainder <= Constants::CELL_SIZE && y_remainder <= Constants::CELL_SIZE ) {
+        col = x_quotient;
+        row = y_quotient;
+    }
     return Point{col, row};
 } 
 
@@ -59,6 +76,9 @@ void GridControl::dragEvent(const Point &mouseLoc) {
                 || coordToCell(mouseLoc) == clickToIndex) return;
                 
     Point dragToIndex = coordToCell(mouseLoc);
+    
+    if ( dragToIndex.x == -1 || dragToIndex.y == -1 ) return;
+    
     dragged = true;
 
     if (dragToIndex.x == clickToIndex.x) {

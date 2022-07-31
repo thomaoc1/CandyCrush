@@ -285,6 +285,11 @@ void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
 }
 
 
+void GridDisplay::notifyNoSwaps() {
+    // TextDisplay t{"There were possible swaps, shuffling."};
+}
+
+
 // TEMP
 void GridDisplay::package() const {
     // std::cout << "Packaging" << std::endl;

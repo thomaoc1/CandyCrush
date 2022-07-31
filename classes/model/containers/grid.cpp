@@ -451,8 +451,7 @@ bool Grid::fillTop() {
         insertComponent(0, i);
         toFill.push_back(CoordColour{{i, 0}, grid[0][i].type()});
     }
-    //
-    if (toFill.size() > 0){
+    if (toFill.size() > 0) {
         observer->notifyFill(toFill);
         package();
     } 
@@ -461,11 +460,16 @@ bool Grid::fillTop() {
 
 
 /**
- * @brief Repeatedly fills the top row
+ * @brief Refills entire grid with random candies
  * 
  */
-void Grid::completeFill() {
-    while(fillTop()) completeDrop();
+void Grid::refillGrid() {
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            insertComponent(cell.getLocation());
+            observer->notifyInit(cell.getLocation(), cell.type());
+        }
+    }
 }
 
 
@@ -569,6 +573,10 @@ void Grid::clean() {
         completeDrop();
         completeFill();
     } 
+    if (!possibleMoves()) {
+        refillGrid();
+        clean();
+    }
 }
 
 
@@ -655,7 +663,6 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
  * 
  */
 std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) const {
-    // Fetching sequential same coloured neighbours
     std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
     std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
     std::vector< std::vector< Cell * > >  ret{std::move(v_cont), std::move(h_cont)};
@@ -692,6 +699,32 @@ std::vector< Cell * > Grid::getNbs(int row, int col) {
 
 
 /**
+ * @brief Checks if no swaps are possible
+ * 
+ * @return true 
+ * @return false 
+ */
+bool Grid::possibleMoves() {
+    bool moves = false;
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            for (auto &vnb : cell.getVertNbs()) {
+                moves = checkSwap(&cell, vnb);
+                if (moves) break;
+            }
+            if (moves) break;
+            for (auto &hnb : cell.getHorizNbs()) {
+                moves = checkSwap(&cell, hnb);
+                if (moves) break;
+            }
+            if (moves) break;
+        }
+    }
+    return moves;
+}
+
+
+/**
  * @brief Checks if coordinate is in the grid
  * 
  * @param coord 
@@ -707,6 +740,13 @@ bool Grid::inGrid(const Point &coord) const {
 }
 
 
+/**
+ * @brief 
+ * 
+ * @param c1 
+ * @param c2 
+ * @return true / false 
+ */
 bool Grid::sameBomb(Cell * c1, Cell * c2) const {
     return (c1->getBlastType() == Constants::STRIPED
         && c2->getBlastType() == Constants::STRIPED)
@@ -761,9 +801,7 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
 Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : observer{observer} {
     for (int row = 0; row < COLS; ++row) {
         std::vector<Cell> tmp = {};
-        for (int col = 0; col < ROWS; ++col) {
-            tmp.emplace_back(Cell(row, col));
-        }
+        for (int col = 0; col < ROWS; ++col) tmp.emplace_back(Cell{row, col});
         grid.emplace_back(std::move(tmp));
     }
 
@@ -801,8 +839,6 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
     else observer->notifyFailedSwap(cell1, cell2);
-    //    observer->notifySwap(cell1, cell2);
-    //    observer->notifySwap(cell1, cell2);
     
 }
 

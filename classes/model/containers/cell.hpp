@@ -28,6 +28,7 @@ class Cell {
     std::vector< Cell * > nbs;
     std::vector< Cell * > vertNbs;
     std::vector< Cell * > horizNbs;
+    std::vector< Cell * > crossNbs;
     std::vector< Cell * > belowNbs{nullptr, nullptr, nullptr};
     std::vector< Cell * > aboveNbs{nullptr, nullptr, nullptr};
     bool toPop = false;
@@ -49,6 +50,7 @@ public:
     std::shared_ptr<GameComponent> getOccupied() const {return occupied;}
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}
+    std::vector< Cell * > getCrossNbs() const {return crossNbs;}
     Cell * getBelow(int direction) const {return belowNbs[direction];}
     std::vector< Cell * > getNbs() const {return nbs;}
     bool getPop() const {return toPop;}

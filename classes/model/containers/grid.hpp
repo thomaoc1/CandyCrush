@@ -43,7 +43,6 @@
 #include <algorithm>
 
 class Grid {
-
     using CellMatrix = std::vector< std::vector< Cell > >;
     CellMatrix grid;
 
@@ -60,12 +59,11 @@ class Grid {
     const int COLS = Constants::COLS;
 
 public:
-
     Grid(std::shared_ptr<GridDisplay> observer);
     Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);
-    int getCell(int y, int x) const {return grid[y][x].type();}
+    // int getCell(int y, int x) const {return grid[y][x].type();}
     void swap(const Point &cell1, const Point &cell2);
-    
+
 private:
     /* Grid Cleaning */
     void wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction);
@@ -85,6 +83,7 @@ private:
     void popAll();
     void willPop(Cell * target);
     void insertComponent(int row, int col);
+    void insertComponent(const Point &coord) {insertComponent(coord.y, coord.x);}
     void insertComponent(Cell * cell, int type);
     void placeWrappedCandies();
     void placeStripedCandies();
@@ -93,13 +92,16 @@ private:
 
     /* Grid manipulation */
     bool fillTop();
-    void completeFill();
+    void refillGrid();
+    /** Repeatedly fills top row */
+    void completeFill() {while(fillTop()) completeDrop();}
     bool clear();
     bool directedDrop(int direction);
     void completeDrop();
     void clean(Cell * c1, Cell * c2);
     void clean();
     bool checkSwap(const Point &cell1, const Point &cell2);
+    bool checkSwap(Cell * cell1, Cell * cell2) {return checkSwap(cell1->getLocation(), cell2->getLocation());}
 
     /* Sequential colour fetching */
     std::vector< Cell * > colourDFS(Cell * initial, int orientation) const; 
@@ -109,21 +111,20 @@ private:
     std::vector< Cell * > getNbs(int row, int col);
 
     /* Conditions */
+    bool possibleMoves();
     bool inGrid(const Point &coord) const;
-
     bool sameBomb(Cell * c1, Cell * c2) const;
-
+    // Swap checks
     bool bombSwapCheck(Cell * c1, Cell * c2) const;
     bool specialSwapCheck(Cell * c1, Cell * c2) const {return c1->getBlastType() == Constants::SPECIAL || c2->getBlastType() == Constants::SPECIAL;}
-
+    // Spawn checks
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
     int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;};
-
+    // Blast conditions
     bool spBlastCond(Cell * c) const {return c->getBlastType() == Constants::SPECIAL;}
     bool wrBlastCond(Cell * c) const {return c->getBlastType() == Constants::WRAPPED;}
     bool stBlastCond(Cell * c) const {return c->getBlastType() == Constants::STRIPED;}
-
     // TEMP
     void package() const;
 };

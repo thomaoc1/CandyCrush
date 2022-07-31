@@ -32,6 +32,7 @@
 #include "components/cherryDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"
+#include "text/broadcast.hpp"
 
 #include <memory>
 #include <vector>
@@ -53,7 +54,7 @@ class GridDisplay {
     enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
     AnimationQueue animationQueue;
 
-    bool swapping = false;
+    BroadcastBox broadcast{"Hello !"};
 
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
@@ -83,6 +84,7 @@ public:
     void notifySwap(const Point &start, const Point &dest){animationQueue.enqueueSwap({start, dest});}
 
     void notifyFailedSwap(const Point &start, const Point &dest);
+    void notifyNoSwaps();
 
 private:
     /* Animations */

@@ -155,33 +155,20 @@ void Grid::wrappedBlast(Cell * target) {
  */
 void Grid::stripedBlast(Cell * target) {
     if (!target->getOccupied()) return;
-    int direction = target->getBlastDirection();
+
     Point start = target->getLocation();
-    Cell * c;
-    if (direction == Constants::VERTICAL) {
-        for (int i = start.y + 1; i < ROWS; ++i){
-            c = &grid[i][start.x];
-            if (!c->getOccupied() || c->getPop()) continue;
-            willPop(c);
-        }
-        for (int i = start.y - 1; i >= 0; --i){
-            c = &grid[i][start.x];
-            if (!c->getOccupied() || c->getPop()) continue;
-            willPop(c);
-        }
+    std::vector<Cell *> tmp;
+
+    if (target->getBlastDirection() == Constants::VERTICAL) {
+        for (int i = start.y + 1; i < ROWS; ++i) tmp.push_back(&grid[i][start.x]);
+        for (int i = start.y - 1; i >= 0; --i) tmp.push_back(&grid[i][start.x]);
     }
     else {
-        for (int i = start.x + 1; i < COLS; ++i){
-            c = &grid[start.y][i];
-            if (!c->getOccupied() || c->getPop()) continue;
-            willPop(c);
-        }
-        for (int i = start.x - 1; i >= 0; --i) {
-            c = &grid[start.y][i];
-            if (!c->getOccupied() || c->getPop()) continue;
-            willPop(c);
-        }
+        for (int i = start.x + 1; i < COLS; ++i) tmp.push_back(&grid[start.y][i]);
+        for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
     }
+
+    for (auto &c : tmp) willPop(c);
 }
 
 
@@ -218,7 +205,7 @@ void Grid::popAll() {
  * 
  */
 void Grid::willPop(Cell * target) {
-    if (!target->getOccupied()) return;
+    if (!target->getOccupied() || target->getPop()) return;
     target->willPop();
     toPop.push_back(target);
     if (wrBlastCond(target)) wrappedBlast(target);
@@ -393,7 +380,6 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  * 
  */
 void Grid::bombSwap(Cell *c1, Cell * c2) {
-    std::cout << "Hi" << std::endl;
     if (specialSwapCheck(c1, c2)) {
         if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
             for (auto &row : grid) 

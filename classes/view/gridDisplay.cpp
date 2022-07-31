@@ -221,6 +221,7 @@ GridDisplay::GridDisplay() {
  * 
  */
 void GridDisplay::draw()  {
+    broadcast.draw();
     bool isAnimation = false;
     for (int row = 0; row < ROWS; ++row) {
         for (int col = 0; col < COLS; ++col) {
@@ -230,10 +231,7 @@ void GridDisplay::draw()  {
             visualComponents[row][col]->draw();
         }
     }
-    if (!isAnimation && animationQueue.size() > 0){
-        nextAnimation();
-    }   
-    // else swapping = false;
+    if (!isAnimation && animationQueue.size() > 0) nextAnimation();
 }
 
 
@@ -286,7 +284,7 @@ void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
 
 
 void GridDisplay::notifyNoSwaps() {
-    // TextDisplay t{"There were possible swaps, shuffling."};
+    broadcast.setMessage("There were possible swaps, shuffling.");
 }
 
 

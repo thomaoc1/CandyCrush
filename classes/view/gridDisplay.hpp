@@ -31,6 +31,7 @@
 #include "components/wallDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"
+#include "broadcast.hpp"
 
 #include <memory>
 #include <vector>
@@ -51,6 +52,8 @@ class GridDisplay {
     using CoordPair = std::pair< Point, Point >;
     enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
     AnimationQueue animationQueue;
+
+    Broadcast broadcast{"Hello !"};
 
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;

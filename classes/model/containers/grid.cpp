@@ -708,16 +708,10 @@ bool Grid::possibleMoves() {
     bool moves = false;
     for (auto &row : grid) {
         for (auto &cell : row) {
-            for (auto &vnb : cell.getVertNbs()) {
-                moves = checkSwap(&cell, vnb);
-                if (moves) break;
+            for (auto &nb : cell.getCrossNbs()) {
+                moves = checkSwap(&cell, nb);
+                if (moves) return moves;
             }
-            if (moves) break;
-            for (auto &hnb : cell.getHorizNbs()) {
-                moves = checkSwap(&cell, hnb);
-                if (moves) break;
-            }
-            if (moves) break;
         }
     }
     return moves;

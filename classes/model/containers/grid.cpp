@@ -94,6 +94,7 @@ void Grid::bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const 
 void Grid::clearCheck(Cell * cell) {
     // If cell cannot be popped or is already set to be popped - > return
     if (!cell->getOccupied() || cell->type() == Constants::WALL 
+                             || cell->type() == Constants::CHERRY
                              || cell->getPop()) return;
 
     // List of continouous colours [V][H]
@@ -510,19 +511,21 @@ bool Grid::clear() {
  */
 bool Grid::directedDrop(int direction) {
     std::vector<Point> toDrop;
-    for (int i = static_cast<int>(grid.size()) - 1; i >= 0; --i) {
-        for (int j = static_cast<int>(grid[0].size()) - 1; j >= 0; --j) {
+    for (int i = ROWS - 1; i >= 0; --i) {
+        for (int j = COLS - 1; j >= 0; --j) {
+
             Cell &cell = grid[i][j]; 
-            if (!cell.getOccupied() || cell.type() == Constants::WALL) continue;   
+
+            if (!cell.getOccupied() || !canDrop(cell.type())) continue;   
 
             Cell * cellBeneath = cell.getBelow(direction);
 
-            if (cellBeneath && !cellBeneath->getOccupied()) {
-                cellBeneath->setOccupied(cell.getOccupied());
-                cell.unOccupy();
-                toDrop.push_back(cell.getLocation());
-                if (direction == Constants::LEFT || direction == Constants::RIGHT) break;   
-            }
+            if (!cellBeneath || cellBeneath->getOccupied()) continue;
+            
+            cellBeneath->setOccupied(cell.getOccupied());
+            cell.unOccupy();
+            toDrop.push_back(cell.getLocation());
+            if (direction == Constants::LEFT || direction == Constants::RIGHT) break;   
         }
         if (toDrop.size() > 0 && (direction == Constants::LEFT || direction == Constants::RIGHT)) break;
     }
@@ -603,9 +606,10 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     std::vector< std::vector< Cell * > > c1_nbs = continuousColour(c1);
     std::vector< std::vector< Cell * > > c2_nbs = continuousColour(c2);
 
-    for (int i = 0; i < 2; ++i) {
-        if (c1_nbs[i].size() >= 3 || c2_nbs[i].size() >= 3) validity = true;
-    }
+    validity = c1_nbs[Constants::VERTICAL].size() >= 3 
+                || c1_nbs[Constants::HORIZONTAL].size() >= 3
+                || c2_nbs[Constants::VERTICAL].size() >= 3
+                || c2_nbs[Constants::HORIZONTAL].size() >= 3;
 
     if (!validity) validity = bombSwapCheck(c1, c2);
 
@@ -665,9 +669,12 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
  * 
  */
 std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) const {
-    std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
-    std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
-    std::vector< std::vector< Cell * > >  ret{std::move(v_cont), std::move(h_cont)};
+    std::vector< std::vector< Cell * > >  ret = {{}, {}};
+    if (canComboPop(initial->type())) {
+        std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
+        std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
+        ret = {std::move(v_cont), std::move(h_cont)};
+    }
     return ret;
 }
 
@@ -748,6 +755,35 @@ bool Grid::sameBomb(Cell * c1, Cell * c2) const {
         && c2->getBlastType() == Constants::STRIPED)
         || (c1->getBlastType() == Constants::WRAPPED
         && c2->getBlastType() == Constants::WRAPPED);
+}
+
+
+/**
+ * @brief Deduces whether a component is drop-able
+ * 
+ * @param component
+ * 
+ * @return bool
+ * 
+ */
+bool Grid::canDrop(int component) const {
+    return !(component == Constants::WALL || component == Constants::FROSTING2 || component == Constants::FROSTING1);
+}
+
+
+/**
+ * @brief
+ * 
+ * @param component
+ * 
+ * @return bool
+ * 
+ */
+bool Grid::canComboPop(int component) const {
+    return !(component == Constants::WALL || component == Constants::CHERRY 
+                                          || component == Constants::HAZELNUT
+                                          || component == Constants::FROSTING2
+                                          || component == Constants::FROSTING1);
 }
 
 

@@ -114,6 +114,8 @@ private:
     bool possibleMoves();
     bool inGrid(const Point &coord) const;
     bool sameBomb(Cell * c1, Cell * c2) const;
+    bool canDrop(int component) const;
+    bool canComboPop(int component) const;
     // Swap checks
     bool bombSwapCheck(Cell * c1, Cell * c2) const;
     bool specialSwapCheck(Cell * c1, Cell * c2) const {return c1->getBlastType() == Constants::SPECIAL || c2->getBlastType() == Constants::SPECIAL;}

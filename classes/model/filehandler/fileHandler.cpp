@@ -16,23 +16,25 @@
  * @return Point
  * 
  */
-void FileHandler::asciiGridInterpreter(const std::string &line) {
+void FileHandler::asciiGridInterpreter(int row, const std::string &line) {
+    int col = 0;
     for (int i = 0; i < static_cast<int>(line.length()); i += 3) {
-        switch (((int)line[i] * 10 - 48) + ((int)line[i] - 48)) {
+        switch (numOfInterpreter(i, line)) {
+            case Constants::WALL:
+                std::cout << numOfInterpreter(i, line) << std::endl;
+                gameData.walls.emplace_back(Point{col, row});
             case Constants::ANY:
                 break;
         }
+        ++col;
     }
 }
 
 
-int FileHandler::numOfInterpreter(const std::string &line) const {
+int FileHandler::numOfInterpreter(int index, const std::string &line) const {
     int ret = 0;
-    if (line.size() == 1) ret = (int)line[0] - 48;
-    else {
-        ret = ((int)line[0] - 48) * 10;
-        ret += (int)line[1] - 48;
-    }
+    ret = ((int)line[index] - 48) * 10;
+    ret += (int)line[index + 1] - 48;
     return ret;
 }
 
@@ -54,26 +56,20 @@ FileHandler::FileHandler(const std::string &filename) {
     } 
 
     getline(inFile, line, '\n');
-    gameData.maxSwaps = numOfInterpreter(line);
+    gameData.maxSwaps = numOfInterpreter(0, line);
 
     getline(inFile, line, '\n');
     int numObjectives;
-    numObjectives = numOfInterpreter(line);
-    
+    numObjectives = numOfInterpreter(0, line);   
     
     for (int i = 0; i < numObjectives; ++i ) {
         getline(inFile, line, '\n');
-        gameData.objTypes[(int)line[0] - 48] = true;
-        gameData.objectives[(int)line[0] - 48] = ((int)line[2] - 48) * 10 + (int)line[3] - 48;
+        gameData.objTypes[numOfInterpreter(0, line)] = true;
+        gameData.objectives[numOfInterpreter(0, line)] = numOfInterpreter(2, line);
     }
 
     for (int i = 0; i < 9; ++i) {
         getline(inFile, line, '\n');
-        for (int i = 0; i < 9; ++i) {
-            asciiGridInterpreter(line);
-        }
+        asciiGridInterpreter(i, line);
     }
-
-    gameData.walls = walls;
-    gameData.frostings = frostings;
 }

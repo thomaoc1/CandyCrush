@@ -32,8 +32,8 @@ public:
     FileHandler(const std::string &filename);
     GameData getGameData() const {return gameData;}
 private:
-    void asciiGridInterpreter(const std::string &line);
-    int numOfInterpreter(const std::string &line) const;
+    void asciiGridInterpreter(int row, const std::string &line);
+    int numOfInterpreter(int index, const std::string &line) const;
     void objectivesInterpreter(const std::string &line);
 };
 

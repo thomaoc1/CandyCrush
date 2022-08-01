@@ -516,7 +516,7 @@ bool Grid::directedDrop(int direction) {
 
             Cell &cell = grid[i][j]; 
 
-            if (!cell.getOccupied() || !canDrop(cell.type())) continue;   
+            if (!cell.getOccupied() || !mobile(cell.type())) continue;   
 
             Cell * cellBeneath = cell.getBelow(direction);
 
@@ -766,7 +766,7 @@ bool Grid::sameBomb(Cell * c1, Cell * c2) const {
  * @return bool
  * 
  */
-bool Grid::canDrop(int component) const {
+bool Grid::mobile(int component) const {
     return !(component == Constants::WALL || component == Constants::FROSTING2 || component == Constants::FROSTING1);
 }
 
@@ -839,8 +839,8 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
 
     GameData gd = FileHandler{level}.getGameData();
 
-    for (auto &o : gd.objTypes) std::cout << (o ? "True" : "False") << std::endl;
-    for (auto &i : gd.objectives) std::cout << i << std::endl;
+    //for (auto &o : gd.objTypes) std::cout << (o ? "True" : "False") << std::endl;
+    //for (auto &i : gd.objectives) std::cout << i << std::endl;
 
     for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
     // for (auto &p : gd.frostings);
@@ -873,8 +873,8 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         observer->notifySwap(cell1, cell2);
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
-    else observer->notifyFailedSwap(cell1, cell2);
-    
+    else if (mobile(grid[cell1.y][cell1.x].type()))
+        observer->notifyFailedSwap(cell1, cell2);
 }
 
 

@@ -194,6 +194,7 @@ void Grid::popAll() {
         pop(cell);
         toObserver.push_back(cell->getLocation());
     }
+    score.pop(static_cast<int>(toPop.size()));
     observer->notifyPop(toObserver);
     toPop.clear();
 }
@@ -320,7 +321,8 @@ void Grid::placeWrappedCandies() {
                 break;
         }  
     }
-    if (wrappedBombs.size() > 0) package();
+    // if (wrappedBombs.size() > 0) package();
+    score.bombSpawn(static_cast<int>(wrappedBombs.size()), Constants::WRAPPED);
     wrappedBombs.clear();
 }
 
@@ -334,11 +336,12 @@ void Grid::placeStripedCandies() {
         Cell * cp = cell.first;
         int blastDirection = cell.second.second;
         int colour = Constants::associatedColour(cell.second.first);
-        int stripedBomb = Constants::associatedStripedBomb(colour, blastDirection);
+        int stripedBomb = Constants::colourToSt(colour, blastDirection);
         insertComponent(cp, stripedBomb);
         observer->notifyInsert(cp->getLocation(), stripedBomb);
     }
     if (stripedBombs.size() > 0) package();
+    score.bombSpawn(static_cast<int>(stripedBombs.size()), Constants::STRIPED);
     stripedBombs.clear();
 }
 
@@ -352,6 +355,7 @@ void Grid::placeSpecialBombs() {
         insertComponent(cell, Constants::SPECIAL_BOMB);
         observer->notifyInsert(cell->getLocation(), Constants::SPECIAL_BOMB);
     }
+    score.bombSpawn(static_cast<int>(specialBombs.size()), Constants::SPECIAL);
     specialBombs.clear();
 }
 
@@ -830,7 +834,7 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
  --------------------------------------------------------------------------------------------*/
 
 
-Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : observer{observer} {
+Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : observer{observer}, score{observer} {
     for (int row = 0; row < COLS; ++row) {
         std::vector<Cell> tmp = {};
         for (int col = 0; col < ROWS; ++col) tmp.emplace_back(Cell{row, col});

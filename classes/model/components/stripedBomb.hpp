@@ -25,7 +25,7 @@ public:
     StripedBomb(const StripedBomb &) = default;
     StripedBomb(StripedBomb &&) = default;
 
-    int type() const override {return Constants::associatedStripedBomb(getColour(), getBlastDirection());};
+    int type() const override {return Constants::colourToSt(getColour(), getBlastDirection());};
 
     std::string toString() const override {
         std::string direction = getBlastDirection() == Constants::VERTICAL ? "V" : "H";

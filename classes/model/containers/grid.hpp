@@ -34,6 +34,7 @@
 #include "../components/cherry.hpp"
 #include "../filehandler/fileHandler.hpp"
 #include "../../shared/point.hpp"
+#include "../score.hpp"
 
 #include "../../view/gridDisplay.hpp"
 
@@ -55,6 +56,9 @@ class Grid {
     
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
+
+    Score score;
+
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
 

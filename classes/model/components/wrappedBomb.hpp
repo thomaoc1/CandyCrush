@@ -25,7 +25,7 @@ public:
     WrappedBomb(const WrappedBomb &) = default;
     WrappedBomb(WrappedBomb &&) = default;
     
-    int type() const override {return Constants::associatedWrappedBomb(getColour());}
+    int type() const override {return Constants::colourToWr(getColour());}
     std::string toString() const override {return GameComponent::toString() + "Wr";}
 };
 

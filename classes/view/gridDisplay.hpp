@@ -54,7 +54,7 @@ class GridDisplay {
     enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
     AnimationQueue animationQueue;
 
-    BroadcastBox broadcast{"Hello !"};
+    BroadcastBox broadcast;
 
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
@@ -80,9 +80,7 @@ public:
     /** Queues pop animation */
     void notifyPop(const std::vector<Point> &toPop) {animationQueue.enqueuePop(toPop);};
 
-    /** Queues swap animation */
-    void notifySwap(const Point &start, const Point &dest){animationQueue.enqueueSwap({start, dest});}
-
+    void notifySwap(const Point &start, const Point &dest);
     void notifyFailedSwap(const Point &start, const Point &dest);
     void notifyNoSwaps();
 

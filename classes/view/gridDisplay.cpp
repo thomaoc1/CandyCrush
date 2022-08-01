@@ -273,6 +273,12 @@ void GridDisplay::notifyInit(const Point &coord, int type) {
 }
 
 
+void GridDisplay::notifySwap(const Point &start, const Point &dest) {
+    broadcast.clear();
+    animationQueue.enqueueSwap({start, dest});
+}
+
+
 /**
  * @brief Performs a double swap animation
  * 
@@ -281,6 +287,7 @@ void GridDisplay::notifyInit(const Point &coord, int type) {
  * 
  */
 void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
+    broadcast.setMessage("Can't swap those, try again.");
     animationQueue.enqueueSwap({c1, c2});
     animationQueue.enqueueSwap({c1, c2});
 }

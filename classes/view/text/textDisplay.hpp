@@ -24,6 +24,7 @@ public:
     
     std::string getText() const {return text;}
 
+    void clear() {text = "";}
     void setText(const std::string &newText) {text = newText;}
     void setText(std::string &&newText) {text = std::move(newText);}
     void setSize(int newSize) {size = newSize;}

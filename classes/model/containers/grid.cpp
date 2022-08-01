@@ -204,7 +204,7 @@ void Grid::popAll() {
  * 
  */
 void Grid::willPop(Cell * target) {
-    if (!target->getOccupied() || target->getPop()) return;
+    if (!target->getOccupied() || !canPop(target->type()) || target->getPop()) return;
     target->willPop();
     toPop.push_back(target);
     if (wrBlastCond(target)) wrappedBlast(target);

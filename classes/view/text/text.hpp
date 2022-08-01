@@ -22,6 +22,8 @@ public:
     Text() = default;
     Text(const Text &) = default;
     Text(Text &&) = default;
+
+    virtual ~Text() = default;
     
     virtual std::string getText() const {return text;}
 

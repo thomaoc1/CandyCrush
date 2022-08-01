@@ -1,7 +1,7 @@
-#include "textDisplay.hpp"
+#include "scoreDisplay.hpp"
 
 
-void TextDisplay::draw() const {
+void ScoreDisplay::draw() const {
     fl_color(FL_BLACK);
     fl_font(FL_HELVETICA, size);
     int width, height;

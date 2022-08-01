@@ -12,11 +12,13 @@ void Score::bombSpawn(int count, int component) {
             score += count * 50;
             break;
     }
+    observer->notifyScore(score);
     // std::cout << score << std::endl;
 }
 
 
 void Score::pop(int count) {
     score += (suppression * count) + (explMuti * count);
+    observer->notifyScore(score);
     // std::cout << score << std::endl;
 }

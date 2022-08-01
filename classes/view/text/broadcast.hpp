@@ -1,23 +1,27 @@
 #ifndef BROADCAST_HPP
 #define BROADCAST_HPP
 
-#include "textDisplay.hpp"
+#include "broadcastText.hpp"
+#include "scoreDisplay.hpp"
 #include "../shapes/rectangle.hpp"
 
 class BroadcastBox {
     Rectangle box;
-    TextDisplay text;
+    BroadcastText text;
+    ScoreDisplay score;
 public:
     BroadcastBox(const std::string &s = "")
      : box{Point{static_cast<int>((Constants::GAME_WINDOW_Xi + Constants::GAME_WINDOW_Xf) / 2), 125}, 
             Constants::WALL, static_cast<int>(Constants::GAME_WINDOW_Xf - Constants::GAME_WINDOW_Xi), 150, FL_BORDER_FRAME}, 
-        text{box.getCenter(), s, FL_HELVETICA, 30} {std::cout << box.getCenter() << std::endl; }
+        text{box.getCenter(), 30, s}, score{box.getCenter(), 15} {}
 
     void clear() {text.clear();}
     void setMessage(const std::string &s) {text.setText(s);}
     void setMessage(std::string &&s) {text.setText(s);}
 
-    void draw() const {text.draw(); box.draw();}
+    void setScore(int newScore) {score.setText(std::to_string(newScore));}
+
+    void draw() const;
 };
 
 

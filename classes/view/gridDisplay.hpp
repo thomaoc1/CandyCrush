@@ -84,6 +84,8 @@ public:
     void notifyFailedSwap(const Point &start, const Point &dest);
     void notifyNoSwaps();
 
+    void notifyScore(int newScore) {broadcast.setScore(newScore);}
+
 private:
     /* Animations */
     void nextAnimation();

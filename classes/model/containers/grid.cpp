@@ -26,6 +26,7 @@ void Grid::wrBombExtract(const std::vector< Cell * > &cColour, int index, int di
     int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
     std::vector< Cell * > cross = continuousColour(cColour[index])[perpendicular];
     for (auto &cell : cross) willPop(cell);
+    wrappedBombs.push_back({cColour[index], cColour[index]->type()});
 }
 
 
@@ -124,7 +125,6 @@ void Grid::clearCheck(Cell * cell) {
 
         for (auto &c : contColour[dir]) willPop(c);
     }
-
     bombExtract(cell, contColour[current[Direction]], current);
 }
 

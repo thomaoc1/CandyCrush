@@ -67,8 +67,9 @@ public:
 
     static int associatedColour(int component);
     static Fl_Color associatedFLColour(int colour);
-    static int associatedStripedBomb(int colour, int direction);
-    static int associatedWrappedBomb(int colour);
+    static int associatedBlast(int component);
+    static int colourToSt(int colour, int direction);
+    static int colourToWr(int colour);
     
 };
 

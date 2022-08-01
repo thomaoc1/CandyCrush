@@ -122,7 +122,7 @@ Fl_Color Constants::associatedFLColour(int colour) {
 }
 
 
-int Constants::associatedStripedBomb(int colour, int direction) {
+int Constants::colourToSt(int colour, int direction) {
     int type;
     if (direction == Constants::VERTICAL) {
         switch (colour) {
@@ -172,7 +172,7 @@ int Constants::associatedStripedBomb(int colour, int direction) {
 }
 
 
-int Constants::associatedWrappedBomb(int colour) {
+int Constants::colourToWr(int colour) {
     int type;
     switch (colour) {
         case Constants::RED:
@@ -193,6 +193,36 @@ int Constants::associatedWrappedBomb(int colour) {
         case Constants::ORANGE:
             type = Constants::ORANGE_WRAPPED_BOMB;
             break;
+    }
+    return type;
+}
+
+
+int Constants::associatedBlast(int component) {
+    int type = Constants::SPECIAL;
+    switch (component) {
+        case Constants::RED_WRAPPED_BOMB:
+        case Constants::BLUE_WRAPPED_BOMB:
+        case Constants::GREEN_WRAPPED_BOMB:
+        case Constants::YELLOW_WRAPPED_BOMB:
+        case Constants::PURPLE_WRAPPED_BOMB:
+        case Constants::ORANGE_WRAPPED_BOMB:
+            type = Constants::WRAPPED;
+            break; 
+        case Constants::RED_STRIPED_BOMB_H:
+        case Constants::BLUE_STRIPED_BOMB_H:
+        case Constants::GREEN_STRIPED_BOMB_H:
+        case Constants::YELLOW_STRIPED_BOMB_H:
+        case Constants::PURPLE_STRIPED_BOMB_H:
+        case Constants::ORANGE_STRIPED_BOMB_H: 
+        case Constants::RED_STRIPED_BOMB_V:
+        case Constants::BLUE_STRIPED_BOMB_V:
+        case Constants::GREEN_STRIPED_BOMB_V:
+        case Constants::YELLOW_STRIPED_BOMB_V:
+        case Constants::PURPLE_STRIPED_BOMB_V:
+        case Constants::ORANGE_STRIPED_BOMB_V:
+            type = Constants::STRIPED;
+            break;       
     }
     return type;
 }

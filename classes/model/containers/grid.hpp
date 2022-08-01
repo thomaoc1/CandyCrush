@@ -123,7 +123,7 @@ private:
     bool canPop(int component) const {return !(component == Constants::CHERRY || component == Constants::HAZELNUT);}
     // Swap checks
     bool bombSwapCheck(Cell * c1, Cell * c2) const;
-    bool specialSwapCheck(Cell * c1, Cell * c2) const {return c1->getBlastType() == Constants::SPECIAL || c2->getBlastType() == Constants::SPECIAL;}
+    bool specialSwapCheck(Cell * c1, Cell * c2) const;
     // Spawn checks
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
     int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;

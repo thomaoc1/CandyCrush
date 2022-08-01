@@ -18,7 +18,6 @@
  *
  */
 void GridDisplay::nextAnimation() {
-    //package();
     switch (animationQueue.nextAnimation()) {
         case animations::Pop:
             performPop();
@@ -39,7 +38,6 @@ void GridDisplay::nextAnimation() {
             performSwap();
             break;
     }
-    //package();
 }
 
 
@@ -51,7 +49,9 @@ void GridDisplay::performFill() {
     std::vector<CoordColour> toFill = animationQueue.nextFill();
     for (auto &cc : toFill) {
         Point coord = cc.first;
-        visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, cc.second);
+        int type = cc.second;
+
+        visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
         visualComponents[coord.y][coord.x]->fillAnimate();
     }
     package();
@@ -86,7 +86,6 @@ void GridDisplay::performDrop(int direction) {
 void GridDisplay::performPop() {
     std::vector<Point> toPop = animationQueue.nextPop();
     for (auto &p : toPop) {
-        // Temporary check
         if (!visualComponents[p.y][p.x]) return;
         visualComponents[p.y][p.x]->popAnimate();
     }

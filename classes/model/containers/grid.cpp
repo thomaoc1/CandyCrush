@@ -381,6 +381,9 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  * @param c2 
  */
 void Grid::specialBlast(Cell * c1, Cell * c2) {
+
+    
+
     if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
         for (auto &row : grid) 
             for (auto &cell : row) willPop(&cell);
@@ -803,6 +806,21 @@ bool Grid::bombSwapCheck(Cell * c1, Cell * c2) const {
     return ((c1->getBlastType() != Constants::SIMPLE
             && c2->getBlastType() != Constants::SIMPLE) 
             || specialSwapCheck(c1, c2));
+}
+
+
+/**
+ * @brief
+ * 
+ * @param
+ * @param
+ * 
+ * @return bool
+ * 
+ */
+bool Grid::specialSwapCheck(Cell * c1, Cell * c2) const {
+     return (canPop(c1->type()) && canPop(c2->type())) 
+            && (c1->getBlastType() == Constants::SPECIAL || c2->getBlastType() == Constants::SPECIAL);
 }
 
 

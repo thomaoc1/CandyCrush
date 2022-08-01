@@ -199,7 +199,7 @@ int Constants::colourToWr(int colour) {
 
 
 int Constants::associatedBlast(int component) {
-    int type = Constants::SPECIAL;
+    int type = Constants::SIMPLE;
     switch (component) {
         case Constants::RED_WRAPPED_BOMB:
         case Constants::BLUE_WRAPPED_BOMB:
@@ -222,7 +222,11 @@ int Constants::associatedBlast(int component) {
         case Constants::PURPLE_STRIPED_BOMB_V:
         case Constants::ORANGE_STRIPED_BOMB_V:
             type = Constants::STRIPED;
-            break;       
+            break;   
+        case Constants::ANY:
+            type = Constants::SPECIAL;
+            break;
+
     }
     return type;
 }

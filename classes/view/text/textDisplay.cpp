@@ -6,5 +6,5 @@ void TextDisplay::draw() const {
     fl_font(FL_HELVETICA, size);
     int width, height;
     fl_measure(text.c_str(), width, height, false);
-    fl_draw(text.c_str(), center.x-width/2, center.y-fl_descent()+height/2);
+    fl_draw(text.c_str(), center.x - width / 2, center.y - height / 2);
 }

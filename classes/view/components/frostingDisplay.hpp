@@ -3,13 +3,13 @@
 
 #include "componentDisplay.hpp"
 #include "../shapes/rectangle.hpp"
-#include "../text/textDisplay.hpp"
+#include "../text/componentText.hpp"
 
 
 
 class FrostingDisplay : public ComponentDisplay {
     int layers = 2;
-    TextDisplay text;
+    ComponentText text;
 
 public:
     FrostingDisplay(const Point &center, int layer) noexcept 

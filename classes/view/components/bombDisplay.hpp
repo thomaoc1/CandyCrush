@@ -3,10 +3,10 @@
 
 #include "componentDisplay.hpp"
 #include "../shapes/circle.hpp"
-#include "../text/textDisplay.hpp"
+#include "../text/componentText.hpp"
 
 class BombDisplay : public ComponentDisplay {
-    TextDisplay text;
+    ComponentText text;
 public:
     BombDisplay(const Point &center, int colour, const std::string &type)
         : ComponentDisplay{std::make_shared<Circle>(center, colour, Constants::CANDY_RADIUS)},

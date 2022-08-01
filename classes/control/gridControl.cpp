@@ -57,6 +57,7 @@ bool GridControl::coordInGame(const Point &mouseLoc) const {
  * 
  */
 void GridControl::clickEvent(const Point &mouseLoc) {
+    std::cout << "Clikc " << mouseLoc << std::endl; 
     if (!coordInGame(mouseLoc) || (coordInGame(mouseLoc) && view->inAnimation())) return;
     dragged = false;
     click = mouseLoc;

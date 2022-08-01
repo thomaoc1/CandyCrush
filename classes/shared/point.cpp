@@ -2,6 +2,6 @@
 
 
 std::ostream & operator << (std::ostream &out, const Point &p) {
-    out << "{" << p.y << ", " << p.x << "}";
+    out << "{x, y} : " << "{" << p.x << ", " << p.y << "}";
     return out;
 }

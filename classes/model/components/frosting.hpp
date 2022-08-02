@@ -5,12 +5,13 @@
 
 class Frosting : public GameComponent {
     int layers = 2;
-
 public:
-    Frosting() noexcept : GameComponent(Constants::randomCandy(), 1, Constants::NO_DIRECTION) {}
-    int type() const override {return layers==1 ? Constants::FROSTING1 : Constants::FROSTING2 ;}
+    Frosting() noexcept : GameComponent(Constants::BLUE) {}
+    
+    void explode() override {--layers;}
+
+    int type() const override {return layers == 1 ? Constants::FROSTING1 : Constants::FROSTING2 ;}
     std::string toString() const override {return "F" + std::to_string(layers); }
-    void explode() {--layers;}
 };
 
 #endif

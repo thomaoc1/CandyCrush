@@ -38,6 +38,7 @@ public:
     virtual int getColour() const {return colour;}
     virtual int getBlastType() const {return blastType;}
     virtual int getBlastDirection() const {return blastDirection;}
+    virtual void explode() {}
     virtual int type() const=0;
 
 

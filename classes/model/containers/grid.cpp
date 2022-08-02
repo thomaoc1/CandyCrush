@@ -284,6 +284,15 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::WALL:
             cell->setOccupied(std::make_shared<Wall>());
             break;
+        case Constants::CHERRY:
+            cell->setOccupied(std::make_shared<Cherry>());
+            break;
+        case Constants::FROSTING1:
+            // cell->setOccupied(std::make_shared<Frosting>(1));
+            break;
+        case Constants::FROSTING2:
+            // cell->setOccupied(std::make_shared<Frosting>(1));
+            break;
     }
 }
 

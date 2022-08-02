@@ -1,5 +1,5 @@
 # Log files
-logs/*
+logs/
 
 # Binary files 
 CandyCrush
@@ -8,3 +8,4 @@ testing
 # Rest 
 testing.cpp
 .vscode/
+db/

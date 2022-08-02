@@ -35,6 +35,7 @@ public:
     virtual ComponentDisplay * getComponent() {return component;}
     virtual int getAnimTime() const {return animationTime;}
     virtual bool over() const {return time >= animationTime;}
+    
     virtual int type() const {return Constants::CANT_IGNORE;}
 };
 

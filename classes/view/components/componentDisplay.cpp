@@ -18,7 +18,6 @@
  */
 void ComponentDisplay::draw() {
     if (inAnimation()) animation->draw();
-    
     else drawShape();
 }
 
@@ -40,7 +39,7 @@ bool ComponentDisplay::inAnimation() const {return animation && !animation->over
  *
  */
 void ComponentDisplay::fillAnimate() {
-    if (!inAnimation()) animation = std::make_shared<FillAnimation>(this);
+    animation = std::make_shared<FillAnimation>(this);
 }
 
 
@@ -49,7 +48,7 @@ void ComponentDisplay::fillAnimate() {
  *
  */
 void ComponentDisplay::moveAnimate(const Point &dest) {
-    if (!inAnimation()) animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
+    animation = std::make_shared<MoveAnimation>(this, getCenter(), dest);
 }
 
 
@@ -64,7 +63,6 @@ void ComponentDisplay::swapAnimate(std::shared_ptr<ComponentDisplay>  other) {
 
 
 void ComponentDisplay::suggAnimate() {
-    std::cout << "suggAnimate()" << std::endl;
     animation = std::make_shared<PulseAnimation>(this);
 }
 
@@ -75,8 +73,11 @@ void ComponentDisplay::suggAnimate() {
  */
 void ComponentDisplay::popAnimate() {
     popping = true;
-    if (!inAnimation()) animation = std::make_shared<PopAnimation>(this);
+    animation = std::make_shared<PopAnimation>(this);
 }
+
+
+int ComponentDisplay::animationType() const {return animation->type();}
 
 
 

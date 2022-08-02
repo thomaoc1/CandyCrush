@@ -222,15 +222,13 @@ void Grid::willPop(Cell * target) {
  * 
  */
 void Grid::insertComponent(int row, int col) {
-    const int component = rand() % 100;
+    const int component = rand() % 200;
     // StripedBomb insertion
     if (component < 5) grid[row][col].setOccupied(std::make_shared<StripedBomb>());
     // WrappedBomb insertion
     else if (component < 7) grid[row][col].setOccupied(std::make_shared<WrappedBomb>());
-    // Cherry insertion
-    else if (component < 15) grid[row][col].setOccupied(std::make_shared<Cherry>());
     // SpecialBomb insertion
-    else if (component == 81) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
+    else if (component == 100) grid[row][col].setOccupied(std::make_shared<SpecialBomb>());
     // Candy insertion
     else grid[row][col].setOccupied(std::make_shared<Candy>());
     

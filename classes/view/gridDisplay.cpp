@@ -240,7 +240,8 @@ void GridDisplay::draw()  {
         for (int col = 0; col < COLS; ++col) {
             visualGrid[row][col].draw();
             if (!visualComponents[row][col]) continue; 
-            if (visualComponents[row][col]->inAnimation()) isAnimation = true;
+            if (visualComponents[row][col]->inAnimation() 
+                && visualComponents[row][col]->animationType() == Constants::CANT_IGNORE) isAnimation = true;
             visualComponents[row][col]->draw();
         }
     }
@@ -260,7 +261,8 @@ bool GridDisplay::inAnimation() const {
     for (int row = 0; row < ROWS; ++row) {
         for (int col = 0; col < COLS; ++col) {
             if (!visualComponents[row][col]) continue; 
-            if (visualComponents[row][col]->inAnimation()) isAnimation = true;
+            if (visualComponents[row][col]->inAnimation() 
+                && visualComponents[row][col]->animationType() == Constants::CANT_IGNORE) isAnimation = true;
         }
     }
     return isAnimation;

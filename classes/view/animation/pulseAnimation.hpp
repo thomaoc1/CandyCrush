@@ -9,12 +9,13 @@ class PulseAnimation : public Animation {
     int animationTime = 30;
 public:
     PulseAnimation(ComponentDisplay * component) : Animation{component} {}
+    ~PulseAnimation() {getComponent()->setSize(Constants::CANDY_RADIUS);}
     void draw() override;
     int getAnimTime() const {return animationTime;}
     bool over() const {return time >= animationTime;}
     int type() const override {return Constants::IGNORE;}
 private:
-    int currentPulse() const;
+    int currentPulse(int currentSize) const;
 };
 
 #endif

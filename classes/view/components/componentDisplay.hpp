@@ -60,6 +60,8 @@ public:
     virtual void draw();
     virtual void drawShape() const;
 
+    virtual int animationType() const; 
+
     // TEMP
     virtual std::string type() const;
 };

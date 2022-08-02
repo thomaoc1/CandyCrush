@@ -2,6 +2,7 @@
 #include "../animation/moveAnimation.hpp"
 #include "../animation/popAnimation.hpp"
 #include "../animation/fillAnimation.hpp"
+#include "../animation/pulseAnimation.hpp"
 
 
 /*-------------------------------------------------------------------------------------------*

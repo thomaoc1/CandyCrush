@@ -7,11 +7,7 @@
 #include <FL/Fl_Window.H>
 
 class MenuDisplay {
-    bool over = false;
 public:
-
-
-
     bool over() const;
     void draw() const;
 };

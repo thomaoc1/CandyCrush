@@ -224,6 +224,11 @@ GridDisplay::GridDisplay() {
  */
 void GridDisplay::draw()  {
     broadcast.draw();
+    
+    if (time == suggestionTime)  {
+        performSuggestion();
+        time = 0;
+    }
     bool isAnimation = false;
     for (int row = 0; row < ROWS; ++row) {
         for (int col = 0; col < COLS; ++col) {
@@ -234,6 +239,7 @@ void GridDisplay::draw()  {
         }
     }
     if (!isAnimation && animationQueue.size() > 0) nextAnimation();
+    if (!isAnimation) ++time;
 }
 
 

@@ -529,7 +529,7 @@ bool Grid::directedDrop(int direction) {
 
             Cell &cell = grid[i][j]; 
 
-            if (!cell.getOccupied() || !mobile(cell.type())) continue;   
+            if (!cell.getOccupied() || !isMobile(cell.type())) continue;   
 
             Cell * cellBeneath = cell.getBelow(direction);
 
@@ -732,7 +732,10 @@ bool Grid::possibleMoves() {
         for (auto &cell : row) {
             for (auto &nb : cell.getCrossNbs()) {
                 moves = checkSwap(&cell, nb);
-                if (moves) return moves;
+                if (moves) {
+                    observer->notifySuggestion(cell.getLocation(), nb->getLocation());
+                    return moves;
+                }
             }
         }
     }
@@ -779,7 +782,7 @@ bool Grid::sameBomb(Cell * c1, Cell * c2) const {
  * @return bool
  * 
  */
-bool Grid::mobile(int component) const {
+bool Grid::isMobile(int component) const {
     return !(component == Constants::WALL || component == Constants::FROSTING2 || component == Constants::FROSTING1);
 }
 
@@ -866,9 +869,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
     }
 
     GameData gd = FileHandler{level}.getGameData();
-
-    //for (auto &o : gd.objTypes) std::cout << (o ? "True" : "False") << std::endl;
-    //for (auto &i : gd.objectives) std::cout << i << std::endl;
+    maxSwaps = gd.maxSwaps;
 
     for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
     // for (auto &p : gd.frostings);
@@ -896,12 +897,13 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
+        --maxSwaps;
         exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();
         observer->notifySwap(cell1, cell2);
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
-    else if (mobile(grid[cell1.y][cell1.x].type()))
+    else if (isMobile(grid[cell1.y][cell1.x].type()))
         observer->notifyFailedSwap(cell1, cell2);
 }
 

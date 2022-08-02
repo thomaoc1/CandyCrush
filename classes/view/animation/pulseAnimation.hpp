@@ -3,9 +3,10 @@
 
 #include "animation.hpp"
 
+#include <math.h>
+
 class PulseAnimation : public Animation {
-    int animationTime = 60;
-    double sizeFluctuation = 0.0001;
+    int animationTime = 30;
 public:
     PulseAnimation(ComponentDisplay * component) : Animation{component} {}
     void draw() override;

@@ -25,15 +25,17 @@ class ComponentDisplay;
 
 class Animation {
     ComponentDisplay * component;
-protected:
     const double animationTime = 20;
+protected:
     double time = 0;
 public:
     Animation(ComponentDisplay * component) : component{component} {}
 
     virtual void draw()=0;
     virtual ComponentDisplay * getComponent() {return component;}
+    virtual int getAnimTime() const {return animationTime;}
     virtual bool over() const {return time >= animationTime;}
+    virtual int type() const {return Constants::CANT_IGNORE;}
 };
 
 #endif

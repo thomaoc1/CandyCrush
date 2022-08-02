@@ -18,7 +18,7 @@ void PopAnimation::draw() {
     if (newSize > 0) getComponent()->setSize(newSize);
     else {
         getComponent()->setSize(0);
-        time = animationTime;
+        time = getAnimTime();
     }
     getComponent()->drawShape();
 }

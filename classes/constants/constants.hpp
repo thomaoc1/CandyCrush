@@ -38,6 +38,8 @@ public:
 
     static const double CANDY_RADIUS;
 
+    static enum animTypes{IGNORE, CANT_IGNORE} animTypes;
+
     static enum blastTypes{NO_BLAST, SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;
 
     static enum objectiveTypes{POPS, CHERRIES, FROSTINGS} objectives;

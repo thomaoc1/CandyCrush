@@ -40,7 +40,7 @@ int FillAnimation::nextSize(int size) const {
 void FillAnimation::draw() {
     ++time;
     int newSize = nextSize(getComponent()->getSize());
-    if (newSize == Constants::CANDY_RADIUS) time = animationTime;
+    if (newSize == Constants::CANDY_RADIUS) time = getAnimTime();
     getComponent()->setSize(newSize); 
     getComponent()->drawShape();
 }

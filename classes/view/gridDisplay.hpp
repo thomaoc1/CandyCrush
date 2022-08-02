@@ -54,6 +54,11 @@ class GridDisplay {
     enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
     AnimationQueue animationQueue;
 
+    CoordPair suggestion;
+    
+    int time = 0;
+    const int suggestionTime = 120; 
+
     BroadcastBox broadcast;
 
     const int ROWS = Constants::ROWS;
@@ -80,6 +85,8 @@ public:
     /** Queues pop animation */
     void notifyPop(const std::vector<Point> &toPop) {animationQueue.enqueuePop(toPop);};
 
+    void notifySuggestion(const Point &start, const Point &dest) {suggestion = {start, dest};}
+
     void notifySwap(const Point &start, const Point &dest);
     void notifyFailedSwap(const Point &start, const Point &dest);
     void notifyNoSwaps();
@@ -93,7 +100,7 @@ private:
     void performDrop(int direction);
     void performPop();
     void performSwap();
-    void performFailedSwap();
+    void performSuggestion();
 
     /* Utility */
     Point calculateCenter(const Point &coord) const;

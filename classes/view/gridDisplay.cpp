@@ -245,7 +245,10 @@ void GridDisplay::draw()  {
             visualComponents[row][col]->draw();
         }
     }
-    if (!isAnimation && animationQueue.size() > 0) nextAnimation();
+    if (!isAnimation && animationQueue.size() > 0) {
+        nextAnimation();
+        time = 0;
+    }
     if (!isAnimation) ++time;
 }
 

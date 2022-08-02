@@ -57,7 +57,7 @@ class GridDisplay {
     CoordPair suggestion;
     
     int time = 0;
-    const int suggestionTime = 120; 
+    const int suggestionTime = 90; 
 
     BroadcastBox broadcast;
 

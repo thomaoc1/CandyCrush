@@ -103,6 +103,7 @@ private:
     bool clear();
     bool directedDrop(int direction);
     void completeDrop();
+    void fruitsAtBottom();
     void clean(Cell * c1, Cell * c2);
     void clean();
     bool checkSwap(const Point &cell1, const Point &cell2);

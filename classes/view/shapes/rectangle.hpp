@@ -9,6 +9,7 @@ class Rectangle : public Shape {
 public:
     Rectangle(const Point &center, int fillColour, double size, Fl_Boxtype type) 
                 : Shape{center, fillColour, size}, w{size}, h{size}, type{type} {}
+                
     Rectangle(const Point &center, int fillColour, double w, double h, Fl_Boxtype type) 
                 : Shape{center, fillColour, w}, w{w}, h{h}, type{type} {}
                                                                                           

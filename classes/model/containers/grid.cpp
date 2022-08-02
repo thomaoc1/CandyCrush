@@ -96,6 +96,7 @@ void Grid::clearCheck(Cell * cell) {
     // If cell cannot be popped or is already set to be popped - > return
     if (!cell->getOccupied() || cell->type() == Constants::WALL 
                              || cell->type() == Constants::CHERRY
+                             || cell->type() == Constants::HAZELNUT
                              || cell->getPop()) return;
 
     // List of continouous colours [V][H]
@@ -122,7 +123,7 @@ void Grid::clearCheck(Cell * cell) {
         else if (current[Type] < Wrapped && index >= 0) current = {Wrapped, dir, index};
         /* Striped Bomb Condition */
         else if (current[Type] < Striped && stSpawnCond(contColour[dir])) current = {Striped, dir, -1};
-
+        
         for (auto &c : contColour[dir]) willPop(c);
     }
     bombExtract(cell, contColour[current[Direction]], current);
@@ -567,6 +568,24 @@ void Grid::completeDrop() {
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
             if (!directedDrop(Constants::RIGHT)) dropComplete = true;
         }
+    }
+}
+
+/**
+ * @brief Checks if Cherries or Hazels landed on the lowest row.
+ * updates objectives and score. recalls
+ * 
+ */
+void Grid::fruitsAtBottom() {
+    for (auto cell : grid[8]){
+        if (cell.type() == Constants::CHERRY || cell.type() == Constants::HAZELNUT ){
+            // Update score 
+            // Update objectif if necessary
+            // makem pop
+            willPop(&cell); // WHY & !!
+            // notify View
+        }
+
     }
 }
 

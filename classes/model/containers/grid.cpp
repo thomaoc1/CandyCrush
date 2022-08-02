@@ -391,8 +391,6 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  */
 void Grid::specialBlast(Cell * c1, Cell * c2) {
 
-    
-
     if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
         for (auto &row : grid) 
             for (auto &cell : row) willPop(&cell);
@@ -403,10 +401,9 @@ void Grid::specialBlast(Cell * c1, Cell * c2) {
         willPop(c2);
         for (auto &row : grid) {
             for (auto &cell : row) {
-                if (cell.getColour() == target->getColour()) {
-                    insertComponent(&cell, target->type());
-                    willPop(&cell);
-                }
+                if (cell.getColour() != target->getColour()) continue;
+                if (target->getBlastType() != Constants::SIMPLE) insertComponent(&cell, target->type());
+                willPop(&cell);
             }
         }
     }

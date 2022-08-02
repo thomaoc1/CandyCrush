@@ -100,8 +100,7 @@ private:
     void performDrop(int direction);
     void performPop();
     void performSwap();
-    void performFailedSwap();
-    void performSuggestion() {std::cout << "Suggestion: " << suggestion.first << " " << suggestion.second << std::endl;}
+    void performSuggestion();
 
     /* Utility */
     Point calculateCenter(const Point &coord) const;

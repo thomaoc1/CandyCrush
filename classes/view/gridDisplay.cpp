@@ -112,6 +112,12 @@ void GridDisplay::performSwap() {
 }
 
 
+void GridDisplay::performSuggestion() {
+    visualComponents[suggestion.first.y][suggestion.first.x]->suggAnimate();
+    visualComponents[suggestion.second.y][suggestion.second.x]->suggAnimate();
+}
+
+
 /*-------------------------------------------------------------------------------------------*
  *                                       Utility                                             *
  *-------------------------------------------------------------------------------------------*/

@@ -49,12 +49,13 @@ public:
     virtual bool inAnimation() const;
 
     virtual void setCenter(const Point &dest) {shape->setCenter(dest);}
-    virtual void setSize(int newSize) {shape->setSize(newSize);}
+    virtual void setSize(double newSize) {shape->setSize(newSize);}
 
     virtual void fillAnimate();
     virtual void moveAnimate(const Point &dest);
     virtual void popAnimate();
     virtual void swapAnimate(std::shared_ptr<ComponentDisplay> other);
+    virtual void suggAnimate();
 
     virtual void draw();
     virtual void drawShape() const;

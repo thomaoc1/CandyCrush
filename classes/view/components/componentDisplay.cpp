@@ -18,6 +18,7 @@
  */
 void ComponentDisplay::draw() {
     if (inAnimation()) animation->draw();
+    
     else drawShape();
 }
 
@@ -32,7 +33,7 @@ void ComponentDisplay::drawShape() const {
 
 
 bool ComponentDisplay::inAnimation() const {return animation && !animation->over();} 
-
+                                                    
 
 /**
  * @brief Starts fill animation
@@ -59,6 +60,12 @@ void ComponentDisplay::moveAnimate(const Point &dest) {
 void ComponentDisplay::swapAnimate(std::shared_ptr<ComponentDisplay>  other) {
     moveAnimate(other->getCenter());
     other->moveAnimate(getCenter());
+}
+
+
+void ComponentDisplay::suggAnimate() {
+    std::cout << "suggAnimate()" << std::endl;
+    animation = std::make_shared<PulseAnimation>(this);
 }
 
 

@@ -5,7 +5,7 @@
 
 class Circle : public Shape {
 public:
-    Circle(const Point &center, int colour, int radius) : Shape{center, colour, radius} {}
+    Circle(const Point &center, int colour, double radius) : Shape{center, colour, radius} {}
     Circle(const Circle &) = default;
     Circle(Circle &&) = default;
 

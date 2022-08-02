@@ -27,7 +27,7 @@ void BombDisplay::setCenter(const Point &dest) {
 }
 
 
-void BombDisplay::setSize(int newSize) {
+void BombDisplay::setSize(double newSize) {
     shape->setSize(newSize);
     text.setSize(static_cast<int>(newSize / 1.5));
 }

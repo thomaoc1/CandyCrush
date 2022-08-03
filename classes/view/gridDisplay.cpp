@@ -196,6 +196,9 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
         case Constants::CHERRY:
             ret = std::make_shared<CherryDisplay>(center);
             break;
+        case Constants::HAZELNUT:
+            ret = std::make_shared<HazelnutDisplay>(center);
+            break;
      }
     return ret;
 }

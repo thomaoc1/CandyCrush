@@ -24,7 +24,7 @@ const double Constants::CANDY_RADIUS = Constants::HALVE_CELL_SIZE - 3;
 
 
 const std::array< int, 6 > Constants::candies = {components::RED, components::BLUE, components::GREEN, 
-                                                    components::YELLOW, components::PURPLE, components::FROSTING2};
+                                                    components::YELLOW, components::PURPLE, components::HAZELNUT};
 
 
 int Constants::associatedColour(int component) {
@@ -110,6 +110,9 @@ Fl_Color Constants::associatedFLColour(int colour) {
         case Constants::CHERRY:
         case Constants::SPECIAL_BOMB:
             fl_colour = FL_DARK_RED;
+            break;
+        case Constants::HAZELNUT:
+            fl_colour = fl_rgb_color(153,77,0);
             break;
         case Constants::FROSTING1:
         case Constants::FROSTING2:

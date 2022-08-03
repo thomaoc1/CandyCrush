@@ -280,9 +280,9 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::CHERRY:
             cell->setOccupied(std::make_shared<Cherry>());
             break;
-        /*case Constants::HAZELNUT:
+        case Constants::HAZELNUT:
             cell->setOccupied(std::make_shared<Hazelnut>());
-            break;*/
+            break;
         case Constants::FROSTING1:
             cell->setOccupied(std::make_shared<Frosting>(1));
             break;

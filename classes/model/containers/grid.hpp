@@ -87,6 +87,7 @@ private:
     void pop(Cell * target);
     void popAll();
     void willPop(Cell * target);
+    void popIngredient();
     void insertComponent(int row, int col);
     void insertComponent(const Point &coord) {insertComponent(coord.y, coord.x);}
     void insertComponent(Cell * cell, int type);
@@ -103,7 +104,6 @@ private:
     bool clear();
     bool directedDrop(int direction);
     void completeDrop();
-    void fruitsAtBottom();
     void clean(Cell * c1, Cell * c2);
     void clean();
     bool checkSwap(const Point &cell1, const Point &cell2);

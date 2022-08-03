@@ -43,7 +43,7 @@ public:
     void willSwap() {toSwap = true;}
     void swapped() {toSwap = false;}
     void willPop() {toPop = true;}
-    void popped() {toPop = false;}
+    void popped() {toPop = false; }
     
     /* Getters */
     Point getLocation() const {return Point{col, row};}

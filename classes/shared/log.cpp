@@ -21,15 +21,10 @@ Log &Log::get() {
  */
 void Log::addViewMessage(const std::string &message) {
     vecView.push_back(message);
-    //std::cout<<"pushed back"<<std::endl;
-    //std::cout << message << std::endl;
-    //logfile<<message<<std::endl;
 }
 
 void Log::addModelMessage(const std::string &message) {
     vecModel.push_back(message);
-    // std::cout << message << std::endl;
-    //logfile<<message<<std::endl;
 }
 
     

@@ -316,7 +316,6 @@ void GridDisplay::notifyNoSwaps() {
 
 // TEMP
 void GridDisplay::package() const {
-    // std::cout << "Packaging" << std::endl;
     std::string temp;
 
     for (int i = 0; i < COLS; ++i) {

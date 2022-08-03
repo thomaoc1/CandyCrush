@@ -186,7 +186,7 @@ void Grid::pop(Cell * target) {
 
 
 /**
- * @brief Pops all cells in toPop vector
+ * @brief 
  * 
  */
 void Grid::popAll() {
@@ -277,6 +277,9 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::CHERRY:
             cell->setOccupied(std::make_shared<Cherry>());
             break;
+        /*case Constants::HAZELNUT:
+            cell->setOccupied(std::make_shared<Hazelnut>());
+            break;*/
         case Constants::FROSTING1:
             // cell->setOccupied(std::make_shared<Frosting>(1));
             break;
@@ -493,6 +496,9 @@ bool Grid::clear() {
     for (auto &row : grid) 
         for (auto &c : row) clearCheck(&c);
 
+    // Pops Cherries and hazels at the bottom
+    popIngredient();
+    
     if (toPop.size() > 0) {
         clearGrid = false;
         popAll();
@@ -501,6 +507,8 @@ bool Grid::clear() {
         placeStripedCandies();
         placeSpecialBombs();
     }
+
+    
     return clearGrid;
 }
 
@@ -560,21 +568,18 @@ void Grid::completeDrop() {
     }
 }
 
+
 /**
  * @brief Checks if Cherries or Hazels landed on the lowest row.
  * updates objectives and score. recalls
  * 
  */
-void Grid::fruitsAtBottom() {
-    for (auto cell : grid[8]){
-        if (cell.type() == Constants::CHERRY || cell.type() == Constants::HAZELNUT ){
-            // Update score 
-            // Update objectif if necessary
-            // makem pop
-            willPop(&cell); // WHY & !!
-            // notify View
+void Grid::popIngredient() {
+    for (auto &cell : grid[8]){
+        if (cell.type() == Constants::CHERRY || cell.type() == Constants::HAZELNUT ) {
+            cell.willPop();
+            toPop.push_back(&cell);
         }
-
     }
 }
 
@@ -918,7 +923,6 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
 
 
 void Grid::package() const {
-    // std::cout << "Packaging Model" << std::endl; << std::endl;
     std::string temp;
 
     for (int i = 0; i < COLS; ++i) {

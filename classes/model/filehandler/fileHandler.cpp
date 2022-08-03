@@ -21,8 +21,8 @@ void FileHandler::asciiGridInterpreter(int row, const std::string &line) {
     for (int i = 0; i < static_cast<int>(line.length()); i += 3) {
         switch (numOfInterpreter(i, line)) {
             case Constants::WALL:
-                std::cout << numOfInterpreter(i, line) << std::endl;
                 gameData.walls.emplace_back(Point{col, row});
+                break;
             case Constants::ANY:
                 break;
         }

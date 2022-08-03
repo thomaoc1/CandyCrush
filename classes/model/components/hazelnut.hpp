@@ -5,8 +5,8 @@
 
 class Hazelnut : public GameComponent {
 public:
-    int type() const override {return Constants::CHERRY;}
-    std::string toString() const override {return "C";}
+    int type() const override {return Constants::HAZELNUT;}
+    std::string toString() const override {return "H";}
 };
 
 #endif

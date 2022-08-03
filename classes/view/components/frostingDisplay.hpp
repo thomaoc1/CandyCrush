@@ -1,5 +1,5 @@
-#ifndef FROSTING_HPP
-#define FROSTING_HPP
+#ifndef FROSTING_DISPLAY_HPP
+#define FROSTING_DISPLAY_HPP
 
 #include "componentDisplay.hpp"
 #include "../shapes/rectangle.hpp"
@@ -8,7 +8,7 @@
 
 
 class FrostingDisplay : public ComponentDisplay {
-    int layers = 2;
+    int layers;
     ComponentText text;
 
 public:
@@ -17,8 +17,7 @@ public:
                             layers{layer},
                             text{getCenter(), std::to_string(layers), FL_HELVETICA, static_cast<int>(getSize() / 1.5)} {}
 
-    void explode() {--layers;}
-
+    void drawShape() const override; 
 
     // DEBUG
     std::string type() const override {return layers==1 ? "F1" : "F2" ;}

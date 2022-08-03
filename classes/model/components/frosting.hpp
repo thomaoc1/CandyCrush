@@ -4,14 +4,15 @@
 #include "gameComponent.hpp"
 
 class Frosting : public GameComponent {
-    int layers = 2;
+    int layers;
 public:
-    Frosting() noexcept : GameComponent(Constants::BLUE) {}
+    Frosting(int layers) noexcept 
+        : GameComponent(layers == 2 ? Constants::FROSTING1 : Constants::FROSTING2), layers{layers} {}
     
-    void explode() override {--layers;}
+    int pop() override;
 
     int type() const override {return layers == 1 ? Constants::FROSTING1 : Constants::FROSTING2 ;}
-    std::string toString() const override {return "F" + std::to_string(layers); }
+    std::string toString() const override {return "F" + std::to_string(layers);}
 };
 
 #endif

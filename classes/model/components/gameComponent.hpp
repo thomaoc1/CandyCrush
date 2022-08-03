@@ -35,6 +35,7 @@ public:
         : colour{Constants::NONE}, blastType{Constants::SIMPLE}, blastDirection{Constants::NO_DIRECTION} {}
     virtual ~GameComponent() = default;
 
+    virtual int pop() {return Constants::POPPED;}
     virtual int getColour() const {return colour;}
     virtual int getBlastType() const {return blastType;}
     virtual int getBlastDirection() const {return blastDirection;}

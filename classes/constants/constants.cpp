@@ -24,7 +24,7 @@ const double Constants::CANDY_RADIUS = Constants::HALVE_CELL_SIZE - 3;
 
 
 const std::array< int, 6 > Constants::candies = {components::RED, components::BLUE, components::GREEN, 
-                                                    components::YELLOW, components::PURPLE, components::CHERRY};
+                                                    components::YELLOW, components::PURPLE, components::FROSTING2};
 
 
 int Constants::associatedColour(int component) {
@@ -36,6 +36,11 @@ int Constants::associatedColour(int component) {
         case Constants::YELLOW:
         case Constants::PURPLE:
         case Constants::ORANGE:
+        case Constants::FROSTING1:
+        case Constants::FROSTING2:
+        case Constants::SPECIAL_BOMB:
+        case Constants::CHERRY:
+        case Constants::HAZELNUT:
             colour = component;
             break;
         case Constants::RED_STRIPED_BOMB_V:
@@ -71,15 +76,6 @@ int Constants::associatedColour(int component) {
         case Constants::WALL:
             colour = Constants::BLACK;
             break;
-        case Constants::FROSTING1:
-        case Constants::FROSTING2:
-            colour = Constants::BLUE;
-            break;
-        case Constants::SPECIAL_BOMB:
-            colour = Constants::SPECIAL_BOMB;
-            break;
-        case Constants::CHERRY:
-            colour = Constants::CHERRY;
     }
     return colour;
 }
@@ -87,9 +83,7 @@ int Constants::associatedColour(int component) {
 
 Fl_Color Constants::associatedFLColour(int colour) {
     Fl_Color fl_colour;
-    
-    if (colour != Constants::SPECIAL_BOMB) colour = associatedColour(colour);
-    else return FL_DARK_RED;
+    colour = associatedColour(colour);
 
     switch(colour) {
         case Constants::RED:
@@ -116,6 +110,10 @@ Fl_Color Constants::associatedFLColour(int colour) {
         case Constants::CHERRY:
         case Constants::SPECIAL_BOMB:
             fl_colour = FL_DARK_RED;
+            break;
+        case Constants::FROSTING1:
+        case Constants::FROSTING2:
+            fl_colour = FL_CYAN;
             break;
     }
     return fl_colour;

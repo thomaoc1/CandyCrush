@@ -30,6 +30,7 @@
 #include "components/specialDisplay.hpp"
 #include "components/wallDisplay.hpp"
 #include "components/cherryDisplay.hpp"
+#include "components/frostingDisplay.hpp"
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"
 #include "text/broadcast.hpp"

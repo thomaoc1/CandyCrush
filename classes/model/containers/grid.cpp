@@ -179,7 +179,7 @@ void Grid::stripedBlast(Cell * target) {
  * @param target
  * 
  */
-void Grid::pop(Cell * target) {
+void Grid::unoccupy(Cell * target) {
     target->unOccupy();
     target->popped();
 }
@@ -191,12 +191,15 @@ void Grid::pop(Cell * target) {
  */
 void Grid::popAll() {
     std::vector<Point> toObserver;
+    std::vector< std::pair<Point, int> > filling;
     for (auto &cell : toPop) {
-        pop(cell);
+        if (cell->getOccupied()->pop() == Constants::POPPED) unoccupy(cell);
+        else filling.push_back({cell->getLocation(), cell->type()});
         toObserver.push_back(cell->getLocation());
     }
     score.pop(static_cast<int>(toPop.size()));
     observer->notifyPop(toObserver);
+    for (auto &p : filling) observer->notifyInsert(p.first, p.second);
     toPop.clear();
 }
 
@@ -281,10 +284,10 @@ void Grid::insertComponent(Cell * cell, int component) {
             cell->setOccupied(std::make_shared<Hazelnut>());
             break;*/
         case Constants::FROSTING1:
-            // cell->setOccupied(std::make_shared<Frosting>(1));
+            cell->setOccupied(std::make_shared<Frosting>(1));
             break;
         case Constants::FROSTING2:
-            // cell->setOccupied(std::make_shared<Frosting>(1));
+            cell->setOccupied(std::make_shared<Frosting>(2));
             break;
     }
 }

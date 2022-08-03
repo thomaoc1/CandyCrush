@@ -44,6 +44,8 @@ public:
 
     static enum objectiveTypes{POPS, CHERRIES, FROSTINGS} objectives;
 
+    static enum componentState{POPPED, NOT_POPPED} compStates;
+
     static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ANY, EMPTY, WALL, FROSTING1, FROSTING2,
 
                             RED_STRIPED_BOMB_V, BLUE_STRIPED_BOMB_V, GREEN_STRIPED_BOMB_V, YELLOW_STRIPED_BOMB_V,

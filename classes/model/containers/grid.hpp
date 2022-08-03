@@ -32,6 +32,7 @@
 #include "../components/stripedBomb.hpp"
 #include "../components/specialBomb.hpp"
 #include "../components/cherry.hpp"
+#include "../components/frosting.hpp"
 #include "../filehandler/fileHandler.hpp"
 #include "../../shared/point.hpp"
 #include "../score.hpp"
@@ -84,7 +85,7 @@ private:
     void specialBlast(Cell * c1, Cell * c2);
     void wrStBlast(Cell * c1);
     void bombSwap(Cell * c1, Cell * c2);
-    void pop(Cell * target);
+    void unoccupy(Cell * target);
     void popAll();
     void willPop(Cell * target);
     void popIngredient();

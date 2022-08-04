@@ -66,8 +66,10 @@ FileHandler::FileHandler(const std::string &filename) {
     
     for (int i = 0; i < numObjectives; ++i ) {
         getline(inFile, line, '\n');
-        gameData.objTypes[numOfInterpreter(0, line)] = true;
-        gameData.objectives[numOfInterpreter(0, line)] = numOfInterpreter(2, line);
+        int objType = numOfInterpreter(0, line);
+        gameData.objTypes[objType] = true;
+        gameData.objectives[objType] = numOfInterpreter(3, line);
+        if (objType == Constants::POPS) gameData.colour = numOfInterpreter(6, line);
     }
 
     for (int i = 0; i < 9; ++i) {

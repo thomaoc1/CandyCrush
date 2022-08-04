@@ -6,7 +6,6 @@
 
 #include <iostream>
 #include <memory>
-#include <math.h>
 
 class Score {
     int score = 0;
@@ -17,6 +16,9 @@ class Score {
     GridDisplay &observer;
 public:
     Score(GridDisplay &observer) : observer{observer} {}
+    Score(const Score &) = default;
+    Score(Score &&) = default;
+    
     void bombSpawn(int count, int component);
     void pop(int count);
 };

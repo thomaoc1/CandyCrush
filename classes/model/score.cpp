@@ -17,6 +17,6 @@ void Score::bombSpawn(int count, int component) {
 
 
 void Score::pop(int count) {
-    score += (suppression * count) + pow(explMuti, count);
+    score += (suppression * count) + (explMuti * count);
     observer.notifyScore(score);
 }

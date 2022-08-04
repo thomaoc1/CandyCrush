@@ -9,7 +9,6 @@
 
 
 void Grid::fileInterpreter() {
-    observer.notifySwapsLeft(go.swaps());
     for (auto &ct : gd.components) insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
 }
 
@@ -220,9 +219,14 @@ void Grid::popAll() {
     clearFrostings();
 
     for (auto &cell : toPop) {
-        if (cell->getOccupied()->pop() == Constants::POPPED) unoccupy(cell);
+        if (cell->getOccupied()->pop() == Constants::POPPED) {
+            if (cell->type() == Constants::FROSTING1) gameObj.frostingPop();
+            else gameObj.colourPop(Constants::associatedColour(cell->type()));
+            unoccupy(cell);
+        }
         else filling.push_back({cell->getLocation(), cell->type()});
         toObserver.push_back(cell->getLocation());
+
     }
     score.pop(static_cast<int>(toPop.size()));
     observer.notifyPop(toObserver);
@@ -607,6 +611,7 @@ void Grid::completeDrop() {
 void Grid::popIngredient() {
     for (auto &cell : grid[8]){
         if (cell.type() == Constants::CHERRY || cell.type() == Constants::HAZELNUT ) {
+            gameObj.ingredientPop();
             cell.willPop();
             toPop.push_back(&cell);
         }
@@ -638,16 +643,6 @@ void Grid::clean() {
         observer.notifyNoSwaps();
         refillGrid();
         clean();
-    }
-
-    enum{LOST, WON, ONGOING};
-    switch (go.gameState()) {
-        case LOST:
-            observer.notifyLost();
-            break;
-        case WON:
-            observer.notifyWon();
-            break;
     }
 }
 
@@ -916,7 +911,7 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
 
 
 Grid::Grid(GridDisplay &observer, const std::string &filename)  
-    : observer{observer}, gd{FileHandler{filename}.getGameData()}, go{gd}, score{observer} {
+    : observer{observer}, gd{FileHandler{filename}.getGameData()}, gameObj{gd, observer}, score{observer} {
 
     for (int row = 0; row < COLS; ++row) {
         std::vector<Cell> tmp = {};
@@ -949,8 +944,7 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
-        go.swapped();
-        observer.notifySwapsLeft(go.swaps());
+        gameObj.swapped();
 
         exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();

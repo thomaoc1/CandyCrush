@@ -61,7 +61,7 @@ class Grid {
     std::vector< Cell * > specialBombs;
 
     GameData gd;
-    GameObjective go;
+    GameObjective gameObj;
     Score score;
 
 
@@ -71,6 +71,7 @@ class Grid {
 public:
     Grid(GridDisplay &observer, const std::string &level);
     void swap(const Point &cell1, const Point &cell2);
+    int gameState() const {return gameObj.gameState();}
 
 private:
 

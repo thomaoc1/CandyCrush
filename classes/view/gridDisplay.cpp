@@ -317,6 +317,18 @@ void GridDisplay::notifyNoSwaps() {
 }
 
 
+void GridDisplay::notifyGameState(int state) {
+    enum{LOST, WON, ONGOING};
+    switch (state) {
+        case LOST:
+            lost();
+            break;
+        case WON:
+            won();
+            break;
+    }
+}
+
 // TEMP
 void GridDisplay::package() const {
     std::string temp;

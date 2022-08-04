@@ -3,16 +3,20 @@
 
 #include "../constants/constants.hpp"
 #include "filehandler/gameData.hpp"
+#include "../view/gridDisplay.hpp"
 
 class GameObjective {
     int objType;
     int nSwaps;
     int obj;
     int colour = 0;
+
+    GridDisplay &observer;
+
     enum{LOST, WON, ONGOING};
 
 public:
-    GameObjective(const GameData &gd);
+    GameObjective(const GameData &gd, GridDisplay &observer);
     GameObjective(const GameObjective &) = default;
     GameObjective(GameObjective &&) = default;
     
@@ -20,10 +24,9 @@ public:
 
     int swaps() const {return nSwaps;}
 
-    void swapped() {--nSwaps;}
-    void cherryPop() {if (objType == Constants::CHERRIES) --obj;}
-    void hazelPop() {if (objType == Constants::HAZELNUT) --obj;}
-    void frostingPop() {if (objType == Constants::FROSTINGS) --obj;}
+    void swapped();
+    void ingredientPop();
+    void frostingPop();
     void colourPop(int colour);
 };
 

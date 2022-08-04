@@ -43,7 +43,7 @@ public:
 
     static enum blastTypes{NO_BLAST, SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;
 
-    static enum objectiveTypes{POPS, CHERRIES, FROSTINGS} objectives;
+    static enum objectiveTypes{POPS, INGREDIENT, FROSTINGS} objectives;
 
     static enum componentState{POPPED, NOT_POPPED} compStates;
 

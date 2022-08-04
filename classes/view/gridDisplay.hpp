@@ -97,13 +97,17 @@ public:
 
     void notifyNoSwaps();
     
-    void notifyWon() {broadcast.setMessage("You won !");}
-    void notifyLost() {broadcast.setMessage("GameOver, you lost !");}
+    void notifyGameState(int state);
+    
 
     /** Modifies score displayed */
     void notifyScore(int newScore) {broadcast.setScore(newScore);}
 
 private:
+
+    void won() {broadcast.setMessage("You won !");}
+    void lost() {broadcast.setMessage("GameOver, you lost !");}
+
     /* Animations */
     void nextAnimation();
     void performFill();

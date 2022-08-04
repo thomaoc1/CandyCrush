@@ -13,7 +13,8 @@ class HazelnutDisplay : public ComponentDisplay {
 public:
     HazelnutDisplay(const Point &center) : 
         ComponentDisplay(std::make_shared<HazelShape>(center, Constants::CANDY_RADIUS)) {}
-    void draw() override {ComponentDisplay::drawShape();}
+    HazelnutDisplay(const HazelnutDisplay &) = default;
+    HazelnutDisplay(HazelnutDisplay &&) = default;
 
     std::string type() const override {return "H";}
 };

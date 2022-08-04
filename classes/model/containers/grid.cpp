@@ -188,7 +188,7 @@ void Grid::unoccupy(Cell * target) {
 void Grid::clearFrostings() {
     std::vector< Cell * > frostings;
     for (auto &cell : toPop) {
-        for (auto &nb : cell->getNbs()) {
+        for (auto &nb : cell->getCrossNbs()) {
             if (nb && !nb->getPop() 
                     && (nb->type() == Constants::FROSTING2 || nb->type() == Constants::FROSTING1)) {
 

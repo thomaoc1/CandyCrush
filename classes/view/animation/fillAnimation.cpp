@@ -19,7 +19,7 @@
 int FillAnimation::nextSize(int size) const {
     int newSize = 0;
     if (time != 1) {
-        newSize = size + 2;
+        newSize = size + 4;
         if (newSize >= normalSize) newSize = normalSize;
     } 
     return newSize;

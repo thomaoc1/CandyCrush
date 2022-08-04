@@ -21,8 +21,9 @@
 #include "animation.hpp"
 
 class PopAnimation : public Animation {
+    const double normalSize;
 public:
-    PopAnimation(ComponentDisplay * component) : Animation{component} {}
+    PopAnimation(ComponentDisplay * component) : Animation{component}, normalSize{component->getSize()} {}
     void draw() override;
 };
 

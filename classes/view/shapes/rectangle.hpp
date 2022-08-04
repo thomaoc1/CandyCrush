@@ -17,6 +17,7 @@ public:
     Rectangle(Rectangle &&) = default;
 
     void setSize(double newSize) override {w = newSize; h = newSize;}
+    double getSize() const override {return w;}
 
     void draw() const;
 };

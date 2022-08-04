@@ -35,6 +35,8 @@ class Cell {
     bool toSwap = false;
 public:
     Cell(int row, int col) noexcept : row{row}, col{col} {}
+    Cell(const Cell &) = default;
+    Cell(Cell &&) = default;
 
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}

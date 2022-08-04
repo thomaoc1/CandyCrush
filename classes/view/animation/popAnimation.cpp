@@ -14,14 +14,16 @@
  */
 void PopAnimation::draw() {
     ++time;
-    int newSize = getComponent()->getSize() - 2;
-    if (newSize > 0) getComponent()->setSize(newSize);
+    double newSize = getComponent()->getSize() - 4;
+    if (newSize > 0) 
+        getComponent()->setSize(newSize);
+    
     else {
         getComponent()->setSize(0);
         time = getAnimTime();
     }
 
-    if (time == getAnimTime()) getComponent()->setSize(0);
+    // if (time == getAnimTime()) getComponent()->setSize(0);
     
     getComponent()->drawShape();
 }

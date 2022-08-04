@@ -638,6 +638,16 @@ void Grid::clean() {
         refillGrid();
         clean();
     }
+
+    enum{LOST, WON, ONGOING};
+    switch (go.gameState()) {
+        case LOST:
+            observer.notifyLost();
+            break;
+        case WON:
+            observer.notifyWon();
+            break;
+    }
 }
 
 
@@ -938,9 +948,13 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
+        go.swapped();
+        observer.notifySwapsLeft(go.swaps());
+
         exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();
         observer.notifySwap(cell1, cell2);
+        
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
     else if (isMobile(grid[cell1.y][cell1.x].type()))

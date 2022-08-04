@@ -3,6 +3,8 @@
 
 #include "text.hpp"
 
+#include "../../constants/constants.hpp"
+
 class ScoreDisplay : public Text {
 public:
     ScoreDisplay(const Point &center, int size, int score=0)

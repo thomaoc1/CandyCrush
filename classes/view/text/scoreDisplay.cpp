@@ -4,9 +4,10 @@
 void ScoreDisplay::draw() const {
     fl_color(FL_BLACK);
     fl_font(FL_HELVETICA, size);
-    int width = 0 , height = 0;
-    // Sometimes 50,36 sometimes 102,18
+    int width = (Constants::GRIDSIZE -2 ) / 4 ; 
+    int height = 0;
+
     fl_measure(text.c_str(), width, height, false);
 
-    fl_draw(text.c_str(), center.x - width / 2, center.y + ( 2 * height ));
+    fl_draw(text.c_str(), center.x - width/2 - (( (Constants::GRIDSIZE -2 ) *5 ) /16 ), center.y + ( 2 * height ));
 }   

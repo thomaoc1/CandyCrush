@@ -32,6 +32,7 @@ public:
     static const double HALVE_CELL_SIZE;
     static const double STEP_SIZE;
     static const double GAP_SIZE;
+    static const double GRIDSIZE;
     static const double HALVE_GRIDSIZE;
     static const int COLS;
     static const int ROWS;

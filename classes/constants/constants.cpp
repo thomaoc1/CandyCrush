@@ -3,15 +3,16 @@
 const double Constants::FPS = 60;
 const double Constants::WINDOW_HEIGHT = 750;
 const double Constants::WINDOW_WIDTH = 750;
-const double Constants::GAME_WINDOW_Yi = ((Constants::WINDOW_HEIGHT *3 ) /5 ) - Constants::HALVE_GRIDSIZE;
 const double Constants::GAME_WINDOW_Xi = Constants::WINDOW_WIDTH /2 - Constants::HALVE_GRIDSIZE;
-const double Constants::GAME_WINDOW_Yf = ((Constants::WINDOW_HEIGHT *3 ) /5 ) + Constants::HALVE_GRIDSIZE;
 const double Constants::GAME_WINDOW_Xf = Constants::WINDOW_WIDTH /2 + Constants::HALVE_GRIDSIZE;
+const double Constants::GAME_WINDOW_Yi = ((Constants::WINDOW_HEIGHT *3 ) /5 ) - Constants::HALVE_GRIDSIZE;
+const double Constants::GAME_WINDOW_Yf = ((Constants::WINDOW_HEIGHT *3 ) /5 ) + Constants::HALVE_GRIDSIZE;
 const double Constants::CELL_SIZE = 50;
 
 const double Constants::HALVE_CELL_SIZE = 25;
 const double Constants::GAP_SIZE = 4;
 const double Constants::STEP_SIZE = ( Constants::HALVE_CELL_SIZE + Constants::GAP_SIZE );
+const double Constants::GRIDSIZE = Constants::HALVE_GRIDSIZE * 2;
 const double Constants::HALVE_GRIDSIZE = 5 * Constants::HALVE_CELL_SIZE + 4 * Constants::STEP_SIZE;
 
 const int Constants::COLS = 9;

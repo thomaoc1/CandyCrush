@@ -16,3 +16,8 @@ int GameObjective::gameState() const {
 
     return ONGOING;
 }
+
+
+void GameObjective::colourPop(int poppedColour) {
+    if (objType == Constants::POPS && colour == poppedColour) --obj;
+}

@@ -812,7 +812,7 @@ bool Grid::isMobile(int component) const {
  * 
  */
 bool Grid::canComboPop(int component) const {
-    return !(component == Constants::WALL || component == Constants::CHERRY 
+return !(component == Constants::WALL || component == Constants::CHERRY 
                                           || component == Constants::HAZELNUT
                                           || component == Constants::FROSTING2
                                           || component == Constants::FROSTING1);
@@ -939,6 +939,8 @@ void Grid::package() const {
             if (j == 0) temp += std::to_string(i) + "| ";
             std::string component = " ";
             if (grid[i][j].getOccupied()) component = grid[i][j].getOccupied()->toString();
+                
+
             if (component.length() == 1) temp += component + "    ";
             else if (component.length() == 2) temp += component + "   ";
             else if (component.length() == 3) temp += component + "  ";

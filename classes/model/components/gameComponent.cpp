@@ -24,6 +24,12 @@ std::string GameComponent::toString() const {
             case Constants::NONE:
                 ret = "#";
                 break;
+            case Constants::CHERRY:
+                ret = "C";
+                break;
+            case Constants::HAZELNUT:
+                ret = "H";
+                break;
         }
         return ret;
     }

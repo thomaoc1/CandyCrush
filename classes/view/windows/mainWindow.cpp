@@ -9,7 +9,7 @@
 
 
 MainWindow::MainWindow() : Fl_Window(Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT, "CandySmash"),
-                            gridDisplay{std::make_shared<GridDisplay>()},
+                            gridDisplay{GridDisplay()},
                             grid{std::make_shared<Grid>(gridDisplay, "db/levels/level3.txt")}, 
                             gridControl{grid, gridDisplay} {
     Fl::add_timeout(1.0/Constants::FPS, Timer_CB, this);
@@ -23,7 +23,7 @@ MainWindow::MainWindow() : Fl_Window(Constants::WINDOW_WIDTH, Constants::WINDOW_
  */
 void MainWindow::draw() {
     Fl_Window::draw();
-    gridDisplay->draw();
+    gridDisplay.draw();
 }
 
 

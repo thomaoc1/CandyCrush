@@ -29,7 +29,7 @@
 #include <FL/Fl_Window.H>
 
 class MainWindow : public Fl_Window {
-    std::shared_ptr<GridDisplay> gridDisplay;
+    GridDisplay gridDisplay;
     std::shared_ptr<Grid> grid;
     GridControl gridControl;
 public:

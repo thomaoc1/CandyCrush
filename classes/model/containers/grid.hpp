@@ -54,7 +54,7 @@ class Grid {
     std::vector< CellIntInt > stripedBombs;
     std::vector< CellIntPair > wrappedBombs;
 
-    std::shared_ptr<GridDisplay> observer;
+    GridDisplay &observer;
     
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
@@ -66,8 +66,8 @@ class Grid {
     const int COLS = Constants::COLS;
 
 public:
-    Grid(std::shared_ptr<GridDisplay> observer);
-    Grid(std::shared_ptr<GridDisplay> observer, const std::string &level);
+    Grid(GridDisplay &observer);
+    Grid(GridDisplay &observer, const std::string &level);
     // int getCell(int y, int x) const {return grid[y][x].type();}
     void swap(const Point &cell1, const Point &cell2);
 

@@ -230,8 +230,8 @@ void Grid::popAll() {
         toObserver.push_back(cell->getLocation());
     }
     score.pop(static_cast<int>(toPop.size()));
-    observer->notifyPop(toObserver);
-    observer->notifyFill(filling);
+    observer.notifyPop(toObserver);
+    observer.notifyFill(filling);
     toPop.clear();
 }
 
@@ -334,27 +334,27 @@ void Grid::placeWrappedCandies() {
         switch (cell.second) {
             case Constants::RED:
                 insertComponent(cell.first, Constants::RED_WRAPPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::RED_WRAPPED_BOMB);
+                observer.notifyInsert(cell.first->getLocation(), Constants::RED_WRAPPED_BOMB);
                 break;
             case Constants::BLUE:
                 insertComponent(cell.first, Constants::BLUE_WRAPPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::BLUE_WRAPPED_BOMB);
+                observer.notifyInsert(cell.first->getLocation(), Constants::BLUE_WRAPPED_BOMB);
                 break;
             case Constants::GREEN:
                 insertComponent(cell.first, Constants::GREEN_WRAPPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::GREEN_WRAPPED_BOMB);
+                observer.notifyInsert(cell.first->getLocation(), Constants::GREEN_WRAPPED_BOMB);
                 break;
             case Constants::YELLOW:
                 insertComponent(cell.first, Constants::YELLOW_WRAPPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::YELLOW_WRAPPED_BOMB);
+                observer.notifyInsert(cell.first->getLocation(), Constants::YELLOW_WRAPPED_BOMB);
                 break;
             case Constants::PURPLE:
                 insertComponent(cell.first, Constants::PURPLE_WRAPPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::PURPLE_WRAPPED_BOMB);
+                observer.notifyInsert(cell.first->getLocation(), Constants::PURPLE_WRAPPED_BOMB);
                 break;
             case Constants::ORANGE:
                 insertComponent(cell.first, Constants::ORANGE_WRAPPED_BOMB);
-                observer->notifyInsert(cell.first->getLocation(), Constants::ORANGE_WRAPPED_BOMB);
+                observer.notifyInsert(cell.first->getLocation(), Constants::ORANGE_WRAPPED_BOMB);
                 break;
         }  
     }
@@ -375,7 +375,7 @@ void Grid::placeStripedCandies() {
         int colour = Constants::associatedColour(cell.second.first);
         int stripedBomb = Constants::colourToSt(colour, blastDirection);
         insertComponent(cp, stripedBomb);
-        observer->notifyInsert(cp->getLocation(), stripedBomb);
+        observer.notifyInsert(cp->getLocation(), stripedBomb);
     }
     if (stripedBombs.size() > 0) package();
     score.bombSpawn(static_cast<int>(stripedBombs.size()), Constants::STRIPED);
@@ -390,7 +390,7 @@ void Grid::placeStripedCandies() {
 void Grid::placeSpecialBombs() {
     for (auto &cell : specialBombs) {
         insertComponent(cell, Constants::SPECIAL_BOMB);
-        observer->notifyInsert(cell->getLocation(), Constants::SPECIAL_BOMB);
+        observer.notifyInsert(cell->getLocation(), Constants::SPECIAL_BOMB);
     }
     score.bombSpawn(static_cast<int>(specialBombs.size()), Constants::SPECIAL);
     specialBombs.clear();
@@ -496,7 +496,7 @@ bool Grid::fillTop() {
         toFill.push_back(CoordColour{{i, 0}, grid[0][i].type()});
     }
     if (toFill.size() > 0) {
-        observer->notifyFill(toFill);
+        observer.notifyFill(toFill);
         package();
     } 
     return toFill.size() > 0;
@@ -511,7 +511,7 @@ void Grid::refillGrid() {
     for (auto &row : grid) {
         for (auto &cell : row) {
             insertComponent(cell.getLocation());
-            observer->notifyInit(cell.getLocation(), cell.type());
+            observer.notifyInit(cell.getLocation(), cell.type());
         }
     }
 }
@@ -576,7 +576,7 @@ bool Grid::directedDrop(int direction) {
         if (toDrop.size() > 0 && (direction == Constants::LEFT || direction == Constants::RIGHT)) break;
     }
     if (toDrop.size() > 0) {
-        observer->notifyDrop(toDrop, direction);
+        observer.notifyDrop(toDrop, direction);
         package();
         fillTop();
     } 
@@ -781,7 +781,7 @@ bool Grid::possibleMoves() {
             for (auto &nb : cell.getCrossNbs()) {
                 moves = checkSwap(&cell, nb);
                 if (moves) {
-                    observer->notifySuggestion(cell.getLocation(), nb->getLocation());
+                    observer.notifySuggestion(cell.getLocation(), nb->getLocation());
                     return moves;
                 }
             }
@@ -909,7 +909,7 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
  --------------------------------------------------------------------------------------------*/
 
 
-Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &filename)  : observer{observer}, score{observer} {
+Grid::Grid(GridDisplay &observer, const std::string &filename)  : observer{observer}, score{observer} {
 
     for (int row = 0; row < COLS; ++row) {
         std::vector<Cell> tmp = {};
@@ -924,7 +924,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &filename)  
             Point coord = cell.getLocation();
             cell.setNbs(getNbs(coord.y, coord.x));
             if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
-            observer->notifyInit(coord, cell.type());
+            observer.notifyInit(coord, cell.type());
         } 
     }
 
@@ -945,11 +945,11 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         --maxSwaps;
         exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();
-        observer->notifySwap(cell1, cell2);
+        observer.notifySwap(cell1, cell2);
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
     else if (isMobile(grid[cell1.y][cell1.x].type()))
-        observer->notifyFailedSwap(cell1, cell2);
+        observer.notifyFailedSwap(cell1, cell2);
 }
 
 

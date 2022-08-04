@@ -14,9 +14,9 @@ class Score {
     int explMuti = 2;
     int suppression = 15;
 
-    std::shared_ptr<GridDisplay> observer;
+    GridDisplay &observer;
 public:
-    Score(std::shared_ptr<GridDisplay> observer) : observer{observer} {}
+    Score(GridDisplay &observer) : observer{observer} {}
     void bombSpawn(int count, int component);
     void pop(int count);
 };

@@ -25,16 +25,16 @@
 
 class GridControl {
     std::shared_ptr<Grid> grid;
-    std::shared_ptr<GridDisplay> view;
+    const GridDisplay &view;
     Point click, clickToIndex;
     Point hold, holdToIndex;
     bool dragged = false;
 
-
-
 public:
-    GridControl(std::shared_ptr<Grid> grid, std::shared_ptr<GridDisplay> view) : grid{grid}, view{view} {} 
+    GridControl(std::shared_ptr<Grid> grid, const GridDisplay &view) : grid{grid}, view{view} {} 
+    GridControl(const GridDisplay &view) : view{view} {}
     bool proccessEvent(const int event);
+    void associateGrid(std::shared_ptr<Grid> newGrid) {grid = newGrid;}
 private:
     void clickEvent(const Point &mouseLoc);
     bool coordInGame(const Point &mouseLoc) const;

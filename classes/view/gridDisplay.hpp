@@ -86,14 +86,21 @@ public:
     void notifyDrop(const std::vector<Point> &toDrop, int direction) {animationQueue.enqueueDrop(toDrop, direction);}
 
     /** Queues pop animation */
-    void notifyPop(const std::vector<Point> &toPop) {animationQueue.enqueuePop(toPop);};
+    void notifyPop(const std::vector<Point> &toPop) {animationQueue.enqueuePop(toPop);}
 
     void notifySuggestion(const Point &start, const Point &dest) {suggestion = {start, dest};}
 
     void notifySwap(const Point &start, const Point &dest);
     void notifyFailedSwap(const Point &start, const Point &dest);
-    void notifyNoSwaps();
 
+    void notifySwapsLeft(int swaps) {/*broadcast.setSwaps(swaps)*/}
+
+    void notifyNoSwaps();
+    
+    void notifyWon() {broadcast.setMessage("You won !");}
+    void notifyLost() {broadcast.setMessage("GameOver, you lost !");}
+
+    /** Modifies score displayed */
     void notifyScore(int newScore) {broadcast.setScore(newScore);}
 
 private:

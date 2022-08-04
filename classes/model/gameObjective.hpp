@@ -18,6 +18,8 @@ public:
     
     int gameState() const;
 
+    int swaps() const {return nSwaps;}
+
     void swapped() {--nSwaps;}
     void cherryPop() {if (objType == Constants::CHERRIES) --obj;}
     void hazelPop() {if (objType == Constants::HAZELNUT) --obj;}

@@ -3,12 +3,15 @@
 
 #include "broadcastText.hpp"
 #include "scoreDisplay.hpp"
+#include "swapsLeftDisplay.hpp"
 #include "../shapes/rectangle.hpp"
 
 class BroadcastBox {
     Rectangle box;
     BroadcastText text;
     ScoreDisplay score;
+    SwapsLeftDisplay swaps;
+
 public:
     BroadcastBox(const std::string &s = "")
      : box{Point{static_cast<int>(Constants::WINDOW_WIDTH / 2), 125}, 
@@ -18,6 +21,8 @@ public:
     void clear() {text.clear();}
     void setMessage(const std::string &s) {text.setText(s);}
     void setMessage(std::string &&s) {text.setText(s);}
+
+    void setSwaps(int nbSwaps) {swaps.setText(std::to_string(nbSwaps));}
 
     void setScore(int newScore) {score.setText(std::to_string(newScore));}
 

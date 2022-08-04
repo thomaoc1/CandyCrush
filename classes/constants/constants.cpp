@@ -112,7 +112,7 @@ Fl_Color Constants::associatedFLColour(int colour) {
             fl_colour = FL_DARK_RED;
             break;
         case Constants::HAZELNUT:
-            fl_colour = fl_rgb_color(153,77,0);
+            fl_colour = fl_rgb_color(204,82,0);
             break;
         case Constants::FROSTING1:
         case Constants::FROSTING2:

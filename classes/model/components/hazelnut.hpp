@@ -10,7 +10,7 @@ public:
     Hazelnut(Hazelnut &&) = default;
     
     int type() const override {return Constants::HAZELNUT;}
-    std::string toString() const override {return "H";}
+    //std::string toString() const override {return "H";}
 };
 
 #endif

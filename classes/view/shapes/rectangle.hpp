@@ -12,9 +12,11 @@ public:
                 
     Rectangle(const Point &center, int fillColour, double w, double h, Fl_Boxtype type) 
                 : Shape{center, fillColour, w}, w{w}, h{h}, type{type} {}
-                                                                                          
+                                                                         
     Rectangle(const Rectangle &) = default;
     Rectangle(Rectangle &&) = default;
+
+    void setSize(double newSize) override {w = newSize; h = newSize;}
 
     void draw() const;
 };

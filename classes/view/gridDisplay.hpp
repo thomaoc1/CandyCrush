@@ -77,6 +77,7 @@ public:
 
     /** Queues insert animation */
     void notifyInsert(const Point &coord, int type) {animationQueue.enqueueFill({{coord, type}});}
+    void notifyInsert(const std::vector<CoordColour> &toInsert) {animationQueue.enqueueFill(toInsert);}
 
     /** Queues fill animation */
     void notifyFill(const std::vector<CoordColour> &toFill) {animationQueue.enqueueFill(toFill);}

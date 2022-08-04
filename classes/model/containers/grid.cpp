@@ -219,7 +219,7 @@ void Grid::popAll() {
     }
     score.pop(static_cast<int>(toPop.size()));
     observer->notifyPop(toObserver);
-    for (auto &p : filling) observer->notifyInsert(p.first, p.second);
+    observer->notifyFill(filling);
     toPop.clear();
 }
 

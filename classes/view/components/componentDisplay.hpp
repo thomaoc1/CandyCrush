@@ -42,7 +42,7 @@ public:
     virtual ~ComponentDisplay() = default;
 
     virtual Point getCenter() const {return shape->getCenter();}
-    virtual int getSize() const {return shape->getSize();}
+    virtual double getSize() const {return shape->getSize();}
     // TEMP START
     virtual int getColour() const {return shape->getColour();}
     // TEMP END

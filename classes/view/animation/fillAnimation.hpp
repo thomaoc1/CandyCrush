@@ -21,8 +21,9 @@
 
 class FillAnimation : public Animation {
     Fl_Color fl_colour;
+    const double normalSize;
 public:
-    FillAnimation(ComponentDisplay * component) : Animation{component} {}
+    FillAnimation(ComponentDisplay * component) : Animation{component}, normalSize{component->getSize()} {}
     void draw();
 private:
     int nextSize(int size) const;

@@ -18,9 +18,11 @@ public:
                             text{getCenter(), std::to_string(layers), FL_HELVETICA, static_cast<int>(getSize() / 1.5)} {}
 
     void drawShape() const override; 
+    void setSize(double newSize) override; 
+
 
     // DEBUG
-    std::string type() const override {return layers==1 ? "F1" : "F2" ;}
+    std::string type() const override {return layers == 1 ? "F1" : "F2" ;}
 
 };
 

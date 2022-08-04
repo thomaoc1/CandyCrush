@@ -86,7 +86,7 @@ void GridDisplay::performDrop(int direction) {
 void GridDisplay::performPop() {
     std::vector<Point> toPop = animationQueue.nextPop();
     for (auto &p : toPop) {
-        if (!visualComponents[p.y][p.x]) return;
+        if (!visualComponents[p.y][p.x]) continue;
         visualComponents[p.y][p.x]->popAnimate();
     }
     package();

@@ -16,6 +16,7 @@ void Grid::fileInterpreter(const std::string &filename) {
     for (auto &p : gd.frostings) insertComponent(&grid[p.y][p.x], Constants::FROSTING2);
     for (auto &p : gd.cherries) insertComponent(&grid[p.y][p.x], Constants::CHERRY);
     for (auto &p : gd.hazels) insertComponent(&grid[p.y][p.x], Constants::HAZELNUT);
+    for (auto &p : gd.wrapped) insertComponent(&grid[p.y][p.x], Constants::RED_WRAPPED_BOMB);
 }
 
 

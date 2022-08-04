@@ -329,6 +329,16 @@ void GridDisplay::notifyGameState(int state) {
     }
 }
 
+
+void GridDisplay::notifyObjective(int objType, int obj) {
+    broadcast.setObjective(objType, obj);
+}
+
+void GridDisplay::notifyObjective(int objType, int obj, int colour) {
+    broadcast.setObjective(objType, obj, colour);
+}
+
+
 // TEMP
 void GridDisplay::package() const {
     std::string temp;

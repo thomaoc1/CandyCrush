@@ -9,6 +9,8 @@ GameObjective::GameObjective(const GameData &gd, GridDisplay &observer) : nSwaps
     if (objType == Constants::POPS) colour = gd.colour;
 
     observer.notifySwapsLeft(nSwaps);
+    if (objType == Constants::POPS) observer.notifyObjective(objType, obj, colour);
+    else observer.notifyObjective(objType, obj);
 }
 
 

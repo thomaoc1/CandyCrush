@@ -13,8 +13,8 @@ public:
     ObjectiveDisplay(const ObjectiveDisplay &) = default;
     ObjectiveDisplay(ObjectiveDisplay &&) = default;
 
-    void setText(const std::string &message) override {text = "Reds to Pop: " + message;}
-    void setText(std::string &&message) override {text = "Reds to Pop: " + message;}
+    void setText(const std::string &message) override {text = message;}
+    void setText(std::string &&message) override {text = message;}
     void draw() const override;
 };
 

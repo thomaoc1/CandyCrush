@@ -94,10 +94,10 @@ public:
     void notifyFailedSwap(const Point &start, const Point &dest);
 
     void notifySwapsLeft(int swaps) {broadcast.setSwaps(swaps);}
-
     void notifyNoSwaps();
-    
     void notifyGameState(int state);
+    void notifyObjective(int objType, int obj);
+    void notifyObjective(int objType, int obj, int colour);
     
 
     /** Modifies score displayed */

@@ -93,7 +93,7 @@ public:
     void notifySwap(const Point &start, const Point &dest);
     void notifyFailedSwap(const Point &start, const Point &dest);
 
-    void notifySwapsLeft(int swaps) {/*broadcast.setSwaps(swaps)*/}
+    void notifySwapsLeft(int swaps) {broadcast.setSwaps(swaps);}
 
     void notifyNoSwaps();
     

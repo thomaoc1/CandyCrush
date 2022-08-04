@@ -9,6 +9,7 @@
 
 
 void Grid::fileInterpreter() {
+    observer.notifySwapsLeft(go.swaps());
     for (auto &ct : gd.components) insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
 }
 
@@ -954,7 +955,7 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();
         observer.notifySwap(cell1, cell2);
-        
+
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
     else if (isMobile(grid[cell1.y][cell1.x].type()))

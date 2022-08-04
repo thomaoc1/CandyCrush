@@ -637,6 +637,7 @@ void Grid::clean() {
         completeFill();
     } 
     if (!possibleMoves()) {
+        observer.notifyNoSwaps();
         refillGrid();
         clean();
     }

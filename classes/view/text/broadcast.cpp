@@ -23,7 +23,7 @@ void BroadcastBox::setObjective(int objType, int obj) {
 }
 
 
-void BroadcastBox::setObjective(int objType, int obj, int colour) {
+void BroadcastBox::setObjective(int, int obj, int colour) {
     switch (colour) {
         case Constants::RED:
             objective.setText("Red Candies: " + std::to_string(obj));

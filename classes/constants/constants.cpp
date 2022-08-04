@@ -24,7 +24,7 @@ const double Constants::CANDY_RADIUS = Constants::HALVE_CELL_SIZE - 3;
 
 
 const std::array< int, 6 > Constants::candies = {components::RED, components::BLUE, components::GREEN, 
-                                                    components::YELLOW, components::PURPLE, components::HAZELNUT};
+                                                    components::YELLOW, components::PURPLE, components::ORANGE};
 
 
 int Constants::associatedColour(int component) {

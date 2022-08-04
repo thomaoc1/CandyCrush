@@ -87,6 +87,7 @@ private:
     void wrStBlast(Cell * c1);
     void bombSwap(Cell * c1, Cell * c2);
     void unoccupy(Cell * target);
+    void clearFrostings();
     void popAll();
     void willPop(Cell * target);
     void popIngredient();

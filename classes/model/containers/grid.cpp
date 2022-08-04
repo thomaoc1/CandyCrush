@@ -185,6 +185,23 @@ void Grid::unoccupy(Cell * target) {
 }
 
 
+void Grid::clearFrostings() {
+    std::vector< Cell * > frostings;
+    for (auto &cell : toPop) {
+        for (auto &nb : cell->getNbs()) {
+            if (nb && !nb->getPop() 
+                    && (nb->type() == Constants::FROSTING2 || nb->type() == Constants::FROSTING1)) {
+
+                nb->willPop();
+                toPop.push_back(nb);
+                frostings.push_back(nb);
+            }
+        }
+    }
+    for (auto &cell : frostings) cell->popped();
+}
+
+
 /**
  * @brief 
  * 
@@ -192,6 +209,9 @@ void Grid::unoccupy(Cell * target) {
 void Grid::popAll() {
     std::vector<Point> toObserver;
     std::vector< std::pair<Point, int> > filling;
+
+    clearFrostings();
+
     for (auto &cell : toPop) {
         if (cell->getOccupied()->pop() == Constants::POPPED) unoccupy(cell);
         else filling.push_back({cell->getLocation(), cell->type()});
@@ -888,7 +908,7 @@ Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : o
     maxSwaps = gd.maxSwaps;
 
     for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
-    // for (auto &p : gd.frostings);
+    for (auto &p : gd.frostings) insertComponent(&grid[p.y][p.x], Constants::FROSTING2);
     
     for (auto &row : grid) {
         for (auto &cell : row) {

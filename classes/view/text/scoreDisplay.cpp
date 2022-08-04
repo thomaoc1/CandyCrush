@@ -9,7 +9,5 @@ void ScoreDisplay::draw() const {
 
     fl_measure(text.c_str(), width, height, false);
 
-    std::cout<<text<<std::endl;
-
     fl_draw(text.c_str(), center.x - width/2 - (( (Constants::GRIDSIZE -2 ) *5 ) /16 ), center.y + ( 2 * height ));
 }   

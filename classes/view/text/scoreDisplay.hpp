@@ -7,7 +7,7 @@
 
 class ScoreDisplay : public Text {
 public:
-    ScoreDisplay(const Point &center, int size, int score=000000000000)
+    ScoreDisplay(const Point &center, int size, int score=0)
         : Text{center, "Score: " + std::to_string(score), FL_HELVETICA, size} {}
     ScoreDisplay() = default;
     ScoreDisplay(const ScoreDisplay &) = default;

@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <memory>
+#include <math.h>
 
 class Score {
     int score = 0;

@@ -32,7 +32,7 @@ void GameObjective::swapped() {
 void GameObjective::ingredientPop() {
     if (objType == Constants::INGREDIENT) {
         --obj;
-        // observer.objectivePop();
+        observer.notifyObjective(objType, obj);
         observer.notifyGameState(gameState());
     }
 }
@@ -41,7 +41,7 @@ void GameObjective::ingredientPop() {
 void GameObjective::frostingPop() {
     if (objType == Constants::FROSTINGS) {
         --obj;
-        // observer.objectivePop();
+        observer.notifyObjective(objType, obj);
         observer.notifyGameState(gameState());
     }
 }
@@ -50,7 +50,7 @@ void GameObjective::frostingPop() {
 void GameObjective::colourPop(int poppedColour) {
     if (objType == Constants::POPS && colour == poppedColour) {
         --obj;
-        // observer.objectivePop();
+        observer.notifyObjective(objType, obj, colour);
         observer.notifyGameState(gameState());
     }
 }

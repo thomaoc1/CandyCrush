@@ -8,7 +8,7 @@
 class SwapsLeftDisplay : public Text {
 
 public:
-    SwapsLeftDisplay(const Point &center, int size, int swaps=0)
+    SwapsLeftDisplay(const Point &center, int size, int swaps=-1)
         : Text{center, "Sawps left: " + std::to_string(swaps), FL_HELVETICA, size} {}
     SwapsLeftDisplay() = default;
     SwapsLeftDisplay(const SwapsLeftDisplay &) = default;

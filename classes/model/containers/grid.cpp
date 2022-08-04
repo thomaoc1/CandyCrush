@@ -8,10 +8,7 @@
  --------------------------------------------------------------------------------------------*/
 
 
-void Grid::fileInterpreter(const std::string &filename) {
-    GameData gd = FileHandler{filename}.getGameData();
-    maxSwaps = gd.maxSwaps;
-
+void Grid::fileInterpreter() {
     for (auto &ct : gd.components) insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
 }
 
@@ -907,7 +904,8 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
  --------------------------------------------------------------------------------------------*/
 
 
-Grid::Grid(GridDisplay &observer, const std::string &filename)  : observer{observer}, score{observer} {
+Grid::Grid(GridDisplay &observer, const std::string &filename)  
+    : observer{observer}, gd{FileHandler{filename}.getGameData()}, go{gd}, score{observer} {
 
     for (int row = 0; row < COLS; ++row) {
         std::vector<Cell> tmp = {};
@@ -915,7 +913,7 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)  : observer{obser
         grid.emplace_back(std::move(tmp));
     }
 
-    fileInterpreter(filename);
+    fileInterpreter();
     
     for (auto &row : grid) {
         for (auto &cell : row) {
@@ -940,7 +938,6 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)  : observer{obser
  */
 void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
-        --maxSwaps;
         exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
         package();
         observer.notifySwap(cell1, cell2);

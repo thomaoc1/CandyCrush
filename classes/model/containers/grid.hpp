@@ -37,6 +37,7 @@
 #include "../filehandler/fileHandler.hpp"
 #include "../../shared/point.hpp"
 #include "../score.hpp"
+#include "../gameObjective.hpp"
 
 #include "../../view/gridDisplay.hpp"
 
@@ -59,21 +60,21 @@ class Grid {
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
 
+    GameData gd;
+    GameObjective go;
     Score score;
-    int maxSwaps;
+
 
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
 
 public:
-    Grid(GridDisplay &observer);
     Grid(GridDisplay &observer, const std::string &level);
-    // int getCell(int y, int x) const {return grid[y][x].type();}
     void swap(const Point &cell1, const Point &cell2);
 
 private:
 
-    void fileInterpreter(const std::string &level);
+    void fileInterpreter();
 
     /* Grid Cleaning */
     void wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction);

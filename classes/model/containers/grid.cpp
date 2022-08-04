@@ -12,11 +12,7 @@ void Grid::fileInterpreter(const std::string &filename) {
     GameData gd = FileHandler{filename}.getGameData();
     maxSwaps = gd.maxSwaps;
 
-    for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
-    for (auto &p : gd.frostings) insertComponent(&grid[p.y][p.x], Constants::FROSTING2);
-    for (auto &p : gd.cherries) insertComponent(&grid[p.y][p.x], Constants::CHERRY);
-    for (auto &p : gd.hazels) insertComponent(&grid[p.y][p.x], Constants::HAZELNUT);
-    for (auto &p : gd.wrapped) insertComponent(&grid[p.y][p.x], Constants::RED_WRAPPED_BOMB);
+    for (auto &ct : gd.components) insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
 }
 
 

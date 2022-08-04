@@ -6,4 +6,5 @@ void BroadcastBox::draw() const {
     text.draw(); 
     score.draw();
     swaps.draw();
+    objective.draw();
 }

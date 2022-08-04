@@ -20,6 +20,9 @@ void FileHandler::asciiGridInterpreter(int row, const std::string &line) {
     int col = 0;
     for (int i = 0; i < static_cast<int>(line.length()); i += 3) {
         switch (numOfInterpreter(i, line)) {
+            case Constants::CHERRY:
+                gameData.cherries.emplace_back(Point{col, row});
+                break;
             case Constants::FROSTING2:
                 gameData.frostings.emplace_back(Point{col, row});
                 break;

@@ -8,6 +8,17 @@
  --------------------------------------------------------------------------------------------*/
 
 
+void Grid::fileInterpreter(const std::string &filename) {
+    GameData gd = FileHandler{filename}.getGameData();
+    maxSwaps = gd.maxSwaps;
+
+    for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
+    for (auto &p : gd.frostings) insertComponent(&grid[p.y][p.x], Constants::FROSTING2);
+    for (auto &p : gd.cherries) insertComponent(&grid[p.y][p.x], Constants::CHERRY);
+    for (auto &p : gd.hazels) insertComponent(&grid[p.y][p.x], Constants::HAZELNUT);
+}
+
+
 /*-------------------------------------------------------------------------------------------*
  *                                        Grid Cleaning                                      *
  *-------------------------------------------------------------------------------------------*/
@@ -188,6 +199,7 @@ void Grid::unoccupy(Cell * target) {
 void Grid::clearFrostings() {
     std::vector< Cell * > frostings;
     for (auto &cell : toPop) {
+        if (cell->type() == Constants::FROSTING1 || cell->type() == Constants::FROSTING2) continue;
         for (auto &nb : cell->getCrossNbs()) {
             if (nb && !nb->getPop() 
                     && (nb->type() == Constants::FROSTING2 || nb->type() == Constants::FROSTING1)) {
@@ -897,18 +909,15 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
  --------------------------------------------------------------------------------------------*/
 
 
-Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &level)  : observer{observer}, score{observer} {
+Grid::Grid(std::shared_ptr<GridDisplay> observer, const std::string &filename)  : observer{observer}, score{observer} {
+
     for (int row = 0; row < COLS; ++row) {
         std::vector<Cell> tmp = {};
         for (int col = 0; col < ROWS; ++col) tmp.emplace_back(Cell{row, col});
         grid.emplace_back(std::move(tmp));
     }
 
-    GameData gd = FileHandler{level}.getGameData();
-    maxSwaps = gd.maxSwaps;
-
-    for (auto &p : gd.walls) insertComponent(&grid[p.y][p.x], Constants::WALL);
-    for (auto &p : gd.frostings) insertComponent(&grid[p.y][p.x], Constants::FROSTING2);
+    fileInterpreter(filename);
     
     for (auto &row : grid) {
         for (auto &cell : row) {

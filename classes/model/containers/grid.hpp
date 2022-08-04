@@ -72,6 +72,9 @@ public:
     void swap(const Point &cell1, const Point &cell2);
 
 private:
+
+    void fileInterpreter(const std::string &level);
+
     /* Grid Cleaning */
     void wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction);
     void stBombExtract(Cell * cell, int direction);

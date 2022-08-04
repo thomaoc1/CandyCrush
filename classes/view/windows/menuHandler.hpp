@@ -10,9 +10,13 @@
 #include <FL/Fl_Window.H>
 
 class MenuHandler {
-    GridDisplay gridDisplay;
-    GridControl gridControl{gridDisplay};
+    // MainMenu mm;
+    // WelcomeScreen ws; 
+    //GridDisplay gridDisplay;
+    //GridControl gridControl{gridDisplay};
 public:
+    void eventHandler();
+    void draw() const;
     void launchGame(const std::string &filename);
 };
 

@@ -127,8 +127,8 @@ private:
     bool inGrid(const Point &coord) const;
     bool sameBomb(Cell * c1, Cell * c2) const;
     bool isMobile(int component) const;
-    bool canComboPop(int component) const;
-    bool canPop(int component) const {return !(component == Constants::CHERRY || component == Constants::HAZELNUT);}
+    bool canPop(int component) const;
+    // bool canPop(int component) const {return !(component == Constants::CHERRY || component == Constants::HAZELNUT);}
     // Swap checks
     bool bombSwapCheck(Cell * c1, Cell * c2) const;
     bool specialSwapCheck(Cell * c1, Cell * c2) const;

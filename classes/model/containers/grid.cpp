@@ -731,7 +731,7 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
  */
 std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) const {
     std::vector< std::vector< Cell * > >  ret = {{}, {}};
-    if (canComboPop(initial->type())) {
+    if (canPop(initial->type())) {
         std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
         std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
         ret = {std::move(v_cont), std::move(h_cont)};
@@ -843,7 +843,7 @@ bool Grid::isMobile(int component) const {
  * @return bool
  * 
  */
-bool Grid::canComboPop(int component) const {
+bool Grid::canPop(int component) const {
 return !(component == Constants::WALL || component == Constants::CHERRY 
                                           || component == Constants::HAZELNUT
                                           || component == Constants::FROSTING2

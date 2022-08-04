@@ -220,7 +220,7 @@ void Grid::popAll() {
 
     for (auto &cell : toPop) {
         if (cell->getOccupied()->pop() == Constants::POPPED) {
-            if (cell->type() == Constants::FROSTING1) gameObj.frostingPop();
+            if (cell->type() == Constants::FROSTING2) gameObj.frostingPop();
             else gameObj.colourPop(Constants::associatedColour(cell->type()));
             unoccupy(cell);
         }

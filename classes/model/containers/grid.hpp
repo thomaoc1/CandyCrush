@@ -74,7 +74,7 @@ public:
     int gameState() const {return gameObj.gameState();}
 
 private:
-
+    bool isOccupied(const Cell &cell) {return cell.getOccupied() ? true : false;}
     void fileInterpreter();
 
     /* Grid Cleaning */

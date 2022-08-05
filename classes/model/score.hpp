@@ -10,7 +10,7 @@
 class Score {
     int score = 0;
     int bSpawn = 35;
-    int explMuti = 2;
+    int explMuti = 20;
     int suppression = 15;
 
     GridDisplay &observer;

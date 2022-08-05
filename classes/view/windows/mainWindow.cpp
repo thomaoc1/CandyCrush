@@ -10,7 +10,7 @@
 
 MainWindow::MainWindow() : Fl_Window(Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT, "CandySmash"),
                             gridDisplay{GridDisplay()},
-                            grid{std::make_shared<Grid>(gridDisplay, "db/levels/level3.txt")}, 
+                            grid{std::make_shared<Grid>(gridDisplay, "db/levels/level2.txt")}, 
                             gridControl{grid, gridDisplay} {
     Fl::add_timeout(1.0/Constants::FPS, Timer_CB, this);
     resizable(this);

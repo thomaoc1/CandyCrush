@@ -660,8 +660,8 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     Cell * c1 = &grid[cell1.y][cell1.x];
     Cell * c2 = &grid[cell2.y][cell2.x];
     if (!(c1->getOccupied() || c2->getOccupied()) 
-            || c1->type() == Constants::WALL
-            || c2->type() == Constants::WALL) return validity;
+            || !isMobile(c1->type())
+            || !isMobile(c2->type())) return validity;
 
     exchangeCells(c1, c2);
 
@@ -952,7 +952,7 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
 
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
-    else if (isMobile(grid[cell1.y][cell1.x].type()))
+    else if (isMobile(grid[cell1.y][cell1.x].type()) && isMobile(grid[cell2.y][cell2.x].type()))
         observer.notifyFailedSwap(cell1, cell2);
 }
 

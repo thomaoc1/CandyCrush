@@ -1,12 +1,17 @@
 #include "constants.hpp"
 
+const std::string Constants::badSwap = "Can't swap those, try again.";
+const std::string Constants::gameWon = "You won !";
+const std::string Constants::gameLost = "GameOver, you lost !";
+const std::string Constants::shuffling = "No possible moves, shuffling";
+
 const double Constants::FPS = 60;
 const double Constants::WINDOW_HEIGHT = 750;
 const double Constants::WINDOW_WIDTH = 750;
 const double Constants::GAME_WINDOW_Xi = Constants::WINDOW_WIDTH /2 - Constants::HALVE_GRIDSIZE;
 const double Constants::GAME_WINDOW_Xf = Constants::WINDOW_WIDTH /2 + Constants::HALVE_GRIDSIZE;
-const double Constants::GAME_WINDOW_Yi = ((Constants::WINDOW_HEIGHT *3 ) /5 ) - Constants::HALVE_GRIDSIZE;
-const double Constants::GAME_WINDOW_Yf = ((Constants::WINDOW_HEIGHT *3 ) /5 ) + Constants::HALVE_GRIDSIZE;
+const double Constants::GAME_WINDOW_Yi = ((Constants::WINDOW_HEIGHT * 3) / 5) - Constants::HALVE_GRIDSIZE;
+const double Constants::GAME_WINDOW_Yf = ((Constants::WINDOW_HEIGHT * 3) / 5) + Constants::HALVE_GRIDSIZE;
 const double Constants::CELL_SIZE = 50;
 
 const double Constants::HALVE_CELL_SIZE = 25;

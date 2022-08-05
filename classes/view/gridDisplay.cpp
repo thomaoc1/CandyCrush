@@ -102,12 +102,9 @@ void GridDisplay::performPop() {
  */
 void GridDisplay::performSwap() {
     CoordPair toSwap = animationQueue.nextSwap();
-
     Point c1 = toSwap.first, c2 = toSwap.second;
     std::swap(visualComponents[c2.y][c2.x], visualComponents[c1.y][c1.x]);
     visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
-
-    // swapping = true;
     package();
 }
 
@@ -293,7 +290,7 @@ void GridDisplay::notifyInit(const Point &coord, int type) {
 
 
 void GridDisplay::notifySwap(const Point &start, const Point &dest) {
-    broadcast.clear();
+    broadcast.clearHelpMessage();
     animationQueue.enqueueSwap({start, dest});
 }
 
@@ -306,14 +303,14 @@ void GridDisplay::notifySwap(const Point &start, const Point &dest) {
  * 
  */
 void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
-    broadcast.setMessage("Can't swap those, try again.");
+    broadcast.setMessage(Constants::badSwap);
     animationQueue.enqueueSwap({c1, c2});
     animationQueue.enqueueSwap({c1, c2});
 }
 
 
 void GridDisplay::notifyNoSwaps() {
-    broadcast.setMessage("There were possible swaps, shuffling.");
+    broadcast.setMessage(Constants::shuffling);
 }
 
 

@@ -20,6 +20,12 @@ public:
     static enum actions{DISPLACEMENT, SWAP, SUPPRESSION} actions;
 
     /* View Constants */
+    static const std::string badSwap;
+    static const std::string gameWon;
+    static const std::string gameLost;
+    static const std::string shuffling;
+    
+    
     static const double FPS;
     static const double WINDOW_HEIGHT;
     static const double WINDOW_WIDTH;

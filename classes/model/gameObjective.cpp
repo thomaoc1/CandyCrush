@@ -15,10 +15,10 @@ GameObjective::GameObjective(const GameData &gd, GridDisplay &observer) : nSwaps
 
 
 int GameObjective::gameState() const {
-    if (nSwaps <= 0) return LOST;
-    else if (obj <= 0) return WON;
-
-    return ONGOING;
+    int gamestate = ONGOING;
+    if (nSwaps <= 0) gamestate = LOST;
+    else if (obj <= 0) gamestate = WON;
+    return gamestate;
 }
 
 
@@ -48,7 +48,7 @@ void GameObjective::frostingPop() {
 
 
 void GameObjective::colourPop(int poppedColour) {
-    if (objType == Constants::POPS && colour == poppedColour) {
+    if (objType == Constants::POPS && colour == poppedColour && obj > 0) {
         --obj;
         observer.notifyObjective(objType, obj, colour);
         observer.notifyGameState(gameState());

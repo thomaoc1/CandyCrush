@@ -105,8 +105,8 @@ public:
 
 private:
 
-    void won() {broadcast.setMessage("You won !");}
-    void lost() {broadcast.setMessage("GameOver, you lost !");}
+    void won() {broadcast.setMessage(Constants::gameWon);}
+    void lost() {broadcast.setMessage(Constants::gameLost);}
 
     /* Animations */
     void nextAnimation();

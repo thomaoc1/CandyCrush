@@ -22,14 +22,17 @@ public:
 
     void clear() {text.clear();}
     void setMessage(const std::string &s) {text.setText(s);}
-    void setMessage(std::string &&s) {text.setText(s);}
-
+    void setMessage(std::string &&s) {text.setText(std::move(s));}
     void setSwaps(int nbSwaps) {swaps.setText(std::to_string(nbSwaps));}
     void setScore(int newScore) {score.setText(std::to_string(newScore));}
     void setObjective(int objType, int obj);
     void setObjective(int objType, int obj, int colour);
 
+    void clearHelpMessage() {if (getText() == Constants::badSwap) clear();}
     void draw() const;
+
+private:
+    std::string getText() const {return text.getText();}
 };
 
 

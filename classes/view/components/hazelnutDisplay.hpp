@@ -15,8 +15,6 @@ public:
         ComponentDisplay(std::make_shared<HazelShape>(center, Constants::CANDY_RADIUS)) {}
     HazelnutDisplay(const HazelnutDisplay &) = default;
     HazelnutDisplay(HazelnutDisplay &&) = default;
-
-    std::string type() const override {return "H";}
 };
 
 #endif

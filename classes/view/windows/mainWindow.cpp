@@ -22,8 +22,15 @@ MainWindow::MainWindow() : Fl_Window(Constants::WINDOW_WIDTH, Constants::WINDOW_
  * 
  */
 void MainWindow::draw() {
-    Fl_Window::draw();
-    gridDisplay.draw();
+    if (time > 0) {
+        ts.draw();
+        --time;
+    }
+    else {
+        Fl_Window::draw();
+        gridDisplay.draw();
+    }    
+    
 }
 
 

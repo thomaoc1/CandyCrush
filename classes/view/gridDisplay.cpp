@@ -54,7 +54,6 @@ void GridDisplay::performFill() {
         visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
         visualComponents[coord.y][coord.x]->fillAnimate();
     }
-    package();
 }
 
 
@@ -75,7 +74,7 @@ void GridDisplay::performDrop(int direction) {
         visualComponents[dest.y][dest.x] = visualComponents[p.y][p.x]; 
         visualComponents[p.y][p.x] = nullptr;
     } 
-    package();
+
 }
 
 
@@ -89,7 +88,7 @@ void GridDisplay::performPop() {
         if (!visualComponents[p.y][p.x]) continue;
         visualComponents[p.y][p.x]->popAnimate();
     }
-    package();
+
 }
 
 
@@ -105,7 +104,6 @@ void GridDisplay::performSwap() {
     Point c1 = toSwap.first, c2 = toSwap.second;
     std::swap(visualComponents[c2.y][c2.x], visualComponents[c1.y][c1.x]);
     visualComponents[c1.y][c1.x]->swapAnimate(visualComponents[c2.y][c2.x]);
-    package();
 }
 
 
@@ -209,6 +207,7 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
 
 
 GridDisplay::GridDisplay() {
+
     for (int i = 0; i < ROWS; ++i) {
         visualComponents.push_back({});
         for (int j = 0; j < COLS; ++j) visualComponents[i].push_back({});
@@ -229,8 +228,15 @@ GridDisplay::GridDisplay() {
  * 
  */
 void GridDisplay::draw()  {
+
+    // Reduce graphical twitching
+    if (firstDraw) {
+        bg.draw();
+        firstDraw = false;
+    }
+
     broadcast.draw();
-    
+
     if (time == suggestionTime)  {
         performSuggestion();
         time = 0;
@@ -327,42 +333,10 @@ void GridDisplay::notifyGameState(int state) {
 }
 
 
-
-
-
 void GridDisplay::notifyObjective(int objType, int obj) {
     broadcast.setObjective(objType, obj);
 }
 
 void GridDisplay::notifyObjective(int objType, int obj, int colour) {
     broadcast.setObjective(objType, obj, colour);
-}
-
-
-
-
-// TEMP
-void GridDisplay::package() const {
-    std::string temp;
-
-    for (int i = 0; i < COLS; ++i) {
-        if (i == 0) temp += "   " + std::to_string(i)+ "    ";
-        else temp += std::to_string(i) + "    ";
-    }
-    temp += "\n============================================\n";
-
-    for (int i = 0; i < ROWS; ++i) {
-        for (int j = 0; j < COLS; ++j) {
-            if (j == 0) temp += std::to_string(i) + "| ";
-            std::string component = " ";
-            if (visualComponents[i][j]) component = visualComponents[i][j]->type();
-            if (component.length() == 1) temp += component + "    ";
-            else if (component.length() == 2) temp += component + "   ";
-            else if (component.length() == 3) temp += component + "  ";
-            else temp += component + " ";
-        }
-        temp += "\n";
-    }
-
-    Log::get().addViewMessage(temp);
 }

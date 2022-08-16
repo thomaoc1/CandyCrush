@@ -15,9 +15,6 @@ public:
         : ComponentDisplay{std::make_shared<CherryShape>(center, Constants::CANDY_RADIUS)} {}
     CherryDisplay(const CherryDisplay &) = default;
     CherryDisplay(CherryDisplay &&) = default;
-
-    // DEBUG
-    std::string type() const override {return "C";}
 };
 
 #endif

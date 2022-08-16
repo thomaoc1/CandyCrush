@@ -35,6 +35,8 @@
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"
 #include "text/broadcast.hpp"
+#include "common/background.hpp"
+
 
 #include <memory>
 #include <vector>
@@ -45,6 +47,10 @@
 #include <FL/Fl_Box.H>
 
 class GridDisplay {
+
+    const int ROWS = Constants::ROWS;
+    const int COLS = Constants::COLS;
+
     using CellMatrix = std::vector< std::vector<CellDisplay> >;
     CellMatrix visualGrid;
     
@@ -62,9 +68,8 @@ class GridDisplay {
     const int suggestionTime = 90; 
 
     BroadcastBox broadcast;
-
-    const int ROWS = Constants::ROWS;
-    const int COLS = Constants::COLS;
+    Background bg{FL_GRAY};
+    bool firstDraw = true;
 
 public:
     GridDisplay();
@@ -120,8 +125,6 @@ private:
     Point calculateCenter(const Point &coord) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
 
-    // TEMP
-    void package() const;
 };
 
 #endif

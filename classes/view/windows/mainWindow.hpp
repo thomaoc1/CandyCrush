@@ -24,6 +24,7 @@
 #include "../../model/containers/grid.hpp"
 #include "../../control/gridControl.hpp"
 #include "../gridDisplay.hpp"
+#include "titleScreen.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -32,6 +33,8 @@ class MainWindow : public Fl_Window {
     GridDisplay gridDisplay;
     std::shared_ptr<Grid> grid;
     GridControl gridControl;
+    TitleScreen ts;
+    int time = 90;
 public:
     MainWindow();
     void draw() override;

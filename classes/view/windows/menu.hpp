@@ -1,6 +1,8 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 
+#include "../common/background.hpp"
+
 class Menu {
 protected:
     Background bg{FL_WHITE};

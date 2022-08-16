@@ -18,6 +18,7 @@ int GameObjective::gameState() const {
     int gamestate = ONGOING;
     if (nSwaps <= 0) gamestate = LOST;
     else if (obj <= 0) gamestate = WON;
+    std::cout << "GameObj: " << gamestate << std::endl;
     return gamestate;
 }
 

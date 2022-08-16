@@ -33,7 +33,7 @@ class GridControl {
     enum{LOST, WON, ONGOING};
 public:
     GridControl(std::shared_ptr<Grid> grid, const GridDisplay &view) : grid{grid}, view{view} {} 
-    bool proccessEvent(const int event);
+    int proccessEvent(const int event);
 private:
     bool gameOver() const {return grid->gameState() == LOST || grid->gameState() == WON;}
     bool inAnimation() const {return view.inAnimation();}

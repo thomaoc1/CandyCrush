@@ -9,7 +9,7 @@
 class LevelSelection : public Menu {
 public:
     void draw() override {Menu::draw();}
-    int eventHandler(int event) override {Constants::LEVEL2;}
+    int eventHandler(int event) override {std::cout << "LEVEL SELECT" << std::endl; if (event == FL_PUSH) return Constants::LEVEL2; else return -1;}
 };
 
 #endif

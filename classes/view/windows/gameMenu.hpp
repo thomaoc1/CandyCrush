@@ -14,7 +14,9 @@ public:
     GameMenu(int level)
         : gridDisplay{GridDisplay()}, 
           grid{std::make_shared<Grid>(gridDisplay, associatedFile(level))}, 
-          gridControl{std::make_shared<GridControl>(grid, gridDisplay)} {}
+          gridControl{std::make_shared<GridControl>(grid, gridDisplay)} {std::cout << associatedFile(level) << std::endl;}
+
+    ~GameMenu() {std::cout << "Death of GameMenu" << std::endl;}
 
     void draw() override {gridDisplay.draw();}
     int eventHandler(int event) override {return gridControl->proccessEvent(event);}

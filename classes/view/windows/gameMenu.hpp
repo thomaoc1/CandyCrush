@@ -8,8 +8,8 @@
 
 class GameMenu : public Menu {
     GridDisplay gridDisplay;
-    std::shared_ptr<GridControl> gridControl;
     std::shared_ptr<Grid> grid;
+    std::shared_ptr<GridControl> gridControl;
 public:
     GameMenu(int level)
         : gridDisplay{GridDisplay()}, 
@@ -17,7 +17,7 @@ public:
           gridControl{std::make_shared<GridControl>(grid, gridDisplay)} {}
 
     void draw() override {gridDisplay.draw();}
-    int eventHandler(int event) override {gridControl->proccessEvent(event);}
+    int eventHandler(int event) override {return gridControl->proccessEvent(event);}
 private:
     std::string associatedFile(int level) const;
 };

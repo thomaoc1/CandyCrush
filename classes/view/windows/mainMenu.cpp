@@ -1,6 +1,6 @@
 #include "mainMenu.hpp"
 
 
-void MainMenu::draw() const {
-
+void MainMenu::draw() {
+    Menu::draw();
 }

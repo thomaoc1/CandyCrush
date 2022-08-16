@@ -8,8 +8,8 @@
 
 class LevelSelection : public Menu {
 public:
-    void draw() override;
-    int eventHandler(int event) override;
+    void draw() override {Menu::draw();}
+    int eventHandler(int event) override {Constants::LEVEL2;}
 };
 
 #endif

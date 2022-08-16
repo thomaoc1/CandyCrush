@@ -136,6 +136,8 @@ bool GridControl::proccessEvent(int event) {
             Log::get().Dump();
             exit(0);
     } 
-    return event;
+
+    int state = grid->gameState() == LOST || grid->gameState() == WON ? Constants::GAME_OVER : Constants::GAME_ONGOING;
+    return state;
 }
 

@@ -1,6 +1,19 @@
 #include "menuHandler.hpp"
 
 
-void MenuHandler::launchGame(const std::string &) {
-    // gridControl.associateGrid(std::make_shared<Grid>(filename));
+int MenuHandler::eventHandler(int event) {
+    int button = current->eventHandler(event);
+    switch (button) {
+        case Constants::BACK:
+            current = mainMenu;
+            break;
+        case Constants::PLAY:
+            current = levSel;
+            break;
+        case Constants::LEVEL1:
+        case Constants::LEVEL2:
+        case Constants::LEVEL3:
+            current = std::make_shared<GameMenu>(button);
+            break;
+    }
 }

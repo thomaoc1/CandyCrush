@@ -1,23 +1,26 @@
-#ifndef MENU_DISPLAY_HPP
-#define MENU_DISPLAY_HPP
+#ifndef MENU_HANDLER_HPP
+#define MENU_HANDLER_HPP
 
 #include "../shapes/rectangle.hpp"
 #include "../../model/containers/grid.hpp"
 #include "../../view/gridDisplay.hpp"
 #include "../../control/gridControl.hpp"
+#include "mainMenu.hpp"
+#include "levelSelection.hpp"
+#include "gameMenu.hpp"
 
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
+
 
 class MenuHandler {
-    // MainMenu mm;
-    // WelcomeScreen ws; 
-    //GridDisplay gridDisplay;
-    //GridControl gridControl{gridDisplay};
+    std::shared_ptr<MainMenu> mainMenu = std::make_shared<MainMenu>();
+    std::shared_ptr<LevelSelection> levSel = std::make_shared<LevelSelection>();
+
+    std::shared_ptr<Menu> current = mainMenu;
 public:
-    void eventHandler();
-    void draw() const;
-    void launchGame(const std::string &filename);
+    MenuHandler()=default;
+    void draw() const {current->draw();}
+    int eventHandler(int event);
 };
+
 
 #endif

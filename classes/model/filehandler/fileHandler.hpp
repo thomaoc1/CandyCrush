@@ -21,6 +21,7 @@
 #include "../../constants/constants.hpp"
 
 #include <fstream>
+#include <iostream>
 #include <string>
 
 class FileHandler {
@@ -29,8 +30,14 @@ class FileHandler {
     std::vector<Point> candies, walls, frostings, cherries;
     std::vector<Point> hazels, wrapped, striped, special;
 public:
-    FileHandler(const std::string &filename);
+    FileHandler(const std::string &filename) {interpretFile(filename);}
+    FileHandler()=default;
+
+    void interpretFile(const std::string &filename);
+    void setFile(const std::string &filename) {interpretFile(filename);}
     GameData getGameData() const {return gameData;}
+    void dumpScore(int score) const;
+    int getBestScore() const;
 private:
     void asciiGridInterpreter(int row, const std::string &line);
     int numOfInterpreter(int index, const std::string &line) const;

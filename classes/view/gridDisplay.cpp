@@ -327,12 +327,11 @@ void GridDisplay::notifyNoSwaps() {
 
 
 void GridDisplay::notifyGameState(int state) {
-    enum{LOST, WON, ONGOING};
     switch (state) {
-        case LOST:
+        case Constants::LOST:
             lost();
             break;
-        case WON:
+        case Constants::WON:
             won();
             break;
     }

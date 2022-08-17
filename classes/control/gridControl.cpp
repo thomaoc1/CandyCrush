@@ -141,7 +141,8 @@ int GridControl::proccessEvent(int event) {
     } 
 
     if (state != Constants::BACK) 
-        state = (grid->gameState() == LOST || grid->gameState() == WON) ? Constants::GAME_OVER : Constants::GAME_ONGOING;
+        state = (grid->gameState() == Constants::LOST 
+                    || grid->gameState() == Constants::WON) ? Constants::GAME_OVER : Constants::GAME_ONGOING;
 
     return state;
 }

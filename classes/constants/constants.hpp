@@ -46,6 +46,8 @@ public:
 
     static const double CANDY_RADIUS;
 
+    static enum gameState{LOST, WON, ONGOING} gamestate;
+
     static enum animTypes{IGNORE, CANT_IGNORE} animTypes;
 
     static enum blastTypes{NO_BLAST, SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;

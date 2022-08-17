@@ -681,6 +681,7 @@ void Grid::clean() {
         refillGrid();
         clean();
     }
+    if (gameState() == Constants::WON) FileHandler().dumpScore(score.getScore());
 }
 
 

@@ -13,8 +13,6 @@ class GameObjective {
 
     GridDisplay &observer;
 
-    enum{LOST, WON, ONGOING};
-
 public:
     GameObjective(const GameData &gd, GridDisplay &observer) : observer{observer} {gameDataInter(gd);}
     GameObjective(GridDisplay &observer) : observer{observer} {}

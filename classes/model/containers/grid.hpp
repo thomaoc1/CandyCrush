@@ -60,6 +60,7 @@ class Grid {
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
 
+    FileHandler fh;
     GameData gd;
     GameObjective gameObj;
     Score score;

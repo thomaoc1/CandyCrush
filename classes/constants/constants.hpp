@@ -20,11 +20,12 @@ public:
     static enum actions{DISPLACEMENT, SWAP, SUPPRESSION} actions;
 
     /* View Constants */
+    static enum menuButtons{NOTHING, PLAY, BACK, GAME_OVER, GAME_ONGOING, LEVEL1, LEVEL2, LEVEL3} menuButtons;
+
     static const std::string badSwap;
     static const std::string gameWon;
     static const std::string gameLost;
     static const std::string shuffling;
-    
     
     static const double FPS;
     static const double WINDOW_HEIGHT;
@@ -44,6 +45,8 @@ public:
     static const int ROWS;
 
     static const double CANDY_RADIUS;
+
+    static enum gameState{LOST, WON, ONGOING} gamestate;
 
     static enum animTypes{IGNORE, CANT_IGNORE} animTypes;
 

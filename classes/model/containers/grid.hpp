@@ -60,20 +60,28 @@ class Grid {
     std::vector< Cell * > toPop; 
     std::vector< Cell * > specialBombs;
 
+    FileHandler fh;
     GameData gd;
     GameObjective gameObj;
     Score score;
-
 
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
 
 public:
     Grid(GridDisplay &observer, const std::string &level);
+    Grid(GridDisplay &observer) : observer{observer}, gameObj{observer}, score{observer} {initialiseCells();}
+
+    void setLevel(const std::string &level);
     void swap(const Point &cell1, const Point &cell2);
     int gameState() const {return gameObj.gameState();}
 
 private:
+
+    // Init
+    void initialiseCells();
+    void completeGrid();
+
     bool isOccupied(const Cell &cell) {return cell.getOccupied() ? true : false;}
     void fileInterpreter();
 

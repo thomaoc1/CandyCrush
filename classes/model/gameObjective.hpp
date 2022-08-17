@@ -13,21 +13,23 @@ class GameObjective {
 
     GridDisplay &observer;
 
-    enum{LOST, WON, ONGOING};
-
 public:
-    GameObjective(const GameData &gd, GridDisplay &observer);
+    GameObjective(const GameData &gd, GridDisplay &observer) : observer{observer} {gameDataInter(gd);}
+    GameObjective(GridDisplay &observer) : observer{observer} {}
     GameObjective(const GameObjective &) = default;
     GameObjective(GameObjective &&) = default;
     
+    void setGameData(const GameData &gd) {gameDataInter(gd);}
     int gameState() const;
-
     int swaps() const {return nSwaps;}
 
     void swapped();
     void ingredientPop();
     void frostingPop();
     void colourPop(int colour);
+
+private:
+    void gameDataInter(const GameData &gd);
 };
 
 

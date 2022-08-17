@@ -35,6 +35,8 @@
 #include "cellDisplay.hpp"
 #include "../shared/log.hpp"
 #include "text/broadcast.hpp"
+#include "common/background.hpp"
+
 
 #include <memory>
 #include <vector>
@@ -45,6 +47,10 @@
 #include <FL/Fl_Box.H>
 
 class GridDisplay {
+
+    const int ROWS = Constants::ROWS;
+    const int COLS = Constants::COLS;
+
     using CellMatrix = std::vector< std::vector<CellDisplay> >;
     CellMatrix visualGrid;
     
@@ -62,9 +68,8 @@ class GridDisplay {
     const int suggestionTime = 90; 
 
     BroadcastBox broadcast;
-
-    const int ROWS = Constants::ROWS;
-    const int COLS = Constants::COLS;
+    Background bg{FL_GRAY};
+    bool firstDraw = true;
 
 public:
     GridDisplay();
@@ -99,11 +104,15 @@ public:
     void notifyObjective(int objType, int obj);
     void notifyObjective(int objType, int obj, int colour);
     
+    void notifyReset();
 
     /** Modifies score displayed */
     void notifyScore(int newScore) {broadcast.setScore(newScore);}
 
 private:
+
+    void resetGrid();
+
 
     void won() {broadcast.setMessage(Constants::gameWon);}
     void lost() {broadcast.setMessage(Constants::gameLost);}
@@ -120,8 +129,6 @@ private:
     Point calculateCenter(const Point &coord) const;
     std::shared_ptr<ComponentDisplay> factoryMethod(int row, int col, int component) const;
 
-    // TEMP
-    void package() const;
 };
 
 #endif

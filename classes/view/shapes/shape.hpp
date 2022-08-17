@@ -25,20 +25,19 @@ class Shape {
 protected:
     Point center;
     Fl_Color colour;
-    int col;
     double size;
 public:
-    Shape(const Point &center, int colours, double size) noexcept : center{center}, 
-                                                                     colour{Constants::associatedFLColour(colours)}, 
-                                                                     col{colours},
-                                                                     size{size} {};
+    Shape(const Point &center, int colours, double size) noexcept 
+        : center{center}, colour{Constants::associatedFLColour(colours)}, size{size} {};
+
+    Shape(const Point &center, Fl_Color colours, double size) noexcept 
+        : center{center}, colour{colours}, size{size} {};
+
     Shape(const Shape &) = default;
     Shape(Shape &&) = default;
 
     virtual Point getCenter() const {return center;}
     virtual double getSize() const {return size;}
-    // TEMP
-    virtual int getColour() const {return col;}
 
     virtual void setSize(double newSize) {size = newSize;} 
     virtual void setCenter(const Point &dest) {center = dest;}

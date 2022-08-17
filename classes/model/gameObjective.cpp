@@ -1,7 +1,15 @@
 #include "gameObjective.hpp"
 
 
-GameObjective::GameObjective(const GameData &gd, GridDisplay &observer) : nSwaps{gd.maxSwaps}, observer{observer} {
+/**
+ * @brief 
+ * 
+ * @param gd 
+ */
+void GameObjective::gameDataInter(const GameData &gd) {
+
+    nSwaps = gd.maxSwaps;
+
     for (int i = 0; i < static_cast<int>(gd.objTypes.size()); ++i)
         if (gd.objTypes[i]) objType = i;
 
@@ -14,14 +22,23 @@ GameObjective::GameObjective(const GameData &gd, GridDisplay &observer) : nSwaps
 }
 
 
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
 int GameObjective::gameState() const {
-    int gamestate = ONGOING;
-    if (nSwaps <= 0) gamestate = LOST;
-    else if (obj <= 0) gamestate = WON;
+    int gamestate = Constants::ONGOING;
+    if (nSwaps <= 0) gamestate = Constants::LOST;
+    else if (obj <= 0) gamestate = Constants::WON;
     return gamestate;
 }
 
 
+/**
+ * @brief 
+ * 
+ */
 void GameObjective::swapped() {
     --nSwaps;
     observer.notifySwapsLeft(nSwaps);
@@ -29,6 +46,10 @@ void GameObjective::swapped() {
 }
 
 
+/**
+ * @brief 
+ * 
+ */
 void GameObjective::ingredientPop() {
     if (objType == Constants::INGREDIENT) {
         --obj;
@@ -38,6 +59,10 @@ void GameObjective::ingredientPop() {
 }
 
 
+/**
+ * @brief 
+ * 
+ */
 void GameObjective::frostingPop() {
     if (objType == Constants::FROSTINGS) {
         --obj;
@@ -47,6 +72,11 @@ void GameObjective::frostingPop() {
 }
 
 
+/**
+ * @brief 
+ * 
+ * @param poppedColour 
+ */
 void GameObjective::colourPop(int poppedColour) {
     if (objType == Constants::POPS && colour == poppedColour && obj > 0) {
         --obj;

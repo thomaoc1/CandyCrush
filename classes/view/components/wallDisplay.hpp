@@ -25,8 +25,6 @@ public:
     WallDisplay(const Point &center) : 
         ComponentDisplay(std::make_shared<Rectangle>(center, Constants::WALL, Constants::CELL_SIZE, FL_FLAT_BOX)) {}
     void draw() override {ComponentDisplay::drawShape();}
-
-    std::string type() const override {return "#";}
 };
 
 #endif

@@ -1,23 +1,27 @@
-#ifndef MENU_DISPLAY_HPP
-#define MENU_DISPLAY_HPP
+#ifndef MENU_HANDLER_HPP
+#define MENU_HANDLER_HPP
 
 #include "../shapes/rectangle.hpp"
 #include "../../model/containers/grid.hpp"
 #include "../../view/gridDisplay.hpp"
 #include "../../control/gridControl.hpp"
+#include "mainMenu.hpp"
+#include "gameMenu.hpp"
 
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
+
 
 class MenuHandler {
-    // MainMenu mm;
-    // WelcomeScreen ws; 
-    //GridDisplay gridDisplay;
-    //GridControl gridControl{gridDisplay};
+    MainMenu mainMenu;
+    GameMenu game;
+
+    Menu * current = &mainMenu;
+
+    bool gameOver = false;
 public:
-    void eventHandler();
-    void draw() const;
-    void launchGame(const std::string &filename);
+    MenuHandler()=default;
+    void draw();
+    int eventHandler(int event);
 };
+
 
 #endif

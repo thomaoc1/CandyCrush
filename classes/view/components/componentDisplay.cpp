@@ -78,35 +78,3 @@ void ComponentDisplay::popAnimate() {
 
 
 int ComponentDisplay::animationType() const {return animation->type();}
-
-
-
-/**
- * @brief debugging
- * 
- */
-std::string ComponentDisplay::type() const {
-    if (popping) return " ";
-    std::string ret;
-    switch(getColour()) {
-        case (Constants::RED):
-            ret = "R";
-            break;
-        case (Constants::BLUE):
-            ret = "B";
-            break;
-        case (Constants::GREEN):
-            ret = "G";
-            break;
-        case (Constants::YELLOW):
-            ret = "Y";
-            break;
-        case (Constants::PURPLE):
-            ret = "P";
-            break;
-        case (Constants::ORANGE):
-            ret = "O";
-            break;
-    } 
-    return ret;
-}

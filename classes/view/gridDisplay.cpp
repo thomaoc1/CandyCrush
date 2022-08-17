@@ -297,6 +297,7 @@ bool GridDisplay::inAnimation() const {
  *
  */
 void GridDisplay::notifyInit(const Point &coord, int type) {
+    std::cout << "GUI || " << coord << " Type : " << type << std::endl;
     visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
 }
 

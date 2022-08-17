@@ -44,6 +44,7 @@ void Grid::completeGrid() {
 void Grid::fileInterpreter() {
     for (auto &ct : gd.components) {
         insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
+        std::cout << "Model || " << ct.first << " Type : " << ct.second << std::endl;
         observer.notifyInit(ct.first, ct.second);
     }
 }
@@ -960,9 +961,6 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)
 void Grid::setLevel(const std::string &level) {
 
     std::cout << "Setting level" << std::endl;
-
-    for (auto r : grid)
-        for (auto c : r) c.unOccupy();
 
     observer.notifyReset();
     score.reset();

@@ -956,7 +956,7 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)
 
 void Grid::setLevel(const std::string &level) {
 
-    observer.notifiyReset();
+    observer.notifyReset();
 
     gd = GameData{FileHandler{level}.getGameData()};
 

@@ -44,7 +44,6 @@ void Grid::completeGrid() {
 void Grid::fileInterpreter() {
     for (auto &ct : gd.components) {
         insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
-        std::cout << "Model || " << ct.first << " Type : " << ct.second << std::endl;
         observer.notifyInit(ct.first, ct.second);
     }
 }
@@ -490,6 +489,7 @@ void Grid::wrStBlast(Cell * c1) {
     for (auto &c : tmp) {
         c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
         willPop(c);
+        wrappedBlast(c);
     }
 }
 
@@ -960,13 +960,10 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)
 
 void Grid::setLevel(const std::string &level) {
 
-    std::cout << "Setting level" << std::endl;
-
     observer.notifyReset();
     score.reset();
 
     gd = GameData{FileHandler{level}.getGameData()};
-
     gameObj.setGameData(gd);
 
     // Ineffecient order but has to be done for reset for some reason

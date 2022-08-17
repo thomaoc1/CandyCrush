@@ -40,7 +40,7 @@ public:
 
     /* Setters */
     void setOccupied(const std::shared_ptr<GameComponent> &gc) {occupied = gc;}
-    void unOccupy() {setOccupied(nullptr);}
+    void unOccupy() {occupied = nullptr;}
     void setNbs(const std::vector< Cell * > &nbs);
     void willSwap() {toSwap = true;}
     void swapped() {toSwap = false;}

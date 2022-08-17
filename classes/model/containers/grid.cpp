@@ -30,7 +30,7 @@ void Grid::completeGrid() {
         for (auto &cell : row) {
             Point coord = cell.getLocation();
             cell.setNbs(getNbs(coord.y, coord.x));
-            if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
+            insertComponent(coord.y, coord.x);
             observer.notifyInit(coord, cell.type());
         } 
     }
@@ -42,7 +42,10 @@ void Grid::completeGrid() {
  * 
  */
 void Grid::fileInterpreter() {
-    for (auto &ct : gd.components) insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
+    for (auto &ct : gd.components) {
+        insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
+        observer.notifyInit(ct.first, ct.second);
+    }
 }
 
 
@@ -956,14 +959,22 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)
 
 void Grid::setLevel(const std::string &level) {
 
+    std::cout << "Setting level" << std::endl;
+
+    for (auto r : grid)
+        for (auto c : r) c.unOccupy();
+
     observer.notifyReset();
+    score.reset();
 
     gd = GameData{FileHandler{level}.getGameData()};
 
     gameObj.setGameData(gd);
 
-    fileInterpreter();
+    // Ineffecient order but has to be done for reset for some reason
     completeGrid();
+    fileInterpreter();
+    
 
     clean();
 }

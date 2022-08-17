@@ -1,5 +1,12 @@
 #include "score.hpp"
 
+
+void Score::reset() {
+    score = 0;
+    observer.notifyScore(score);
+}
+
+
 void Score::bombSpawn(int count, int component) {
     switch (component) {
         case Constants::WRAPPED:

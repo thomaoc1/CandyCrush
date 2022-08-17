@@ -19,6 +19,7 @@ public:
     Score(const Score &) = default;
     Score(Score &&) = default;
     
+    void reset();
     void bombSpawn(int count, int component);
     void pop(int count);
 };

@@ -8,6 +8,39 @@
  --------------------------------------------------------------------------------------------*/
 
 
+/**
+ * @brief Initialises cells in grid
+ * 
+ */
+void Grid::initialiseCells() {
+    for (int row = 0; row < COLS; ++row) {
+        std::vector<Cell> tmp = {};
+        for (int col = 0; col < ROWS; ++col) tmp.emplace_back(Cell{row, col});
+        grid.emplace_back(std::move(tmp));
+    }
+}
+
+
+/**
+ * @brief Fills in holes for after file insertions
+ * 
+ */
+void Grid::completeGrid() {
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            Point coord = cell.getLocation();
+            cell.setNbs(getNbs(coord.y, coord.x));
+            if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
+            observer.notifyInit(coord, cell.type());
+        } 
+    }
+}
+
+
+/**
+ * @brief Interprets files
+ * 
+ */
 void Grid::fileInterpreter() {
     for (auto &ct : gd.components) insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
 }
@@ -913,22 +946,23 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
 Grid::Grid(GridDisplay &observer, const std::string &filename)  
     : observer{observer}, gd{FileHandler{filename}.getGameData()}, gameObj{gd, observer}, score{observer} {
 
-    for (int row = 0; row < COLS; ++row) {
-        std::vector<Cell> tmp = {};
-        for (int col = 0; col < ROWS; ++col) tmp.emplace_back(Cell{row, col});
-        grid.emplace_back(std::move(tmp));
-    }
-
+    initialiseCells();
     fileInterpreter();
-    
-    for (auto &row : grid) {
-        for (auto &cell : row) {
-            Point coord = cell.getLocation();
-            cell.setNbs(getNbs(coord.y, coord.x));
-            if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
-            observer.notifyInit(coord, cell.type());
-        } 
-    }
+    completeGrid();
+
+    package();
+    clean();
+}
+
+
+void Grid::setLevel(const std::string &level) {
+    gd = GameData{FileHandler{level}.getGameData()};
+
+    gameObj.setGameData(gd);
+
+    initialiseCells();
+    fileInterpreter();
+    completeGrid();
 
     package();
     clean();
@@ -954,6 +988,7 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
     } 
     else if (isMobile(grid[cell1.y][cell1.x].type()) && isMobile(grid[cell2.y][cell2.x].type()))
         observer.notifyFailedSwap(cell1, cell2);
+
 }
 
 

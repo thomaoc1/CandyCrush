@@ -12,13 +12,15 @@
 
 
 class MenuHandler {
-    std::shared_ptr<MainMenu> mainMenu = std::make_shared<MainMenu>();
-    std::shared_ptr<LevelSelection> levSel = std::make_shared<LevelSelection>();
+    MainMenu mainMenu;
+    GameMenu game;
 
-    std::shared_ptr<Menu> current = mainMenu;
+    Menu * current = &mainMenu;
+
+    bool gameOver = false;
 public:
     MenuHandler()=default;
-    void draw() const {current->draw();}
+    void draw();
     int eventHandler(int event);
 };
 

@@ -1,7 +1,10 @@
 #include "gameObjective.hpp"
 
 
-GameObjective::GameObjective(const GameData &gd, GridDisplay &observer) : nSwaps{gd.maxSwaps}, observer{observer} {
+void GameObjective::gameDataInter(const GameData &gd) {
+
+    nSwaps = gd.maxSwaps;
+
     for (int i = 0; i < static_cast<int>(gd.objTypes.size()); ++i)
         if (gd.objTypes[i]) objType = i;
 
@@ -18,7 +21,6 @@ int GameObjective::gameState() const {
     int gamestate = ONGOING;
     if (nSwaps <= 0) gamestate = LOST;
     else if (obj <= 0) gamestate = WON;
-    std::cout << "GameObj: " << gamestate << std::endl;
     return gamestate;
 }
 

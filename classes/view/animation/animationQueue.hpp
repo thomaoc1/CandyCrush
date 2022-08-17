@@ -30,7 +30,7 @@ public:
     std::vector<Point> nextPop();
     std::vector<CoordColour> nextFill();
 
-    int size() {return queue.size();}
+    int size() const {return queue.size();}
     int nextAnimation();
 };
 

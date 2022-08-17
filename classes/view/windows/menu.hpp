@@ -9,9 +9,11 @@ protected:
     bool back = false;
 public:
     Menu()=default;
+    virtual ~Menu()=default;
     virtual bool getBack() {return back;}
     virtual void draw() {bg.draw();}
     virtual int eventHandler(int event)=0;
+    virtual bool inAnimation() const {return false;}
 };
 
 

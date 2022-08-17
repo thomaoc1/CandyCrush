@@ -5,21 +5,27 @@ int MenuHandler::eventHandler(int event) {
     int button = current->eventHandler(event);
     switch (button) {
         case Constants::BACK:
-            current = mainMenu;
-            break;
-        case Constants::PLAY:
-            current = levSel;
+            current = &mainMenu;
             break;
         case Constants::GAME_OVER:
-            std::cout << "GAME_OVER" << std::endl;
-            current = mainMenu;
+            gameOver = true;
+            current = &mainMenu;
             break;
         case Constants::LEVEL1:
         case Constants::LEVEL2:
         case Constants::LEVEL3:
             std::cout << "LEVEL" << std::endl;
-            current = std::make_shared<GameMenu>(button);
+            game.setLevel(button);
+            current = &game;
             break;
     }
     return event;
+}
+
+
+void MenuHandler::draw() {
+    // if (gameOver && !current->inAnimation()) 
+    //     current = &mainMenu;
+
+    current->draw();
 }

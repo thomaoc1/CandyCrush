@@ -6,10 +6,9 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 
-class LevelSelection : public Menu {
+class LevelSelection {
 public:
-    void draw() override {Menu::draw();}
-    int eventHandler(int event) override {std::cout << "LEVEL SELECT" << std::endl; if (event == FL_PUSH) return Constants::LEVEL2; else return -1;}
+    void draw() const {}
 };
 
 #endif

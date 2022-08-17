@@ -27,7 +27,6 @@ struct GameData {
     int colour = 0;
     using CoordType = std::pair< Point, int >;
     std::vector<CoordType> components;
-    
 };
 
 

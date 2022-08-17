@@ -31,7 +31,6 @@ void Grid::completeGrid() {
             Point coord = cell.getLocation();
             cell.setNbs(getNbs(coord.y, coord.x));
             if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
-            std::cout << coord << " Type: " << cell.type() << std::endl;
             observer.notifyInit(coord, cell.type());
         } 
     }

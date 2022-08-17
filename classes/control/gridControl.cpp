@@ -113,6 +113,9 @@ void GridControl::dragEvent(const Point &mouseLoc) {
  * 
  */
 int GridControl::proccessEvent(int event) {
+
+    int state;
+
     switch (event) {
         case FL_PUSH : {
             if (Fl::event_button() != FL_LEFT_MOUSE) break;
@@ -133,11 +136,13 @@ int GridControl::proccessEvent(int event) {
             break;
 
         case FL_KEYDOWN:
-            Log::get().Dump();
-            exit(0);
+            if (Fl::event_key() == FL_Escape) exit(0);
+            if (Fl::event_key() == FL_BackSpace) state = Constants::BACK;
     } 
 
-    int state = (grid->gameState() == LOST || grid->gameState() == WON) ? Constants::GAME_OVER : Constants::GAME_ONGOING;
+    if (state != Constants::BACK) 
+        state = (grid->gameState() == LOST || grid->gameState() == WON) ? Constants::GAME_OVER : Constants::GAME_ONGOING;
+
     return state;
 }
 

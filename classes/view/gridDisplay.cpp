@@ -8,6 +8,14 @@
  --------------------------------------------------------------------------------------------*/
 
 
+void GridDisplay::resetGrid() {
+    for (int i = 0; i < ROWS; ++i) {
+        visualComponents.push_back({});
+        for (int j = 0; j < COLS; ++j) visualComponents[i].push_back({});
+    }
+}
+
+
 /*-------------------------------------------------------------------------------------------*
  *                                      Animations                                           *
  *-------------------------------------------------------------------------------------------*/
@@ -289,7 +297,6 @@ bool GridDisplay::inAnimation() const {
  *
  */
 void GridDisplay::notifyInit(const Point &coord, int type) {
-     std::cout << "GUI ||  " << coord << " Type: " << type << std::endl;
     visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
 }
 
@@ -338,4 +345,9 @@ void GridDisplay::notifyObjective(int objType, int obj) {
 
 void GridDisplay::notifyObjective(int objType, int obj, int colour) {
     broadcast.setObjective(objType, obj, colour);
+}
+
+void GridDisplay::notifyReset() {
+    animationQueue.clear();
+    broadcast.clear();
 }

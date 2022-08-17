@@ -9,12 +9,10 @@ int MenuHandler::eventHandler(int event) {
             break;
         case Constants::GAME_OVER:
             gameOver = true;
-            current = &mainMenu;
             break;
         case Constants::LEVEL1:
         case Constants::LEVEL2:
         case Constants::LEVEL3:
-            std::cout << "LEVEL" << std::endl;
             game.setLevel(button);
             current = &game;
             break;

@@ -20,6 +20,8 @@ public:
     AnimationQueue(const AnimationQueue &) = default;
     AnimationQueue(AnimationQueue &&) = default;
     
+    void clear() {queue = {}; swaps = {}; drops = {}; pops = {}; fills = {};}
+
     void enqueueSwap(const CoordPair &swap);
     void enqueueDrop(const std::vector<Point> &drops, int direction);
     void enqueuePop(const std::vector<Point> &pop);

@@ -208,10 +208,8 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, i
 
 GridDisplay::GridDisplay() {
 
-    for (int i = 0; i < ROWS; ++i) {
-        visualComponents.push_back({});
-        for (int j = 0; j < COLS; ++j) visualComponents[i].push_back({});
-    }
+    resetGrid();
+
     for (int row = 0; row < ROWS; ++row) {
         std::vector<CellDisplay> tmp;
         for (int col = 0; col < COLS; ++col) {
@@ -291,6 +289,7 @@ bool GridDisplay::inAnimation() const {
  *
  */
 void GridDisplay::notifyInit(const Point &coord, int type) {
+     std::cout << "GUI ||  " << coord << " Type: " << type << std::endl;
     visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
 }
 

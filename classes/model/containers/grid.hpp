@@ -69,7 +69,7 @@ class Grid {
 
 public:
     Grid(GridDisplay &observer, const std::string &level);
-    Grid(GridDisplay &observer) : observer{observer}, gameObj{observer}, score{observer} {}
+    Grid(GridDisplay &observer) : observer{observer}, gameObj{observer}, score{observer} {initialiseCells();}
 
     void setLevel(const std::string &level);
     void swap(const Point &cell1, const Point &cell2);

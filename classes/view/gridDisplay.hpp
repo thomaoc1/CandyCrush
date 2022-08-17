@@ -104,11 +104,20 @@ public:
     void notifyObjective(int objType, int obj);
     void notifyObjective(int objType, int obj, int colour);
     
+    void notifiyReset() {animationQueue.clear();}
 
     /** Modifies score displayed */
     void notifyScore(int newScore) {broadcast.setScore(newScore);}
 
 private:
+
+    void resetGrid() {
+        for (int i = 0; i < ROWS; ++i) {
+            visualComponents.push_back({});
+            for (int j = 0; j < COLS; ++j) visualComponents[i].push_back({});
+        }
+    }
+
 
     void won() {broadcast.setMessage(Constants::gameWon);}
     void lost() {broadcast.setMessage(Constants::gameLost);}

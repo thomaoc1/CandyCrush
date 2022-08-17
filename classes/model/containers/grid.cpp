@@ -31,6 +31,7 @@ void Grid::completeGrid() {
             Point coord = cell.getLocation();
             cell.setNbs(getNbs(coord.y, coord.x));
             if(!cell.getOccupied()) insertComponent(coord.y, coord.x);
+            std::cout << coord << " Type: " << cell.type() << std::endl;
             observer.notifyInit(coord, cell.type());
         } 
     }
@@ -950,21 +951,21 @@ Grid::Grid(GridDisplay &observer, const std::string &filename)
     fileInterpreter();
     completeGrid();
 
-    package();
     clean();
 }
 
 
 void Grid::setLevel(const std::string &level) {
+
+    observer.notifiyReset();
+
     gd = GameData{FileHandler{level}.getGameData()};
 
     gameObj.setGameData(gd);
 
-    initialiseCells();
     fileInterpreter();
     completeGrid();
 
-    package();
     clean();
 }
 

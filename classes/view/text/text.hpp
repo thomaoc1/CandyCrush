@@ -35,6 +35,7 @@ public:
     virtual void setCenter(Point &&dest) {center = std::move(dest);}
 
     virtual void draw() const;
+    virtual void draw(int xOffset, int yOffset) const;
 };
 
 #endif

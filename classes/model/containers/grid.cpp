@@ -974,8 +974,6 @@ void Grid::setLevel(const std::string &level) {
     // Ineffecient order but has to be done for reset for some reason
     completeGrid();
     fileInterpreter();
-    
-
     clean();
 }
 

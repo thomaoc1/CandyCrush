@@ -20,7 +20,7 @@ public:
     static enum actions{DISPLACEMENT, SWAP, SUPPRESSION} actions;
 
     /* View Constants */
-    static enum menuButtons{PLAY, BACK, GAME_OVER, GAME_ONGOING, LEVEL1, LEVEL2, LEVEL3} menuButtons;
+    static enum menuButtons{NOTHING, PLAY, BACK, GAME_OVER, GAME_ONGOING, LEVEL1, LEVEL2, LEVEL3} menuButtons;
 
     static const std::string badSwap;
     static const std::string gameWon;

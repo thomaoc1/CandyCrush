@@ -6,6 +6,7 @@ int MenuHandler::eventHandler(int event) {
     switch (button) {
         case Constants::BACK:
             current = &mainMenu;
+            mainMenu.recheckScore();
             break;
         case Constants::GAME_OVER:
             gameOver = true;

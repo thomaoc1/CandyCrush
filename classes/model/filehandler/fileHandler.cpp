@@ -93,6 +93,8 @@ int FileHandler::getBestScore() const {
     int savedScore = 0;
     for (int i = 0; i < static_cast<int>(line.length()); ++i) 
         savedScore += static_cast<int>(((int)line[i] - 48) * pow(10, static_cast<int>(line.length()) - 1 - i));
+
+    return savedScore;
 }
 
 
@@ -100,4 +102,11 @@ void FileHandler::dumpScore(int score) const {
     int savedScore = getBestScore();    
     if (score <= savedScore) return;
     std::ofstream outFile("db/bestscore/bestscore.txt");
+    outFile << std::to_string(score) << "\n";
+}
+
+
+void FileHandler::resetScore() const {
+    std::ofstream outFile("db/bestscore/bestscore.txt");
+    outFile << std::to_string(0) << "\n";
 }

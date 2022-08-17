@@ -37,6 +37,7 @@ public:
     void setFile(const std::string &filename) {interpretFile(filename);}
     GameData getGameData() const {return gameData;}
     void dumpScore(int score) const;
+    void resetScore() const;
     int getBestScore() const;
 private:
     void asciiGridInterpreter(int row, const std::string &line);

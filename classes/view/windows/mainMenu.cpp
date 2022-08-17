@@ -1,11 +1,15 @@
 #include "mainMenu.hpp"
 
 
-int MainMenu::buttonHandler(const Point &mouseLoc) const {
+int MainMenu::buttonHandler(const Point &mouseLoc) {
     int level = Constants::NOTHING;
     if (level1.isClicked(mouseLoc)) level = Constants::LEVEL1;
     else if (level2.isClicked(mouseLoc)) level = Constants::LEVEL2;
     else if (level3.isClicked(mouseLoc)) level = Constants::LEVEL3;    
+    else if (resetScore.isClicked(mouseLoc)) {
+        FileHandler().resetScore();
+        bestscore.setText(score +  "0");
+    }
 
     return level;       
 }
@@ -14,10 +18,13 @@ int MainMenu::buttonHandler(const Point &mouseLoc) const {
 void MainMenu::draw() {
     Menu::draw();
     title.draw();
+    bestscore.draw();
 
     level1.draw();
     level2.draw();
     level3.draw();
+
+    resetScore.draw();
 }
 
 

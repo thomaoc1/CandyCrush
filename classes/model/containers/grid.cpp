@@ -43,7 +43,7 @@ void Grid::completeGrid() {
  */
 void Grid::fileInterpreter() {
     for (auto &ct : gd.components) {
-        insertComponent(&grid[ct.first.y][ct.first.x], ct.second);
+        insertComponent(grid[ct.first.y][ct.first.x], ct.second);
         observer.notifyInit(ct.first, ct.second);
     }
 }
@@ -65,8 +65,8 @@ void Grid::fileInterpreter() {
  */
 void Grid::wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction) {
     int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
-    std::vector< Cell * > cross = continuousColour(cColour[index])[perpendicular];
-    for (auto &cell : cross) willPop(cell);
+    std::vector< Cell * > cross = continuousColour(*cColour[index])[perpendicular];
+    for (auto &cell : cross) willPop(*cell);
     wrappedBombs.push_back({cColour[index], cColour[index]->type()});
 }
 
@@ -92,19 +92,19 @@ void Grid::stBombExtract(Cell &cell, int direction) {
  * @param b
  * 
  */
-void Grid::bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const BombInfo &b) {
+void Grid::bombExtract(Cell &cell, const std::vector< Cell * > &cColour, const BombInfo &bombData) {
     enum {Normal, Striped, Wrapped, Special};
     enum {Type, Direction, Index};
 
-    switch (b[Type]) {
+    switch (bombData[Type]) {
             case Striped:
-                stBombExtract(*cell, b[Direction]);
+                stBombExtract(cell, bombData[Direction]);
                 break;
             case Wrapped:
-                wrBombExtract(cColour, b[Index], b[Direction]);
+                wrBombExtract(cColour, bombData[Index], bombData[Direction]);
                 break;
             case Special:
-                spBombExtract(*cell);
+                spBombExtract(cell);
                 break;
         }
 }
@@ -118,12 +118,12 @@ void Grid::bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const 
  * @param direciton
  * 
  */
-void Grid::clearCheck(Cell * cell) {
+void Grid::clearCheck(Cell &cell) {
 
-    if (!isOccupied(*cell) || cell->type() == Constants::WALL 
-                             || cell->type() == Constants::CHERRY
-                             || cell->type() == Constants::HAZELNUT
-                             || cell->getPop()) return;
+    if (!isOccupied(cell) || cell.type() == Constants::WALL 
+                             || cell.type() == Constants::CHERRY
+                             || cell.type() == Constants::HAZELNUT
+                             || cell.getPop()) return;
 
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
     if (contColour[Constants::VERTICAL].size() < 3 
@@ -148,8 +148,9 @@ void Grid::clearCheck(Cell * cell) {
         /* Striped Bomb Condition */
         else if (current[Type] < Striped && stSpawnCond(contColour[dir])) current = {Striped, dir, -1};
         
-        for (auto &c : contColour[dir]) willPop(c);
+        for (auto &c : contColour[dir]) willPop(*c);
     }
+
     bombExtract(cell, contColour[current[Direction]], current);
 }
 
@@ -165,9 +166,9 @@ void Grid::clearCheck(Cell * cell) {
  * @param target
  * 
  */
-void Grid::wrappedBlast(Cell * target) {
-    for (auto &c : target->getNbs()) 
-        if (c) willPop(c);
+void Grid::wrappedBlast(Cell &target) {
+    for (auto &c : target.getNbs()) 
+        if (c) willPop(*c);
 }
 
 
@@ -177,13 +178,13 @@ void Grid::wrappedBlast(Cell * target) {
  * @param target
  * 
  */
-void Grid::stripedBlast(Cell * target) {
-    if (!isOccupied(*target)) return;
+void Grid::stripedBlast(Cell &target) {
+    if (!isOccupied(target)) return;
 
-    Point start = target->getLocation();
+    Point start = target.getLocation();
     std::vector<Cell *> tmp;
 
-    if (target->getBlastDirection() == Constants::VERTICAL) {
+    if (target.getBlastDirection() == Constants::VERTICAL) {
         for (int i = start.y + 1; i < ROWS; ++i) tmp.push_back(&grid[i][start.x]);
         for (int i = start.y - 1; i >= 0; --i) tmp.push_back(&grid[i][start.x]);
     }
@@ -192,7 +193,7 @@ void Grid::stripedBlast(Cell * target) {
         for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
     }
 
-    for (auto &c : tmp) willPop(c);
+    for (auto &c : tmp) willPop(*c);
 }
 
 
@@ -203,9 +204,9 @@ void Grid::stripedBlast(Cell * target) {
  * @param target
  * 
  */
-void Grid::unoccupy(Cell * target) {
-    target->unOccupy();
-    target->popped();
+void Grid::unoccupy(Cell &target) {
+    target.unOccupy();
+    target.popped();
 }
 
 
@@ -241,7 +242,7 @@ void Grid::popAll() {
         if (cell->getOccupied()->pop() == Constants::POPPED) {
             if (cell->type() == Constants::FROSTING2) gameObj.frostingPop();
             else gameObj.colourPop(Constants::associatedColour(cell->type()));
-            unoccupy(cell);
+            unoccupy(*cell);
         }
         else filling.push_back({cell->getLocation(), cell->type()});
         toObserver.push_back(cell->getLocation());
@@ -258,10 +259,10 @@ void Grid::popAll() {
  * @brief
  * 
  */
-void Grid::willPop(Cell * target) {
-    if (!isOccupied(*target) || !canPop(target->type()) || target->getPop()) return;
-    target->willPop();
-    toPop.push_back(target);
+void Grid::willPop(Cell &target) {
+    if (!isOccupied(target) || !canPop(target.type()) || target.getPop()) return;
+    target.willPop();
+    toPop.push_back(&target);
     if (wrBlastCond(target)) wrappedBlast(target);
     else if (stBlastCond(target)) stripedBlast(target);
 }
@@ -287,7 +288,7 @@ void Grid::insertComponent(int row, int col) {
  * @param colour
  * 
  */
-void Grid::insertComponent(Cell * cell, int component) {
+void Grid::insertComponent(Cell &cell, int component) {
     switch (component) {
         case Constants::RED:
         case Constants::BLUE:
@@ -295,7 +296,7 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::YELLOW:
         case Constants::PURPLE:
         case Constants::ORANGE:
-            cell->setOccupied(std::make_shared<Candy>(component));
+            cell.setOccupied(std::make_shared<Candy>(component));
             break;
         case Constants::RED_STRIPED_BOMB_V:
         case Constants::BLUE_STRIPED_BOMB_V:
@@ -303,7 +304,7 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::YELLOW_STRIPED_BOMB_V:
         case Constants::PURPLE_STRIPED_BOMB_V:
         case Constants::ORANGE_STRIPED_BOMB_V:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::associatedColour(component), Constants::VERTICAL));
+            cell.setOccupied(std::make_shared<StripedBomb>(Constants::associatedColour(component), Constants::VERTICAL));
             break;  
         case Constants::RED_STRIPED_BOMB_H:
         case Constants::BLUE_STRIPED_BOMB_H:
@@ -311,7 +312,7 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::YELLOW_STRIPED_BOMB_H:
         case Constants::PURPLE_STRIPED_BOMB_H:
         case Constants::ORANGE_STRIPED_BOMB_H:
-            cell->setOccupied(std::make_shared<StripedBomb>(Constants::associatedColour(component), Constants::HORIZONTAL));
+            cell.setOccupied(std::make_shared<StripedBomb>(Constants::associatedColour(component), Constants::HORIZONTAL));
             break;   
         case Constants::RED_WRAPPED_BOMB:
         case Constants::BLUE_WRAPPED_BOMB:
@@ -319,25 +320,25 @@ void Grid::insertComponent(Cell * cell, int component) {
         case Constants::YELLOW_WRAPPED_BOMB:
         case Constants::PURPLE_WRAPPED_BOMB:
         case Constants::ORANGE_WRAPPED_BOMB:
-            cell->setOccupied(std::make_shared<WrappedBomb>(Constants::associatedColour(component)));
+            cell.setOccupied(std::make_shared<WrappedBomb>(Constants::associatedColour(component)));
             break;
         case Constants::SPECIAL_BOMB:
-            cell->setOccupied(std::make_shared<SpecialBomb>());
+            cell.setOccupied(std::make_shared<SpecialBomb>());
             break;
         case Constants::WALL:
-            cell->setOccupied(std::make_shared<Wall>());
+            cell.setOccupied(std::make_shared<Wall>());
             break;
         case Constants::CHERRY:
-            cell->setOccupied(std::make_shared<Cherry>());
+            cell.setOccupied(std::make_shared<Cherry>());
             break;
         case Constants::HAZELNUT:
-            cell->setOccupied(std::make_shared<Hazelnut>());
+            cell.setOccupied(std::make_shared<Hazelnut>());
             break;
         case Constants::FROSTING1:
-            cell->setOccupied(std::make_shared<Frosting>(1));
+            cell.setOccupied(std::make_shared<Frosting>(1));
             break;
         case Constants::FROSTING2:
-            cell->setOccupied(std::make_shared<Frosting>(2));
+            cell.setOccupied(std::make_shared<Frosting>(2));
             break;
     }
 }
@@ -348,31 +349,33 @@ void Grid::insertComponent(Cell * cell, int component) {
  * 
  */
 void Grid::placeWrappedCandies() {
-    for (auto &cell : wrappedBombs) {
-        switch (cell.second) {
+    for (auto &pair : wrappedBombs) {
+        int colour = pair.second;
+        Cell &cell = *pair.first;
+        switch (colour) {
             case Constants::RED:
-                insertComponent(cell.first, Constants::RED_WRAPPED_BOMB);
-                observer.notifyInsert(cell.first->getLocation(), Constants::RED_WRAPPED_BOMB);
+                insertComponent(cell, Constants::RED_WRAPPED_BOMB);
+                observer.notifyInsert(cell.getLocation(), Constants::RED_WRAPPED_BOMB);
                 break;
             case Constants::BLUE:
-                insertComponent(cell.first, Constants::BLUE_WRAPPED_BOMB);
-                observer.notifyInsert(cell.first->getLocation(), Constants::BLUE_WRAPPED_BOMB);
+                insertComponent(cell, Constants::BLUE_WRAPPED_BOMB);
+                observer.notifyInsert(cell.getLocation(), Constants::BLUE_WRAPPED_BOMB);
                 break;
             case Constants::GREEN:
-                insertComponent(cell.first, Constants::GREEN_WRAPPED_BOMB);
-                observer.notifyInsert(cell.first->getLocation(), Constants::GREEN_WRAPPED_BOMB);
+                insertComponent(cell, Constants::GREEN_WRAPPED_BOMB);
+                observer.notifyInsert(cell.getLocation(), Constants::GREEN_WRAPPED_BOMB);
                 break;
             case Constants::YELLOW:
-                insertComponent(cell.first, Constants::YELLOW_WRAPPED_BOMB);
-                observer.notifyInsert(cell.first->getLocation(), Constants::YELLOW_WRAPPED_BOMB);
+                insertComponent(cell, Constants::YELLOW_WRAPPED_BOMB);
+                observer.notifyInsert(cell.getLocation(), Constants::YELLOW_WRAPPED_BOMB);
                 break;
             case Constants::PURPLE:
-                insertComponent(cell.first, Constants::PURPLE_WRAPPED_BOMB);
-                observer.notifyInsert(cell.first->getLocation(), Constants::PURPLE_WRAPPED_BOMB);
+                insertComponent(cell, Constants::PURPLE_WRAPPED_BOMB);
+                observer.notifyInsert(cell.getLocation(), Constants::PURPLE_WRAPPED_BOMB);
                 break;
             case Constants::ORANGE:
-                insertComponent(cell.first, Constants::ORANGE_WRAPPED_BOMB);
-                observer.notifyInsert(cell.first->getLocation(), Constants::ORANGE_WRAPPED_BOMB);
+                insertComponent(cell, Constants::ORANGE_WRAPPED_BOMB);
+                observer.notifyInsert(cell.getLocation(), Constants::ORANGE_WRAPPED_BOMB);
                 break;
         }  
     }
@@ -387,13 +390,13 @@ void Grid::placeWrappedCandies() {
  * 
  */
 void Grid::placeStripedCandies() {
-    for (auto &cell : stripedBombs) {
-        Cell * cp = cell.first;
-        int blastDirection = cell.second.second;
-        int colour = Constants::associatedColour(cell.second.first);
+    for (auto &striped : stripedBombs) {
+        Cell &cp = *striped.first;
+        int blastDirection = striped.second.second;
+        int colour = Constants::associatedColour(striped.second.first);
         int stripedBomb = Constants::colourToSt(colour, blastDirection);
         insertComponent(cp, stripedBomb);
-        observer.notifyInsert(cp->getLocation(), stripedBomb);
+        observer.notifyInsert(cp.getLocation(), stripedBomb);
     }
 
     score.bombSpawn(static_cast<int>(stripedBombs.size()), Constants::STRIPED);
@@ -407,7 +410,7 @@ void Grid::placeStripedCandies() {
  */
 void Grid::placeSpecialBombs() {
     for (auto &cell : specialBombs) {
-        insertComponent(cell, Constants::SPECIAL_BOMB);
+        insertComponent(*cell, Constants::SPECIAL_BOMB);
         observer.notifyInsert(cell->getLocation(), Constants::SPECIAL_BOMB);
     }
     score.bombSpawn(static_cast<int>(specialBombs.size()), Constants::SPECIAL);
@@ -422,10 +425,10 @@ void Grid::placeSpecialBombs() {
  * @param c2
  * 
  */
-void Grid::exchangeCells(Cell * c1, Cell * c2) {
-    std::shared_ptr<GameComponent> tmp = std::move(c1->getOccupied());
-    c1->setOccupied(std::move(c2->getOccupied()));
-    c2->setOccupied(std::move(tmp));
+void Grid::exchangeCells(Cell &c1, Cell &c2) {
+    std::shared_ptr<GameComponent> tmp = std::move(c1.getOccupied());
+    c1.setOccupied(std::move(c2.getOccupied()));
+    c2.setOccupied(std::move(tmp));
 }
 
 
@@ -435,21 +438,22 @@ void Grid::exchangeCells(Cell * c1, Cell * c2) {
  * @param c1 
  * @param c2 
  */
-void Grid::specialBlast(Cell * c1, Cell * c2) {
+void Grid::specialBlast(Cell &c1, Cell &c2) {
 
-    if (c1->getBlastType() == Constants::SPECIAL && c2->getBlastType() == Constants::SPECIAL) {
+    if (c1.getBlastType() == Constants::SPECIAL && c2.getBlastType() == Constants::SPECIAL) {
         for (auto &row : grid) 
-            for (auto &cell : row) willPop(&cell);
+            for (auto &cell : row) willPop(cell);
     }
+
     else {
-        Cell * target = c1->getBlastType() == Constants::SPECIAL ? c2 : c1;
+        Cell &target = c1.getBlastType() == Constants::SPECIAL ? c2 : c1;
         willPop(c1);
         willPop(c2);
         for (auto &row : grid) {
             for (auto &cell : row) {
-                if (cell.getColour() != target->getColour()) continue;
-                if (target->getBlastType() != Constants::SIMPLE) insertComponent(&cell, target->type());
-                willPop(&cell);
+                if (cell.getColour() != target.getColour()) continue;
+                if (target.getBlastType() != Constants::SIMPLE) insertComponent(cell, target.type());
+                willPop(cell);
             }
         }
     }
@@ -462,8 +466,8 @@ void Grid::specialBlast(Cell * c1, Cell * c2) {
  * @param c1 
  * @param c2 
  */
-void Grid::wrStBlast(Cell * c1) {
-    Point start = c1->getLocation();
+void Grid::wrStBlast(Cell &cell) {
+    Point start = cell.getLocation();
     std::vector< Cell * > tmp;
     for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
     for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
@@ -471,8 +475,8 @@ void Grid::wrStBlast(Cell * c1) {
     for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
     for (auto &c : tmp) {
         c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
-        willPop(c);
-        wrappedBlast(c);
+        willPop(*c);
+        wrappedBlast(*c);
     }
 }
 
@@ -484,7 +488,7 @@ void Grid::wrStBlast(Cell * c1) {
  * @param c2
  * 
  */
-void Grid::bombSwap(Cell * c1, Cell * c2) {
+void Grid::bombSwap(Cell &c1, Cell &c2) {
     // Special && (anything)
     if (specialSwapCheck(c1, c2)) specialBlast(c1, c2);
     // (Striped && Striped) OR (Wrapped && Wrapped)
@@ -547,7 +551,7 @@ bool Grid::clear() {
     
     // Going through every cell to find combo
     for (auto &row : grid) 
-        for (auto &c : row) clearCheck(&c);
+        for (auto &c : row) clearCheck(c);
 
     // Pops Cherries and hazels at the bottom
     popIngredient();
@@ -640,7 +644,7 @@ void Grid::popIngredient() {
  * @brief Combines all grid cleaning mechanics to clean up the grid
  * 
  */
-void Grid::clean(Cell * c1, Cell * c2) {
+void Grid::clean(Cell &c1, Cell &c2) {
     if (bombSwapCheck(c1, c2)) bombSwap(c1, c2);
     clean();
 }
@@ -675,11 +679,11 @@ void Grid::clean() {
  */
 bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     bool validity = false;
-    Cell * c1 = &grid[cell1.y][cell1.x];
-    Cell * c2 = &grid[cell2.y][cell2.x];
-    if (!(isOccupied(*c1) || isOccupied(*c2)) 
-            || !isMobile(c1->type())
-            || !isMobile(c2->type())) return validity;
+    Cell &c1 = grid[cell1.y][cell1.x];
+    Cell &c2 = grid[cell2.y][cell2.x];
+    if (!(isOccupied(c1) || isOccupied(c2)) 
+            || !isMobile(c1.type())
+            || !isMobile(c2.type())) return validity;
 
     exchangeCells(c1, c2);
 
@@ -714,14 +718,14 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
  * @return std::vector< Cell * > 
  * 
  */
-std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
+std::vector< Cell * > Grid::colourDFS(Cell &initial, int orientation) const {
     // Colour of source
-    const int colour = Constants::associatedColour(initial->type());
+    const int colour = Constants::associatedColour(initial.type());
     // List to save Elligible Candies
-    std::vector< Cell * > continousColors = {initial}; 
+    std::vector< Cell * > continousColors = {&initial}; 
     // DFS
-    std::vector< Cell * > stack = {initial}; 
-    Cell * current = initial;
+    std::vector< Cell * > stack = {&initial}; 
+    Cell * current = &initial;
     while (!stack.empty()) {
         current = stack.back();
         stack.pop_back();
@@ -748,9 +752,9 @@ std::vector< Cell * > Grid::colourDFS(Cell * initial, int orientation) const {
  * @return std::vector< std::vector< Cell * > >
  * 
  */
-std::vector< std::vector< Cell * > > Grid::continuousColour(Cell * initial) const {
+std::vector< std::vector< Cell * > > Grid::continuousColour(Cell &initial) const {
     std::vector< std::vector< Cell * > >  ret = {{}, {}};
-    if (canPop(initial->type())) {
+    if (canPop(initial.type())) {
         std::vector< Cell * > v_cont = colourDFS(initial, Constants::VERTICAL);
         std::vector< Cell * > h_cont = colourDFS(initial, Constants::HORIZONTAL);
         ret = {std::move(v_cont), std::move(h_cont)};
@@ -798,7 +802,7 @@ bool Grid::possibleMoves() {
     for (auto &row : grid) {
         for (auto &cell : row) {
             for (auto &nb : cell.getCrossNbs()) {
-                moves = checkSwap(&cell, nb);
+                moves = checkSwap(cell, *nb);
                 if (moves) {
                     observer.notifySuggestion(cell.getLocation(), nb->getLocation());
                     return moves;
@@ -833,11 +837,11 @@ bool Grid::inGrid(const Point &coord) const {
  * @param c2 
  * @return true / false 
  */
-bool Grid::sameBomb(Cell * c1, Cell * c2) const {
-    return (c1->getBlastType() == Constants::STRIPED
-        && c2->getBlastType() == Constants::STRIPED)
-        || (c1->getBlastType() == Constants::WRAPPED
-        && c2->getBlastType() == Constants::WRAPPED);
+bool Grid::sameBomb(Cell &c1, Cell &c2) const {
+    return (c1.getBlastType() == Constants::STRIPED
+        && c2.getBlastType() == Constants::STRIPED)
+        || (c1.getBlastType() == Constants::WRAPPED
+        && c2.getBlastType() == Constants::WRAPPED);
 }
 
 
@@ -878,9 +882,9 @@ return !(component == Constants::WALL || component == Constants::CHERRY
  * @return true 
  * @return false 
  */
-bool Grid::bombSwapCheck(Cell * c1, Cell * c2) const {
-    return ((c1->getBlastType() != Constants::SIMPLE
-            && c2->getBlastType() != Constants::SIMPLE) 
+bool Grid::bombSwapCheck(Cell &c1, Cell &c2) const {
+    return ((c1.getBlastType() != Constants::SIMPLE
+            && c2.getBlastType() != Constants::SIMPLE) 
             || specialSwapCheck(c1, c2));
 }
 
@@ -894,9 +898,9 @@ bool Grid::bombSwapCheck(Cell * c1, Cell * c2) const {
  * @return bool
  * 
  */
-bool Grid::specialSwapCheck(Cell * c1, Cell * c2) const {
-     return (canPop(c1->type()) && canPop(c2->type())) 
-            && (c1->getBlastType() == Constants::SPECIAL || c2->getBlastType() == Constants::SPECIAL);
+bool Grid::specialSwapCheck(Cell &c1, Cell &c2) const {
+     return (canPop(c1.type()) && canPop(c2.type())) 
+            && (c1.getBlastType() == Constants::SPECIAL || c2.getBlastType() == Constants::SPECIAL);
 }
 
 
@@ -912,7 +916,7 @@ bool Grid::specialSwapCheck(Cell * c1, Cell * c2) const {
 int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const {
     int isWrapped = -1;
     for (int i = 0; i < static_cast<int>(cColour.size()); ++i) {
-        std::vector<  std::vector< Cell * > > cross = std::move(continuousColour(cColour[i]));
+        std::vector<  std::vector< Cell * > > cross = std::move(continuousColour(*cColour[i]));
         int perpendicular = (direction == Constants::HORIZONTAL ? Constants::VERTICAL : Constants::HORIZONTAL);
         if (cross[perpendicular].size() >= 3 && cross[perpendicular].size() < 5) isWrapped = i;
     }
@@ -965,10 +969,10 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
     if (checkSwap(cell1, cell2)) {
         gameObj.swapped();
 
-        exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
+        exchangeCells(grid[cell1.y][cell1.x], grid[cell2.y][cell2.x]);
         observer.notifySwap(cell1, cell2);
 
-        clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
+        clean(grid[cell1.y][cell1.x], grid[cell2.y][cell2.x]);
     } 
     else if (isMobile(grid[cell1.y][cell1.x].type()) && isMobile(grid[cell2.y][cell2.x].type()))
         observer.notifyFailedSwap(cell1, cell2);

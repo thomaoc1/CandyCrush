@@ -80,24 +80,9 @@ void Grid::wrBombExtract(const std::vector< Cell * > &cColour, int index, int di
  * @return bool
  * 
  */
-void Grid::stBombExtract(Cell * cell, int direction) {
-    stripedBombs.push_back({cell, {cell->type(), direction}});
+void Grid::stBombExtract(Cell &cell, int direction) {
+    stripedBombs.push_back({&cell, {cell.type(), direction}});
 }
-
-
-/**
- * @brief Checks for special bomb condition (==6 candy clear)
- * 
- * @param cell
- * @param cColour
- * 
- * @return bool
- * 
- */
-void Grid::spBombExtract(Cell * cell) {
-    specialBombs.push_back(cell);
-}
-
 
 /**
  * @brief Extracts required bomb type from parameters given
@@ -113,13 +98,13 @@ void Grid::bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const 
 
     switch (b[Type]) {
             case Striped:
-                stBombExtract(cell, b[Direction]);
+                stBombExtract(*cell, b[Direction]);
                 break;
             case Wrapped:
                 wrBombExtract(cColour, b[Index], b[Direction]);
                 break;
             case Special:
-                spBombExtract(cell);
+                spBombExtract(*cell);
                 break;
         }
 }

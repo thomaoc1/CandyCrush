@@ -87,8 +87,8 @@ private:
 
     /* Grid Cleaning */
     void wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction);
-    void stBombExtract(Cell * cell, int direction);
-    void spBombExtract(Cell * cell);
+    void stBombExtract(Cell &cell, int direction);
+    void spBombExtract(Cell &cell) {specialBombs.push_back(&cell);}
     using BombInfo = std::array<int, 3>;
     void bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const BombInfo &b);
     void clearCheck(Cell * cell);

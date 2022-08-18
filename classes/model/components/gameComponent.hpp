@@ -16,7 +16,7 @@
 #ifndef GAMECOMPONENT_HPP
 #define GAMECOMPONENT_HPP
 
-#include "../../constants/constants.hpp"
+#include "../../common/constants.hpp"
 
 #include <string>
 #include <vector>

@@ -3,7 +3,7 @@
 
 #include "text.hpp"
 
-#include "../../constants/constants.hpp"
+#include "../../common/constants.hpp"
 
 class ObjectiveDisplay : public Text {
 public:

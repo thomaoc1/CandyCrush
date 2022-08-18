@@ -1,7 +1,7 @@
 #ifndef SCORE_HPP
 #define SCORE_HPP
 
-#include "../constants/constants.hpp"
+#include "../common/constants.hpp"
 #include "../view/gridDisplay.hpp"
 
 #include <iostream>

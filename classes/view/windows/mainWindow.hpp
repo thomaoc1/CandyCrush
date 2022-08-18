@@ -20,7 +20,7 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include "../../constants/constants.hpp"
+#include "../../common/constants.hpp"
 #include "../../model/containers/grid.hpp"
 #include "../../control/gridControl.hpp"
 #include "../gridDisplay.hpp"

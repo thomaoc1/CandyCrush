@@ -1,7 +1,7 @@
 #ifndef GAME_OBJECTIVE_HPP
 #define GAME_OBJECTIVE_HPP
 
-#include "../constants/constants.hpp"
+#include "../common/constants.hpp"
 #include "filehandler/gameData.hpp"
 #include "../view/gridDisplay.hpp"
 

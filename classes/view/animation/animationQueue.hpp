@@ -3,7 +3,7 @@
 
 #include <queue>
 #include "../../shared/point.hpp"
-#include "../../constants/constants.hpp"
+#include "../../common/constants.hpp"
 
 class AnimationQueue {
     using CoordColour = std::pair< Point, int >;

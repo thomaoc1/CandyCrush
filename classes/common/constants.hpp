@@ -15,9 +15,8 @@ class Constants {
 public:
 
     /* Model Constants */
-    enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
+    static enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
     static enum {LEFT, CENTER, RIGHT} below;
-    static enum actions{DISPLACEMENT, SWAP, SUPPRESSION} actions;
 
     /* View Constants */
     static enum menuButtons{NOTHING, PLAY, BACK, GAME_OVER, GAME_ONGOING, LEVEL1, LEVEL2, LEVEL3} menuButtons;

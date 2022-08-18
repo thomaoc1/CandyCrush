@@ -13,7 +13,7 @@
 #ifndef SHAPE_HPP
 #define SHAPE_HPP
 
-#include "../../constants/constants.hpp"
+#include "../../common/constants.hpp"
 #include "../../shared/point.hpp"
 
 #include <FL/Fl.H>

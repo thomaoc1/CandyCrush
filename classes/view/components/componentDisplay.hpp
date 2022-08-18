@@ -18,7 +18,7 @@
 #ifndef COMPONENT_DISPLAY_HPP
 #define COMPONENT_DISPLAY_HPP
 
-#include "../../constants/constants.hpp"
+#include "../../common/constants.hpp"
 #include "../../shared/point.hpp"
 #include "../shapes/shape.hpp"
 

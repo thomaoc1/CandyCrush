@@ -84,6 +84,7 @@ void Grid::stBombExtract(Cell &cell, int direction) {
     stripedBombs.push_back({&cell, {cell.type(), direction}});
 }
 
+
 /**
  * @brief Extracts required bomb type from parameters given
  * 
@@ -197,6 +198,74 @@ void Grid::stripedBlast(Cell &target) {
 }
 
 
+/**
+ * @brief Blast even when one of the elements in a swap is a Special Candy.
+ * 
+ * @param c1 
+ * @param c2 
+ */
+void Grid::specialBlast(Cell &c1, Cell &c2) {
+
+    if (c1.getBlastType() == Constants::SPECIAL && c2.getBlastType() == Constants::SPECIAL) {
+        for (auto &row : grid) 
+            for (auto &cell : row) willPop(cell);
+    }
+
+    else {
+        Cell &target = c1.getBlastType() == Constants::SPECIAL ? c2 : c1;
+        willPop(c1);
+        willPop(c2);
+        for (auto &row : grid) {
+            for (auto &cell : row) {
+                if (cell.getColour() != target.getColour()) continue;
+                if (target.getBlastType() != Constants::SIMPLE) insertComponent(cell, target.type());
+                willPop(cell);
+            }
+        }
+    }
+}
+
+
+/**
+ * @brief Blast event when a Striped and Wrapped bomb are swapped.
+ * 
+ * @param c1 
+ * @param c2 
+ */
+void Grid::wrStBlast(Cell &cell) {
+    Point start = cell.getLocation();
+    std::vector< Cell * > tmp;
+    for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
+    for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
+    for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
+    for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
+    for (auto &c : tmp) {
+        c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
+        willPop(*c);
+        wrappedBlast(*c);
+    }
+}
+
+
+/**
+ * @brief Treats a swap where both cells contains a bomb of any sort
+ * 
+ * @param c1
+ * @param c2
+ * 
+ */
+void Grid::bombSwap(Cell &c1, Cell &c2) {
+    // Special && (anything)
+    if (specialSwapCheck(c1, c2)) specialBlast(c1, c2);
+    // (Striped && Striped) OR (Wrapped && Wrapped)
+    else if (sameBomb(c1, c2)) {
+        willPop(c1);
+        willPop(c2);
+    }
+    // Striped && Wrapped
+    else wrStBlast(c1);
+}
+
 
 /**
  * @brief 'Pops' the Candy occupying the cell by Un-occupying it 
@@ -210,6 +279,10 @@ void Grid::unoccupy(Cell &target) {
 }
 
 
+/**
+ * @brief Clears frostings by treatint the associated vector
+ * 
+ */
 void Grid::clearFrostings() {
     std::vector< Cell * > frostings;
     for (auto &cell : toPop) {
@@ -229,7 +302,7 @@ void Grid::clearFrostings() {
 
 
 /**
- * @brief 
+ * @brief Pops everything that needs to pop
  * 
  */
 void Grid::popAll() {
@@ -265,6 +338,22 @@ void Grid::willPop(Cell &target) {
     toPop.push_back(&target);
     if (wrBlastCond(target)) wrappedBlast(target);
     else if (stBlastCond(target)) stripedBlast(target);
+}
+
+
+/**
+ * @brief Checks if Cherries or Hazels landed on the lowest row.
+ * updates objectives and score. recalls
+ * 
+ */
+void Grid::popIngredient() {
+    for (auto &cell : grid[8]){
+        if (cell.type() == Constants::CHERRY || cell.type() == Constants::HAZELNUT ) {
+            gameObj.ingredientPop();
+            cell.willPop();
+            toPop.push_back(&cell);
+        }
+    }
 }
 
 
@@ -405,7 +494,7 @@ void Grid::placeStripedCandies() {
 
 
 /**
- * @brief
+ * @brief Places all special bombs from the associat
  * 
  */
 void Grid::placeSpecialBombs() {
@@ -430,80 +519,6 @@ void Grid::exchangeCells(Cell &c1, Cell &c2) {
     c1.setOccupied(std::move(c2.getOccupied()));
     c2.setOccupied(std::move(tmp));
 }
-
-
-/**
- * @brief Blast even when one of the elements in a swap is a Special Candy.
- * 
- * @param c1 
- * @param c2 
- */
-void Grid::specialBlast(Cell &c1, Cell &c2) {
-
-    if (c1.getBlastType() == Constants::SPECIAL && c2.getBlastType() == Constants::SPECIAL) {
-        for (auto &row : grid) 
-            for (auto &cell : row) willPop(cell);
-    }
-
-    else {
-        Cell &target = c1.getBlastType() == Constants::SPECIAL ? c2 : c1;
-        willPop(c1);
-        willPop(c2);
-        for (auto &row : grid) {
-            for (auto &cell : row) {
-                if (cell.getColour() != target.getColour()) continue;
-                if (target.getBlastType() != Constants::SIMPLE) insertComponent(cell, target.type());
-                willPop(cell);
-            }
-        }
-    }
-}
-
-
-/**
- * @brief Blast event when a Striped and Wrapped bomb are swapped.
- * 
- * @param c1 
- * @param c2 
- */
-void Grid::wrStBlast(Cell &cell) {
-    Point start = cell.getLocation();
-    std::vector< Cell * > tmp;
-    for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
-    for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
-    for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
-    for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
-    for (auto &c : tmp) {
-        c->setOccupied(std::make_shared<WrappedBomb>(Constants::NONE));
-        willPop(*c);
-        wrappedBlast(*c);
-    }
-}
-
-
-/**
- * @brief
- * 
- * @param c1
- * @param c2
- * 
- */
-void Grid::bombSwap(Cell &c1, Cell &c2) {
-    // Special && (anything)
-    if (specialSwapCheck(c1, c2)) specialBlast(c1, c2);
-    // (Striped && Striped) OR (Wrapped && Wrapped)
-    else if (sameBomb(c1, c2)) {
-        willPop(c1);
-        willPop(c2);
-    }
-    // Striped && Wrapped
-    else wrStBlast(c1);
-}
-
-
-/*-------------------------------------------------------------------------------------------*
- *                                Grid Manipulation                                          *
- *-------------------------------------------------------------------------------------------*/
 
 
 /**
@@ -619,22 +634,6 @@ void Grid::completeDrop() {
             // DirectedDrop(Right) -> true : means at least candy was dropped. !!! So restart DropDown 
             // DirectedDrop(Right) -> false : means no candy was dropped to the Right, therefore Complete Drop 
             if (!directedDrop(Constants::RIGHT)) dropComplete = true;
-        }
-    }
-}
-
-
-/**
- * @brief Checks if Cherries or Hazels landed on the lowest row.
- * updates objectives and score. recalls
- * 
- */
-void Grid::popIngredient() {
-    for (auto &cell : grid[8]){
-        if (cell.type() == Constants::CHERRY || cell.type() == Constants::HAZELNUT ) {
-            gameObj.ingredientPop();
-            cell.willPop();
-            toPop.push_back(&cell);
         }
     }
 }
@@ -831,7 +830,7 @@ bool Grid::inGrid(const Point &coord) const {
 
 
 /**
- * @brief 
+ * @brief Checks whether both cells contains the same bomb type
  * 
  * @param c1 
  * @param c2 
@@ -859,7 +858,7 @@ bool Grid::isMobile(int component) const {
 
 
 /**
- * @brief
+ * @brief Verifies if the component can be popped naturally
  * 
  * @param component
  * 
@@ -875,7 +874,8 @@ return !(component == Constants::WALL || component == Constants::CHERRY
 
 
 /**
- * @brief 
+ * @brief Checks two cells in a swap to see if the both contain a 
+ *  bomb of any type.
  * 
  * @param c1 
  * @param c2 
@@ -890,13 +890,12 @@ bool Grid::bombSwapCheck(Cell &c1, Cell &c2) const {
 
 
 /**
- * @brief
+ * @brief Checks two cells in swap to see if either contains 
+ *  a special bomb
  * 
- * @param
- * @param
- * 
- * @return bool
- * 
+ * @param c1 
+ * @param c2 
+ * @return bool 
  */
 bool Grid::specialSwapCheck(Cell &c1, Cell &c2) const {
      return (canPop(c1.type()) && canPop(c2.type())) 
@@ -932,17 +931,11 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const
  --------------------------------------------------------------------------------------------*/
 
 
-Grid::Grid(GridDisplay &observer, const std::string &filename)  
-    : observer{observer}, gd{FileHandler{filename}.getGameData()}, gameObj{gd, observer}, score{observer} {
-
-    initialiseCells();
-    fileInterpreter();
-    completeGrid();
-
-    clean();
-}
-
-
+/**
+ * @brief Sets the level
+ * 
+ * @param level 
+ */
 void Grid::setLevel(const std::string &level) {
 
     observer.notifyReset();

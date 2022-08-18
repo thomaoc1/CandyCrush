@@ -69,20 +69,19 @@ class Grid {
     const int COLS = Constants::COLS;
 
 public:
-    Grid(GridDisplay &observer, const std::string &level);
     Grid(GridDisplay &observer) : observer{observer}, gameObj{observer}, score{observer} {initialiseCells();}
+    Grid(const Grid &) = default;
+    Grid(Grid &&) = delete;
 
     void setLevel(const std::string &level);
     void swap(const Point &cell1, const Point &cell2);
     int gameState() const {return gameObj.gameState();}
 
 private:
-
-    // Init
+    /* Init */
     void initialiseCells();
     void completeGrid();
 
-    bool isOccupied(const Cell &cell) {return cell.getOccupied() ? true : false;}
     void fileInterpreter();
 
     /* Grid Cleaning */
@@ -111,8 +110,6 @@ private:
     void placeStripedCandies();
     void placeSpecialBombs();
     void exchangeCells(Cell &c1, Cell &c2);
-
-    /* Grid manipulation */
     bool fillTop();
     void refillGrid();
     /** Repeatedly fills top row */
@@ -133,6 +130,7 @@ private:
     std::vector< Cell * > getNbs(int row, int col);
 
     /* Conditions */
+    bool isOccupied(const Cell &cell) {return cell.getOccupied() ? true : false;}
     bool possibleMoves();
     bool inGrid(const Point &coord) const;
     bool sameBomb(Cell &c1, Cell &c2) const;
@@ -144,7 +142,7 @@ private:
     // Spawn checks
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
     int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
-    bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;};
+    bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;}
     // Blast conditions
     bool spBlastCond(Cell &c) const {return c.getBlastType() == Constants::SPECIAL;}
     bool wrBlastCond(Cell &c) const {return c.getBlastType() == Constants::WRAPPED;}

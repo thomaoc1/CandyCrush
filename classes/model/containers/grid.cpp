@@ -134,15 +134,13 @@ void Grid::bombExtract(Cell * cell, const std::vector< Cell * > &cColour, const 
  * 
  */
 void Grid::clearCheck(Cell * cell) {
-    // If cell cannot be popped or is already set to be popped - > return
-    if (!cell->getOccupied() || cell->type() == Constants::WALL 
+
+    if (!isOccupied(*cell) || cell->type() == Constants::WALL 
                              || cell->type() == Constants::CHERRY
                              || cell->type() == Constants::HAZELNUT
                              || cell->getPop()) return;
 
-    // List of continouous colours [V][H]
     std::vector< std::vector< Cell * > > contColour = continuousColour(cell);
-    // If no combo found
     if (contColour[Constants::VERTICAL].size() < 3 
         && contColour[Constants::HORIZONTAL].size() < 3) return;
         
@@ -195,7 +193,7 @@ void Grid::wrappedBlast(Cell * target) {
  * 
  */
 void Grid::stripedBlast(Cell * target) {
-    if (!target->getOccupied()) return;
+    if (!isOccupied(*target)) return;
 
     Point start = target->getLocation();
     std::vector<Cell *> tmp;
@@ -276,7 +274,7 @@ void Grid::popAll() {
  * 
  */
 void Grid::willPop(Cell * target) {
-    if (!target->getOccupied() || !canPop(target->type()) || target->getPop()) return;
+    if (!isOccupied(*target) || !canPop(target->type()) || target->getPop()) return;
     target->willPop();
     toPop.push_back(target);
     if (wrBlastCond(target)) wrappedBlast(target);
@@ -393,7 +391,7 @@ void Grid::placeWrappedCandies() {
                 break;
         }  
     }
-    // if (wrappedBombs.size() > 0) package();
+
     score.bombSpawn(static_cast<int>(wrappedBombs.size()), Constants::WRAPPED);
     wrappedBombs.clear();
 }
@@ -412,7 +410,7 @@ void Grid::placeStripedCandies() {
         insertComponent(cp, stripedBomb);
         observer.notifyInsert(cp->getLocation(), stripedBomb);
     }
-    if (stripedBombs.size() > 0) package();
+
     score.bombSpawn(static_cast<int>(stripedBombs.size()), Constants::STRIPED);
     stripedBombs.clear();
 }
@@ -527,14 +525,13 @@ bool Grid::fillTop() {
     using CoordColour = std::pair< Point, int >;
     std::vector<CoordColour> toFill;
     for (int i = 0; i < static_cast<int>(grid[0].size()); ++i) {
-        if (grid[0][i].getOccupied()) continue;
+        if (isOccupied(grid[0][i])) continue;
         insertComponent(0, i);
         toFill.push_back(CoordColour{{i, 0}, grid[0][i].type()});
     }
-    if (toFill.size() > 0) {
+    if (toFill.size() > 0) 
         observer.notifyFill(toFill);
-        package();
-    } 
+ 
     return toFill.size() > 0;
 }   
 
@@ -573,7 +570,6 @@ bool Grid::clear() {
     if (toPop.size() > 0) {
         clearGrid = false;
         popAll();
-        package();
         placeWrappedCandies();
         placeStripedCandies();
         placeSpecialBombs();
@@ -598,11 +594,11 @@ bool Grid::directedDrop(int direction) {
 
             Cell &cell = grid[i][j]; 
 
-            if (!cell.getOccupied() || !isMobile(cell.type())) continue;   
+            if (!isOccupied(cell) || !isMobile(cell.type())) continue;   
 
             Cell * cellBeneath = cell.getBelow(direction);
 
-            if (!cellBeneath || cellBeneath->getOccupied()) continue;
+            if (!cellBeneath || isOccupied(*cellBeneath)) continue;
             
             cellBeneath->setOccupied(cell.getOccupied());
             cell.unOccupy();
@@ -613,7 +609,6 @@ bool Grid::directedDrop(int direction) {
     }
     if (toDrop.size() > 0) {
         observer.notifyDrop(toDrop, direction);
-        package();
         fillTop();
     } 
     return toDrop.size() > 0;
@@ -697,7 +692,7 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
     bool validity = false;
     Cell * c1 = &grid[cell1.y][cell1.x];
     Cell * c2 = &grid[cell2.y][cell2.x];
-    if (!(c1->getOccupied() || c2->getOccupied()) 
+    if (!(isOccupied(*c1) || isOccupied(*c2)) 
             || !isMobile(c1->type())
             || !isMobile(c2->type())) return validity;
 
@@ -986,42 +981,10 @@ void Grid::swap(const Point &cell1, const Point &cell2) {
         gameObj.swapped();
 
         exchangeCells(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
-        package();
         observer.notifySwap(cell1, cell2);
 
         clean(&grid[cell1.y][cell1.x], &grid[cell2.y][cell2.x]);
     } 
     else if (isMobile(grid[cell1.y][cell1.x].type()) && isMobile(grid[cell2.y][cell2.x].type()))
         observer.notifyFailedSwap(cell1, cell2);
-
-}
-
-
-
-void Grid::package() const {
-    std::string temp;
-
-    for (int i = 0; i < COLS; ++i) {
-        if (i == 0) temp += "   " + std::to_string(i)+ "    ";
-        else temp += std::to_string(i) + "    ";
-    }
-    temp += "\n============================================\n";
-
-    for (int i = 0; i < ROWS; ++i) {
-        for (int j = 0; j < COLS; ++j) {
-            if (j == 0) temp += std::to_string(i) + "| ";
-            std::string component = " ";
-            if (grid[i][j].getOccupied()) component = grid[i][j].getOccupied()->toString();
-                
-
-            if (component.length() == 1) temp += component + "    ";
-            else if (component.length() == 2) temp += component + "   ";
-            else if (component.length() == 3) temp += component + "  ";
-            else temp += component + " ";
-        }
-        temp += "\n";
-    }
-
-    Log::get().addModelMessage(temp);
-
 }

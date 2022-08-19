@@ -1,16 +1,13 @@
 /**
- * File : 
- *  wrappedBomb.hpp
+ * @file specialBomb.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Description : 
- *  Class which represents a specific GameComponent ; "Wrapped Candy Bomb".
+ * @brief Class which represents a WrappedBomb component
  * 
- * Dependencies:
- *  candy.hpp
+ * @version 0.1
+ * @date 2022-08-19
  * 
- * Authors : 
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
  */
 
 #ifndef WRAPPED_BOMB_HPP

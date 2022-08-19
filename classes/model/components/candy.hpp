@@ -1,16 +1,13 @@
 /**
- * File : 
- *  candy.hpp
+ * @file candy.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Description : 
- *  Class which represents a specific GameComponent ; "Candy".
+ * @brief Class which represents a Candy component
  * 
- * Dependencies :
- *  gameComponent.hpp
+ * @version 0.1
+ * @date 2022-08-19
  * 
- * Authors : 
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
  */
 
 #ifndef CANDY_HPP
@@ -24,7 +21,6 @@ public:
         : GameComponent(ComponentType{randomColour(), Component::CANDY}) {}
     Candy(Colour colour) noexcept
         : GameComponent(ComponentType{colour, Component::CANDY}) {}
-    virtual ~Candy() = default;
 };
 
 #endif

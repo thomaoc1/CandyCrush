@@ -1,17 +1,15 @@
 /**
- * File : 
- *  wall.hpp
- *
- * Decription :
- *  Class which represents a specific GameComponent ; "Wall"
+ * @file specialBomb.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies : 
- *  gameComponent.hpp
+ * @brief Class which represents a Wall component
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
+ * 
  */
+
 
 #ifndef WALL_HPP
 #define WALL_HPP
@@ -21,7 +19,6 @@
 class Wall : public GameComponent {
 public:
     Wall() : GameComponent{ComponentType{Colour::BLACK, Component::WALL}} {}
-    ComponentType type() const override {return ComponentType{Colour::BLACK, Component::WALL};}
 };
 
 #endif

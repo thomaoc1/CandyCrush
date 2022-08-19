@@ -1,16 +1,13 @@
 /**
- * File : 
- *  gameComponent.hpp
- *
- * Decription :
- *  Interface which describes the behavior of GameComponents
+ * @file hazelnut.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies:
- *  constants.hpp
+ * @brief Base Class which generalises all GameComponents
  * 
- * Authors:
- *  Thomas O'Cuilleanain
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
+ * 
  */
 
 #ifndef GAMECOMPONENT_HPP
@@ -36,7 +33,6 @@ public:
     virtual ComponentType type() const {return compType;}
 
 protected:
-    /** @brief Returns a random candy */
     Colour randomColour() const {return static_cast<Colour>(static_cast<Colour>(rand() % 6));}
 };
 

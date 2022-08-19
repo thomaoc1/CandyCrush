@@ -1,3 +1,16 @@
+/**
+ * @file hazelnut.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which represents a Hazelnut component
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
+
 #ifndef HAZELNUT_HPP
 #define HAZELNUT_HPP
 

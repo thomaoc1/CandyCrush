@@ -1,3 +1,15 @@
+/**
+ * @file frosting.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which represents a Frosting component
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef FROSTING_HPP
 #define FROSTING_HPP
 

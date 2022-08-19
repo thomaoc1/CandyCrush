@@ -1,17 +1,15 @@
 /**
- * File : 
- *  stripedBomb.hpp
+ * @file specialBomb.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Description : 
- *  Class which represents a specific GameComponent ; "Striped Candy Bomb".
+ * @brief Class which represents a StripedBomb component
  * 
- * Dependencies:
- *  candy.hpp
+ * @version 0.1
+ * @date 2022-08-19
  * 
- * Authors : 
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
  */
+
 
 #ifndef STRIPED_BOMB_HPP
 #define STRIPED_BOMB_HPP

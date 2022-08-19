@@ -2,7 +2,7 @@
 #define GAME_OBJECTIVE_HPP
 
 #include "../common/constants.hpp"
-#include "filehandler/gameData.hpp"
+#include "../filehandler/gameData.hpp"
 #include "../view/gridDisplay.hpp"
 
 class GameObjective {

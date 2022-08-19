@@ -329,7 +329,7 @@ void Grid::popAll() {
 
 
 /**
- * @brief
+ * @brief Marks a cell to be popped
  * 
  */
 void Grid::willPop(Cell &target) {
@@ -415,6 +415,10 @@ void Grid::insertComponent(Cell &cell, const ComponentType &component) {
 }
 
 
+/**
+ * @brief Places all bombs
+ * 
+ */
 void Grid::placeBombs() {
     int wrappedCount = 0;
     int stripedCount = 0;

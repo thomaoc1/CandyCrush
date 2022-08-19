@@ -4,7 +4,7 @@
 #include "menu.hpp"
 #include "../common/background.hpp"
 #include "../common/button.hpp"
-#include "../../model/filehandler/fileHandler.hpp"
+#include "../../filehandler/fileHandler.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>

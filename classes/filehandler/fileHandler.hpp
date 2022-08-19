@@ -18,7 +18,7 @@
 #define FILE_HANDLER_HPP
 
 #include "gameData.hpp"
-#include "../../common/constants.hpp"
+#include "../common/constants.hpp"
 
 #include <fstream>
 #include <iostream>

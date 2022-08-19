@@ -18,9 +18,9 @@
 
 #include <vector>
 #include <array>
-#include "../../shared/point.hpp"
-#include "../../common/enumerations.hpp"
-#include "../../common/componentType.hpp"
+#include "../shared/point.hpp"
+#include "../common/enumerations.hpp"
+#include "../common/componentType.hpp"
 
 struct GameData {
     int maxSwaps;

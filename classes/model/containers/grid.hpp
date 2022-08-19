@@ -34,7 +34,7 @@
 #include "../components/cherry.hpp"
 #include "../components/hazelnut.hpp"
 #include "../components/frosting.hpp"
-#include "../filehandler/fileHandler.hpp"
+#include "../../filehandler/fileHandler.hpp"
 #include "../../shared/point.hpp"
 #include "../score.hpp"
 #include "../gameObjective.hpp"

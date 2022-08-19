@@ -32,7 +32,7 @@ public:
     int eventHandler(int event) override;
     void recheckScore() {bestscore.setText(score + std::to_string(fh.getBestScore()));}
 private:
-    int buttonHandler(const Point &mouseLoc);
+    MenuButtons buttonHandler(const Point &mouseLoc);
 };
 
 

@@ -1,16 +1,15 @@
 #include "mainMenu.hpp"
 
 
-int MainMenu::buttonHandler(const Point &mouseLoc) {
-    int level = Constants::NOTHING;
-    if (level1.isClicked(mouseLoc)) level = Constants::LEVEL1;
-    else if (level2.isClicked(mouseLoc)) level = Constants::LEVEL2;
-    else if (level3.isClicked(mouseLoc)) level = Constants::LEVEL3;    
+MenuButtons MainMenu::buttonHandler(const Point &mouseLoc) {
+    MenuButtons level = MenuButtons::NOTHING;
+    if (level1.isClicked(mouseLoc)) level = MenuButtons::LEVEL1;
+    else if (level2.isClicked(mouseLoc)) level = MenuButtons::LEVEL2;
+    else if (level3.isClicked(mouseLoc)) level = MenuButtons::LEVEL3;    
     else if (resetScore.isClicked(mouseLoc)) {
         FileHandler().resetScore();
         bestscore.setText(score +  "0");
     }
-
     return level;       
 }
 
@@ -29,7 +28,7 @@ void MainMenu::draw() {
 
 
 int MainMenu::eventHandler(int event) {
-    int state = Constants::NOTHING; 
+    MenuButtons state = MenuButtons::NOTHING; 
     switch (event) {
         case FL_PUSH:
             if (Fl::event_button() == FL_LEFT_MOUSE) 
@@ -38,7 +37,9 @@ int MainMenu::eventHandler(int event) {
         case FL_KEYDOWN:
             if (Fl::event_key() == FL_Escape) exit(0);
             break;
+        default:
+            break;
     }
     
-    return state;
+    return static_cast<int>(state);
 }

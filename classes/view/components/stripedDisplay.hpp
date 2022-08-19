@@ -21,8 +21,8 @@
 
 class StripedDisplay : public BombDisplay {
 public:
-    StripedDisplay(const Point &center, int colour, int blastDirection) : 
-                    BombDisplay(center, colour, blastDirection == Constants::VERTICAL ? std::string{"StV"} : std::string{"StH"}) {}
+    StripedDisplay(const Point &center, Colour colour, Direction blastDirection) : 
+                    BombDisplay(center, colour, blastDirection == Direction::VERTICAL ? std::string{"StV"} : std::string{"StH"}) {}
     StripedDisplay(const StripedDisplay &) = default;
     StripedDisplay(StripedDisplay &&) = default;
 };

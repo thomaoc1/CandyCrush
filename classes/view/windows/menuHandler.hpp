@@ -18,8 +18,8 @@ class MenuHandler {
 
     bool gameOver = false;
 public:
-    MenuHandler()=default;
-    void draw();
+    MenuHandler() = default;
+    void draw() {current->draw();}
     int eventHandler(int event);
 };
 

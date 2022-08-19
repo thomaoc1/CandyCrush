@@ -21,7 +21,7 @@
 
 class WrappedDisplay : public BombDisplay {
 public:
-    WrappedDisplay(const Point &center, int colour) : BombDisplay(center, colour, "Wr") {}
+    WrappedDisplay(const Point &center, Colour colour) : BombDisplay(center, colour, "Wr") {}
     WrappedDisplay(const WrappedDisplay &) = default;
     WrappedDisplay(WrappedDisplay &&) = default;
 };

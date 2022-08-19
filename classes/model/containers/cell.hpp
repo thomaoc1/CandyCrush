@@ -51,13 +51,15 @@ public:
     std::vector< Cell * > getVertNbs() const {return vertNbs;}
     std::vector< Cell * > getHorizNbs() const {return horizNbs;}
     std::vector< Cell * > getCrossNbs() const {return crossNbs;}
-    Cell * getBelow(int direction) const {return belowNbs[direction];}
+    Cell * getBelow(Beneath direction) const {return belowNbs[static_cast<int>(direction)];}
     std::vector< Cell * > getNbs() const {return nbs;}
     bool getPop() const {return toPop;}
-    int getBlastType() const {return occupied ? occupied->getBlastType() : Constants::NO_BLAST;}
+    BlastType getBlastType() const {return occupied ? occupied->getBlastType() : BlastType::NO_BLAST;}
     Direction getBlastDirection() const {return occupied ? occupied->getBlastDirection() : Direction::NO_DIRECTION;}
-    int getColour() const {return occupied ? occupied->getColour() : Constants::NONE;}
-    int type() const {return occupied ? occupied->type() : Constants::EMPTY;};
+    Colour getColour() const {return occupied ? occupied->getColour() : Colour::NONE;}
+    ComponentType component() const {return occupied->type();}
+    Component type() const {return occupied->type().type;}
+    ComponentState compState() const {return occupied->pop();}
 };
 
 

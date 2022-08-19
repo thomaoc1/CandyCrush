@@ -17,34 +17,33 @@
 #define GAMECOMPONENT_HPP
 
 #include "../../common/constants.hpp"
+#include "../../common/componentType.hpp"
 
 #include <string>
 #include <vector>
 #include <memory>
 
 class GameComponent {
-    const int colour;
-    const int blastType;
+protected:
+    ComponentType compType;
+    const BlastType blastType;
     const Direction blastDirection;
 public:
-    GameComponent(int colour, int blastType, Direction blastDirection) noexcept 
-        : colour{colour}, blastType{blastType}, blastDirection{blastDirection} {}
-    GameComponent(int colour) noexcept
-        : colour{colour}, blastType{Constants::SIMPLE}, blastDirection{Constants::NO_DIRECTION} {}
-    GameComponent() noexcept 
-        : colour{Constants::NONE}, blastType{Constants::SIMPLE}, blastDirection{Constants::NO_DIRECTION} {}
+    GameComponent(ComponentType &&compType, BlastType blastType, Direction blastDirection) noexcept 
+        : compType{std::move(compType)}, blastType{blastType}, blastDirection{blastDirection} {}
+    GameComponent(ComponentType &&compType) noexcept
+        : compType{std::move(compType)}, blastType{BlastType::SIMPLE}, blastDirection{Direction::NO_DIRECTION} {}
     virtual ~GameComponent() = default;
 
-    virtual int pop() {return Constants::POPPED;}
-    virtual int getColour() const {return colour;}
-    virtual int getBlastType() const {return blastType;}
+    virtual ComponentState pop() {return ComponentState::POPPED;}
+    virtual Colour getColour() const {return compType.colour;}
+    virtual BlastType getBlastType() const {return blastType;}
     virtual Direction getBlastDirection() const {return blastDirection;}
     virtual void explode() {}
-    virtual int type() const=0;
-
-
-    // Logging
-    virtual std::string toString() const;
+    virtual ComponentType type() const {return compType;}
+protected:
+    /** @brief Returns a random candy */
+    Colour randomColour() {return static_cast<Colour>(static_cast<Colour>(rand() % 6));}
 };
 
 #endif

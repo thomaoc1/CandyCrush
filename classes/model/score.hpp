@@ -21,7 +21,7 @@ public:
     
     int getScore() const {return score;}
     void reset();
-    void bombSpawn(int count, int component);
+    void bombSpawn(int count, Component component);
     void pop(int count);
 };
 

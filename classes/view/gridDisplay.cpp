@@ -31,13 +31,13 @@ void GridDisplay::nextAnimation() {
             performPop();
             break;
         case animations::DropLeft:
-            performDrop(Constants::LEFT);
+            performDrop(Beneath::LEFT);
             break;
         case animations::DropDown:
-            performDrop(Constants::CENTER);
+            performDrop(Beneath::CENTER);
             break;
         case animations::DropRight:
-            performDrop(Constants::RIGHT);
+            performDrop(Beneath::RIGHT);
             break;
         case animations::Fill:
             performFill();
@@ -54,10 +54,10 @@ void GridDisplay::nextAnimation() {
  *
  */
 void GridDisplay::performFill() {
-    std::vector<CoordColour> toFill = animationQueue.nextFill();
+    std::vector<CoordComponent> toFill = animationQueue.nextFill();
     for (auto &cc : toFill) {
         Point coord = cc.first;
-        int type = cc.second;
+        ComponentType type = cc.second;
 
         visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
         visualComponents[coord.y][coord.x]->fillAnimate();
@@ -71,13 +71,12 @@ void GridDisplay::performFill() {
  * @param direction
  * 
  */
-void GridDisplay::performDrop(int direction) {
+void GridDisplay::performDrop(Beneath direction) {
     Point delta[] = {{-1, 1}, {0, 1}, {1, 1}};
     std::vector<Point> toDrop = animationQueue.nextDrop();
     for (auto &p : toDrop) {
-        // Temporary
         if (!visualComponents[p.y][p.x]) return;
-        Point dest = p + delta[direction];
+        Point dest = p + delta[static_cast<int>(direction)];
         visualComponents[p.y][p.x]->moveAnimate(calculateCenter(dest));
         visualComponents[dest.y][dest.x] = visualComponents[p.y][p.x]; 
         visualComponents[p.y][p.x] = nullptr;
@@ -148,59 +147,41 @@ Point GridDisplay::calculateCenter(const Point &coord) const {
  * @param component 
  * @return std::shared_ptr<ComponentDisplay> 
  */
-std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, int component) const {
+std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, const ComponentType &component) const {
     std::shared_ptr<ComponentDisplay> ret;
     Point center = calculateCenter({col, row});
-    switch (component) {
-        case Constants::RED: 
-        case Constants::BLUE:
-        case Constants::GREEN:
-        case Constants::YELLOW:
-        case Constants::PURPLE:
-        case Constants::ORANGE:
-            ret = std::make_shared<CandyDisplay>(center, component);
+    switch (component.type) {
+        case Component::CANDY:
+            ret = std::make_shared<CandyDisplay>(center, component.colour);
             break;
-        case Constants::RED_STRIPED_BOMB_V: 
-        case Constants::BLUE_STRIPED_BOMB_V:
-        case Constants::GREEN_STRIPED_BOMB_V:
-        case Constants::YELLOW_STRIPED_BOMB_V:
-        case Constants::PURPLE_STRIPED_BOMB_V:
-        case Constants::ORANGE_STRIPED_BOMB_V:
-            ret = std::make_shared<StripedDisplay>(center, Constants::associatedColour(component), Constants::VERTICAL);
+        case Component::STRIPED_BOMB_H:
+            ret = std::make_shared<StripedDisplay>(center, component.colour, Direction::HORIZONTAL);
             break;
-        case Constants::RED_STRIPED_BOMB_H: 
-        case Constants::BLUE_STRIPED_BOMB_H:
-        case Constants::GREEN_STRIPED_BOMB_H:
-        case Constants::YELLOW_STRIPED_BOMB_H:
-        case Constants::PURPLE_STRIPED_BOMB_H:
-        case Constants::ORANGE_STRIPED_BOMB_H:
-            ret = std::make_shared<StripedDisplay>(center, Constants::associatedColour(component), Constants::HORIZONTAL);
+        case Component::STRIPED_BOMB_V:
+            ret = std::make_shared<StripedDisplay>(center, component.colour, Direction::VERTICAL);
             break;
-        case Constants::RED_WRAPPED_BOMB: 
-        case Constants::BLUE_WRAPPED_BOMB:
-        case Constants::GREEN_WRAPPED_BOMB:
-        case Constants::YELLOW_WRAPPED_BOMB:
-        case Constants::PURPLE_WRAPPED_BOMB:
-        case Constants::ORANGE_WRAPPED_BOMB:
-            ret = std::make_shared<WrappedDisplay>(center, Constants::associatedColour(component));
+        case Component::WRAPPED_BOMB:
+            ret = std::make_shared<WrappedDisplay>(center, component.colour);
             break;
-        case Constants::WALL:
+        case Component::WALL:
             ret = std::make_shared<WallDisplay>(center);
             break;
-        case Constants::FROSTING1:
+        case Component::FROSTING1:
             ret = std::make_shared<FrostingDisplay>(center, 1);
             break;
-        case Constants::FROSTING2:
+        case Component::FROSTING2:
             ret = std::make_shared<FrostingDisplay>(center, 2);
             break;
-        case Constants::SPECIAL_BOMB:
+        case Component::SPECIAL_BOMB:
             ret = std::make_shared<SpecialDisplay>(center);
             break;
-        case Constants::CHERRY:
+        case Component::CHERRY:
             ret = std::make_shared<CherryDisplay>(center);
             break;
-        case Constants::HAZELNUT:
+        case Component::HAZELNUT:
             ret = std::make_shared<HazelnutDisplay>(center);
+            break;
+        default:
             break;
      }
     return ret;
@@ -253,7 +234,7 @@ void GridDisplay::draw()  {
             visualGrid[row][col].draw();
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation() 
-                && visualComponents[row][col]->animationType() == Constants::CANT_IGNORE) isAnimation = true;
+                && visualComponents[row][col]->animationType() == AnimTypes::CANT_IGNORE) isAnimation = true;
             visualComponents[row][col]->draw();
         }
     }
@@ -277,7 +258,7 @@ bool GridDisplay::inAnimation() const {
         for (int col = 0; col < COLS; ++col) {
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation() 
-                && visualComponents[row][col]->animationType() == Constants::CANT_IGNORE) isAnimation = true;
+                && visualComponents[row][col]->animationType() == AnimTypes::CANT_IGNORE) isAnimation = true;
         }
     }
     return isAnimation;
@@ -296,7 +277,7 @@ bool GridDisplay::inAnimation() const {
  * @param type
  *
  */
-void GridDisplay::notifyInit(const Point &coord, int type) {
+void GridDisplay::notifyInit(const Point &coord, const ComponentType &type) {
     visualComponents[coord.y][coord.x] = factoryMethod(coord.y, coord.x, type);
 }
 
@@ -315,34 +296,36 @@ void GridDisplay::notifySwap(const Point &start, const Point &dest) {
  * 
  */
 void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
-    broadcast.setMessage(Constants::badSwap);
+    broadcast.setMessage(Constants::BAD_SWAP);
     animationQueue.enqueueSwap({c1, c2});
     animationQueue.enqueueSwap({c1, c2});
 }
 
 
 void GridDisplay::notifyNoSwaps() {
-    broadcast.setMessage(Constants::shuffling);
+    broadcast.setMessage(Constants::SHUFFLING);
 }
 
 
-void GridDisplay::notifyGameState(int state) {
+void GridDisplay::notifyGameState(GameState state) {
     switch (state) {
-        case Constants::LOST:
+        case GameState::LOST:
             lost();
             break;
-        case Constants::WON:
+        case GameState::WON:
             won();
+            break;
+        default:
             break;
     }
 }
 
 
-void GridDisplay::notifyObjective(int objType, int obj) {
+void GridDisplay::notifyObjective(ObjectiveType objType, int obj) {
     broadcast.setObjective(objType, obj);
 }
 
-void GridDisplay::notifyObjective(int objType, int obj, int colour) {
+void GridDisplay::notifyObjective(ObjectiveType objType, int obj, Colour colour) {
     broadcast.setObjective(objType, obj, colour);
 }
 

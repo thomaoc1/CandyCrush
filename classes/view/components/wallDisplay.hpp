@@ -22,8 +22,9 @@
 
 class WallDisplay : public ComponentDisplay {
 public:
-    WallDisplay(const Point &center) : 
-        ComponentDisplay(std::make_shared<Rectangle>(center, Constants::WALL, Constants::CELL_SIZE, FL_FLAT_BOX)) {}
+    WallDisplay(const Point &center)
+        : ComponentDisplay(std::make_shared<Rectangle>(center, Colour::BLACK,
+                                                        Constants::CELL_SIZE, FL_FLAT_BOX)) {}
     void draw() override {ComponentDisplay::drawShape();}
 };
 

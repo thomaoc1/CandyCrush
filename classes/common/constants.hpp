@@ -9,23 +9,14 @@
 #include <FL/Fl_Box.H>
 
 #include "enumerations.hpp"
-
+#include "componentType.hpp"
 
 class Constants {
-    const static std::array< int, 6 > candies;
 public:
-
-    /* Model Constants */
-    static enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
-    static enum {LEFT, CENTER, RIGHT} below;
-
-    /* View Constants */
-    static enum menuButtons{NOTHING, PLAY, BACK, GAME_OVER, GAME_ONGOING, LEVEL1, LEVEL2, LEVEL3} menuButtons;
-
-    static const std::string badSwap;
-    static const std::string gameWon;
-    static const std::string gameLost;
-    static const std::string shuffling;
+    static const std::string BAD_SWAP;
+    static const std::string GAME_WON;
+    static const std::string GAME_LOST;
+    static const std::string SHUFFLING;
     
     static const double FPS;
     static const double WINDOW_HEIGHT;
@@ -41,51 +32,12 @@ public:
     static const double GAP_SIZE;
     static const double GRIDSIZE;
     static const double HALVE_GRIDSIZE;
+    static const double CANDY_RADIUS;
+
     static const int COLS;
     static const int ROWS;
 
-    static const double CANDY_RADIUS;
-
-    static enum gameState{LOST, WON, ONGOING} gamestate;
-
-    static enum animTypes{IGNORE, CANT_IGNORE} animTypes;
-
-    static enum blastTypes{NO_BLAST, SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;
-
-    static enum objectiveTypes{POPS, INGREDIENT, FROSTINGS} objectives;
-
-    static enum componentState{POPPED, NOT_POPPED} compStates;
-
-    static enum components{RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE, BLACK, NONE, ANY, EMPTY, WALL, FROSTING1, FROSTING2,
-
-                            RED_STRIPED_BOMB_V, BLUE_STRIPED_BOMB_V, GREEN_STRIPED_BOMB_V, YELLOW_STRIPED_BOMB_V,
-                            PURPLE_STRIPED_BOMB_V, ORANGE_STRIPED_BOMB_V,
-                            RED_STRIPED_BOMB_H, BLUE_STRIPED_BOMB_H, GREEN_STRIPED_BOMB_H, YELLOW_STRIPED_BOMB_H,
-                            PURPLE_STRIPED_BOMB_H, ORANGE_STRIPED_BOMB_H,
-
-                            RED_WRAPPED_BOMB, BLUE_WRAPPED_BOMB, GREEN_WRAPPED_BOMB, YELLOW_WRAPPED_BOMB,
-                            PURPLE_WRAPPED_BOMB, ORANGE_WRAPPED_BOMB,
-
-                            CHERRY, HAZELNUT,
-
-                            SPECIAL_BOMB} components;
-
-    /** @brief Returns a random candy */
-    static int randomCandy() {return candies[rand() % 6];}
-
-    /** @brief Returns a random direction (horizontal / verical) */
-    static Direction randomDirection() {return static_cast<Direction>(rand() % 2);}
-    static Direction perpendicular(Direction dir);
-
-    /** @brief Returns a random direction (horizontal / verical) */
-    static bool isImmobile(int component) {return component == WALL || component == FROSTING1 || component == FROSTING2;}
-
-    static int associatedColour(int component);
-    static Fl_Color associatedFLColour(int colour);
-    static int associatedBlast(int component);
-    static int colourToSt(int colour, Direction direction);
-    static int colourToWr(int colour);
-    
+    static Component directionToSt(Direction direction);
 };
 
 

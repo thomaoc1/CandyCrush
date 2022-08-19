@@ -20,12 +20,16 @@
 
 class StripedBomb : public GameComponent {
 public:
-    StripedBomb(int colour, Direction blastDirection) noexcept : GameComponent(colour, Constants::STRIPED, blastDirection) {}
-    StripedBomb() noexcept : GameComponent(Constants::randomCandy(), Constants::STRIPED, Constants::randomDirection()) {}
+    StripedBomb(Colour colour, Direction blastDirection) noexcept
+        : GameComponent(ComponentType{colour, Constants::directionToSt(blastDirection)}, BlastType::STRIPED, blastDirection) {}
+    StripedBomb() noexcept 
+        : GameComponent(ComponentType{randomColour(), Constants::directionToSt(randomDirection())}, 
+                                       BlastType::STRIPED, randomDirection()) {}
     StripedBomb(const StripedBomb &) = default;
     StripedBomb(StripedBomb &&) = default;
-
-    int type() const override {return Constants::colourToSt(getColour(), getBlastDirection());}
+private:
+    /** @brief Returns a random direction (horizontal / verical) */
+    Direction randomDirection() const {return static_cast<Direction>(rand() % 2);}
 };
 
 #endif

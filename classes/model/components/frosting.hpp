@@ -7,12 +7,9 @@ class Frosting : public GameComponent {
     int layers;
 public:
     Frosting(int layers) noexcept 
-        : GameComponent(layers == 2 ? Constants::FROSTING1 : Constants::FROSTING2), layers{layers} {}
+        : GameComponent{ComponentType{Colour::CYAN, layers == 2 ? Component::FROSTING2 : Component::FROSTING1}}, layers{layers} {}
     
-    int pop() override;
-
-    int type() const override {return layers == 1 ? Constants::FROSTING1 : Constants::FROSTING2 ;}
-    std::string toString() const override {return "F" + std::to_string(layers);}
+    ComponentState pop() override;
 };
 
 #endif

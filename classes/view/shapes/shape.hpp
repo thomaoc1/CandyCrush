@@ -27,11 +27,11 @@ protected:
     Fl_Color colour;
     double size;
 public:
-    Shape(const Point &center, int colours, double size) noexcept 
-        : center{center}, colour{Constants::associatedFLColour(colours)}, size{size} {};
+    Shape(const Point &center, Colour colour, double size) noexcept 
+        : center{center}, colour{associatedFLColour(colour)}, size{size} {};
 
-    Shape(const Point &center, Fl_Color colours, double size) noexcept 
-        : center{center}, colour{colours}, size{size} {};
+    Shape(const Point &center, Fl_Color colour, double size) noexcept 
+        : center{center}, colour{colour}, size{size} {};
 
     Shape(const Shape &) = default;
     Shape(Shape &&) = default;
@@ -43,6 +43,9 @@ public:
     virtual void setCenter(const Point &dest) {center = dest;}
 
     virtual void draw() const=0;
+
+private:
+    Fl_Color associatedFLColour(Colour colour) const;
 };
 
 #endif

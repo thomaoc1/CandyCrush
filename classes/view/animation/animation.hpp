@@ -36,7 +36,7 @@ public:
     virtual int getAnimTime() const {return animationTime;}
     virtual bool over() const {return time >= animationTime;}
     
-    virtual int type() const {return Constants::CANT_IGNORE;}
+    virtual AnimTypes type() const {return AnimTypes::CANT_IGNORE;}
 };
 
 #endif

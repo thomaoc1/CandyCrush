@@ -19,13 +19,15 @@
 #include <vector>
 #include <array>
 #include "../../shared/point.hpp"
+#include "../../common/enumerations.hpp"
+#include "../../common/componentType.hpp"
 
 struct GameData {
     int maxSwaps;
-    std::array<bool, 3> objTypes = {false, false, false};
-    std::array<int, 3> objectives = {0, 0, 0};
-    int colour = 0;
-    using CoordType = std::pair< Point, int >;
+    ObjectiveType objType;
+    int objective;
+    Colour colour;
+    using CoordType = std::pair< Point, ComponentType >;
     std::vector<CoordType> components;
 };
 

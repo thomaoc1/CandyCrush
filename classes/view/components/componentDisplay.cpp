@@ -77,4 +77,4 @@ void ComponentDisplay::popAnimate() {
 }
 
 
-int ComponentDisplay::animationType() const {return animation->type();}
+AnimTypes ComponentDisplay::animationType() const {return animation->type();}

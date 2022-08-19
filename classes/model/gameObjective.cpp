@@ -9,15 +9,12 @@
 void GameObjective::gameDataInter(const GameData &gd) {
 
     nSwaps = gd.maxSwaps;
-
-    for (int i = 0; i < static_cast<int>(gd.objTypes.size()); ++i)
-        if (gd.objTypes[i]) objType = i;
-
-    obj = gd.objectives[objType];
-    if (objType == Constants::POPS) colour = gd.colour;
+    objType = gd.objType;
+    obj = gd.objective;
+    colour = gd.colour;
 
     observer.notifySwapsLeft(nSwaps);
-    if (objType == Constants::POPS) observer.notifyObjective(objType, obj, colour);
+    if (objType == ObjectiveType::POPS) observer.notifyObjective(objType, obj, colour);
     else observer.notifyObjective(objType, obj);
 }
 
@@ -27,10 +24,10 @@ void GameObjective::gameDataInter(const GameData &gd) {
  * 
  * @return int 
  */
-int GameObjective::gameState() const {
-    int gamestate = Constants::ONGOING;
-    if (nSwaps <= 0) gamestate = Constants::LOST;
-    else if (obj <= 0) gamestate = Constants::WON;
+GameState GameObjective::gameState() const {
+    GameState gamestate = GameState::ONGOING;
+    if (nSwaps <= 0) gamestate = GameState::LOST;
+    else if (obj <= 0) gamestate = GameState::WON;
     return gamestate;
 }
 
@@ -51,7 +48,7 @@ void GameObjective::swapped() {
  * 
  */
 void GameObjective::ingredientPop() {
-    if (objType == Constants::INGREDIENT) {
+    if (objType == ObjectiveType::INGREDIENT) {
         --obj;
         observer.notifyObjective(objType, obj);
         observer.notifyGameState(gameState());
@@ -64,7 +61,7 @@ void GameObjective::ingredientPop() {
  * 
  */
 void GameObjective::frostingPop() {
-    if (objType == Constants::FROSTINGS) {
+    if (objType == ObjectiveType::FROSTINGS) {
         --obj;
         observer.notifyObjective(objType, obj);
         observer.notifyGameState(gameState());
@@ -77,8 +74,8 @@ void GameObjective::frostingPop() {
  * 
  * @param poppedColour 
  */
-void GameObjective::colourPop(int poppedColour) {
-    if (objType == Constants::POPS && colour == poppedColour && obj > 0) {
+void GameObjective::colourPop(Colour poppedColour) {
+    if (objType == ObjectiveType::POPS && colour == poppedColour && obj > 0) {
         --obj;
         observer.notifyObjective(objType, obj, colour);
         observer.notifyGameState(gameState());

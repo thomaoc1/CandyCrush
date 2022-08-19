@@ -20,13 +20,14 @@
 
 class WrappedBomb : public GameComponent {
 public:
-    WrappedBomb(int colour) noexcept : GameComponent(colour, Constants::WRAPPED, Direction::NO_DIRECTION) {}
-    WrappedBomb() noexcept : GameComponent(Constants::randomCandy(), Constants::WRAPPED, Direction::NO_DIRECTION) {}
+    WrappedBomb(Colour colour) noexcept
+        : GameComponent(ComponentType{colour, Component::WRAPPED_BOMB}, BlastType::WRAPPED, Direction::NO_DIRECTION) {}
+    WrappedBomb() noexcept
+        : GameComponent(ComponentType{randomColour(), Component::WRAPPED_BOMB}, 
+                         BlastType::WRAPPED, Direction::NO_DIRECTION) {}
+                         
     WrappedBomb(const WrappedBomb &) = default;
-    WrappedBomb(WrappedBomb &&) = default;
-    
-    int type() const override {return Constants::colourToWr(getColour());}
-    std::string toString() const override {return GameComponent::toString() + "Wr";}
+    WrappedBomb(WrappedBomb &&) = default;    
 };
 
 #endif

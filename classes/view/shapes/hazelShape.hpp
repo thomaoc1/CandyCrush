@@ -1,3 +1,16 @@
+/**
+ * @file hazelShape.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation
+ *  of a Hazelnut shape.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef HAZELSHAPE_HPP
 #define HAZELSHAPE_HPP
 

@@ -1,19 +1,14 @@
 /**
- * File : 
- *  animation.hpp
- *
- * Decription :
- *  Abstract class which generalises Animations
+ * @file animation.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies : 
- *  componentDisplay.hpp
+ * @brief Abstract class which generalises the representation of an animation.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
-
 
 #ifndef ANIMATION_HPP
 #define ANIMATION_HPP

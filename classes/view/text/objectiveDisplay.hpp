@@ -1,3 +1,16 @@
+/**
+ * @file objectiveDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation of the 
+ * Objective text.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef OBJECTIVE_DISPLAY_HPP 
 #define OBJECTIVE_DISPLAY_HPP
 

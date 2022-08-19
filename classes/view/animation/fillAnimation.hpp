@@ -1,16 +1,13 @@
 /**
- * File : 
- *  fillAnimation.hpp
- *
- * Decription :
- *  Class reponsible for animating a filling event 
+ * @file fillAnimation.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies : 
- *  animation.hpp
+ * @brief Class which is in charge of the graphical representation 
+ *  of a filling animation.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
 
@@ -24,7 +21,7 @@ class FillAnimation : public Animation {
     const double normalSize;
 public:
     FillAnimation(ComponentDisplay * component) : Animation{component}, normalSize{component->getSize()} {}
-    void draw();
+    void draw() override;
 private:
     int nextSize(int size) const;
 };

@@ -1,3 +1,15 @@
+/**
+ * @file broadcast.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for broadcasting information to the user.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef BROADCAST_HPP
 #define BROADCAST_HPP
 

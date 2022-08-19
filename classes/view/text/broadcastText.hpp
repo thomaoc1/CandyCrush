@@ -1,3 +1,16 @@
+/**
+ * @file broadcastText.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation of the 
+ * Broadcast text.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef BROADCAST_TEXT_HPP
 #define BROADCAST_TEXT_HPP
 

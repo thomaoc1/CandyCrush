@@ -1,19 +1,15 @@
 /**
- * File : 
- *  popAnimation.hpp
- *
- * Decription :
- *  Class reponsible for animating a popping / suppression event 
+ * @file popAnimation.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies : 
- *  animation.hpp
+ * @brief Class which is in charge of the graphical representation 
+ *  of a popping animation.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
-
 
 #ifndef POP_ANIMATION_HPP
 #define POP_ANIMATION_HPP

@@ -1,3 +1,16 @@
+/**
+ * @file rectangle.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation
+ *  of a Rectangle shape.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef RECTANGLE_HPP
 #define RECTANGLE_HPP
 

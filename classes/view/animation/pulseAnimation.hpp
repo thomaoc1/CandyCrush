@@ -1,3 +1,16 @@
+/**
+ * @file pulseAnimation.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is in charge of the graphical representation 
+ *  of a pulse animation.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef PULE_ANIMATION_HPP
 #define PULE_ANIMATION_HPP
 

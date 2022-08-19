@@ -1,3 +1,16 @@
+/**
+ * @file componentText.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation of the 
+ * Component text.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef COMPONENT_TEXT_HPP
 #define COMPONENT_TEXT_HPP
 

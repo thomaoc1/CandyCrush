@@ -1,3 +1,16 @@
+/**
+ * @file animationQueue.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Data Structure which allows client to easily keep track of animations
+ *  that need to be executed.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef ANIMATION_QUEUE_HPP 
 #define ANIMATION_QUEUE_HPP
 

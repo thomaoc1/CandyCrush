@@ -1,3 +1,16 @@
+/**
+ * @file scoreDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation of the 
+ * Score text.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef SCORE_DISPLAY_HPP 
 #define SCORE_DISPLAY_HPP
 

@@ -1,3 +1,15 @@
+/**
+ * @file text.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which generalises the graphical representation of plain Text.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
@@ -22,7 +34,6 @@ public:
     Text() = default;
     Text(const Text &) = default;
     Text(Text &&) = default;
-
     virtual ~Text() = default;
     
     virtual std::string getText() const {return text;}

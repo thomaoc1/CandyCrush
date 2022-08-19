@@ -1,15 +1,16 @@
 /**
- * File : 
- *  shape.hpp
- *
- * Decription :
- *  Abstract class which generalises the representation of shapes.
+ * @file shape.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @brief Abstract class which generalises the graphical representation
+ *  of Shapes.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
+
 #ifndef SHAPE_HPP
 #define SHAPE_HPP
 
@@ -31,7 +32,7 @@ public:
         : center{center}, colour{associatedFLColour(colour)}, size{size} {};
 
     Shape(const Point &center, Fl_Color colour, double size) noexcept 
-        : center{center}, colour{colour}, size{size} {};
+        : center{center}, colour{colour}, size{size} {}
 
     Shape(const Shape &) = default;
     Shape(Shape &&) = default;

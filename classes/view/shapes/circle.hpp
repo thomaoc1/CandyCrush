@@ -1,3 +1,16 @@
+/**
+ * @file circle.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation
+ *  of a Circle shape.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef CIRCLE_HPP
 #define CIRCLE_HPP
 

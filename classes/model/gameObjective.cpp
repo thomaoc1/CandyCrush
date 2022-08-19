@@ -14,7 +14,7 @@ void GameObjective::gameDataInter(const GameData &gd) {
         if (gd.objTypes[i]) objType = i;
 
     obj = gd.objectives[objType];
-    if (objType == Constants::POPS) colour = gd.colour;
+    colour = gd.colour;
 
     observer.notifySwapsLeft(nSwaps);
     if (objType == Constants::POPS) observer.notifyObjective(objType, obj, colour);
@@ -77,7 +77,7 @@ void GameObjective::frostingPop() {
  * 
  * @param poppedColour 
  */
-void GameObjective::colourPop(int poppedColour) {
+void GameObjective::colourPop(Colour poppedColour) {
     if (objType == Constants::POPS && colour == poppedColour && obj > 0) {
         --obj;
         observer.notifyObjective(objType, obj, colour);

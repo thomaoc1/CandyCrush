@@ -28,7 +28,7 @@
 
 class CandyDisplay : public ComponentDisplay {
 public:
-    CandyDisplay(const Point &center, int colour) : ComponentDisplay{std::make_shared<Circle>(center, colour, Constants::CANDY_RADIUS)} {}
+    CandyDisplay(const Point &center, Colour colour) : ComponentDisplay{std::make_shared<Circle>(center, colour, Constants::CANDY_RADIUS)} {}
     CandyDisplay(const CandyDisplay &) = default;
     CandyDisplay(CandyDisplay &&) = default;
 };

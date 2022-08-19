@@ -52,10 +52,9 @@ class Grid {
     using CellMatrix = std::vector< std::vector< Cell > >;
     CellMatrix grid;
 
-    using CellIntInt = std::pair< Cell *, std::pair< int, Direction > >;
-    using CellIntPair = std::pair< Cell *, int >;
-    std::vector< CellIntInt > stripedBombs;
-    std::vector< CellIntPair > wrappedBombs;
+    using CellComponent = std::pair< Cell *, ComponentType >;
+
+    std::vector< CellComponent > bombs;
 
     GridDisplay &observer;
     
@@ -110,7 +109,7 @@ private:
     /* Grid Cleaning */
     void wrBombExtract(const std::vector< Cell * > &cColour, int index, Direction direction);
     void stBombExtract(Cell &cell, Direction direction);
-    void spBombExtract(Cell &cell) {specialBombs.push_back(&cell);}
+    void spBombExtract(Cell &cell) {bombs.push_back({&cell, ComponentType{Colour::DARK_RED, Component::SPECIAL_BOMB}});}
     void bombExtract(Cell &cell, const std::vector< Cell * > &cColour, const BombInfo &b);
     void clearCheck(Cell &cell);
 
@@ -127,17 +126,15 @@ private:
     void popIngredient();
     void insertComponent(int row, int col);
     void insertComponent(const Point &coord) {insertComponent(coord.y, coord.x);}
-    void insertComponent(Cell &cell, int type);
-    void placeWrappedCandies();
-    void placeStripedCandies();
-    void placeSpecialBombs();
+    void insertComponent(Cell &cell, const ComponentType &type);
+    void placeBombs();
     void exchangeCells(Cell &c1, Cell &c2);
     bool fillTop();
     void refillGrid();
     /** Repeatedly fills top row */
     void completeFill() {while(fillTop()) completeDrop();}
     bool clear();
-    bool directedDrop(int direction);
+    bool directedDrop(Beneath direction);
     void completeDrop();
     void clean(Cell &c1, Cell &c2);
     void clean();
@@ -156,8 +153,8 @@ private:
     bool possibleMoves();
     bool inGrid(const Point &coord) const;
     bool sameBomb(Cell &c1, Cell &c2) const;
-    bool isMobile(int component) const;
-    bool canPop(int component) const;
+    bool isMobile(Component component) const;
+    bool canPop(Component component) const;
     // Swap checks
     bool bombSwapCheck(Cell &c1, Cell &c2) const;
     bool specialSwapCheck(Cell &c1, Cell &c2) const;
@@ -166,9 +163,9 @@ private:
     int wrSpawnCond(const std::vector< Cell * > &cColour, Direction direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;}
     // Blast conditions
-    bool spBlastCond(Cell &c) const {return c.getBlastType() == Constants::SPECIAL;}
-    bool wrBlastCond(Cell &c) const {return c.getBlastType() == Constants::WRAPPED;}
-    bool stBlastCond(Cell &c) const {return c.getBlastType() == Constants::STRIPED;}
+    bool spBlastCond(Cell &c) const {return c.getBlastType() == BlastType::SPECIAL;}
+    bool wrBlastCond(Cell &c) const {return c.getBlastType() == BlastType::WRAPPED;}
+    bool stBlastCond(Cell &c) const {return c.getBlastType() == BlastType::STRIPED;}
 };
 
 #endif

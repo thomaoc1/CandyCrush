@@ -7,16 +7,19 @@ void Score::reset() {
 }
 
 
-void Score::bombSpawn(int count, int component) {
+void Score::bombSpawn(int count, Component component) {
     switch (component) {
-        case Constants::WRAPPED:
+        case Component::WRAPPED_BOMB:
             score += count * 35;
             break;
-        case Constants::STRIPED:
+        case Component::STRIPED_BOMB_H:
+        case Component::STRIPED_BOMB_V:
             score += count * 25;
             break;
-        case Constants::SPECIAL:
+        case Component::SPECIAL_BOMB:
             score += count * 50;
+            break;
+        default:
             break;
     }
     observer.notifyScore(score);

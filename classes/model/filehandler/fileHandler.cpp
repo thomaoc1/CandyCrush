@@ -19,17 +19,21 @@
 void FileHandler::asciiGridInterpreter(int row, const std::string &line) {
     int col = 0;
     for (int i = 0; i < static_cast<int>(line.length()); i += 3) {
-        using CoordType = std::pair< Point, int >;
-        int type = numOfInterpreter(i, line);
-        switch (type) {
-            case Constants::ANY:
-                break;
-            default:
-                gameData.components.emplace_back(CoordType{Point{col, row}, type});
-                break;
-        }
+        using CoordType = std::pair< Point, ComponentType >;
+        ComponentType component = componentInterpreter(i, line);
+        if (component.type == Component::ANY) continue;
+        gameData.components.emplace_back(CoordType{Point{col, row}, component});
         ++col;
     }
+}
+
+
+ComponentType FileHandler::componentInterpreter(int index, const std::string &line) const {
+    int colour = (int)line[index] - 48;
+    int component = ((int)line[index + 1] - 48) * 10;
+    int test = colour + component * 10;
+    if (static_cast<Component>(test) == Component::ANY) return ComponentType();
+    return ComponentType{static_cast<Colour>(colour), static_cast<Component>(component)};
 }
 
 
@@ -69,7 +73,7 @@ void FileHandler::interpretFile(const std::string &filename) {
         int objType = numOfInterpreter(0, line);
         gameData.objTypes[objType] = true;
         gameData.objectives[objType] = numOfInterpreter(3, line);
-        if (objType == Constants::POPS) gameData.colour = numOfInterpreter(6, line);
+        if (objType == Constants::POPS) gameData.colour = static_cast<Colour>(numOfInterpreter(6, line));
     }
 
     for (int i = 0; i < 9; ++i) {

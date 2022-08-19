@@ -5,7 +5,7 @@
 
 class SpecialDisplay : public BombDisplay {
 public:
-    SpecialDisplay(const Point &center) : BombDisplay(center, Constants::SPECIAL_BOMB, "Sp") {}
+    SpecialDisplay(const Point &center) : BombDisplay(center, Colour::DARK_RED, "Sp") {}
     SpecialDisplay(const SpecialDisplay &) = default;
     SpecialDisplay(SpecialDisplay &&) = default;
 };

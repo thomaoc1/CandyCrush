@@ -1,8 +1,8 @@
 #include "frosting.hpp"
 
 
-int Frosting::pop() {
+ComponentState Frosting::pop() {
     --layers;
-    if (layers >= 1) return Constants::NOT_POPPED;
-    return Constants::POPPED;
+    if (layers >= 1) return ComponentState::NOT_POPPED;
+    return ComponentState::POPPED;
 }

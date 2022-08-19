@@ -8,7 +8,7 @@
 class BombDisplay : public ComponentDisplay {
     Text text;
 public:
-    BombDisplay(const Point &center, int colour, const std::string &type)
+    BombDisplay(const Point &center, Colour colour, const std::string &type)
         : ComponentDisplay{std::make_shared<Circle>(center, colour, Constants::CANDY_RADIUS)},
             text{getCenter(), type, FL_HELVETICA, static_cast<int>(getSize() / 1.5)} {};
 

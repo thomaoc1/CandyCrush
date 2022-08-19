@@ -41,6 +41,7 @@ public:
     int getBestScore() const;
 private:
     void asciiGridInterpreter(int row, const std::string &line);
+    ComponentType componentInterpreter(int index, const std::string &line) const;
     int numOfInterpreter(int index, const std::string &line) const;
     void objectivesInterpreter(const std::string &line);
 };

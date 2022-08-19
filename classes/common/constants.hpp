@@ -9,7 +9,7 @@
 #include <FL/Fl_Box.H>
 
 #include "enumerations.hpp"
-
+#include "componentType.hpp"
 
 class Constants {
     const static std::array< int, 6 > candies;
@@ -71,7 +71,7 @@ public:
                             SPECIAL_BOMB} components;
 
     /** @brief Returns a random candy */
-    static int randomCandy() {return candies[rand() % 6];}
+    static Colour randomColour() {return static_cast<Colour>(candies[rand() % 6]);}
 
     /** @brief Returns a random direction (horizontal / verical) */
     static Direction randomDirection() {return static_cast<Direction>(rand() % 2);}
@@ -81,9 +81,9 @@ public:
     static bool isImmobile(int component) {return component == WALL || component == FROSTING1 || component == FROSTING2;}
 
     static int associatedColour(int component);
-    static Fl_Color associatedFLColour(int colour);
+    static Fl_Color associatedFLColour(Colour colour);
     static int associatedBlast(int component);
-    static int colourToSt(int colour, Direction direction);
+    static Component directionToSt(Direction direction);
     static int colourToWr(int colour);
     
 };

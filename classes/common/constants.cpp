@@ -94,94 +94,52 @@ int Constants::associatedColour(int component) {
 }
 
 
-Fl_Color Constants::associatedFLColour(int colour) {
+Fl_Color Constants::associatedFLColour(Colour colour) {
     Fl_Color fl_colour;
-    colour = associatedColour(colour);
-
+    
+    
     switch(colour) {
-        case Constants::RED:
+        case Colour::RED:
             fl_colour = FL_RED;
             break;        
-        case Constants::BLUE:
+        case Colour::BLUE:
             fl_colour = FL_BLUE;
             break;
-        case Constants::GREEN:
+        case Colour::GREEN:
             fl_colour = FL_GREEN;
             break;
-        case Constants::PURPLE:
+        case Colour::PURPLE:
             fl_colour = FL_MAGENTA;
             break;
-        case Constants::YELLOW:
+        case Colour::YELLOW:
             fl_colour = FL_YELLOW;
             break;
-        case Constants::ORANGE:
+        case Colour::ORANGE:
             fl_colour = fl_rgb_color(255,165,0);
             break;
-        case Constants::BLACK:
-            fl_colour = FL_BLACK;
-            break;
-        case Constants::CHERRY:
-        case Constants::SPECIAL_BOMB:
+        case Colour::DARK_RED:
             fl_colour = FL_DARK_RED;
             break;
-        case Constants::HAZELNUT:
+        case Colour::BROWN:
             fl_colour = fl_rgb_color(204,82,0);
             break;
-        case Constants::FROSTING1:
-        case Constants::FROSTING2:
+        case Colour::CYAN:
             fl_colour = FL_CYAN;
             break;
+        default:
+            fl_colour = FL_BLACK;
+            break;
     }
+        
+    
     return fl_colour;
 }
 
 
-int Constants::colourToSt(int colour, Direction direction) {
-    int type;
-    if (direction == Direction::VERTICAL) {
-        switch (colour) {
-            case Constants::RED:
-                type = Constants::RED_STRIPED_BOMB_V;
-                break;
-            case Constants::BLUE:
-                type = Constants::BLUE_STRIPED_BOMB_V;
-                break;
-            case Constants::GREEN:
-                type = Constants::GREEN_STRIPED_BOMB_V;
-                break;
-            case Constants::YELLOW:
-                type = Constants::YELLOW_STRIPED_BOMB_V;
-                break;
-            case Constants::PURPLE:
-                type = Constants::PURPLE_STRIPED_BOMB_V;
-                break;
-            case Constants::ORANGE:
-                type = Constants::ORANGE_STRIPED_BOMB_V;
-                break;
-        }
-    }
-    else {
-        switch (colour) {
-            case Constants::RED:
-                type = Constants::RED_STRIPED_BOMB_H;
-                break;
-            case Constants::BLUE:
-                type = Constants::BLUE_STRIPED_BOMB_H;
-                break;
-            case Constants::GREEN:
-                type = Constants::GREEN_STRIPED_BOMB_H;
-                break;
-            case Constants::YELLOW:
-                type = Constants::YELLOW_STRIPED_BOMB_H;
-                break;
-            case Constants::PURPLE:
-                type = Constants::PURPLE_STRIPED_BOMB_H;
-                break;
-            case Constants::ORANGE:
-                type = Constants::ORANGE_STRIPED_BOMB_H;
-                break;
-        }
-    }
+Component Constants::directionToSt(Direction direction) {
+    Component type;
+    if (direction == Direction::VERTICAL) type = Component::STRIPED_BOMB_V;
+    else type = Component::STRIPED_BOMB_H;
     return type;
 }
 

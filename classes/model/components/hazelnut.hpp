@@ -5,12 +5,9 @@
 
 class Hazelnut : public GameComponent {
 public:
-    Hazelnut() = default;
+    Hazelnut() : GameComponent{ComponentType{Colour::BROWN, Component::HAZELNUT}} {}
     Hazelnut(const Hazelnut &) = default;
     Hazelnut(Hazelnut &&) = default;
-    
-    int type() const override {return Constants::HAZELNUT;}
-    //std::string toString() const override {return "H";}
 };
 
 #endif

@@ -9,7 +9,7 @@ class GameObjective {
     int objType;
     int nSwaps;
     int obj;
-    int colour = 0;
+    Colour colour;
 
     GridDisplay &observer;
 
@@ -26,7 +26,7 @@ public:
     void swapped();
     void ingredientPop();
     void frostingPop();
-    void colourPop(int colour);
+    void colourPop(Colour colour);
 
 private:
     void gameDataInter(const GameData &gd);

@@ -5,7 +5,7 @@
 
 class HazelShape : public Shape {
 public:
-    HazelShape(const Point &center, double radius) : Shape{center, Constants::HAZELNUT, radius} {}
+    HazelShape(const Point &center, double radius) : Shape{center, Colour::BROWN, radius} {}
     HazelShape(const HazelShape &) = default;
     HazelShape(HazelShape &&) = default;
 

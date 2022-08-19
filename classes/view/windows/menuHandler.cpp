@@ -2,29 +2,20 @@
 
 
 int MenuHandler::eventHandler(int event) {
-    int button = current->eventHandler(event);
+    MenuButtons button = static_cast<MenuButtons>(current->eventHandler(event));
     switch (button) {
-        case Constants::BACK:
+        case MenuButtons::BACK:
             current = &mainMenu;
             mainMenu.recheckScore();
             break;
-        case Constants::GAME_OVER:
-            gameOver = true;
-            break;
-        case Constants::LEVEL1:
-        case Constants::LEVEL2:
-        case Constants::LEVEL3:
+        case MenuButtons::LEVEL1:
+        case MenuButtons::LEVEL2:
+        case MenuButtons::LEVEL3:
             game.setLevel(button);
             current = &game;
             break;
+        default:
+            break;
     }
     return event;
-}
-
-
-void MenuHandler::draw() {
-    // if (gameOver && !current->inAnimation()) 
-    //     current = &mainMenu;
-
-    current->draw();
 }

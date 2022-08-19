@@ -7,7 +7,7 @@ class Frosting : public GameComponent {
     int layers;
 public:
     Frosting(int layers) noexcept 
-        : GameComponent{ComponentType{Colour::BLUE, layers == 2 ? Component::FROSTING2 : Component::FROSTING1}}, layers{layers} {}
+        : GameComponent{ComponentType{Colour::CYAN, layers == 2 ? Component::FROSTING2 : Component::FROSTING1}}, layers{layers} {}
     
     ComponentState pop() override;
 };

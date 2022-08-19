@@ -155,10 +155,10 @@ std::shared_ptr<ComponentDisplay> GridDisplay::factoryMethod(int row, int col, c
             ret = std::make_shared<CandyDisplay>(center, component.colour);
             break;
         case Component::STRIPED_BOMB_H:
-            ret = std::make_shared<StripedDisplay>(center, component.colour, Direction::VERTICAL);
+            ret = std::make_shared<StripedDisplay>(center, component.colour, Direction::HORIZONTAL);
             break;
         case Component::STRIPED_BOMB_V:
-            ret = std::make_shared<StripedDisplay>(center, component.colour, Direction::HORIZONTAL);
+            ret = std::make_shared<StripedDisplay>(center, component.colour, Direction::VERTICAL);
             break;
         case Component::WRAPPED_BOMB:
             ret = std::make_shared<WrappedDisplay>(center, component.colour);
@@ -307,13 +307,15 @@ void GridDisplay::notifyNoSwaps() {
 }
 
 
-void GridDisplay::notifyGameState(int state) {
+void GridDisplay::notifyGameState(GameState state) {
     switch (state) {
-        case Constants::LOST:
+        case GameState::LOST:
             lost();
             break;
-        case Constants::WON:
+        case GameState::WON:
             won();
+            break;
+        default:
             break;
     }
 }

@@ -100,7 +100,7 @@ public:
 
     void notifySwapsLeft(int swaps) {broadcast.setSwaps(swaps);}
     void notifyNoSwaps();
-    void notifyGameState(int state);
+    void notifyGameState(GameState state);
     void notifyObjective(int objType, int obj);
     void notifyObjective(int objType, int obj, Colour colour);
     

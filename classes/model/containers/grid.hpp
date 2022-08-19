@@ -97,7 +97,7 @@ public:
 
     void setLevel(const std::string &level);
     void swap(const Point &cell1, const Point &cell2);
-    int gameState() const {return gameObj.gameState();}
+    GameState gameState() const {return gameObj.gameState();}
 
 private:
     /* Init */
@@ -166,6 +166,16 @@ private:
     bool spBlastCond(Cell &c) const {return c.getBlastType() == BlastType::SPECIAL;}
     bool wrBlastCond(Cell &c) const {return c.getBlastType() == BlastType::WRAPPED;}
     bool stBlastCond(Cell &c) const {return c.getBlastType() == BlastType::STRIPED;}
+
+    // TEMP 
+    void terminalDisplay() const {
+        for (auto &row : grid) {
+            for (auto &c : row) {
+                std::cout << static_cast<int>(c.getColour()) << static_cast<int>(c.type()) << " "; 
+            }
+            std::cout << "\n";
+        }
+    }
 };
 
 #endif

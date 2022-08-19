@@ -21,9 +21,9 @@ public:
     void draw() override {gridDisplay.draw();}
     int eventHandler(int event) override {return gridControl->proccessEvent(event);}
     bool inAnimation() const override {return gridDisplay.inAnimation();}
-    void setLevel(int level) {grid->setLevel(associatedFile(level));} 
+    void setLevel(MenuButtons level) {grid->setLevel(associatedFile(level));} 
 private:
-    std::string associatedFile(int level) const;
+    std::string associatedFile(MenuButtons level) const;
 };
 
 #endif

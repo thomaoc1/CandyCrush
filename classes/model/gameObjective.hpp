@@ -20,7 +20,7 @@ public:
     GameObjective(GameObjective &&) = default;
     
     void setGameData(const GameData &gd) {gameDataInter(gd);}
-    int gameState() const;
+    GameState gameState() const;
     int swaps() const {return nSwaps;}
 
     void swapped();

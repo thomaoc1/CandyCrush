@@ -23,74 +23,12 @@ const double Constants::HALVE_GRIDSIZE = 5 * Constants::HALVE_CELL_SIZE + 4 * Co
 const int Constants::COLS = 9;
 const int Constants::ROWS = 9;
 
-
-
-
 const double Constants::CANDY_RADIUS = Constants::HALVE_CELL_SIZE - 3;
-
-
-const std::array< int, 6 > Constants::candies = {components::RED, components::BLUE, components::GREEN, 
-                                                    components::YELLOW, components::PURPLE, components::ORANGE};
-
 
 
 Direction Constants::perpendicular(Direction dir) {
     if (dir == Direction::NO_DIRECTION) return dir;
     return dir == Direction::HORIZONTAL ? Direction::VERTICAL : Direction::VERTICAL;
-}
-
-
-int Constants::associatedColour(int component) {
-    int colour;
-    switch (component) {
-        case Constants::RED:
-        case Constants::BLUE:
-        case Constants::GREEN:
-        case Constants::YELLOW:
-        case Constants::PURPLE:
-        case Constants::ORANGE:
-        case Constants::FROSTING1:
-        case Constants::FROSTING2:
-        case Constants::SPECIAL_BOMB:
-        case Constants::CHERRY:
-        case Constants::HAZELNUT:
-            colour = component;
-            break;
-        case Constants::RED_STRIPED_BOMB_V:
-        case Constants::RED_STRIPED_BOMB_H:
-        case Constants::RED_WRAPPED_BOMB:
-            colour = Constants::RED;
-            break;
-        case Constants::BLUE_STRIPED_BOMB_V:
-        case Constants::BLUE_STRIPED_BOMB_H:
-        case Constants::BLUE_WRAPPED_BOMB:
-            colour = Constants::BLUE;
-            break;
-        case Constants::GREEN_STRIPED_BOMB_V:
-        case Constants::GREEN_STRIPED_BOMB_H:
-        case Constants::GREEN_WRAPPED_BOMB:
-            colour = Constants::GREEN;
-            break;
-        case Constants::YELLOW_STRIPED_BOMB_V:
-        case Constants::YELLOW_STRIPED_BOMB_H:
-        case Constants::YELLOW_WRAPPED_BOMB:
-            colour = Constants::YELLOW;
-            break;
-        case Constants::PURPLE_STRIPED_BOMB_V:
-        case Constants::PURPLE_STRIPED_BOMB_H:
-        case Constants::PURPLE_WRAPPED_BOMB:
-            colour = Constants::PURPLE;
-            break;
-        case Constants::ORANGE_STRIPED_BOMB_V:
-        case Constants::ORANGE_STRIPED_BOMB_H:
-        case Constants::ORANGE_WRAPPED_BOMB:
-            colour = Constants::ORANGE;
-            break;
-        case Constants::WALL:
-            colour = Constants::BLACK;
-            break;
-    }
-    return colour;
 }
 
 
@@ -140,65 +78,5 @@ Component Constants::directionToSt(Direction direction) {
     Component type;
     if (direction == Direction::VERTICAL) type = Component::STRIPED_BOMB_V;
     else type = Component::STRIPED_BOMB_H;
-    return type;
-}
-
-
-int Constants::colourToWr(int colour) {
-    int type;
-    switch (colour) {
-        case Constants::RED:
-            type = Constants::RED_WRAPPED_BOMB;
-            break;
-        case Constants::BLUE:
-            type = Constants::BLUE_WRAPPED_BOMB;
-            break;
-        case Constants::GREEN:
-            type = Constants::GREEN_WRAPPED_BOMB;
-            break;
-        case Constants::YELLOW:
-            type = Constants::YELLOW_WRAPPED_BOMB;
-            break;
-        case Constants::PURPLE:
-            type = Constants::PURPLE_WRAPPED_BOMB;
-            break;
-        case Constants::ORANGE:
-            type = Constants::ORANGE_WRAPPED_BOMB;
-            break;
-    }
-    return type;
-}
-
-
-int Constants::associatedBlast(int component) {
-    int type = Constants::SIMPLE;
-    switch (component) {
-        case Constants::RED_WRAPPED_BOMB:
-        case Constants::BLUE_WRAPPED_BOMB:
-        case Constants::GREEN_WRAPPED_BOMB:
-        case Constants::YELLOW_WRAPPED_BOMB:
-        case Constants::PURPLE_WRAPPED_BOMB:
-        case Constants::ORANGE_WRAPPED_BOMB:
-            type = Constants::WRAPPED;
-            break; 
-        case Constants::RED_STRIPED_BOMB_H:
-        case Constants::BLUE_STRIPED_BOMB_H:
-        case Constants::GREEN_STRIPED_BOMB_H:
-        case Constants::YELLOW_STRIPED_BOMB_H:
-        case Constants::PURPLE_STRIPED_BOMB_H:
-        case Constants::ORANGE_STRIPED_BOMB_H: 
-        case Constants::RED_STRIPED_BOMB_V:
-        case Constants::BLUE_STRIPED_BOMB_V:
-        case Constants::GREEN_STRIPED_BOMB_V:
-        case Constants::YELLOW_STRIPED_BOMB_V:
-        case Constants::PURPLE_STRIPED_BOMB_V:
-        case Constants::ORANGE_STRIPED_BOMB_V:
-            type = Constants::STRIPED;
-            break;   
-        case Constants::ANY:
-            type = Constants::SPECIAL;
-            break;
-
-    }
     return type;
 }

@@ -21,8 +21,8 @@ void FileHandler::asciiGridInterpreter(int row, const std::string &line) {
     for (int i = 0; i < static_cast<int>(line.length()); i += 3) {
         using CoordType = std::pair< Point, ComponentType >;
         ComponentType component = componentInterpreter(i, line);
-        if (component.type == Component::ANY) continue;
-        gameData.components.emplace_back(CoordType{Point{col, row}, component});
+        if (component.type != Component::ANY) 
+            gameData.components.emplace_back(CoordType{Point{col, row}, component});
         ++col;
     }
 }
@@ -30,8 +30,8 @@ void FileHandler::asciiGridInterpreter(int row, const std::string &line) {
 
 ComponentType FileHandler::componentInterpreter(int index, const std::string &line) const {
     int colour = (int)line[index] - 48;
-    int component = ((int)line[index + 1] - 48) * 10;
-    int test = colour + component * 10;
+    int component = (int)line[index + 1] - 48;
+    int test = colour * 10 + component;
     if (static_cast<Component>(test) == Component::ANY) return ComponentType();
     return ComponentType{static_cast<Colour>(colour), static_cast<Component>(component)};
 }

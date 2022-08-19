@@ -5,7 +5,7 @@
 
 class CherryShape : public Shape {
 public:
-    CherryShape(const Point &center, double radius) : Shape{center, Constants::CHERRY, radius} {}
+    CherryShape(const Point &center, double radius) : Shape{center, Colour::DARK_RED, radius} {}
     CherryShape(const CherryShape &) = default;
     CherryShape(CherryShape &&) = default;
 

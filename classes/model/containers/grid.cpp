@@ -308,15 +308,13 @@ void Grid::popAll() {
     clearFrostings();
 
     for (auto &cell : toPop) {
-        ComponentType cellComp = cell->component();
         if (cell->compState() == ComponentState::POPPED) {
-            if (cellComp.type == Component::FROSTING2) gameObj.frostingPop();
-            else gameObj.colourPop(cellComp.colour);
+            if (cell->type() == Component::FROSTING2) gameObj.frostingPop();
+            else gameObj.colourPop(cell->getColour());
             unoccupy(*cell);
         }
-        else filling.push_back({cell->getLocation(), cellComp});
+        else filling.push_back({cell->getLocation(), cell->component()});
         toObserver.push_back(cell->getLocation());
-
     }
     score.pop(static_cast<int>(toPop.size()));
     observer.notifyPop(toObserver);
@@ -590,6 +588,7 @@ void Grid::clean(Cell &c1, Cell &c2) {
  * 
  */
 void Grid::clean() {
+    terminalDisplay();
     while (!clear()) {
         completeFill();
         completeDrop();
@@ -600,7 +599,7 @@ void Grid::clean() {
         refillGrid();
         clean();
     }
-    if (gameState() == Constants::WON) FileHandler().dumpScore(score.getScore());
+    if (gameState() == GameState::WON) FileHandler().dumpScore(score.getScore());
 }
 
 

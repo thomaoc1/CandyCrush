@@ -27,10 +27,10 @@ void GameObjective::gameDataInter(const GameData &gd) {
  * 
  * @return int 
  */
-int GameObjective::gameState() const {
-    int gamestate = Constants::ONGOING;
-    if (nSwaps <= 0) gamestate = Constants::LOST;
-    else if (obj <= 0) gamestate = Constants::WON;
+GameState GameObjective::gameState() const {
+    GameState gamestate = GameState::ONGOING;
+    if (nSwaps <= 0) gamestate = GameState::LOST;
+    else if (obj <= 0) gamestate = GameState::WON;
     return gamestate;
 }
 

@@ -13,7 +13,7 @@ class FrostingDisplay : public ComponentDisplay {
 
 public:
     FrostingDisplay(const Point &center, int layer) noexcept 
-        : ComponentDisplay(std::make_shared<Rectangle>(center, Constants::associatedFLColour(Colour::CYAN), Constants::CELL_SIZE, FL_FLAT_BOX)),
+        : ComponentDisplay(std::make_shared<Rectangle>(center, Colour::CYAN, Constants::CELL_SIZE, FL_FLAT_BOX)),
                             layers{layer},
                             text{getCenter(), std::to_string(layers), FL_HELVETICA, static_cast<int>(getSize() / 1.5)} {}
 

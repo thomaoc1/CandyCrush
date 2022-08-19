@@ -24,7 +24,8 @@
 #include <memory>
 
 class GameComponent {
-    const ComponentType compType;
+protected:
+    ComponentType compType;
     const BlastType blastType;
     const Direction blastDirection;
 public:

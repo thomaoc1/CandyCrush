@@ -55,7 +55,6 @@ public:
     std::vector< Cell * > getNbs() const {return nbs;}
     bool getPop() const {return toPop;}
     BlastType getBlastType() const {return occupied ? occupied->getBlastType() : BlastType::NO_BLAST;}
-    Direction getBlastDirection() const {return occupied ? occupied->getBlastDirection() : Direction::NO_DIRECTION;}
     Colour getColour() const {return occupied ? occupied->getColour() : Colour::NONE;}
     ComponentType component() const {return occupied->type();}
     Component type() const {return occupied->type().type;}

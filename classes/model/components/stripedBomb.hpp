@@ -21,10 +21,10 @@
 class StripedBomb : public GameComponent {
 public:
     StripedBomb(Colour colour, Direction blastDirection) noexcept
-        : GameComponent(ComponentType{colour, Constants::directionToSt(blastDirection)}, BlastType::STRIPED, blastDirection) {}
+        : GameComponent(ComponentType{colour, Constants::directionToSt(blastDirection)}, BlastType::STRIPED) {}
     StripedBomb() noexcept 
         : GameComponent(ComponentType{randomColour(), Constants::directionToSt(randomDirection())}, 
-                                       BlastType::STRIPED, randomDirection()) {}
+                                       BlastType::STRIPED) {}
     StripedBomb(const StripedBomb &) = default;
     StripedBomb(StripedBomb &&) = default;
 private:

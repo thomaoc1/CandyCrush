@@ -186,7 +186,7 @@ void Grid::stripedBlast(Cell &target) {
     Point start = target.getLocation();
     std::vector<Cell *> tmp;
 
-    if (target.getBlastDirection() == Direction::VERTICAL) {
+    if (target.type() == Component::STRIPED_BOMB_V) {
         for (int i = start.y + 1; i < ROWS; ++i) tmp.push_back(&grid[i][start.x]);
         for (int i = start.y - 1; i >= 0; --i) tmp.push_back(&grid[i][start.x]);
     }

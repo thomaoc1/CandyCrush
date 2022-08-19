@@ -163,9 +163,9 @@ private:
     int wrSpawnCond(const std::vector< Cell * > &cColour, Direction direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;}
     // Blast conditions
-    bool spBlastCond(Cell &c) const {return c.getBlastType() == BlastType::SPECIAL;}
-    bool wrBlastCond(Cell &c) const {return c.getBlastType() == BlastType::WRAPPED;}
-    bool stBlastCond(Cell &c) const {return c.getBlastType() == BlastType::STRIPED;}
+    bool spBlastCond(Cell &c) const {return c.type() == Component::SPECIAL_BOMB;}
+    bool wrBlastCond(Cell &c) const {return c.type() == Component::WRAPPED_BOMB;}
+    bool stBlastCond(Cell &c) const {return c.type() == Component::STRIPED_BOMB_H || c.type() == Component::STRIPED_BOMB_V;}
 
     /* Utility */
     Direction perpendicular(Direction dir) const;

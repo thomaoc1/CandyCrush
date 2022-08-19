@@ -7,7 +7,7 @@ class SpecialBomb : public GameComponent {
     Component component;
 public:
     SpecialBomb() 
-        : GameComponent{ComponentType{Colour::DARK_RED, Component::SPECIAL_BOMB}, BlastType::SPECIAL} {}
+        : GameComponent{ComponentType{Colour::DARK_RED, Component::SPECIAL_BOMB}} {}
     void setComponent(Component toPop) {component = toPop;}
     Component getComponent() const {return component;}
 };

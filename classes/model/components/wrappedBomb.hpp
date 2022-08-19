@@ -21,10 +21,9 @@
 class WrappedBomb : public GameComponent {
 public:
     WrappedBomb(Colour colour) noexcept
-        : GameComponent(ComponentType{colour, Component::WRAPPED_BOMB}, BlastType::WRAPPED) {}
+        : GameComponent(ComponentType{colour, Component::WRAPPED_BOMB}) {}
     WrappedBomb() noexcept
-        : GameComponent(ComponentType{randomColour(), Component::WRAPPED_BOMB}, 
-                         BlastType::WRAPPED) {}
+        : GameComponent(ComponentType{randomColour(), Component::WRAPPED_BOMB}) {}
                          
     WrappedBomb(const WrappedBomb &) = default;
     WrappedBomb(WrappedBomb &&) = default;    

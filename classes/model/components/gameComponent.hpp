@@ -26,17 +26,13 @@
 class GameComponent {
 protected:
     ComponentType compType;
-    const BlastType blastType;
 public:
-    GameComponent(ComponentType &&compType, BlastType blastType) noexcept 
-        : compType{std::move(compType)}, blastType{blastType} {}
     GameComponent(ComponentType &&compType) noexcept
-        : compType{std::move(compType)}, blastType{BlastType::SIMPLE} {}
+        : compType{std::move(compType)} {}
     virtual ~GameComponent() = default;
 
     virtual ComponentState pop() {return ComponentState::POPPED;}
     virtual Colour getColour() const {return compType.colour;}
-    virtual BlastType getBlastType() const {return blastType;}
     virtual ComponentType type() const {return compType;}
 
 protected:

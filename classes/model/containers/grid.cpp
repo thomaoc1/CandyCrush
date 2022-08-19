@@ -207,19 +207,19 @@ void Grid::stripedBlast(Cell &target) {
  */
 void Grid::specialBlast(Cell &c1, Cell &c2) {
 
-    if (c1.getBlastType() == BlastType::SPECIAL && c2.getBlastType() == BlastType::SPECIAL) {
+    if (c1.type() == Component::SPECIAL_BOMB && c2.type() == Component::SPECIAL_BOMB) {
         for (auto &row : grid) 
             for (auto &cell : row) willPop(cell);
     }
 
     else {
-        Cell &target = c1.getBlastType() == BlastType::SPECIAL ? c2 : c1;
+        Cell &target = c1.type() == Component::SPECIAL_BOMB ? c2 : c1;
         willPop(c1);
         willPop(c2);
         for (auto &row : grid) {
             for (auto &cell : row) {
                 if (cell.getColour() != target.getColour()) continue;
-                if (target.getBlastType() != BlastType::SIMPLE) insertComponent(cell, target.component());
+                if (target.type() != Component::CANDY) insertComponent(cell, target.component());
                 willPop(cell);
             }
         }
@@ -777,10 +777,12 @@ bool Grid::inGrid(const Point &coord) const {
  * @return true / false 
  */
 bool Grid::sameBomb(Cell &c1, Cell &c2) const {
-    return (c1.getBlastType() == BlastType::STRIPED
-        && c2.getBlastType() == BlastType::STRIPED)
-        || (c1.getBlastType() == BlastType::WRAPPED
-        && c2.getBlastType() == BlastType::WRAPPED);
+    auto stripedBomb = [](Component cp) 
+        -> bool {return cp == Component::STRIPED_BOMB_H || cp == Component::STRIPED_BOMB_V;};
+
+    return (stripedBomb(c1.type()) && stripedBomb(c2.type()))
+        || (c1.type() == Component::WRAPPED_BOMB
+        && c2.type() == Component::WRAPPED_BOMB);
 }
 
 
@@ -823,8 +825,8 @@ return !(component == Component::WALL || component == Component::CHERRY
  * @return false 
  */
 bool Grid::bombSwapCheck(Cell &c1, Cell &c2) const {
-    return ((c1.getBlastType() != BlastType::SIMPLE
-            && c2.getBlastType() != BlastType::SIMPLE) 
+    return ((c1.type() != Component::CANDY
+            && c2.type() != Component::CANDY) 
             || specialSwapCheck(c1, c2));
 }
 
@@ -839,7 +841,7 @@ bool Grid::bombSwapCheck(Cell &c1, Cell &c2) const {
  */
 bool Grid::specialSwapCheck(Cell &c1, Cell &c2) const {
      return (canPop(c1.type()) && canPop(c2.type())) 
-            && (c1.getBlastType() == BlastType::SPECIAL || c2.getBlastType() == BlastType::SPECIAL);
+            && (c1.type() == Component::SPECIAL_BOMB || c2.type() == Component::SPECIAL_BOMB);
 }
 
 

@@ -54,7 +54,6 @@ public:
     Cell * getBelow(Beneath direction) const {return belowNbs[static_cast<int>(direction)];}
     std::vector< Cell * > getNbs() const {return nbs;}
     bool getPop() const {return toPop;}
-    BlastType getBlastType() const {return occupied ? occupied->getBlastType() : BlastType::NO_BLAST;}
     Colour getColour() const {return occupied ? occupied->getColour() : Colour::NONE;}
     ComponentType component() const {return occupied->type();}
     Component type() const {return occupied->type().type;}

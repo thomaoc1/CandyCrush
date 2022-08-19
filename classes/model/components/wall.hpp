@@ -20,7 +20,7 @@
 
 class Wall : public GameComponent {
 public:
-    Wall() : GameComponent{ComponentType{Colour::BLACK, Component::WALL}, BlastType::NO_BLAST} {}
+    Wall() : GameComponent{ComponentType{Colour::BLACK, Component::WALL}} {}
     ComponentType type() const override {return ComponentType{Colour::BLACK, Component::WALL};}
 };
 

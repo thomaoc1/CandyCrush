@@ -1,19 +1,13 @@
 /**
- * File : 
- *  mainWindow.hpp
- *
- * Decription :
- *  Class responsible of creating the FL_Window.
+ * @file mainWindow.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies:
- *  constants.hpp
- *  grid.hpp
- *  gridControl.hpp
- *  gridDisplay.hpp
+ * @brief Class which is reponsible for launching an FLTK Window and forwarding
+ *  events.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
 

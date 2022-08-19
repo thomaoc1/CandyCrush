@@ -1,3 +1,16 @@
+/**
+ * @file mainMenu.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation and
+ *  of the MainMenu
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef MAIN_MENU_HPP
 #define MAIN_MENU_HPP
 

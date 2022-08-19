@@ -360,7 +360,7 @@ void Grid::popIngredient() {
  * 
  */
 void Grid::insertComponent(int row, int col) {
-    grid[row][col].setOccupied(std::make_shared<Candy>(Constants::randomColour()));
+    grid[row][col].setOccupied(std::make_shared<Candy>());
 }
 
 
@@ -588,7 +588,6 @@ void Grid::clean(Cell &c1, Cell &c2) {
  * 
  */
 void Grid::clean() {
-    terminalDisplay();
     while (!clear()) {
         completeFill();
         completeDrop();
@@ -854,6 +853,17 @@ int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, Direction direction)
     return isWrapped;
 }
 
+
+/**
+ * @brief Returns direction perpendicular to direction given
+ * 
+ * @param dir 
+ * @return Direction 
+ */
+Direction Grid::perpendicular(Direction dir) const {
+    if (dir == Direction::NO_DIRECTION) return dir;
+    return dir == Direction::HORIZONTAL ? Direction::VERTICAL : Direction::VERTICAL;
+}
 
 
 /*-------------------------------------------------------------------------------------------*

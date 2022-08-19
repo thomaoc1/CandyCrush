@@ -167,15 +167,8 @@ private:
     bool wrBlastCond(Cell &c) const {return c.getBlastType() == BlastType::WRAPPED;}
     bool stBlastCond(Cell &c) const {return c.getBlastType() == BlastType::STRIPED;}
 
-    // TEMP 
-    void terminalDisplay() const {
-        for (auto &row : grid) {
-            for (auto &c : row) {
-                std::cout << static_cast<int>(c.getColour()) << static_cast<int>(c.type()) << " "; 
-            }
-            std::cout << "\n";
-        }
-    }
+    /* Utility */
+    Direction perpendicular(Direction dir) const;
 };
 
 #endif

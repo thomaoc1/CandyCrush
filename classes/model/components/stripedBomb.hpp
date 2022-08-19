@@ -23,11 +23,13 @@ public:
     StripedBomb(Colour colour, Direction blastDirection) noexcept
         : GameComponent(ComponentType{colour, Constants::directionToSt(blastDirection)}, BlastType::STRIPED, blastDirection) {}
     StripedBomb() noexcept 
-        : GameComponent(ComponentType{Constants::randomColour(), 
-                                       Constants::directionToSt(Constants::randomDirection())}, 
-                                       BlastType::STRIPED, Constants::randomDirection()) {}
+        : GameComponent(ComponentType{randomColour(), Constants::directionToSt(randomDirection())}, 
+                                       BlastType::STRIPED, randomDirection()) {}
     StripedBomb(const StripedBomb &) = default;
     StripedBomb(StripedBomb &&) = default;
+private:
+    /** @brief Returns a random direction (horizontal / verical) */
+    Direction randomDirection() const {return static_cast<Direction>(rand() % 2);}
 };
 
 #endif

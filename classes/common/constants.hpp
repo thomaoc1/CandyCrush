@@ -32,19 +32,11 @@ public:
     static const double GAP_SIZE;
     static const double GRIDSIZE;
     static const double HALVE_GRIDSIZE;
+    static const double CANDY_RADIUS;
+
     static const int COLS;
     static const int ROWS;
 
-    static const double CANDY_RADIUS;
-
-    /** @brief Returns a random candy */
-    static Colour randomColour() {return static_cast<Colour>(static_cast<Colour>(rand() % 6));}
-
-    /** @brief Returns a random direction (horizontal / verical) */
-    static Direction randomDirection() {return static_cast<Direction>(rand() % 2);}
-    static Direction perpendicular(Direction dir);
-
-    static Fl_Color associatedFLColour(Colour colour);
     static Component directionToSt(Direction direction);
 };
 

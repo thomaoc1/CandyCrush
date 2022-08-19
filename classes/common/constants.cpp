@@ -25,55 +25,6 @@ const int Constants::ROWS = 9;
 
 const double Constants::CANDY_RADIUS = Constants::HALVE_CELL_SIZE - 3;
 
-
-Direction Constants::perpendicular(Direction dir) {
-    if (dir == Direction::NO_DIRECTION) return dir;
-    return dir == Direction::HORIZONTAL ? Direction::VERTICAL : Direction::VERTICAL;
-}
-
-
-Fl_Color Constants::associatedFLColour(Colour colour) {
-    Fl_Color fl_colour;
-    
-    
-    switch(colour) {
-        case Colour::RED:
-            fl_colour = FL_RED;
-            break;        
-        case Colour::BLUE:
-            fl_colour = FL_BLUE;
-            break;
-        case Colour::GREEN:
-            fl_colour = FL_GREEN;
-            break;
-        case Colour::PURPLE:
-            fl_colour = FL_MAGENTA;
-            break;
-        case Colour::YELLOW:
-            fl_colour = FL_YELLOW;
-            break;
-        case Colour::ORANGE:
-            fl_colour = fl_rgb_color(255,165,0);
-            break;
-        case Colour::DARK_RED:
-            fl_colour = FL_DARK_RED;
-            break;
-        case Colour::BROWN:
-            fl_colour = fl_rgb_color(204,82,0);
-            break;
-        case Colour::CYAN:
-            fl_colour = FL_CYAN;
-            break;
-        default:
-            fl_colour = FL_BLACK;
-            break;
-    }
-        
-    
-    return fl_colour;
-}
-
-
 Component Constants::directionToSt(Direction direction) {
     Component type;
     if (direction == Direction::VERTICAL) type = Component::STRIPED_BOMB_V;

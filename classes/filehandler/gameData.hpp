@@ -18,7 +18,7 @@
 
 #include <vector>
 #include <array>
-#include "../shared/point.hpp"
+#include "../common/point.hpp"
 #include "../common/enumerations.hpp"
 #include "../common/componentType.hpp"
 

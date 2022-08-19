@@ -2,7 +2,7 @@
 #define ANIMATION_QUEUE_HPP
 
 #include <queue>
-#include "../../shared/point.hpp"
+#include "../../common/point.hpp"
 #include "../../common/constants.hpp"
 #include "../../common/componentType.hpp"
 

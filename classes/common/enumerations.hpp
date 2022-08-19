@@ -1,3 +1,15 @@
+/**
+ * @file enumerations.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Contains all the enumerations used
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef ENUMERATIONS_HPP
 #define ENUMERATIONS_HPP
 

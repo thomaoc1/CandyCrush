@@ -1,3 +1,16 @@
+/**
+ * @file gameObjective.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is in charge of updating the player's score.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
+
 #ifndef SCORE_HPP
 #define SCORE_HPP
 
@@ -9,9 +22,9 @@
 
 class Score {
     int score = 0;
-    int bSpawn = 35;
-    int explMuti = 20;
-    int suppression = 15;
+    const int bSpawn = 35;
+    const int explMuti = 20;
+    const int suppression = 15;
 
     GridDisplay &observer;
 public:

@@ -1,5 +1,5 @@
 /**
- * @file specialBomb.hpp
+ * @file wrappedBomb.hpp
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 

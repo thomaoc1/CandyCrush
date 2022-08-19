@@ -20,7 +20,7 @@
 #ifndef MOVE_ANIMATION_HPP
 #define MOVE_ANIMATION_HPP
 
-#include "../../shared/point.hpp"
+#include "../../common/point.hpp"
 #include "animation.hpp"
 #include "../components/componentDisplay.hpp"
 

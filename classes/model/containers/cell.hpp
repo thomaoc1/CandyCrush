@@ -18,7 +18,7 @@
 #define CELL_HPP
 
 #include "../components/gameComponent.hpp"
-#include "../../shared/point.hpp"
+#include "../../common/point.hpp"
 
 #include <memory>
 

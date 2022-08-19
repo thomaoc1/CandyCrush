@@ -1,13 +1,13 @@
 /**
- * File : 
- *  Point.hpp
- *
- * Decription :
- *  Struct to store to ints, typically for matrix coordinates
+ * @file point.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @brief Struct used to store coordinates
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
  */
 
 #ifndef POINT_HPP

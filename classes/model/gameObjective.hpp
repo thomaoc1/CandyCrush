@@ -1,3 +1,16 @@
+/**
+ * @file gameObjective.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is in charge of tracking the progress towards
+ *  winning / losing the game.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef GAME_OBJECTIVE_HPP
 #define GAME_OBJECTIVE_HPP
 
@@ -7,10 +20,9 @@
 
 class GameObjective {
     ObjectiveType objType;
+    Colour colour;
     int nSwaps;
     int obj;
-    Colour colour;
-
     GridDisplay &observer;
 
 public:

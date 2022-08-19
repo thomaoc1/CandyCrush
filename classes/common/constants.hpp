@@ -1,3 +1,15 @@
+/**
+ * @file constants.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * @brief 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
 #include <string>

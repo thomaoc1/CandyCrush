@@ -14,7 +14,7 @@
 #define SHAPE_HPP
 
 #include "../../common/constants.hpp"
-#include "../../shared/point.hpp"
+#include "../../common/point.hpp"
 
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>

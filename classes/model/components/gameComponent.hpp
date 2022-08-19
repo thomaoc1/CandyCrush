@@ -1,5 +1,5 @@
 /**
- * @file hazelnut.hpp
+ * @file gameComponent.hpp
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 

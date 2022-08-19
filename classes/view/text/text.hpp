@@ -1,7 +1,7 @@
 #ifndef TEXT_HPP
 #define TEXT_HPP
 
-#include "../../shared/point.hpp"
+#include "../../common/point.hpp"
 
 #include <string>
 

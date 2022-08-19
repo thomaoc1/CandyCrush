@@ -19,7 +19,7 @@
 #define COMPONENT_DISPLAY_HPP
 
 #include "../../common/constants.hpp"
-#include "../../shared/point.hpp"
+#include "../../common/point.hpp"
 #include "../shapes/shape.hpp"
 
 #include <memory>

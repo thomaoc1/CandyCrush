@@ -35,7 +35,7 @@
 #include "../components/hazelnut.hpp"
 #include "../components/frosting.hpp"
 #include "../../filehandler/fileHandler.hpp"
-#include "../../shared/point.hpp"
+#include "../../common/point.hpp"
 #include "../score.hpp"
 #include "../gameObjective.hpp"
 

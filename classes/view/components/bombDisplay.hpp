@@ -15,8 +15,6 @@ public:
     virtual void drawShape() const override;
     virtual void setCenter(const Point &dest) override;
     virtual void setSize(double newSize) override;
-
-    // virtual std::string type() const {return ComponentDisplay::type() != " " ? ComponentDisplay::type() + text.getText() : " ";}
 };
 
 #endif

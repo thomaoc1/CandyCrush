@@ -41,6 +41,8 @@
 
 #include "../../view/gridDisplay.hpp"
 
+#include "../../common/enumerations.hpp"
+
 #include <vector>
 #include <memory>
 #include <iostream>
@@ -50,7 +52,7 @@ class Grid {
     using CellMatrix = std::vector< std::vector< Cell > >;
     CellMatrix grid;
 
-    using CellIntInt = std::pair< Cell *, std::pair< int, int > >;
+    using CellIntInt = std::pair< Cell *, std::pair< int, Direction > >;
     using CellIntPair = std::pair< Cell *, int >;
     std::vector< CellIntInt > stripedBombs;
     std::vector< CellIntPair > wrappedBombs;
@@ -67,6 +69,27 @@ class Grid {
 
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
+
+    class Nbs {
+        std::vector<Cell *> vert;
+        std::vector<Cell *> horiz;
+    public:
+        Nbs() = default;
+
+        void set(std::vector<Cell *> &&newVert, std::vector<Cell *> &&newHoriz) 
+            {vert = std::move(newVert); horiz = std::move(newHoriz);}      
+
+        std::vector<Cell *> get(Direction dir) const {return dir == Direction::VERTICAL ? vert : horiz;}
+        bool validity() const {return vert.size() >= 3 || horiz.size() >= 3;}
+        int size(Direction dir) const {return dir == Direction::VERTICAL ? vert.size() : horiz.size();}
+    };
+
+    enum CompType{Normal, Striped, Wrapped, Special};
+    struct BombInfo {
+        CompType type = Normal;
+        Direction direction = Direction::VERTICAL;
+        int index = -1;
+    };
 
 public:
     Grid(GridDisplay &observer) : observer{observer}, gameObj{observer}, score{observer} {initialiseCells();}
@@ -85,10 +108,9 @@ private:
     void fileInterpreter();
 
     /* Grid Cleaning */
-    void wrBombExtract(const std::vector< Cell * > &cColour, int index, int direction);
-    void stBombExtract(Cell &cell, int direction);
+    void wrBombExtract(const std::vector< Cell * > &cColour, int index, Direction direction);
+    void stBombExtract(Cell &cell, Direction direction);
     void spBombExtract(Cell &cell) {specialBombs.push_back(&cell);}
-    using BombInfo = std::array<int, 3>;
     void bombExtract(Cell &cell, const std::vector< Cell * > &cColour, const BombInfo &b);
     void clearCheck(Cell &cell);
 
@@ -123,8 +145,8 @@ private:
     bool checkSwap(Cell &cell1, Cell &cell2) {return checkSwap(cell1.getLocation(), cell2.getLocation());}
 
     /* Sequential colour fetching */
-    std::vector< Cell * > colourDFS(Cell &initial, int orientation) const; 
-    std::vector< std::vector< Cell * > > continuousColour(Cell &current) const;
+    std::vector< Cell * > colourDFS(Cell &initial, Direction orientation) const; 
+    Nbs continuousColour(Cell &current) const;
 
     /* Neighbour Fetching */
     std::vector< Cell * > getNbs(int row, int col);
@@ -141,7 +163,7 @@ private:
     bool specialSwapCheck(Cell &c1, Cell &c2) const;
     // Spawn checks
     bool spSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 5;}
-    int wrSpawnCond(const std::vector< Cell * > &cColour, int direction) const;
+    int wrSpawnCond(const std::vector< Cell * > &cColour, Direction direction) const;
     bool stSpawnCond(const std::vector< Cell * > &cColour) const {return static_cast<int>(cColour.size()) == 4;}
     // Blast conditions
     bool spBlastCond(Cell &c) const {return c.getBlastType() == Constants::SPECIAL;}

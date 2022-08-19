@@ -53,9 +53,9 @@ enum class Direction {
 };
 
 
-enum class Below{
-    LEFT, 
-    CENTER, 
+enum class Beneath {
+    LEFT,
+    CENTER,
     RIGHT
 };
 
@@ -88,7 +88,7 @@ enum class ObjectiveTypes {
 };
 
 
-enum class gameState {
+enum class GameState {
     LOST, 
     WON, 
     ONGOING

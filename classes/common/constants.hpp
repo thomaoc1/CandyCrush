@@ -1,6 +1,5 @@
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
-
 #include <string>
 #include <array>
 
@@ -8,6 +7,8 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
+
+#include "enumerations.hpp"
 
 
 class Constants {
@@ -73,7 +74,8 @@ public:
     static int randomCandy() {return candies[rand() % 6];}
 
     /** @brief Returns a random direction (horizontal / verical) */
-    static int randomDirection() {return rand() % 2;}
+    static Direction randomDirection() {return static_cast<Direction>(rand() % 2);}
+    static Direction perpendicular(Direction dir);
 
     /** @brief Returns a random direction (horizontal / verical) */
     static bool isImmobile(int component) {return component == WALL || component == FROSTING1 || component == FROSTING2;}
@@ -81,7 +83,7 @@ public:
     static int associatedColour(int component);
     static Fl_Color associatedFLColour(int colour);
     static int associatedBlast(int component);
-    static int colourToSt(int colour, int direction);
+    static int colourToSt(int colour, Direction direction);
     static int colourToWr(int colour);
     
 };

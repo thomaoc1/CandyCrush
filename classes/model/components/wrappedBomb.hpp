@@ -20,8 +20,8 @@
 
 class WrappedBomb : public GameComponent {
 public:
-    WrappedBomb(int colour) noexcept : GameComponent(colour, Constants::WRAPPED, Constants::NO_DIRECTION) {}
-    WrappedBomb() noexcept : GameComponent(Constants::randomCandy(), Constants::WRAPPED, Constants::NO_DIRECTION) {}
+    WrappedBomb(int colour) noexcept : GameComponent(colour, Constants::WRAPPED, Direction::NO_DIRECTION) {}
+    WrappedBomb() noexcept : GameComponent(Constants::randomCandy(), Constants::WRAPPED, Direction::NO_DIRECTION) {}
     WrappedBomb(const WrappedBomb &) = default;
     WrappedBomb(WrappedBomb &&) = default;
     

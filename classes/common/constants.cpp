@@ -33,6 +33,13 @@ const std::array< int, 6 > Constants::candies = {components::RED, components::BL
                                                     components::YELLOW, components::PURPLE, components::ORANGE};
 
 
+
+Direction Constants::perpendicular(Direction dir) {
+    if (dir == Direction::NO_DIRECTION) return dir;
+    return dir == Direction::HORIZONTAL ? Direction::VERTICAL : Direction::VERTICAL;
+}
+
+
 int Constants::associatedColour(int component) {
     int colour;
     switch (component) {
@@ -129,9 +136,9 @@ Fl_Color Constants::associatedFLColour(int colour) {
 }
 
 
-int Constants::colourToSt(int colour, int direction) {
+int Constants::colourToSt(int colour, Direction direction) {
     int type;
-    if (direction == Constants::VERTICAL) {
+    if (direction == Direction::VERTICAL) {
         switch (colour) {
             case Constants::RED:
                 type = Constants::RED_STRIPED_BOMB_V;

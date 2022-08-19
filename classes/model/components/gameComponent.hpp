@@ -25,9 +25,9 @@
 class GameComponent {
     const int colour;
     const int blastType;
-    const int blastDirection;
+    const Direction blastDirection;
 public:
-    GameComponent(int colour, int blastType, int blastDirection) noexcept 
+    GameComponent(int colour, int blastType, Direction blastDirection) noexcept 
         : colour{colour}, blastType{blastType}, blastDirection{blastDirection} {}
     GameComponent(int colour) noexcept
         : colour{colour}, blastType{Constants::SIMPLE}, blastDirection{Constants::NO_DIRECTION} {}
@@ -38,7 +38,7 @@ public:
     virtual int pop() {return Constants::POPPED;}
     virtual int getColour() const {return colour;}
     virtual int getBlastType() const {return blastType;}
-    virtual int getBlastDirection() const {return blastDirection;}
+    virtual Direction getBlastDirection() const {return blastDirection;}
     virtual void explode() {}
     virtual int type() const=0;
 

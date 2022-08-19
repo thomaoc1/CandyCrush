@@ -13,15 +13,10 @@
 
 class Constants {
 public:
-
-    /* Model Constants */
-    static enum directions{VERTICAL, HORIZONTAL, NO_DIRECTION} directions;
-    static enum {LEFT, CENTER, RIGHT} below;
-
-    static const std::string badSwap;
-    static const std::string gameWon;
-    static const std::string gameLost;
-    static const std::string shuffling;
+    static const std::string BAD_SWAP;
+    static const std::string GAME_WON;
+    static const std::string GAME_LOST;
+    static const std::string SHUFFLING;
     
     static const double FPS;
     static const double WINDOW_HEIGHT;
@@ -42,14 +37,6 @@ public:
 
     static const double CANDY_RADIUS;
 
-    static enum gameState{LOST, WON, ONGOING} gamestate;
-
-    static enum animTypes{IGNORE, CANT_IGNORE} animTypes;
-
-    static enum blastTypes{NO_BLAST, SIMPLE, STRIPED, WRAPPED, SPECIAL} blastTypes;
-
-    static enum objectiveTypes{POPS, INGREDIENT, FROSTINGS} objectives;
-
     /** @brief Returns a random candy */
     static Colour randomColour() {return static_cast<Colour>(static_cast<Colour>(rand() % 6));}
 
@@ -57,12 +44,8 @@ public:
     static Direction randomDirection() {return static_cast<Direction>(rand() % 2);}
     static Direction perpendicular(Direction dir);
 
-    static int associatedColour(int component);
     static Fl_Color associatedFLColour(Colour colour);
-    static int associatedBlast(int component);
     static Component directionToSt(Direction direction);
-    static int colourToWr(int colour);
-    
 };
 
 

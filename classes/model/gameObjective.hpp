@@ -6,7 +6,7 @@
 #include "../view/gridDisplay.hpp"
 
 class GameObjective {
-    int objType;
+    ObjectiveType objType;
     int nSwaps;
     int obj;
     Colour colour;

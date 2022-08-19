@@ -25,10 +25,10 @@ public:
     void setMessage(std::string &&s) {text.setText(std::move(s));}
     void setSwaps(int nbSwaps) {swaps.setText(std::to_string(nbSwaps));}
     void setScore(int newScore) {score.setText(std::to_string(newScore));}
-    void setObjective(int objType, int obj);
-    void setObjective(int objType, int obj, Colour colour);
+    void setObjective(ObjectiveType objType, int obj);
+    void setObjective(ObjectiveType objType, int obj, Colour colour);
 
-    void clearHelpMessage() {if (getText() == Constants::badSwap) clear();}
+    void clearHelpMessage() {if (getText() == Constants::BAD_SWAP) clear();}
     void draw() const;
 
 private:

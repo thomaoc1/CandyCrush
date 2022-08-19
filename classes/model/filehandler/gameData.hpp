@@ -24,8 +24,8 @@
 
 struct GameData {
     int maxSwaps;
-    std::array<bool, 3> objTypes = {false, false, false};
-    std::array<int, 3> objectives = {0, 0, 0};
+    ObjectiveType objType;
+    int objective;
     Colour colour;
     using CoordType = std::pair< Point, ComponentType >;
     std::vector<CoordType> components;

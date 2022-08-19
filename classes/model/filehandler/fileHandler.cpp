@@ -62,19 +62,13 @@ void FileHandler::interpretFile(const std::string &filename) {
     } 
 
     getline(inFile, line, '\n');
-    gameData.maxSwaps = numOfInterpreter(0, line);
-
-    getline(inFile, line, '\n');
-    int numObjectives;
-    numObjectives = numOfInterpreter(0, line);   
+    gameData.maxSwaps = numOfInterpreter(0, line);  
     
-    for (int i = 0; i < numObjectives; ++i ) {
-        getline(inFile, line, '\n');
-        int objType = numOfInterpreter(0, line);
-        gameData.objTypes[objType] = true;
-        gameData.objectives[objType] = numOfInterpreter(3, line);
-        if (objType == Constants::POPS) gameData.colour = static_cast<Colour>(numOfInterpreter(6, line));
-    }
+    getline(inFile, line, '\n');
+    gameData.objType = static_cast<ObjectiveType>(numOfInterpreter(0, line));;
+    gameData.objective = numOfInterpreter(3, line);
+    if (gameData.objType == ObjectiveType::POPS) 
+        gameData.colour = static_cast<Colour>(numOfInterpreter(6, line));
 
     for (int i = 0; i < 9; ++i) {
         getline(inFile, line, '\n');

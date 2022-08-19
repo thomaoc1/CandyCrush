@@ -72,7 +72,7 @@ enum class AnimTypes {
 };
 
 
-enum class ObjectiveTypes {
+enum class ObjectiveType {
     POPS, 
     INGREDIENT, 
     FROSTINGS

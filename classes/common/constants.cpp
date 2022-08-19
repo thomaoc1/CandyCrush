@@ -1,9 +1,9 @@
 #include "constants.hpp"
 
-const std::string Constants::badSwap = "Can't swap those, try again.";
-const std::string Constants::gameWon = "You won !";
-const std::string Constants::gameLost = "GameOver, you lost !";
-const std::string Constants::shuffling = "No possible moves, shuffling";
+const std::string Constants::BAD_SWAP = "Can't swap those, try again.";
+const std::string Constants::GAME_WON = "You won !";
+const std::string Constants::GAME_LOST = "GameOver, you lost !";
+const std::string Constants::SHUFFLING = "No possible moves, shuffling";
 
 const double Constants::FPS = 60;
 const double Constants::WINDOW_HEIGHT = 750;

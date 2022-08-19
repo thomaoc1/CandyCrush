@@ -234,7 +234,7 @@ void GridDisplay::draw()  {
             visualGrid[row][col].draw();
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation() 
-                && visualComponents[row][col]->animationType() == Constants::CANT_IGNORE) isAnimation = true;
+                && visualComponents[row][col]->animationType() == AnimTypes::CANT_IGNORE) isAnimation = true;
             visualComponents[row][col]->draw();
         }
     }
@@ -258,7 +258,7 @@ bool GridDisplay::inAnimation() const {
         for (int col = 0; col < COLS; ++col) {
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation() 
-                && visualComponents[row][col]->animationType() == Constants::CANT_IGNORE) isAnimation = true;
+                && visualComponents[row][col]->animationType() == AnimTypes::CANT_IGNORE) isAnimation = true;
         }
     }
     return isAnimation;
@@ -296,14 +296,14 @@ void GridDisplay::notifySwap(const Point &start, const Point &dest) {
  * 
  */
 void GridDisplay::notifyFailedSwap(const Point &c1, const Point &c2) {
-    broadcast.setMessage(Constants::badSwap);
+    broadcast.setMessage(Constants::BAD_SWAP);
     animationQueue.enqueueSwap({c1, c2});
     animationQueue.enqueueSwap({c1, c2});
 }
 
 
 void GridDisplay::notifyNoSwaps() {
-    broadcast.setMessage(Constants::shuffling);
+    broadcast.setMessage(Constants::SHUFFLING);
 }
 
 
@@ -321,11 +321,11 @@ void GridDisplay::notifyGameState(GameState state) {
 }
 
 
-void GridDisplay::notifyObjective(int objType, int obj) {
+void GridDisplay::notifyObjective(ObjectiveType objType, int obj) {
     broadcast.setObjective(objType, obj);
 }
 
-void GridDisplay::notifyObjective(int objType, int obj, Colour colour) {
+void GridDisplay::notifyObjective(ObjectiveType objType, int obj, Colour colour) {
     broadcast.setObjective(objType, obj, colour);
 }
 

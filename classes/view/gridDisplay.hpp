@@ -101,8 +101,8 @@ public:
     void notifySwapsLeft(int swaps) {broadcast.setSwaps(swaps);}
     void notifyNoSwaps();
     void notifyGameState(GameState state);
-    void notifyObjective(int objType, int obj);
-    void notifyObjective(int objType, int obj, Colour colour);
+    void notifyObjective(ObjectiveType objType, int obj);
+    void notifyObjective(ObjectiveType objType, int obj, Colour colour);
     
     void notifyReset();
 
@@ -114,8 +114,8 @@ private:
     void resetGrid();
 
 
-    void won() {broadcast.setMessage(Constants::gameWon);}
-    void lost() {broadcast.setMessage(Constants::gameLost);}
+    void won() {broadcast.setMessage(Constants::GAME_WON);}
+    void lost() {broadcast.setMessage(Constants::GAME_LOST);}
 
     /* Animations */
     void nextAnimation();

@@ -11,19 +11,21 @@ void BroadcastBox::draw() const {
 
 
 
-void BroadcastBox::setObjective(int objType, int obj) {
+void BroadcastBox::setObjective(ObjectiveType objType, int obj) {
     switch (objType) {
-        case Constants::INGREDIENT:
+        case ObjectiveType::INGREDIENT:
             objective.setText("Cherries: " + std::to_string(obj));
             break;
-        case Constants::FROSTINGS:
+        case ObjectiveType::FROSTINGS:
             objective.setText("Frostings: " + std::to_string(obj));
+            break;
+        default:
             break;
     }
 }
 
 
-void BroadcastBox::setObjective(int, int obj, Colour colour) {
+void BroadcastBox::setObjective(ObjectiveType, int obj, Colour colour) {
     switch (colour) {
         case Colour::RED:
             objective.setText("Red Candies: " + std::to_string(obj));

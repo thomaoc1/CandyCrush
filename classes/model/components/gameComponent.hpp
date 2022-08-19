@@ -32,7 +32,7 @@ public:
     GameComponent(ComponentType &&compType, BlastType blastType, Direction blastDirection) noexcept 
         : compType{std::move(compType)}, blastType{blastType}, blastDirection{blastDirection} {}
     GameComponent(ComponentType &&compType) noexcept
-        : compType{std::move(compType)}, blastType{Constants::SIMPLE}, blastDirection{Constants::NO_DIRECTION} {}
+        : compType{std::move(compType)}, blastType{BlastType::SIMPLE}, blastDirection{Direction::NO_DIRECTION} {}
     virtual ~GameComponent() = default;
 
     virtual ComponentState pop() {return ComponentState::POPPED;}

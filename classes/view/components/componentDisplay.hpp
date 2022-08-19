@@ -58,7 +58,7 @@ public:
     virtual void draw();
     virtual void drawShape() const;
 
-    virtual int animationType() const; 
+    virtual AnimTypes animationType() const; 
 };
 
 #endif

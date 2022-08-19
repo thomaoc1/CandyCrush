@@ -96,13 +96,13 @@ void Grid::stBombExtract(Cell &cell, Direction direction) {
 void Grid::bombExtract(Cell &cell, const std::vector< Cell * > &cColour, const BombInfo &bombData) {
 
     switch (bombData.type) {
-            case Striped:
+            case CompType::Striped:
                 stBombExtract(cell, bombData.direction);
                 break;
-            case Wrapped:
+            case CompType::Wrapped:
                 wrBombExtract(cColour, bombData.index, bombData.direction);
                 break;
-            case Special:
+            case CompType::Special:
                 spBombExtract(cell);
                 break;
             default:
@@ -136,14 +136,19 @@ void Grid::clearCheck(Cell &cell) {
     for (auto &dir : directions) {
         /* No combo condition*/
         if (contColour.size(dir) < 3) continue; 
-
         int index = wrSpawnCond(contColour.get(dir), dir);
+
         /* Special Bomb Condition */
-        if (current.type < Special && spSpawnCond(contColour.get(dir))) current = {Special, dir, -1};
+        if (current.type < CompType::Special && spSpawnCond(contColour.get(dir))) 
+            current = {CompType::Special, dir, -1};
+
         /* Wrapped Bomb Condition */
-        else if (current.type < Wrapped && index >= 0) current = {Wrapped, dir, index};
+        else if (current.type < CompType::Wrapped && index >= 0) 
+            current = {CompType::Wrapped, dir, index};
+
         /* Striped Bomb Condition */
-        else if (current.type < Striped && stSpawnCond(contColour.get(dir))) current = {Striped, dir, -1};
+        else if (current.type < CompType::Striped && stSpawnCond(contColour.get(dir))) 
+            current = {CompType::Striped, dir, -1};
         
         for (auto &c : contColour.get(dir)) willPop(*c);
     }

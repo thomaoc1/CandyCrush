@@ -83,9 +83,9 @@ class Grid {
         int size(Direction dir) const {return dir == Direction::VERTICAL ? vert.size() : horiz.size();}
     };
 
-    enum CompType{Normal, Striped, Wrapped, Special};
+    enum class CompType {Normal, Striped, Wrapped, Special};
     struct BombInfo {
-        CompType type = Normal;
+        CompType type = CompType::Normal;
         Direction direction = Direction::VERTICAL;
         int index = -1;
     };

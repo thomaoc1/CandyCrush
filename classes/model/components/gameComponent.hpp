@@ -41,6 +41,7 @@ public:
     virtual Direction getBlastDirection() const {return blastDirection;}
     virtual void explode() {}
     virtual ComponentType type() const {return compType;}
+    
 protected:
     /** @brief Returns a random candy */
     Colour randomColour() {return static_cast<Colour>(static_cast<Colour>(rand() % 6));}

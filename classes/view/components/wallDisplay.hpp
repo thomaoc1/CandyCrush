@@ -1,16 +1,13 @@
 /**
- * File : 
- *  wallDisplay.hpp
- *
- * Decription :
- *  Class responsible of displaying a specific gameComponent: "Wall".
+ * @file wallDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies:
- *  componentDisplay.hpp
+ * @brief Class which is reponsible for the graphical representation of 
+ *  a Wall.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
 

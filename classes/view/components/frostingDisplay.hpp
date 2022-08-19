@@ -1,11 +1,22 @@
+/**
+ * @file frostingDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation of 
+ *  a Frosting.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef FROSTING_DISPLAY_HPP
 #define FROSTING_DISPLAY_HPP
 
 #include "componentDisplay.hpp"
 #include "../shapes/rectangle.hpp"
 #include "../text/componentText.hpp"
-
-
 
 class FrostingDisplay : public ComponentDisplay {
     int layers;

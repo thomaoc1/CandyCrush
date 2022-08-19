@@ -9,13 +9,12 @@
 class AnimationQueue {
     using CoordComponent = std::pair< Point, ComponentType >;
     using CoordPair = std::pair< Point, Point >;
-    enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
 
     std::queue< CoordPair > swaps;
     std::queue< std::vector<Point> > drops;
     std::queue< std::vector<Point> > pops;
     std::queue< std::vector<CoordComponent> > fills;
-    std::queue<int> queue;
+    std::queue<AnimationType> queue;
 public:
     AnimationQueue() = default;
     AnimationQueue(const AnimationQueue &) = default;
@@ -34,7 +33,7 @@ public:
     std::vector<CoordComponent> nextFill();
 
     int size() const {return queue.size();}
-    int nextAnimation();
+    AnimationType nextAnimation();
 };
 
 #endif

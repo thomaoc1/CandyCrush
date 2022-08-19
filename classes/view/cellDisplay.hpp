@@ -1,16 +1,13 @@
 /**
- * File : 
- *  cellDisplay.hpp
- *
- * Decription :
- *  Class responsible of displaying a gameComponent container.
+ * @file cellDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies:
- *  componentDisplay.hpp
+ * @brief Class which is reponsible for the graphical representation of 
+ *  a Cell.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
 
@@ -26,7 +23,6 @@
 #include <FL/fl_draw.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
-
 
 class CellDisplay : public ComponentDisplay {
 public:

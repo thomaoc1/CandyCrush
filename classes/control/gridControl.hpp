@@ -1,26 +1,21 @@
 /**
- * File : 
- *  gridControl.hpp
- *
- * Decription :
- *  Handles events and makes changes to the grid when necessary
+ * @file gridControl.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies : 
- *  grid.hpp
+ * @brief Class which makes changes on to the model
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
+ * 
  */
 
 #ifndef GRIDCONTROL_HPP
 #define GRIDCONTROL_HPP
 
 #include "../model/containers/grid.hpp"
-#include "../shared/log.hpp"
 
 #include <FL/Fl.H>
-
 #include <string>
 
 class GridControl {

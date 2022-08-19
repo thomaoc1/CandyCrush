@@ -9,7 +9,7 @@
 
 
 void AnimationQueue::enqueueSwap(const CoordPair &swap) {
-    queue.push(animations::Swap);
+    queue.push(AnimationType::Swap);
     swaps.push(swap);
 }
 
@@ -17,13 +17,13 @@ void AnimationQueue::enqueueSwap(const CoordPair &swap) {
 void AnimationQueue::enqueueDrop(const std::vector<Point> &drop, Beneath direction) {
     switch (direction) {
         case Beneath::LEFT:
-            queue.push(animations::DropLeft);
+            queue.push(AnimationType::DropLeft);
             break;
         case Beneath::CENTER:
-            queue.push(animations::DropDown);
+            queue.push(AnimationType::DropDown);
             break;
         case Beneath::RIGHT:
-            queue.push(animations::DropRight);
+            queue.push(AnimationType::DropRight);
             break;
     }
     drops.push(drop);
@@ -31,18 +31,18 @@ void AnimationQueue::enqueueDrop(const std::vector<Point> &drop, Beneath directi
 
 
 void AnimationQueue::enqueuePop(const std::vector<Point> &pop) {
-    queue.push(animations::Pop);
+    queue.push(AnimationType::Pop);
     pops.push(pop);
 }
 
 
 void AnimationQueue::enqueueFill(const std::vector<CoordComponent> &fill) {
-    queue.push(animations::Fill);
+    queue.push(AnimationType::Fill);
     fills.push(fill);
 }
 
-int AnimationQueue::nextAnimation() {
-    int ret = queue.front();
+AnimationType AnimationQueue::nextAnimation() {
+    AnimationType ret = queue.front();
     queue.pop();
     return ret;
 }

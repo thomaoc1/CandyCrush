@@ -1,17 +1,13 @@
 /**
- * File : 
- *  cell.hpp
- *
- * Decription :
- *  Class which represents a possible container in which a GameComponent can be in
+ * @file cell.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies :
- *  gameComponent.hpp
- *  point.hpp
+ * @brief Class which represents a 'slot' in the grid
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
+ * 
  */
 
 #ifndef CELL_HPP

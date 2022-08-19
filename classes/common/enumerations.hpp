@@ -78,9 +78,19 @@ enum class BlastType {
 };
 
 
-enum class AnimTypes {
+enum class AnimPriority {
     IGNORE, 
     CANT_IGNORE
+};
+
+
+enum class AnimationType {
+    Pop, 
+    Fill, 
+    DropDown, 
+    DropLeft, 
+    DropRight, 
+    Swap
 };
 
 

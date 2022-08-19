@@ -1,17 +1,13 @@
 /**
- * File : 
- *  componentDisplay.hpp
- *
- * Decription :
- *  Abstract class which generalises the visual representation of gameComponents.
+ * @file componentDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies:
- *  constants.hpp
- *  point.hpp
+ * @brief Class which generalises the graphical representation of
+ *  all game components.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
 
@@ -58,7 +54,7 @@ public:
     virtual void draw();
     virtual void drawShape() const;
 
-    virtual AnimTypes animationType() const; 
+    virtual AnimPriority animationType() const; 
 };
 
 #endif

@@ -1,3 +1,16 @@
+/**
+ * @file hazenutDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
+ * 
+ * @brief Class which is reponsible for the graphical representation of 
+ *  a Hazelnut.
+ * 
+ * @version 0.1
+ * @date 2022-08-19
+ * 
+ */
+
 #ifndef HAZELNUT_DISPLAY_HPP
 #define HAZELNUT_DISPLAY_HPP
 

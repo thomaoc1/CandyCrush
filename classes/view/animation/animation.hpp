@@ -36,7 +36,7 @@ public:
     virtual int getAnimTime() const {return animationTime;}
     virtual bool over() const {return time >= animationTime;}
     
-    virtual AnimTypes type() const {return AnimTypes::CANT_IGNORE;}
+    virtual AnimPriority type() const {return AnimPriority::CANT_IGNORE;}
 };
 
 #endif

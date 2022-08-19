@@ -1,16 +1,13 @@
 /**
- * File : 
- *  stripedDisplay.hpp
- *
- * Decription :
- *  Class responsible of displaying a specific gameComponent: "Striped Candy Bomb".
+ * @file stripedDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies:
- *  componentDisplay.hpp
+ * @brief Class which is reponsible for the graphical representation of 
+ *  a StripedBomb.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
 

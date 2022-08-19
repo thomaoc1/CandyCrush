@@ -1,21 +1,13 @@
 /**
- * File : 
- *  gridDisplay.hpp
- *
- * Decription :
- *  Class responsible of displaying a the entire grid.
+ * @file gridDisplay.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies:
- *  componentDisplay.hpp
- *  candyDisplay.hpp
- *  stripedDisplay.hpp
- *  wrappedDisplay.hpp
- *  wallDisplay.hpp
- *  cellDisplay.hpp
+ * @brief Class which is reponsible for the graphical representation of 
+ *  a the entire Grid.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
  * 
  */
 
@@ -33,7 +25,6 @@
 #include "components/hazelnutDisplay.hpp"
 #include "components/frostingDisplay.hpp"
 #include "cellDisplay.hpp"
-#include "../shared/log.hpp"
 #include "text/broadcast.hpp"
 #include "common/background.hpp"
 #include "../common/componentType.hpp"
@@ -59,7 +50,7 @@ class GridDisplay {
 
     using CoordComponent = std::pair< Point, ComponentType >;
     using CoordPair = std::pair< Point, Point >;
-    enum animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
+    enum class Animations{Pop, Fill, DropDown, DropLeft, DropRight, Swap};
     AnimationQueue animationQueue;
 
     CoordPair suggestion;
@@ -69,7 +60,6 @@ class GridDisplay {
 
     BroadcastBox broadcast;
     Background bg{FL_GRAY};
-    bool firstDraw = true;
 
 public:
     GridDisplay();

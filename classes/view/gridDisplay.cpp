@@ -17,7 +17,7 @@ void GridDisplay::resetGrid() {
 
 
 /*-------------------------------------------------------------------------------------------*
- *                                      Animations                                           *
+ *                                      Animation                                           *
  *-------------------------------------------------------------------------------------------*/
 
 
@@ -27,22 +27,22 @@ void GridDisplay::resetGrid() {
  */
 void GridDisplay::nextAnimation() {
     switch (animationQueue.nextAnimation()) {
-        case animations::Pop:
+        case AnimationType::Pop:
             performPop();
             break;
-        case animations::DropLeft:
+        case AnimationType::DropLeft:
             performDrop(Beneath::LEFT);
             break;
-        case animations::DropDown:
+        case AnimationType::DropDown:
             performDrop(Beneath::CENTER);
             break;
-        case animations::DropRight:
+        case AnimationType::DropRight:
             performDrop(Beneath::RIGHT);
             break;
-        case animations::Fill:
+        case AnimationType::Fill:
             performFill();
             break;
-        case animations::Swap:
+        case AnimationType::Swap:
             performSwap();
             break;
     }
@@ -216,12 +216,6 @@ GridDisplay::GridDisplay() {
  */
 void GridDisplay::draw()  {
 
-    // Reduce graphical twitching
-    if (firstDraw) {
-        bg.draw();
-        firstDraw = false;
-    }
-
     broadcast.draw();
 
     if (time == suggestionTime)  {
@@ -234,7 +228,7 @@ void GridDisplay::draw()  {
             visualGrid[row][col].draw();
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation() 
-                && visualComponents[row][col]->animationType() == AnimTypes::CANT_IGNORE) isAnimation = true;
+                && visualComponents[row][col]->animationType() == AnimPriority::CANT_IGNORE) isAnimation = true;
             visualComponents[row][col]->draw();
         }
     }
@@ -258,7 +252,7 @@ bool GridDisplay::inAnimation() const {
         for (int col = 0; col < COLS; ++col) {
             if (!visualComponents[row][col]) continue; 
             if (visualComponents[row][col]->inAnimation() 
-                && visualComponents[row][col]->animationType() == AnimTypes::CANT_IGNORE) isAnimation = true;
+                && visualComponents[row][col]->animationType() == AnimPriority::CANT_IGNORE) isAnimation = true;
         }
     }
     return isAnimation;

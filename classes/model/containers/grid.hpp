@@ -1,26 +1,14 @@
 /**
- * File : 
- *  grid.hpp
+ * @file grid.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Decription :
- *  Class which groups Cells and GameComponents to represent the state of 
- *  a CandyCrush match
+ * @brief Class which encompasses the game
  * 
- * Dependencies :
- *  Model
- *      cell.hpp
- *      candy.hpp
- *      wall.hpp
- *      wrappedBomb.hpp
- *      stripedBomb.hpp
- *      point.hpp
- *  View
- *      gridDisplay.hpp
+ * @version 0.1
+ * @date 2022-08-19
  * 
- * Authors : 
- *  Thomas O'Cuilleanain, 
- *  Marcus Chretirn
- */ 
+ */
 
 #ifndef BOARD_HPP
 #define BOARD_HPP

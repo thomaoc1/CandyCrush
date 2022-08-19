@@ -13,7 +13,7 @@ public:
     void draw() override;
     int getAnimTime() const {return animationTime;}
     bool over() const {return time >= animationTime;}
-    AnimTypes type() const override {return AnimTypes::IGNORE;}
+    AnimPriority type() const override {return AnimPriority::IGNORE;}
 private:
     int currentPulse(int currentSize) const;
 };

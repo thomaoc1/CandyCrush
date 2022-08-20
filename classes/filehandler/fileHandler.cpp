@@ -28,6 +28,13 @@ void FileHandler::asciiGridInterpreter(int row, const std::string &line) {
 }
 
 
+/**
+ * @brief Interprets ASCII representation of a component
+ * 
+ * @param index 
+ * @param line 
+ * @return ComponentType 
+ */
 ComponentType FileHandler::componentInterpreter(int index, const std::string &line) const {
     int colour = (int)line[index] - 48;
     int component = (int)line[index + 1] - 48;
@@ -37,6 +44,13 @@ ComponentType FileHandler::componentInterpreter(int index, const std::string &li
 }
 
 
+/**
+ * @brief Interprets numbers
+ * 
+ * @param index 
+ * @param line 
+ * @return int 
+ */
 int FileHandler::numOfInterpreter(int index, const std::string &line) const {
     int ret = 0;
     ret = ((int)line[index] - 48) * 10;
@@ -52,6 +66,11 @@ int FileHandler::numOfInterpreter(int index, const std::string &line) const {
  --------------------------------------------------------------------------------------------*/
 
 
+/**
+ * @brief Treats text file given.
+ * 
+ * @param filename 
+ */
 void FileHandler::interpretFile(const std::string &filename) {
     std::ifstream inFile(filename);
     std::string line;
@@ -77,6 +96,11 @@ void FileHandler::interpretFile(const std::string &filename) {
 }
 
 
+/**
+ * @brief Fetches the best score from the associated textfile.
+ * 
+ * @return int 
+ */
 int FileHandler::getBestScore() const {
     std::ifstream inFile("db/bestscore/bestscore.txt");
     std::string line;
@@ -96,6 +120,11 @@ int FileHandler::getBestScore() const {
 }
 
 
+/**
+ * @brief Dumps the score if it is higher than the bestscore.
+ * 
+ * @param score 
+ */
 void FileHandler::dumpScore(int score) const {
     int savedScore = getBestScore();    
     if (score <= savedScore) return;
@@ -104,6 +133,10 @@ void FileHandler::dumpScore(int score) const {
 }
 
 
+/**
+ * @brief Resets the score.
+ * 
+ */
 void FileHandler::resetScore() const {
     std::ofstream outFile("db/bestscore/bestscore.txt");
     outFile << std::to_string(0) << "\n";

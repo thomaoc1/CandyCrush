@@ -87,18 +87,18 @@ void GridControl::dragEvent(const Point &mouseLoc) {
 
     if (dragToIndex.x == clickToIndex.x) {
         if (dragToIndex.y < clickToIndex.y) {
-            grid->swap(clickToIndex, {clickToIndex.x, clickToIndex.y - 1});
+            grid.swap(clickToIndex, {clickToIndex.x, clickToIndex.y - 1});
         }
         else if (dragToIndex.y > clickToIndex.y) {
-            grid->swap(clickToIndex, {clickToIndex.x, clickToIndex.y + 1});
+            grid.swap(clickToIndex, {clickToIndex.x, clickToIndex.y + 1});
         }
     }
     else if (dragToIndex.y == clickToIndex.y) {
         if (dragToIndex.x < clickToIndex.x) {
-            grid->swap(clickToIndex, {clickToIndex.x - 1, clickToIndex.y});
+            grid.swap(clickToIndex, {clickToIndex.x - 1, clickToIndex.y});
         }
         else if (dragToIndex.x > clickToIndex.x) {
-            grid->swap(clickToIndex, {clickToIndex.x + 1, clickToIndex.y});
+            grid.swap(clickToIndex, {clickToIndex.x + 1, clickToIndex.y});
         }
     }
 }

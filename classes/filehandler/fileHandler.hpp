@@ -22,10 +22,7 @@
 #include <string>
 
 class FileHandler {
-    const int randomCandy = -1;
     GameData gameData;
-    std::vector<Point> candies, walls, frostings, cherries;
-    std::vector<Point> hazels, wrapped, striped, special;
 public:
     FileHandler(const std::string &filename) {interpretFile(filename);}
     FileHandler()=default;
@@ -40,7 +37,6 @@ private:
     void asciiGridInterpreter(int row, const std::string &line);
     ComponentType componentInterpreter(int index, const std::string &line) const;
     int numOfInterpreter(int index, const std::string &line) const;
-    void objectivesInterpreter(const std::string &line);
 };
 
 #endif

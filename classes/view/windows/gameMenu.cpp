@@ -15,6 +15,5 @@ std::string GameMenu::associatedFile(MenuButtons level) const {
         default:
             break;
     }
-
     return filename;
 }

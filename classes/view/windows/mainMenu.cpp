@@ -1,6 +1,12 @@
 #include "mainMenu.hpp"
 
 
+/**
+ * @brief 
+ * 
+ * @param mouseLoc 
+ * @return MenuButtons 
+ */
 MenuButtons MainMenu::buttonHandler(const Point &mouseLoc) {
     MenuButtons level = MenuButtons::NOTHING;
     if (level1.isClicked(mouseLoc)) level = MenuButtons::LEVEL1;
@@ -14,6 +20,10 @@ MenuButtons MainMenu::buttonHandler(const Point &mouseLoc) {
 }
 
 
+/**
+ * @brief 
+ * 
+ */
 void MainMenu::draw() {
     Menu::draw();
     title.draw();
@@ -27,6 +37,12 @@ void MainMenu::draw() {
 }
 
 
+/**
+ * @brief 
+ * 
+ * @param event 
+ * @return int 
+ */
 int MainMenu::eventHandler(int event) {
     MenuButtons state = MenuButtons::NOTHING; 
     switch (event) {

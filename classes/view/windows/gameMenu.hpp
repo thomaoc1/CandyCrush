@@ -20,19 +20,19 @@
 
 class GameMenu : public Menu {
     GridDisplay gridDisplay;
-    std::shared_ptr<Grid> grid;
-    std::shared_ptr<GridControl> gridControl;
+    Grid grid;
+    GridControl gridControl;
 public:
     GameMenu()
         : gridDisplay{GridDisplay()}, 
-          grid{std::make_shared<Grid>(gridDisplay)}, 
-          gridControl{std::make_shared<GridControl>(grid, gridDisplay)} {}
+          grid{Grid(gridDisplay)}, 
+          gridControl{GridControl(grid, gridDisplay)} {}
 
     ~GameMenu() {}
 
     void draw() override {gridDisplay.draw();}
-    int eventHandler(int event) override {return gridControl->proccessEvent(event);}
-    void setLevel(MenuButtons level) {grid->setLevel(associatedFile(level));} 
+    int eventHandler(int event) override {return gridControl.proccessEvent(event);}
+    void setLevel(MenuButtons level) {grid.setLevel(associatedFile(level));} 
 private:
     std::string associatedFile(MenuButtons level) const;
 };

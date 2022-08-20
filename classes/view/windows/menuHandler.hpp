@@ -19,17 +19,19 @@
 #include "../../control/gridControl.hpp"
 #include "mainMenu.hpp"
 #include "gameMenu.hpp"
+#include "titleScreen.hpp"
 
 class MenuHandler {
+    TitleScreen ts;
+    int time = 90;
+    
     MainMenu mainMenu;
     GameMenu game;
-
     Menu * current = &mainMenu;
 
-    bool gameOver = false;
 public:
     MenuHandler() = default;
-    void draw() {current->draw();}
+    void draw();
     int eventHandler(int event);
 };
 

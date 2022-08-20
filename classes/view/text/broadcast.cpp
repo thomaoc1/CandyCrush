@@ -1,6 +1,10 @@
 #include "broadcast.hpp"
 
 
+/**
+ * @brief Displays the broadcast box and all the text.
+ * 
+ */
 void BroadcastBox::draw() const {
     box.draw();
     text.draw(); 
@@ -10,7 +14,12 @@ void BroadcastBox::draw() const {
 }
 
 
-
+/**
+ * @brief Sets the objective text.
+ * 
+ * @param objType 
+ * @param obj 
+ */
 void BroadcastBox::setObjective(ObjectiveType objType, int obj) {
     switch (objType) {
         case ObjectiveType::INGREDIENT:

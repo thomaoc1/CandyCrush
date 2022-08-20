@@ -1,16 +1,13 @@
 /**
- * File : 
- *  fileHandler.hpp
- *
- * Decription :
- *  Extracts data from text files for game levels
+ * @file filhandler.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies :
- *  gameData.hpp
+ * @brief Handles the opening and interpreting of text files.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
+ * 
  */
 
 

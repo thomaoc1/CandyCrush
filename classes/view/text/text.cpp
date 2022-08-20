@@ -1,5 +1,10 @@
 #include "text.hpp"
 
+
+/**
+ * @brief Displays text
+ * 
+ */
 void Text::draw() const {
     fl_color(FL_BLACK);
     fl_font(font, size);
@@ -9,6 +14,12 @@ void Text::draw() const {
 }
 
 
+/**
+ * @brief Displays text given an offest
+ * 
+ * @param xOffset 
+ * @param yOffset 
+ */
 void Text::draw(int xOffset, int yOffset) const {
     fl_color(FL_BLACK);
     fl_font(font, size);

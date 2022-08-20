@@ -1,12 +1,22 @@
 #include "score.hpp"
 
 
+/**
+ * @brief Resets the score
+ * 
+ */
 void Score::reset() {
     score = 0;
     observer.notifyScore(score);
 }
 
 
+/**
+ * @brief Calculates score gain from a bomb spawn.
+ * 
+ * @param count 
+ * @param component 
+ */
 void Score::bombSpawn(int count, Component component) {
     switch (component) {
         case Component::WRAPPED_BOMB:
@@ -26,6 +36,11 @@ void Score::bombSpawn(int count, Component component) {
 }
 
 
+/**
+ * @brief Calculates score gain given an amount of suppressions.
+ * 
+ * @param count 
+ */
 void Score::pop(int count) {
     score += (suppression * count) + (explMuti * count);
     observer.notifyScore(score);

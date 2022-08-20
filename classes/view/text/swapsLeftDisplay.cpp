@@ -1,6 +1,10 @@
 #include "swapsLeftDisplay.hpp"
 
 
+/**
+ * @brief Displays text
+ * 
+ */
 void SwapsLeftDisplay::draw() const {
     fl_color(FL_BLACK);
     fl_font(FL_HELVETICA, size);

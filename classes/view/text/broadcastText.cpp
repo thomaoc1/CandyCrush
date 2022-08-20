@@ -1,6 +1,10 @@
 #include "broadcastText.hpp"
 
 
+/**
+ * @brief Displays text
+ * 
+ */
 void BroadcastText::draw() const {
     fl_color(FL_BLACK);
     fl_font(FL_HELVETICA, size);

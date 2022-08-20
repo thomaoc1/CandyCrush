@@ -18,7 +18,6 @@
 #include "../../model/containers/grid.hpp"
 #include "../../control/gridControl.hpp"
 #include "../gridDisplay.hpp"
-#include "titleScreen.hpp"
 #include "menuHandler.hpp"
 
 #include <FL/Fl.H>
@@ -26,8 +25,7 @@
 
 class MainWindow : public Fl_Window {
     MenuHandler menuHandler;
-    TitleScreen ts;
-    int time = 90;
+    
 public:
     MainWindow();
     void draw() override;

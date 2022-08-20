@@ -2,7 +2,7 @@
 
 
 /**
- * @brief 
+ * @brief Interprets GameData struct
  * 
  * @param gd 
  */
@@ -20,7 +20,7 @@ void GameObjective::gameDataInter(const GameData &gd) {
 
 
 /**
- * @brief 
+ * @brief Deduces game state
  * 
  * @return int 
  */
@@ -33,7 +33,7 @@ GameState GameObjective::gameState() const {
 
 
 /**
- * @brief 
+ * @brief Swapping handler
  * 
  */
 void GameObjective::swapped() {
@@ -44,7 +44,7 @@ void GameObjective::swapped() {
 
 
 /**
- * @brief 
+ * @brief Ingredient pop objective tracker
  * 
  */
 void GameObjective::ingredientPop() {
@@ -57,7 +57,7 @@ void GameObjective::ingredientPop() {
 
 
 /**
- * @brief 
+ * @brief Frosting pop objective tracker
  * 
  */
 void GameObjective::frostingPop() {
@@ -70,7 +70,7 @@ void GameObjective::frostingPop() {
 
 
 /**
- * @brief 
+ * @brief Colour pop objective tracker
  * 
  * @param poppedColour 
  */

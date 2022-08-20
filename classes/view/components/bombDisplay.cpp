@@ -1,13 +1,6 @@
 #include "bombDisplay.hpp"
 
 
-/*-------------------------------------------------------------------------------------------*
- *                                                                                           *
- *                                       Public Methods                                      *
- *                                                                                           *
- --------------------------------------------------------------------------------------------*/
-
-
 /**
  * @brief Draws associated shape to the window
  * 
@@ -18,9 +11,6 @@ void BombDisplay::drawShape() const {
 }
 
 
-/**
- * \see ComponentDisplay::setCenter(const Point &)
- */
 void BombDisplay::setCenter(const Point &dest) {
     shape->setCenter(dest);
     text.setCenter(dest);

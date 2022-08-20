@@ -77,4 +77,9 @@ void ComponentDisplay::popAnimate() {
 }
 
 
+/**
+ * @brief Returns the priority level of the animation.
+ * 
+ * @return AnimPriority 
+ */
 AnimPriority ComponentDisplay::animationType() const {return animation->type();}

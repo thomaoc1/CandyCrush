@@ -1,16 +1,13 @@
 /**
- * File : 
- *  gameData.hpp
- *
- * Decription :
- *  Struct which holds all data to start a game.
+ * @file gameData.hpp
+ * @author Thomas O'Cuilleanain
+ * @author Marcus Chretien
  * 
- * Dependencies :
- *  point.hpp
+ * @brief Struct used to store game data.
  * 
- * Authors:
- *  Thomas O'Cuilleanain,
- *  Marcus Chretien
+ * @version 0.1
+ * @date 2022-08-19
+ * 
  */
 
 #ifndef GAME_DATA_HPP

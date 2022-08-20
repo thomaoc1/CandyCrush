@@ -3,7 +3,7 @@
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 
- * @brief Class which is reponsible for launching an FLTK Window and forwarding
+ * @brief Class which is responsible for launching an FLTK Window and forwarding
  *  events.
  * 
  * @version 0.1

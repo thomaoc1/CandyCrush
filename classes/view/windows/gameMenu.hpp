@@ -3,7 +3,7 @@
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 
- * @brief Class which is reponsible for the graphical representation the game.
+ * @brief Class which is responsible for the graphical representation the game.
  * 
  * @version 0.1
  * @date 2022-08-19

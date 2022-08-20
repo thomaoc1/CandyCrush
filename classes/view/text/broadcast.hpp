@@ -3,7 +3,7 @@
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 
- * @brief Class which is reponsible for broadcasting information to the user.
+ * @brief Class which is responsible for broadcasting information to the user.
  * 
  * @version 0.1
  * @date 2022-08-19

@@ -36,6 +36,7 @@ public:
 
     Shape(const Shape &) = default;
     Shape(Shape &&) = default;
+    virtual ~Shape() = default;
 
     virtual Point getCenter() const {return center;}
     virtual double getSize() const {return size;}

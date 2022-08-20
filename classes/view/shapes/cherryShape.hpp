@@ -3,7 +3,7 @@
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 
- * @brief Class which is reponsible for the graphical representation
+ * @brief Class which is responsible for the graphical representation
  *  of a Cherry shape.
  * 
  * @version 0.1

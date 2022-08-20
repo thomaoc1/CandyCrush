@@ -3,7 +3,7 @@
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 
- * @brief Class which is reponsible for the graphical representation of the 
+ * @brief Class which is responsible for the graphical representation of the 
  * Objective text.
  * 
  * @version 0.1

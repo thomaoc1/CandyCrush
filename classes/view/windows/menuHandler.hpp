@@ -3,7 +3,7 @@
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 
- * @brief Class which is reponsible for deciding which Menu to display.
+ * @brief Class which is responsible for deciding which Menu to display.
  * 
  * @version 0.1
  * @date 2022-08-19

@@ -14,7 +14,6 @@
 #define GAME_DATA_HPP 
 
 #include <vector>
-#include <array>
 #include "../common/point.hpp"
 #include "../common/enumerations.hpp"
 #include "../common/componentType.hpp"
@@ -27,6 +26,5 @@ struct GameData {
     using CoordType = std::pair< Point, ComponentType >;
     std::vector<CoordType> components;
 };
-
 
 #endif

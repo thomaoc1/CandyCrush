@@ -3,7 +3,7 @@
  * @author Thomas O'Cuilleanain
  * @author Marcus Chretien
  * 
- * @brief Handles the opening and interpreting of text files.
+ * @brief Handles the opening and interpreting of .txt files.
  * 
  * @version 0.1
  * @date 2022-08-19

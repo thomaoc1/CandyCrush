@@ -10,7 +10,6 @@
  * 
  */
 
-
 #ifndef WALL_HPP
 #define WALL_HPP
 

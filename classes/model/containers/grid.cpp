@@ -126,7 +126,7 @@ void Grid::clearCheck(Cell &cell) {
                              || cell.type() == Component::HAZELNUT
                              || cell.getPop()) return;
 
-    Nbs contColour = continuousColour(cell);
+    ColourNbs contColour = continuousColour(cell);
     if (!contColour.validity()) return;
         
     // Else at least 3 consecutives found 
@@ -235,16 +235,15 @@ void Grid::specialBlast(Cell &c1, Cell &c2) {
  */
 void Grid::wrStBlast(Cell &cell) {
     Point start = cell.getLocation();
-    std::vector< Cell * > tmp;
-    for (int i = start.y + 1; i < 9; i += 2) tmp.push_back(&grid[i][start.x]); 
-    for (int i = start.y - 1; i >= 0; i -= 2) tmp.push_back(&grid[i][start.x]);
-    for (int i = start.x + 1; i < 9; ++i) tmp.push_back(&grid[start.y][i]);
-    for (int i = start.x - 1; i >= 0; --i) tmp.push_back(&grid[start.y][i]);
-    for (auto &c : tmp) {
-        c->setOccupied(std::make_shared<WrappedBomb>());
-        willPop(*c);
-        wrappedBlast(*c);
-    }
+    auto place = [&](Cell &c) -> void {
+        c.setOccupied(std::make_shared<WrappedBomb>());
+        willPop(c);
+        wrappedBlast(c);
+    };
+    for (int i = start.y + 1; i < 9; i += 2) place(grid[i][start.x]); 
+    for (int i = start.y - 1; i >= 0; i -= 2) place(grid[i][start.x]);
+    for (int i = start.x + 1; i < 9; ++i) place(grid[start.y][i]);
+    for (int i = start.x - 1; i >= 0; --i) place(grid[start.y][i]);
 }
 
 
@@ -478,6 +477,7 @@ bool Grid::fillTop() {
         insertComponent(0, i);
         toFill.push_back(CoordComponent{{i, 0}, grid[0][i].component()});
     }
+
     if (toFill.size() > 0) 
         observer.notifyFill(toFill);
  
@@ -629,8 +629,8 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
 
     exchangeCells(c1, c2);
 
-    Nbs c1Nbs = continuousColour(c1);
-    Nbs c2Nbs = continuousColour(c2);
+    ColourNbs c1Nbs = continuousColour(c1);
+    ColourNbs c2Nbs = continuousColour(c2);
 
     validity = c1Nbs.validity() || c2Nbs.validity();
 
@@ -658,10 +658,9 @@ bool Grid::checkSwap(const Point &cell1, const Point &cell2) {
  * 
  */
 std::vector< Cell * > Grid::colourDFS(Cell &initial, Direction orientation) const {
-    // Colour of source
     const Colour colour = initial.getColour();
-    // List to save Elligible Candies
     std::vector< Cell * > continousColors = {&initial}; 
+    
     // DFS
     std::vector< Cell * > stack = {&initial}; 
     Cell * current = &initial;
@@ -671,9 +670,9 @@ std::vector< Cell * > Grid::colourDFS(Cell &initial, Direction orientation) cons
         std::vector< Cell * > nbs = orientation == Direction::VERTICAL ? current->getVertNbs() 
                                                                        : current->getHorizNbs();
         for (auto &nb : nbs) {
-            // if  ( find a nb that is different than last nb in list ) OR 
             if (std::find(continousColors.begin(), continousColors.end(), nb) != continousColors.end() 
                 || nb->getColour() != colour) continue;
+            
             // Elligible Candies
             stack.push_back(nb);
             continousColors.push_back(nb);
@@ -691,8 +690,8 @@ std::vector< Cell * > Grid::colourDFS(Cell &initial, Direction orientation) cons
  * @return std::vector< std::vector< Cell * > >
  * 
  */
-Grid::Nbs Grid::continuousColour(Cell &initial) const {
-    Nbs ret;
+Grid::ColourNbs Grid::continuousColour(Cell &initial) const {
+    ColourNbs ret;
     if (canPop(initial.type())) {
         std::vector< Cell * > v_cont = colourDFS(initial, Direction::VERTICAL);
         std::vector< Cell * > h_cont = colourDFS(initial, Direction::HORIZONTAL);
@@ -857,7 +856,7 @@ bool Grid::specialSwapCheck(Cell &c1, Cell &c2) const {
 int Grid::wrSpawnCond(const std::vector< Cell * > &cColour, Direction direction) const {
     int isWrapped = -1;
     for (int i = 0; i < static_cast<int>(cColour.size()); ++i) {
-        Nbs cross = continuousColour(*cColour[i]);
+        ColourNbs cross = continuousColour(*cColour[i]);
         Direction perpendicular = (direction == Direction::HORIZONTAL ? Direction::VERTICAL : Direction::HORIZONTAL);
         if (cross.size(perpendicular) >= 3 && cross.size(perpendicular) < 5) isWrapped = i;
     }

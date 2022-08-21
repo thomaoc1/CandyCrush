@@ -26,9 +26,7 @@
 #include "../../common/point.hpp"
 #include "../score.hpp"
 #include "../gameObjective.hpp"
-
 #include "../../view/gridDisplay.hpp"
-
 #include "../../common/enumerations.hpp"
 
 #include <vector>
@@ -57,21 +55,27 @@ class Grid {
     const int ROWS = Constants::ROWS;
     const int COLS = Constants::COLS;
 
-    class Nbs {
+    class ColourNbs {
         std::vector<Cell *> vert;
         std::vector<Cell *> horiz;
     public:
-        Nbs() = default;
+        ColourNbs() = default;
 
         void set(std::vector<Cell *> &&newVert, std::vector<Cell *> &&newHoriz) 
             {vert = std::move(newVert); horiz = std::move(newHoriz);}      
 
+        /** @brief Returns neighbours in a given direction */
         std::vector<Cell *> get(Direction dir) const {return dir == Direction::VERTICAL ? vert : horiz;}
+
+        /** @brief Verifies that either set of nbs is a valid colour sequence length */
         bool validity() const {return vert.size() >= 3 || horiz.size() >= 3;}
+
         int size(Direction dir) const {return dir == Direction::VERTICAL ? vert.size() : horiz.size();}
     };
 
     enum class CompType {Normal, Striped, Wrapped, Special};
+
+    /** @brief Stores all necessary information for a bomb spawn */
     struct BombInfo {
         CompType type = CompType::Normal;
         Direction direction = Direction::VERTICAL;
@@ -88,7 +92,7 @@ public:
     GameState gameState() const {return gameObj.gameState();}
 
 private:
-    /* Init */
+    /* Initialisation */
     void initialiseCells();
     void completeGrid();
 
@@ -131,7 +135,7 @@ private:
 
     /* Sequential colour fetching */
     std::vector< Cell * > colourDFS(Cell &initial, Direction orientation) const; 
-    Nbs continuousColour(Cell &current) const;
+    ColourNbs continuousColour(Cell &current) const;
 
     /* Neighbour Fetching */
     std::vector< Cell * > getNbs(int row, int col);

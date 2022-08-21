@@ -2,7 +2,9 @@
 
 
 /**
- * @brief Converts mouse location to matrix indices
+ * @brief Converts mouse location to matrix indices, if the mouse location
+ *  is in a gap between two cells, the method returns a -1 for the relevant
+ *  axis
  * 
  * @param mouseLoc
  * 
@@ -80,11 +82,11 @@ void GridControl::dragEvent(const Point &mouseLoc) {
                 
     Point dragToIndex = coordToCell(mouseLoc);
     
-    // -1 means the mouse is over a gap
     if ( dragToIndex.x == -1 || dragToIndex.y == -1 ) return;
     
     dragged = true;
 
+    /* Horizontal drag */
     if (dragToIndex.x == clickToIndex.x) {
         if (dragToIndex.y < clickToIndex.y) {
             grid.swap(clickToIndex, {clickToIndex.x, clickToIndex.y - 1});
@@ -93,6 +95,7 @@ void GridControl::dragEvent(const Point &mouseLoc) {
             grid.swap(clickToIndex, {clickToIndex.x, clickToIndex.y + 1});
         }
     }
+    /* Vertical drag */
     else if (dragToIndex.y == clickToIndex.y) {
         if (dragToIndex.x < clickToIndex.x) {
             grid.swap(clickToIndex, {clickToIndex.x - 1, clickToIndex.y});

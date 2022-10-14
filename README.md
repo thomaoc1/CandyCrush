@@ -5,7 +5,7 @@ FLTK library required to play the game.
 ```
 sudo apt install libfltk1.3-dev
 ```
-## Installinf FLTK (MacOS)
+## Installing FLTK (MacOS)
 ```
 brew install fltk
 ```

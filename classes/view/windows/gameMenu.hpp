@@ -30,7 +30,7 @@ public:
 
     ~GameMenu() {}
 
-    void draw() override {gridDisplay.draw();}
+    void draw() override {bg.draw(); gridDisplay.draw();}
     int eventHandler(int event) override {return gridControl.proccessEvent(event);}
     void setLevel(MenuButtons level) {grid.setLevel(associatedFile(level));} 
 private:
